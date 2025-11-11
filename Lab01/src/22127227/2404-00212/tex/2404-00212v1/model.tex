@@ -1,0 +1,8 @@
+
+\section{An SDT model of the intension-extension phase distinction}\label{sec:model}
+
+To obtain a model for the constructions of the preceding sections, we instantiate the sheaf model of Sterling and Harper~\cite{sterling-harper:2022} at the poset \(\I  =  { \left \{ \kw{ext}  \le  \kw{int} \right \} }\) representing the intension-extension security order. More explicitly, this corresponds to defining an \emph{internal} category \(\CatIdent{C}\) of small dcpos in the presheaf model of the intension-extension of Niu~\etal~\cite{niu-sterling-grodin-harper:2022} and embedding \(\CatIdent{C}\) into a Grothendieck topos \Sh{\CatIdent{C}}, obtained by localizing $\PSH{\CatIdent{C}}$ at the \emph{finite open cover topology}. The purpose of this localization is to ensure that the finite joins of the dominance in \(\CatIdent{C}\) are preserved by the embedding into \Sh{\CatIdent{C}}. This property was notably used by \opcit to implement the semantics of termination declassification; here we use the finite join structure of \(\Sigma\) to show that \(2\) is an extensional predomain. The phase distinction in \Sh{\CatIdent{C}} is inherited from the ambient presheaf topos, where it is represented by $\kw{ext}$.
+
+\begin{restatable}{theorem}{ThmModel}\label[thm]{thm:model}
+  Letting $y :  \CatIdent{C} \hookrightarrow \Sh{\CatIdent{C}}$ be the restriction of the Yoneda embedding onto sheaves, we may define $\Sigma = y(\Omega_{\PSH{\I}})$ and $\P = y(\y{\I}(\kw{ext}))$ so that $(\Sh{\CatIdent{C}}, \Sigma, \P)$ is an SDT model of the intension-extension phase distinction in the sense of \cref{def:axioms}. 
+\end{restatable}

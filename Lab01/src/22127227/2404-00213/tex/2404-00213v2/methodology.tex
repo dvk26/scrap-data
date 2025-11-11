@@ -1,0 +1,6 @@
+\section{Training Methodology}
+The same training settings are used for both token and fact-based datasets for all scaling factors. We choose the model GPT-4 -- v0613, which has a cutoff date of September 2021 \citep{msftaoaimodeldocs} -- for our fine-tuning. Our SFT procedure is parameter efficient, leveraging the lora technique \citep{hu2021lora} with rank 16, batch size of 1, and 3 epochs. The context length is large enough to fit in all of our training examples. Gradient updates are backpropagated only over the assistant tokens, not the user prompt tokens upon which we condition them.
+
+Note we do not exhaustively sweep over all hyperparameter configurations, so the ones chosen here are not optimal. We find especially that there is improvement to be made in the learning rate and epoch count parameters as we observe some signs of underfitting. We discuss the implications of this more in section \ref{sec:limitations}.
+
+We clarify these settings are not necessarily the same hyperparameters / algorithms / settings as those used in the Azure OpenAI or OpenAI finetuning products as we do not use these interfaces.

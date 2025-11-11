@@ -1,0 +1,302 @@
+\pdfoutput=1
+% ****** Start of file apssamp.tex ******
+%
+%   This file is part of the APS files in the REVTeX 4.2 distribution.
+%   Version 4.2a of REVTeX, December 2014
+%
+%   Copyright (c) 2014 The American Physical Society.
+%
+%   See the REVTeX 4 README file for restrictions and more information.
+%
+% TeX'ing this file requires that you have AMS-LaTeX 2.0 installed
+% as well as the rest of the prerequisites for REVTeX 4.2
+%
+% See the REVTeX 4 README file
+% It also requires running BibTeX. The commands are as follows:
+%
+%  1)  latex apssamp.tex
+%  2)  bibtex apssamp
+%  3)  latex apssamp.tex
+%  4)  latex apssamp.tex
+%
+\documentclass[amsmath,amssymb,aps,prl,twocolumn
+%floatfix,
+]{revtex4-2}
+
+\usepackage{filecontents}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{physics}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{xr}
+
+\definecolor{Black}{rgb}{0.00, 0.00, 0.00}
+\definecolor{Blue}{rgb}{0.00, 0.00, 0.80}
+\definecolor{Red}{rgb}{0.80, 0.00, 0.00}
+\definecolor{Green}{rgb}{0.00, 0.50, 0.00}
+\definecolor{Purp}{rgb}{0.50, 0.00, 0.50}
+\newcommand{\red}{\color{Red}}
+\newcommand{\blue}{\color{Blue}}
+\newcommand{\green}{\color{Green}}
+\newcommand{\purp}{\color{Purp}}
+
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\captionsetup{%
+    justification=Justified,%
+}
+
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+\typeout{(#1)}% latexmk will find this if $recorder=0
+% however, in that case, it will ignore #1 if it is a .aux or 
+% .pdf file etc and it exists! If it doesn't exist, it will appear 
+% in the list of dependents regardless)
+%
+% Write the following if you want it to appear in \listfiles 
+% --- although not really necessary and latexmk doesn't use this
+%
+%\@addtofilelist{#1}
+%
+% latexmk will find this message if #1 doesn't exist (yet)
+\IfFileExists{#1}{}{\typeout{No file #1.}}
+}\makeatother
+
+\newcommand*{\myexternaldocument}[1]{%
+\externaldocument{#1}%
+\addFileDependency{#1.tex}%
+\addFileDependency{#1.aux}%
+}
+%------------End of helper code--------------
+
+% put all the external documents here!
+\myexternaldocument{supplemental}
+
+\begin{document}
+
+\title{Minimizing the Profligacy of Searches with Reset}
+
+\author{John C. Sunil}
+\author{Richard A. Blythe}
+\author{Martin R. Evans}
+\affiliation{SUPA, School of Physics and Astronomy, University of Edinburgh, Peter Guthrie Tait Road, Edinburgh EH9 3FD, UK}
+
+\author{Satya N. Majumdar}
+\affiliation{Universit{\'e} Paris-Saclay, CNRS, LPTMS, 91405, Orsay, France}
+
+\date{\today}% It is always \today, today,
+             %  but any date may be explicitly specified
+
+\begin{abstract}
+We introduce the profligacy of a search process as a competition between its expected cost and the probability of finding the target. The arbiter of the competition is a parameter $\lambda$ that represents how much a searcher invests into increasing the chance of success. Minimizing the profligacy with respect to the search strategy specifies the optimal search. We show that in the case of diffusion with stochastic resetting, the 
+amount of resetting in the optimal strategy has a highly nontrivial dependence on model parameters resulting in classical continuous transitions, discontinuous transitions and tricritical points as well as non-standard discontinuous transitions exhibiting re-entrant behavior and overhangs.
+%These transitions imply gradual and sudden introduction of resetting to optimise the search strategy. %We further show how such transitions may be understood within a Landau-like expansion of the profligacy.
+\end{abstract}
+
+\maketitle
+
+Searching is a task that arises in numerous domains. In nature, examples range from proteins locating their binding sites within the cell \cite{BN13} to foraging by macro-organisms \cite{Stanley,Bell}. In computer science, search algorithms have long been of fundamental interest \cite{Knuth} and have gained cultural importance in determining how the large and unstructured body of data that constitutes the internet is experienced by users \cite{Henzinger07}. Crossovers between these domains also exist, such as biologically-inspired optimization algorithms which can be applied to solve many and varied science and engineering problems \cite{Darwish18}.  A large literature  has established optimal random search strategies, in the sense of optimizing the efficacy of the search \cite{VBHLRS99,BCMSV05,BC09,BLMV11,fronhofer2013random}.
+
+In this work, we study a feature that is common to all such search processes, namely that increasing efficacy typically comes with a cost, for example, the amount of time or energy that must be invested or the complexity of the algorithm. A natural question is whether one can identify a  point 
+of diminishing return, i.e., a point 
+beyond which investing more effort into the search is not compensated by sufficiently increased success. We answer this question by introducing a quantity called \emph{profligacy} that expresses the cost-efficacy trade-off in a manner similar to Helmholtz free energy, wherein the search cost plays the role of energy, the success probability provides an analog to entropy, and a temperature-like quantity $\lambda$ has the units of cost and characterizes how much effort a searcher is prepared to invest. We will show below that in the context of even fairly simple diffusive searches \cite{EM11a,EM11b,EMS20}, the optimal strategy that arises from minimizing profligacy exhibits a rich phase diagram (presented in Fig.~\ref{fig:transitions} below). By this we mean that one finds both continuous and discontinuous transitions between regimes in which the optimal search strategy switches. Moreover, the phase structure goes beyond what is normally seen at equilibrium, exhibiting re-entrant behavior and overhangs, to be detailed below. 
+
+We begin by deriving the profligacy $\xi$. Its origin is most clearly understood by appealing to an ensemble of $K$ independent searchers, all of whom are following a strategy that is controlled by a parameter $r$. Associated with each searcher is a non-negative cost $C$ that depends on the path that they have followed up to the allotted search time, $t_f$. Meanwhile, the overall efficacy of the search can be quantified in terms of the fraction of searchers that have located the target before $t_f$. As $K\to\infty$ this fraction converges to $P_{\rm s}(r)$, the success probability for a single searcher (averaged over all possible search histories). Similarly, the total cost (across the ensemble) behaves asymptotically as $K \langle C(r) \rangle$, where $\langle C(r) \rangle$ is the mean cost for a single searcher (again averaged over all possible search histories). To implement the trade-off, we introduce a weighted  efficacy $P_{\rm s}(r) \omega(r)$ where the multiplicative factor $\omega(r)$ decreases with the total cost of the search. A natural choice is the exponential function $\omega(r)= \exp(-\langle C(r)\rangle/\lambda)$, since this lies in $[0,1]$ for $\lambda\ge0$, and we can identify the single parameter $\lambda$, which we call the investment, as a characteristic cost that each searcher is willing to invest. The point of diminishing return can now be defined as the value of $r$ that maximizes the cost-weighted efficacy, or equivalently, that minimizes the profligacy
+\begin{equation}
+    \xi = \langle C(r) \rangle - \lambda \ln P_{\rm s}(r) \;.
+    \label{profligacy}
+\end{equation}
+It is here that we recognize the structure of a Helmholtz free energy that was described above, and within which the variational parameter $r$ relates to the search strategy.
+
+We devote the rest of this work to determining how the search strategy that minimizes the profligacy changes as we vary the investment $\lambda$, within the framework of diffusive searches under stochastic  resetting. In this context the searcher is modeled as a diffusive particle starting from the origin, which is reset instantaneously to the origin with rate $r$ \cite{EM11a}. The search is successful if the
+searcher reaches a target located at distance $m$ from the origin. Early studies of such processes \cite{EM11a,EM11b,EMM13,EMS20} demonstrated how resetting can allow the target to be found more quickly than through diffusion alone, replacing an infinite mean time to locate the target with some finite value. Moreover, there exists an optimal resetting rate $r^*$, which minimizes the mean time to find a target \cite{EM11a} and the value of $r^*$ undergoes phase transitions as various control parameters are varied \cite{KMSS14,CM15,CS15,Reuveni16,BBR16,PR17,CS18,RMR19,PP19b,MBMS20,SB21,MBM22,BMS23,BMMS23}.  We emphasize that the optimization problem here is different, in that we seek to minimize the profligacy of a search  constrained to end at a predetermined time $t_f$. Recently, the consequences of associating a cost with each reset, accounting for the consumption of time, fuel or some other finite resource, have been investigated \cite{PKR20,BS20a,DBM23,SBEM23,MOK23} and the statistics of the cost as a function of $r$ have been computed \cite{SBEM23}. 
+ Here we consider a predetermined cost of the search,
+for example, where one purchases a search of duration $t_f$ regardless of whether the target is found within that time. Thus the average cost $\langle C(r)\rangle$  does not depend on the target position (see SM \cite{SM} for further details). The resetting rate $r$ furnishes a single key parameter, characterizing the search strategy, with which we may optimize the profligacy. We will focus on the transitions from a non-resetting optimal strategy, $r=0$, to an non-zero optimal value of $r$.
+
+We consider two classes of resetting models which differ in what happens at the end time $t_f$, as illustrated in Fig.~\ref{fig:schem}. In the case of Resetting Brownian Motion (RBM) \cite{EM11a}, the process is simply halted at $t_f$,  meaning that searcher
+can be anywhere in space at time $t_f$.
+By contrast, a Resetting Brownian Bridge (RBB) \cite{BMS22} imposes the additional constraint that a searcher must return to the origin at time $t_f$. This models such situations as a rescue helicopter having to return to base to refuel after a prespecified flight time. The RBB ensemble is obtained from that of RBM by retaining only those trajectories that occupy the starting position at the completion time, $t_f$. In mechanical terms, this conditioning creates a time-dependent drift on the particle motion along with a resetting rate that diverges as $t_f$ is approached, thereby  guaranteeing a return to the origin \cite{BMS22}.
+
+\begin{figure}
+  \centering
+    \includegraphics[width = 0.4\textwidth]{Schematic.pdf}
+    \caption{
+    Schematic trajectory for RBM (red) and RBB (blue). For RBM, the particle   diffuses without constraint  while for RBB the particle is constrained to return to the starting position at the completion time $t_f$. The vertical arrows represent resetting events. The searcher is considered to have found the target if it crosses $x=m$ in any of its excursions before $t_f$.
+    }
+    \label{fig:schem}
+\end{figure}
+
+% Any given trajectory (in either ensemble) is regarded a \emph{success} if it visits the  target located at  $x=m$ at least once.  
+
+Each reset $i$ contributes a cost $c_i \ge 0$  which depends on the distance travelled to the origin in the reset. 
+ The number of resets $N$ that occur up to the
+fixed time $t_f$ is
+a random variable and fluctuates from trajectory to trajectory.
+The total cost, $C$, of a trajectory is obtained by summing over all $N$ resets that occur along it:
+\begin{equation}
+    C= \sum_{i=1}^{N}c_i= \sum_{i=1}^{N} c(|y_i|)\label{C}
+\end{equation}
+ and the cost is zero if there is no reset in the trajectory.
+Here, $y_i =x_i/\sqrt{2D t_f}$ is the rescaled (dimensionless) position just before the reset and the function $c(y)$ is the cost per reset.  Similarly,  it is convenient to use dimensionless, rescaled variables $R =rt_f$ and $M=m/\sqrt{2Dt_f}$, which  eliminate the values of diffusion constant $D$ and  search time $t_f$ from the discussion, and leave  $R$, $\lambda$ and $M$ as the control variables. We will compare a linear, $c(y) = \sqrt{2} y$, and a quadratic, $c(y) = 2y^2$, cost per reset, since these are the simplest cases for practical applications, but, as we shall see, yield very different phase diagrams. The linear cost can be motivated as the time required to bring the particle back to the origin at a constant velocity \cite{PKR20,BS20a,BS20b}. Likewise, the quadratic cost can represent energy consumption, monetary cost or thermodynamic cost for the particle to reset \cite{FPSRR20,BBPMC20,MOK23}. 
+
+Our aim now is to determine the optimal resetting strategy---that is, the value of 
+$ R= R^*$ that minimizes the profligacy (\ref{profligacy})---for a given combination of target position $M$ and investment $\lambda$. To achieve this, we must first evaluate the mean cost $\expval{C}$ and the probability of finding the target $P_{\rm s}$. The resetting systems we consider have the appealing feature that these quantities can be calculated analytically, following recent progress in leveraging renewal properties of the process \cite{SBEM23}.   The success probability has been calculated for RBM in \cite{EM11a} and for RBB in \cite{BMS22}. The mean costs are derived in detail in the Supplemental Materials \cite{SM}.
+
+\begin{figure*}
+\centering
+    \begin{subfigure}{.49\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBM_linear_profligacy_transitions.pdf} 
+		\caption{RBM Linear Cost}
+        \label{fig:RBM_linear}
+	\end{subfigure}
+ %
+    \begin{subfigure}{.49\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBM_quadratic_profligacy_transitions.pdf} 
+		\caption{RBM Quadratic Cost}
+        \label{fig:RBM_quad}
+	\end{subfigure}
+ %
+	\begin{subfigure}{.49\textwidth}
+		\centering
+	       \includegraphics[width=\linewidth]{RBB_linear_profligacy_transitions.pdf} 
+        \caption{RBB Linear Cost}
+        \label{fig:RBB_linear}
+		\end{subfigure}
+	%
+		\begin{subfigure}{.49\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBB_quadratic_profligacy_transitions.pdf} 
+		\caption{RBB Quadratic Cost}
+        \label{fig:RBB_quad}
+	\end{subfigure}
+   %
+ \caption{Phase diagrams: heat map of $R^*$ which minimizes profligacy $(\xi)$ for 4 different cases: (a) RBM with linear cost (b) RBM with quadratic cost (c) RBB with linear cost and (d) RBB with quadratic cost. The phase boundaries delineate the boundary between regions of zero and non-zero $R^*$:  a full line indicates a continuous  transition and broken line a discontinuous transition. In (a) the  horizontal red line indicates the threshold, $M_{\rm T}$, above which there is no transition.}
+ \label{fig:transitions}
+\end{figure*}
+For the case of RBM, the explicit expressions are
+%
+ \begin{align}
+     \expval{C}^{\text{RBM}}_{\text{lin}} = &
+     \frac{{\rm e}^{-R}}{\sqrt{\pi }}+\frac{(2R-1)\erf\left(\sqrt{R}\right)}{2 \sqrt{R}} \label{lin_RBM}\\
+     \expval{C}^{\text{RBM}}_{\text{quad}} = &
+     \frac{2 \left(R+{\rm e}^{-R}-1\right)}{R} \label{quad_RBM}\\
+      P^{\text{RBM}}_{\rm s} = &\int_{\Gamma} \frac{{\rm d}u}{2\pi i} {\rm e}^{u} \frac{1}{u} \frac{R+u}{R+u {\rm e}^{M\sqrt{2(u+R)}}} \label{phit_RBM}
+ \end{align}
+%
+where the subscripts ${\rm lin}$ and ${\rm quad}$ refer to the linear and quadratic cost functions, respectively. The success probability is expressed as an inverse Laplace transform, denoted by an integral over the Bromwich contour $\Gamma$. This form is sufficient to determine the phase diagrams numerically using a suitable inversion algorithm \cite{AW06}.
+For RBB, meanwhile, we obtain 
+%
+\begin{align}
+     \expval{C}^{\text{RBB}}_{\text{lin}} &= %\sqrt{Dt_f}
+     R\phi(R) \label{lin_RBB}\\
+     \expval{C}^{\text{RBB}}_{\text{quad}} &= %Dt_f 
+     2 - \frac{\erf(\sqrt{R})}{\sqrt{R}} \phi(R)\label{quad_RBB}\\
+     P^{\text{RBB}}_{\rm s} &= \phi(R) \int_{\Gamma} \frac{{\rm d}u}{2\pi i} \frac{{\rm e}^{u} \sqrt{u+R}}{u}  \frac{R+u {\rm e}^{-M\sqrt{2}\sqrt{u+R}}}{R+u {\rm e}^{M\sqrt{2}\sqrt{u+R}}} \label{phit_RBB}
+\end{align}
+%
+where $\phi(R) = \sqrt{\pi}\left[e^{-R}+\sqrt{\pi R}\erf\sqrt{R}\right]^{-1}$.
+
+ 
+In Fig.~\ref{fig:transitions} we present the phase diagrams in the $\lambda$--$M$ plane obtained by minimizing the profligacy with respect to $R$. We distinguish between the two different types of search (RBM and RBB) and the two different cost functions (linear and quadratic). In the unshaded regions, diffusing without resetting  is optimal ($R^*=0$), whereas in the shaded regions, a nonzero resetting rate yields the least profligate search.  Along the solid lines, the optimal resetting rate $R^*$ changes continuously across the phase boundary, whilst along the broken lines the optimal resetting rate jumps discontinuously. 
+ The nature of the transition is significant: a continuous transition implies
+that a gradual introduction of resetting yields the optimal search strategy whereas a discontinuous transition implies a sudden switch of strategies to a finite resetting rate.
+
+As we now discuss, the significant differences in the topology of the four phase diagrams derive from small qualitative distinctions in the behavior of $\langle C \rangle$ and $P_{\rm s}$, i.e.~Eqs.~(\ref{lin_RBM})--(\ref{phit_RBB}).
+
+
+\begin{figure}
+
+\centering
+    \begin{subfigure}{.235\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBM_tricritical_transition_1.pdf} 
+		\caption{}
+        \label{fig:RBM_overhang_transition_1}
+	\end{subfigure}
+ %
+    \begin{subfigure}{.235\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBM_tricritical_transition_2.pdf} 
+		\caption{}
+        \label{fig:RBM_overhang_transition_2}
+	\end{subfigure}
+ %
+    \begin{subfigure}{.235\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBB_tricritical_transition.pdf} 
+		\caption{}
+        \label{fig:tricritical_transition}
+	\end{subfigure}
+ %
+    \begin{subfigure}{.235\textwidth}
+		\centering
+	    \includegraphics[width=\linewidth]{RBB_overhang_transition.pdf} 
+		\caption{}
+        \label{fig:overhang_transition}
+	\end{subfigure}
+   %
+\caption{Optimal resetting rate $R^*$ versus $\lambda$ for values of $M$ in the regions where continuous and discontinuous transitions are in close proximity. Panels (a) and (b) RBM with quadratic cost: there are two different ranges of $M$ (see Fig.~\ref{fig:transitions}) where on increasing $\lambda$, there is first a continuous transition followed by a discontinuous transition. The discontinuous jump in $R^*$ closes at a non-zero value of $R^*$ as $M$ is varied and thus is not a usual tricritical point. Panel (c) RBB with linear cost: we have a usual tricritical point where the jump in discontinuity closes at $R^* = 0$. Panel (d) RBB with quadratic cost: similar to RBM the jump closes at non-zero value of $R^*$.}
+ \label{fig:tricritical_overhang}
+\end{figure}
+%
+
+ The easiest phase diagram to understand is that for RBM and a linear cost per reset (Fig.~\ref{fig:RBM_linear}) for which the cost (\ref{lin_RBM}) increases monotonically with the resetting rate (see SM Fig.~{\red S1}).
+When the target is far from the origin (large $M$), the success probability (\ref{phit_RBM}) monotonically decreases (see SM Fig.~{\red S2}).
+Thus for large $M$, $R^*=0$ is always the optimal value. However for $M$ below a threshold value $M_T$,  the success probability initially increases with $R$ and has a peak at some intermediate value of $R$.
+This implies that for sufficiently large $\lambda$ the optimal resetting rate $R^*$ is non zero. The transition to an optimal strategy that involves resetting
+can be understood by appealing to a Landau-like theory which implies a classical continuous phase transition into a resetting phase ($R^*>0$) as $\lambda$ is increased at fixed $M<M_T$.
+
+ We now turn to the case of a quadratic cost per reset,  for which the mean cost no longer grows without bound as $R\to\infty$ but approaches a plateau (see SM Fig.~{\red S1}). The effect of this on the RBM phase diagram, Fig.~\ref{fig:RBM_quad}, is the addition of a discontinuous transition line at intermediate $M$. Although this meets the continuous transition line at two points, it does not end there (as at tricritical points) but \emph{extends} beyond them, thus creating overhangs (see insets). So as $\lambda$ is increased, for particular choices of $M$, we find an initial continuous transition to a nonzero optimal resetting rate $R^*$ very closely followed by a discontinuous jump in $R^*$ as shown in Figs.~\ref{fig:RBM_overhang_transition_1} and \ref{fig:RBM_overhang_transition_2}. This sequence of transitions implies an initial gradual introduction of resetting into the optimal search strategy then a sudden jump to a stronger resetting strategy.
+%The phenomenon of two transitions is illustrated in Fig.~\ref{fig:RBM_overhang_transition_1} for $0.254< M < 0.260$ and Fig.~\ref{fig:RBM_overhang_transition_2} for $0.493 < M < 0.495$.
+
+ In contrast to RBM, the success probability for a RBB search is a peaked function of $R$ for all target positions $M$ (see SM Fig.~{\red S2}). The effect of this is that resetting always becomes beneficial for high enough $\lambda$.
+ %: the threshold $M_T\to\infty$. 
+ With a linear cost per reset (Fig.~\ref{fig:RBB_linear}), the transition is continuous for high $M$ and discontinuous at low $M$, the two lines meeting at a classical tricritical point (see Fig.~\ref{fig:tricritical_transition}) \cite{BMMS23}. Finally, for the case of RBB with quadratic cost per reset (Fig.~\ref{fig:RBB_quad}), the shape of the phase boundary has developed a kink in comparison to the  linear cost case. Similar to the case of RBM, the mean cost plateaus as $R\to\infty$, creating an overhang instead of a tricritical point. This overhang effect is evident in Fig.~\ref{fig:overhang_transition}, where we see both a continuous transition from $R^*=0$ to $R^*>0$ and a discontinuous jump between two nonzero values of $R^*$ at a higher value of $\lambda$. As $M$ is increased, the jump in the discontinuous transition goes to zero and we are left with a single continuous transition. If we consider fixing $\lambda$ and increasing $M$, then in the region of the kink we have re-entrant behaviour into the $R^*=0$ phase via a discontinuous transition.
+
+To gain deeper insight into the nature of these transitions, we make  a Landau-like expansion of the profligacy \eqref{profligacy} in powers of $R$, valid for small values of $R$, %which we define as
+% %
+ \begin{align}
+   \xi = a_0 + a_1 R + a_2 \frac{R^2}{2} + a_3 \frac{R^3}{6} + a_4 \frac{R^4}{24} + \ldots\;, \label{landau_expansion}
+   \end{align}
+% %
+with all the coefficients $a_i = a_i(\lambda,M)$. Due to the system not possessing an $R \to -R$ symmetry, we have to include all terms of the expansion. {Related Landau-like expansions have been made in \cite{PP19b,BMMS23}. The expansion of $\langle C\rangle$ is obtained directly from \eqref{lin_RBM}, \eqref{quad_RBM} and \eqref{lin_RBB}, \eqref{quad_RBB}. We also require the expansion of $P_{\rm s}$ for  the two resetting ensembles, which is obtained by expanding out the integrands of \eqref{phit_RBM} and \eqref{phit_RBB} in terms of $R$ and integrating term by term. This procedure is carried out in detail in the SM \cite{SM}.
+
+The simplest case is when $a_2 > 0$ in the expansion \eqref{landau_expansion} and  we may ignore higher order terms.  The curve of continuous transitions, $\lambda^*(M)$, is obtained by solving $a_1(\lambda,M) = 0$ for $\lambda$. This is the usual scenario for a continuous transition seen in equilibrium systems \cite{Goldenfeld}. This simple scenario pertains in the case of RBM with a linear cost, where we saw in Fig. \ref{fig:transitions} that a continuous transition occurs on increasing $\lambda$, for sufficiently low $M$. The threshold value  $M_{\rm T}$ is given by $\lambda^*(M_{\rm T})\to \infty$ and for $M>M_{T}$ no transition occurs. The exact value $M_{\rm T}= 0.8198\ldots$ that is obtained from this procedure provides the horizontal line in Fig.~\ref{fig:RBM_linear}.
+
+The next case is where $a_2$ may be positive or negative according to parameters, but $a_3$ is positive. This is the case for RBB  with linear cost, Fig.~\ref{fig:RBB_linear}. Then for $a_2>0$ we obtain a continuous transition at $a_1=0$ but for $a_2<0$ there is a discontinuous transition. A classical tricritical point occurs  when $a_1 = a_2 = 0$ and $a_3>0$. To obtain the tricritical point, we set $a_2(\lambda^*,M) = 0$, which  yields  $(M^*,\lambda^*) = (0.6333,8.4994)$ indicated by the filled circle in Fig.~\ref{fig:RBB_linear}.
+
+ The interesting non-classical overhangs that occur for both RBM and RBB with quadratic cost per reset (Figs.~\ref{fig:RBM_quad} and \ref{fig:RBB_quad}) can be attributed to the coefficients satisfying $a_3<0$ and $a_4>0$. If we look for a tricritical point by solving $a_2(\lambda^*,M) = 0$ for $M$, we find at all such $M^*$ that $a_3(\lambda^*,M^*)<0$. This violates the condition for a tricritical point, which is why overhangs emerge instead. 
+Of course the predictions of a Landau-like theory for discontinuous transitions will only  be quantitatively accurate for small $R$, nevertheless
+the correct qualitative behaviour is predicted.
+%\bf Is this true for both RBM and RBB: the previous version mentioned only RBM but I would expect it to be the same.
+%Generally speaking, if the coefficients of $R^2$ or higher turn out to be negative, it indicates that a discontinuous transition might be possible. Of course, the prediction of discontinuous transition must be considered carefully as the expansion will only be quantitatively valid for small values of $R$. \bf Not sure if the final two sentences add much: I think what we are saying is that in this case the transition lines predicted by the Landau theory are not exact, but at least give the correct qualitative behaviour. Can we just say that?
+
+In summary, we have introduced the profligacy $\xi$ \eqref{profligacy} as a tool to analyse the cost-efficacy 
+trade-off in a search process. We have derived $\xi$ from considering the efficacy, $P_s$, weighted by an exponential function of the cost expectation value $\langle C \rangle$. The simple framework of diffusion under stochastic resetting with rate $r$ has allowed us to derive analytical expressions for $P_s$ and $\langle C \rangle$ and thus to carry out the minimization of $\xi$. This has resulted in surprisingly rich phase diagrams,
+exhibiting classical continuous and discontinuous transitions,  but also non-standard transitions with re-entrant behaviour and overhangs. These transitions imply changes of the optimal search strategy that may be gradual or sudden.  We have shown that these transitions may be understood within a simple Landau-like expansion of the profligacy.  As the profligacy just requires a cost and a measure of success as inputs, it has the potential for application in wider contexts.
+It would be of interest to see if the different classes of transition
+that we have identified here, arise
+more generally.
+
+\begin{acknowledgments}
+\textit{Acknowledgments}---For the purpose of open access, the authors have applied a Creative Commons Attribution (CC BY) licence to any Author Accepted Manuscript version arising from this submission.  JCS thanks the University of Edinburgh for 
+the award of an EDC Scholarship.
+\end{acknowledgments}
+
+\nocite{Redner}
+
+\bibliography{main}% Produces the bibliography via BibTeX.
+
+%\input{Supplemental}
+\makeatletter\@input{xx.tex}\makeatother
+
+\end{document} 

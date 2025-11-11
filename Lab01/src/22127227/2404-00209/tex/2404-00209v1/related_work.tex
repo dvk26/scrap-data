@@ -1,0 +1,87 @@
+\section{Related work}
+% \section{Background}
+% \label{sec:background}
+
+% A narrative is a series of related events that can happen everywhere in our daily life.
+Reasoning on narratives is a fundamental task~\cite{mostafazadeh2016corpus,li2018constructing,mori2020finding, jiayang2023storyanalogy} and has attracted much interest in the NLP community. 
+% It is related to downstream applications like text summarization and dialogue generation.
+The most crucial problem in narrative reasoning is modeling the relationship between events, which often requires background world knowledge~\cite{day1998extensive, mostafazadeh2016corpus}. 
+Many large scale knowledge graphs (KGs) such as ATOMIC~\cite{sap2019atomic}, ConceptNet~\cite{speer2017conceptnet}, ASER~\cite{zhang2020aser,zhang2022aser} and GLUCOSE~\cite{mostafazadeh2020glucose} have been constructed in recent years.
+% How to leverage the knowledge in these resourceson leverage the knowledge in these resources  remains a problem.
+Current solutions on leveraging the knowledge in these resources can be coarsely categorized into the following two groups.
+An overview of the two paradigms is presented in Figure~\ref{fig:paradigm}.
+% Here the sample question is from Story Cloze Test~\cite{mostafazadeh2016corpus} and the eventuality\footnote{In this work, we use the term ``eventuality'', which includes abstract events, states and activities~\cite{zhang2022aser}, to distinguish from specific events.} subgraph is from ASER.
+
+% \begin{figure*}[t]
+% \centering
+% \vspace{-10pt}
+% \includegraphics[width=1\textwidth]{figs/ParadigmComparison.pdf}
+% \vspace{-10pt}
+% \caption{Overview of the knowledge model paradigm (left) and the retrieval-and-integration paradigm (right). The knowledge model paradigm pretrains LMs with specially designed objectives, and then further finetunes them to adapt to downstream tasks for prediction. The retrieval-and-integration paradigm retrieves relevant subgraphs of the story context and then makes predictions according to the retrieved subgraphs.}
+% \vspace{-10pt}
+% \label{fig:paradigm}
+% \end{figure*}
+
+% The knowledge model paradigm leverages external KGs by feeding knowledge pieces (usually in the form of triplets) into pretrained language models (PLMs) and fine-tuning the PLMs with carefully designed training objectives~\cite{yu2020cocolm,zhou2021modeling}.
+% The fine-tuned knowledge model can then compute a probability based on the narrative sequence to perform inference.
+% % However, there is a gap between piecemeal training and inference of the entire sequence.
+% % Although the fine-tuned knowledge models can remember the knowledge pieces, it is difficult for the models to understand the entire KG with the graph structure broken down.
+% Besides, as a common weakness of PLMs, knowledge models suffer from the poor interpretability where they cannot offer explainable evidence at any steps.
+
+% Knowledge model and Retrieval-and-integration
+The knowledge model paradigm leverages external KGs by pretraining LMs with carefully designed objectives.
+Most existing knowledge enhanced LMs focused on using entity-centric KGs~\cite{DBLP:conf/acl/ZhangHLJSL19,DBLP:conf/emnlp/PetersNLSJSS19,DBLP:conf/emnlp/FevrySFCK20,DBLP:journals/corr/abs-2007-00849,DBLP:conf/iclr/XiongDWS20,DBLP:journals/corr/abs-1904-09223,DBLP:journals/corr/abs-2107-02137,DBLP:journals/tacl/JoshiCLWZL20}.
+As for using external event knowledge, the knowledge model paradigm focus on finetuning language models on event-aware KGs, such as event-pair relation modeling \cite{DBLP:conf/acl/BosselutRSMCC19,DBLP:journals/corr/abs-2110-07178,zhou2021modeling}, whole event recovering/masking  \cite{zhou2022claret, yu2020cocolm}, and correlation-based event ranking \cite{zhou2022eventbert}.
+%{\color{gray} entity-knowledge models?}
+
+
+
+
+
+% Retrieval-and-integration paradigm
+The retrieval-and-integration paradigm, in contrast, explicitly retrieves triples or subgraphs from external KGs.
+Recent work on reasoning with external KB and texts have explored grounding entities to KGs, such as \cite{sun2018open, sun2019pullnet, xiong2019improving, min2019knowledge, lee2021modeling}, and \cite{lin2019kagnet, feng2020scalable, yasunaga2021qa} in open-domain QA, commonsense QA, and narrative reasoning.
+However, most of them ground to entity-centric KGs (e.g. the entity part of ConceptNet \cite{speer2017conceptnet}), which have little or no event knowledge.
+Although some \cite{lv2020integrating, lee2019multi, lee2020weakly, li2018constructing} on script reasoning have investigated the usage of events, their methods are restricted to the ``subject-verb-object''-like structured texts in the MCNC task, and have difficulty extending to general free-texts.
+In comparison, we tackle the more difficult problem of grounding events in free-texts to eventuality-centric KGs.
+The wide adoption of AI critically needs explainability~\cite{hoffman2018metrics}. Thus, despite the appeal of a simpler pipeline (aided by the availability of large LMs), this work extends the retrieval-and-integration paradigm for grounding free-texts to eventuality-centric KGs for narrative reasoning.
+
+ As opposed to event grounding, a similar term ``event linking'' has been used in the literature, where they either focus on cross-document event co-reference \cite{nothman2012event, krause2016event}, or event co-reference to Wikipedia pages \cite{yu2021event}. Moreover, their ``event'' refers to specific happenings such as ``World War II'' rather than the more general eventualities in this work.
+% On the other hand, the retrieval-and-integration paradigm leverages external KGs by retrieving knowledge relevant to the input texts and integrating the retrieved knowledge into prediction models.
+% With the retrieved knowledge, the prediction models can provide evidence along with the predictions.
+% However, early works in the retrieval-and-integration paradigm focus on entity-centric KGs~\cite{zhang2019ernie,liu2020k}, which has small semantic coverage in narrative reasoning tasks. 
+% \citet{lv2020integrating} first propose to leverage ASER in the script reasoning task~\cite{li2018constructing}, in which the event texts constructed from event tuples, removing complexities in real-world free texts.
+% Even so, the semantic matching algorithm in this work often fails in retrieval or introduces noisy knowledge.
+
+
+% The wide adoption of AI critically needs explainability~\cite{hoffman2018metrics}. Thus, despite the appeal of a simpler pipeline (aided by the availability of large LMs), this work extends the retrieval-and-integration paradigm for grounding free-texts to eventuality-centric KGs for narrative reasoning.
+
+% We propose an event acquisition pipeline including event extraction, normalization, and abstraction to mine multi-granularity events from input free texts with the help of semantic parsing.
+% With the acquired multi-granularity events, we use semantic matching models to ground the events to relevant eventualities in KGs, and thus construct a joint subgraph containing both events from input texts and the eventualities from KGs.
+% Then, we encode the subgraph with graph neural networks (GNNs) to make prediction. 
+% The constructed subgraph as well as the GNN parameters can provide interpretable evidence.
+% Note that we still leverage PLMs for text embedding, but they are constrained in interpretable prediction, thus not used to compute the subgraph probability.
+% As a result, our approach doesn't critically rely on large PLMs.
+
+
+
+
+
+
+
+
+% % Event extraction, normalization, abstraction
+% Recent research in extracting events from free-texts. Conceptual abstraction.
+
+% There are two types of approaches on extracting events from natural language texts.
+% The first line of work \cite{chambers2009unsupervised, granroth2016happens, li2018constructing, zhang2020aser, zhou2022eventbert, zhou2022claret, zhong2022unsupervised} regards events as verb-rooted sub-trees in syntactic dependencies.
+% They first obtain the part-of-speech tagging and dependency parsing information, and search over the text to find matched patterns (e.g., \textit{subject-verb-object}) as events.
+
+% The second line of work \cite{krause2016event, yu2021event}, in contrast, considers the semantic meaning of event components.
+% Their event definition follows FrameNet \cite{baker1998berkeley} and ACE \cite{doddington2004automatic}, where each event is composed of a trigger and several arguments. 
+% They define patterns over argument roles (e.g., \textit{arg0-verb-arg1}) to extract events.
+
+% {\color{orange} pros and cons, why do we consider the semantic }
+% Quality of the extraction results of the syntactic methods highly depends on the design of patterns.
+% Further, the events extracted in this way do not contain semantic tags for their arguments.
+

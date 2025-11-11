@@ -1,0 +1,33 @@
+\section{Limitations and Future Work}
+\label{sec:limitations}
+This study uses the same sort of dataset for probing SFT and knowledge injection, Wikipedia articles about sporting championships. Future investigations could enrich the robustness of our findings by incorporating a variety of text corpora from different domains. This would not only validate the generalizability of our approach but also enhance the model's adaptability across a broader spectrum of knowledge domains. 
+
+In assessing the efficacy of knowledge retention, we have focused on answer correctness within the context of sports-related content. However, it is essential to consider the model's performance on a wider range of topics, particularly in real-world scenarios where dialogue may traverse multiple domains. Future studies should examine the trade-offs involved in new knowledge acquisition, especially the potential impact on the model's proficiency in previously learned concepts.
+
+Our preliminary exploration into the effects of hyperparameter tuning and the potential for underfitting has yielded promising results, with notable performance improvements observed upon increasing the number of training epochs. Here we try doubling the epochs from 3 to 6 and train on the fact datasets again, with results pictured in figure \ref{fig:epochcomp}. Some of our scores increase considerably on the evaluation set, as much as by an absolute 10\% at the 10x scale in the case of PGA or 15\% at the 1x scale in the case of NCAA. To what extent are the scaling gains we see merely a product of larger datasets equaling longer training, thus having the same effect as training for longer epochs? For this we look to compare the 5x 6 epoch results with the 10x 3 epoch ones, which should be roughly equal in terms of training budget but vary in terms of their scaling. In all six datasets, the 10x 3 epoch configuration outperforms the 5x 6 epoch one, though for some datasets this is only by 3-5\%. Some of our gains may therefore be attributed to simply longer training, but the consistent outperformance gives us confidence our scaling via different questions has its benefits too. Nonetheless, the relationship between dataset scaling, training duration, and learning efficacy merits further exploration. Future research should aim to delineate the specific contributions of dataset scaling from extended training periods, while also considering the risks of overfitting associated with increased epochs.
+
+Moreover, the methodologies employed in generating our training and evaluation datasets, while consistent, may not fully encapsulate the diversity of language use encountered in real-world applications. As touched upon in section \ref{sec:tokscale}, our training and evaluation datasets were generated according to the same procedure and are coming from the same distribution. Future research could benefit from developing datasets that more accurately reflect the multifaceted nature of human inquiries, encompassing a range of linguistic styles and structures.
+
+Finally, a direct comparison between models trained on token-scaled versus fact-scaled datasets presents certain complexities due to the variable nature of fact density and token counts. The token scaling does not have a fixed fact coverage due to the skewed Q\&A distribution of GPT-4, and the fact scaling does not have a fixed token count as the fact number itself may vary per document, and we need sufficient token budget to cover them all. We observe the fact-scaled datasets therefore have larger token counts than the token-scaled equivalents, with the 1x fact train sets having roughly 2x the tokens as the 1x token train sets. These fact-based experiments are therefore token-based scaling experiments in disguise, though we maintain our endorsement of the fact-based method due to the coverage guarantees discussed previously. Table \ref{table:facttokcounts} below lists the token-based multipliers for each fact-based train dataset. To address this, future work could aim to standardize one dimension—either tokens or facts—to facilitate clearer comparisons and draw more definitive conclusions about the relative merits of each approach.
+
+\begin{figure}
+    \includegraphics[width=\textwidth, keepaspectratio]{epoch_comp.png}
+    \caption{Fact scaling for 3- and 6- epochs. Note we see an anomaly in the Cricket 5x 6 epoch configuration where due to an unoptimized learning rate and our implementation which selects the last model checkpoint only, the end model falls into an extremely low training loss regime that leads to overfitting. In the random optimization over the 10x dataset, this does not occur.}
+    \label{fig:epochcomp}
+\end{figure}
+
+
+\begin{table}
+\caption{Token Multipliers for Fact-based Datasets}
+\parbox{\textwidth}{
+\vskip.15cm
+\centerline{\begin{tabular}{ccccccc}
+\hline  
+ Scale Factor & NCAA & Cricket & PGA & Superbowl & FIFA 23 & FIFA 18 \\
+\hline
+1x & 1.87 & 2.66 & 2.12 & 2.02 & 2.17 & 2.04 \\
+5x & 9.83 & 14.66 & 11.29 & 10.91 & 11.62 & 10.73 \\
+10x & 19.74 & 28.69 & 22.67 & 21.77 & 23.35 & 21.49 \\
+\end{tabular}  }}
+\label{table:facttokcounts}
+\end{table}

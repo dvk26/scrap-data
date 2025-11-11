@@ -1,0 +1,26 @@
+{
+    "2206-03866": {
+        "paper_title": "JuMP 1.0: recent improvements to a modeling language for mathematical optimization",
+        "authors": [
+            "Miles Lubin",
+            "O. Dowson",
+            "Joaquim Dias Garcia",
+            "Joey Huchette",
+            "B. Legat",
+            "J. Vielma"
+        ],
+        "submission_date": "2022-06-01",
+        "semantic_scholar_id": "82b773243a6c83143a079db3822e13d851920b80"
+    },
+    "1411-1607": {
+        "paper_title": "Julia: A Fresh Approach to Numerical Computing",
+        "authors": [
+            "Jeff Bezanson",
+            "A. Edelman",
+            "S. Karpinski",
+            "Viral B. Shah"
+        ],
+        "submission_date": "2014-11-06",
+        "semantic_scholar_id": "0eac20ee2ebaede1381f20a276a0d8b6cdf73165"
+    }
+}

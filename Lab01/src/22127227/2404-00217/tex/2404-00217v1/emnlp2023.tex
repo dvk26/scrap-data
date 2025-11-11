@@ -1,0 +1,987 @@
+% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
+\pdfoutput=1
+% In particular, the hyperref package requires pdfLaTeX in order to break URLs across lines.
+
+\documentclass[11pt]{article}
+
+% Remove the "review" option to generate the final version.
+\usepackage{EMNLP2023}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+% For Vietnamese characters
+% \usepackage[T5]{fontenc}
+% See https://www.latex-project.org/help/documentation/encguide.pdf for other character sets
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary and may be commented out.
+% However, it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+%\usepackage{xcolor}
+%\usepackage[dvipsnames]{xcolor}
+% This is also not strictly necessary and may be commented out.
+% However, it will improve the aesthetics of text in
+% the typewriter font.
+\usepackage{inconsolata}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage[english]{babel} % To obtain English text with the blindtext package
+\usepackage{blindtext}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{arydshln}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\SC}[1]{\textcolor{blue}{#1}}
+\usepackage[linecolor=orange,size=scriptsize]{todonotes}
+\newcommand{\SCN}[1]{\todo[color=cyan!40]{\footnotesize SC: #1}}
+
+
+\newcommand\Tstrut{\rule{0pt}{2.6ex}}       % "top" strut
+\newcommand\Bstrut{\rule[-0.9ex]{0pt}{0pt}} % "bottom" strut
+\newcommand{\TBstrut}{\Tstrut\Bstrut} % top&bottom struts
+
+% If the title and author information does not fit in the area allocated, uncomment the following
+%
+%\setlength\titlebox{<dim>}
+%
+% and set <dim> to something 5cm or larger.
+\newcommand{\Ra}{\texttt{RATION} }
+
+\title{Rationale-based Opinion Summarization}
+
+% Author information can be set in various styles:
+% For several authors from the same institution:
+% \author{Author 1 \and ... \and Author n \\
+%         Address line \\ ... \\ Address line}
+% if the names do not fit well on one line use
+%         Author 1 \\ {\bf Author 2} \\ ... \\ {\bf Author n} \\
+% For authors from different institutions:
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \And  ... \And
+%         Author n \\ Address line \\ ... \\ Address line}
+% To start a separate ``row'' of authors use \AND, as in
+% \author{Author 1 \\ Address line \\  ... \\ Address line
+%         \AND
+%         Author 2 \\ Address line \\ ... \\ Address line \And
+%         Author 3 \\ Address line \\ ... \\ Address line}
+
+\author{Haoyuan Li \qquad Snigdha Chaturvedi \\ \texttt{\{haoyuanl, snigdha\}@cs.unc.edu}\\ UNC Chapel Hill}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+%\SC{why do some of the references (at the end) have links and others don't? Answer:I just copied the bibtex from google scholar, some bibtex include links while some do not.}
+%\SC{Please fix the reference so that everything is consistent}
+Opinion summarization aims to generate concise summaries that present popular opinions of a large group of reviews. However, these %opinion 
+summaries can be too generic and lack supporting details. To address these issues, we propose a new paradigm for summarizing reviews, rationale-based opinion summarization. Rationale-based opinion summaries output the representative opinions as well as one or more corresponding rationales. To extract good rationales, we define four desirable properties: % for rationales: 
+relatedness, specificity, popularity, and diversity and present a Gibbs-sampling-based method to extract rationales. %and present methods to estimate these four properties and extract rationales based on Gibbs-sampling. 
+Overall, we propose \Ra, an unsupervised extractive system that has two components: an Opinion Extractor (to extract representative opinions) and Rationales Extractor (to extract corresponding rationales). We conduct automatic and human evaluations to show that rationales extracted by \Ra have the proposed properties and its %the rationale-based 
+summaries are more useful than conventional summaries. The implementation of our work is available at \href{https://github.com/leehaoyuan/RATION}{https://github.com/leehaoyuan/RATION}
+
+\end{abstract}
+%\SCN{1. You need to show qualitative examples of rationale based summaries. Show about 3 such summaries. 2. Whatever is there in the appendix needs to be referred to from the main text otherwise no one will read it.}
+
+\section{Introduction}
+\label{intro}
+%\SC{I remember that this is how the intro to your previous paper also started. Rephrase as follows.}
+%\SC{Online review platforms are very useful for both customers and businesses \cite{cheung2012review}. However, with the growing number of reviews on typical platforms, it is usually difficult for a user to read all reviews manually. Opinion summarization aims to tackle this problem...} 
+ Online reviews are useful for both customers and businesses~\cite{cheung2012review}. However, the large number of reviews on such platforms makes it difficult %for customers and businesses 
+ to manually read all of them. Opinion summarization aims to tackle this problem by generating a concise summary of the reviews. Recently, much progress has been made in opinion summarization, especially unsupervised summarization. These works either extract sentences from reviews as summaries \cite{zhao2020weakly, angelidis2021extractive,basu-roy-chowdhury-etal-2022-unsupervised,basu-roy-chowdhury-etal-2023-unsupervised-opinion, li2023aspect} or generate summaries conditioned on reviews \cite{chu2019meansum, amplayo-lapata-2020-unsupervised}. %\SC{XXXX} 
+ However, such summaries are usually very generic and lack supporting evidence.
+%\SC{You can move the rest of this para to related works. Here, talk about the problem you address: In this paper, we propose a new paradigm for summarizing reviews that produces/outputs popular \textit{opinions} expressed in the reviews  as well as a rationale for each opinion. Talk about the output then pointing to table 1 (BTW, make it a figure). You should point to what you mean by opinions and rationales using the example in the figure. Include more than one rationale so that you can talk about Gibbs sampling. If needed, you can contrast it with a summary from SemAE. Then in a new para, talk about RATION.  }
+%To tackle these issues, \citet{iso2021convex,hosking-etal-2023-attributable} generate summaries where some of their sentences contain more details. However, for these summaries, some sentences might still have no corresponding supporting details. To alleviate this issue, \citet{suhara2020opiniondigest,bar-haim-etal-2021-every} attribute each summary sentence to a group of supporting review sentences. However, the sizes of these groups are usually large since many sentences are paraphrases of summary sentences.
+%\SC{Your criticism of the above papers is too harsh and might draw criticism. like "many sentences are paraphrases of summary sentences". You cannot write such things without proving them. Avoid such phrasings. See my suggestion below.} 
+%\citet{iso2021convex} presented a method that favors non-generic and informative sentences but such summaries still lack supporting evidence. 
+To address this issue, \citet{suhara2020opiniondigest, bar-haim-etal-2021-every, hosking-etal-2023-attributable} produce summaries in which the summarizing content is attributed to a group of supporting 
+review sentences. However, since their goal is to explain the choice of the summary content, the sizes of these groups of supporting sentences are too large to be useful for user consumption.
+
+%To tackle the structure and the group size issue, we propose a new paradigm for summarizing reviews, rationale-based opinion summarization. Rationale-based opinion summarization generates representative \textit{opinions} expressed in the reviews as well as several rationales for each opinion. A comparison with conventional opinion summarization is shown in Fig. \ref{fig:compare}. An opinion is a concise phrase that directly evaluates an aspect of an entity, like `location is great'. A rationale is a sentence that provides more details supporting the opinion. 
+\begin{figure}[t]
+\centering
+% \includegraphics[width=2.9in]{workflow1.png}
+\includegraphics[width=0.48\textwidth, keepaspectratio]{graph/graph_20231010233349.pdf}
+\caption{Examples of a conventional %opinion summary 
+and a rationale-based opinion summary (generated by \Ra) for the same entity. In rationale-based summary, each line presents a \textcolor[RGB]{0,112,192}{representative opinion} and its \textcolor[RGB]{0,176,80}{rationale}. }% For illustration, we only show one rationale per opinion.} 
+%\caption{Examples of a conventional opinion summary generated by an extractive opinion summarization system \cite{basu-roy-chowdhury-etal-2022-unsupervised} and a rationale-based opinion summary (generated by ) about the same entity. In rationale-based opinion summary, each line presents \textcolor{blue}{representative opinion} about an aspect of the entity and the corresponding \textcolor{green}{rationale}. For illustration, we only show one rationale per opinion.} 
+%\caption{Comparision between opinion summarization and rationale-based opinion summarization. The summary for pinion summarization is generated by SemAE \cite{basu-roy-chowdhury-etal-2022-unsupervised}. For rationale-based opinion summarization, each line starts with an opinion (in \textbf{bold}) and follows several rationales (in this example one) that support it. \SC{please make the edits I suggested in the figure caption}}
+\label{fig:compare_sum}
+\end{figure}
+%\SCN{Use the same shade of blue and green in the fig and caption}
+
+In this paper, we propose a new paradigm for summarizing reviews, rationale-based opinion summarization. Given a set of reviews about an entity (such as a hotel), rationale-based opinion summarization outputs \textit{representative opinions} summarizing the reviews as well as one or more \textit{rationales} for each representative opinion. Fig. \ref{fig:compare_sum} shows an example of a conventional summary produced by a recent extractive summarization model (top) and a rationale-based summary (bottom) containing representative opinions (in blue) and corresponding rationales (in green) for the same entity, a hotel in this case. 
+%Fig. \ref{fig:compare} shows an example of a rationale-based summary (bottom) and a conventional summary produced by a recent extractive summarization model (top) for the same entity, a hotel in this case. The conventional summary summarizes opinions about various aspects of the hotel. 
+%The rationale-based summary also summarizes various aspects (one per line in the figure) but in addition to presenting the representative opinions (shown in blue) it also shows the corresponding supporting rationales (shown in green). 
+For illustration, we show only one rationale per representative opinion in the figure but in practice, there can be several such rationales specified by users. Such rationale-based summaries can be more useful to users by providing representative opinions as well as informative rationales for them, helping users in making decisions. 
+
+%\SC{CONTD FROM XXXX. However, summaries generated by most systems are usually very generic. \citet{iso2021convex} presented an improved method that favors non-generic and informative sentences but such summaries still lack supporting evidence. To address this issue, \citet{suhara2020opiniondigest, bar-haim-etal-2021-every, hosking-etal-2023-attributable} produce summaries in which the summarizing content is attributed to a group of supporting review sentences. However, since their goal is to provide an explanation for the choice of the summary content, the sizes of these groups of supporting sentences are too large to be useful for user consumption. } 
+
+%\SC{In this paper we propose a new paradigm for summarizing reviews-- rationale-based opinion summarization. Given a set of input reviews about an entity (such as a hotel or a product), rationale-based opinion summarization outputs representative \textit{opinions} expressed in the reviews as well as one or more \textit{rationales} for each opinion. Fig. \ref{fig:compare} shows an example of a rationale-based summary (bottom) and a conventional summary produced by a SOTA summarization model (top) for the same entity, a hotel in this case. The conventional summary summarizes opinions about various aspects of the hotel. The rationale-based summary also summarizes various aspects (one per line in the figure) but in addition to presenting the summarizing opinion (shown in blue) it also shows the corresponding supporting rationale (shown in green). For illustration, we show only one rationale per opinion in the figure but in practice, there can be a handful of such rationales as desired by the user. Such rationale-based summaries can be more useful to the user by  summarizing popular opinions as well as informative rationales for them, helping the users in making decisions.  }
+
+
+
+%Rationale-based opinion summarization presents several major challenges. The first challenge is what makes a good rationale. The second challenge is how to extract good rationales. 
+Rationale-based opinion summarization presents several major challenges: (i) what makes a good rationale? and (ii)  how to extract rationales? 
+To address the first challenge, we define four desirable properties for rationales: \textbf{relatedness}, \textbf{specificity}, \textbf{popularity}, and \textbf{diversity}. 
+%\SCN{If you run out of space, you can comment out the following 4 sentences. This stuff is repeated in Sec 4.2}
+%The rationales should be relevant to the representative opinion they correspond to (relatedness). 
+%They should contain enough specific details so that they are informative (specificity). 
+%They should be reflective of the popular information expressed in the input review sentences related to the representative opinion (popularity). 
+%Lastly, various rationales of the same representative opinion should be non-repetitive and diverse (diversity). %\SC{you can remove bold fonts from the (). Once is good enough to draw attention}
+ To address the second challenge, we present methods to estimate these properties for review sentences and a Gibbs-sampling-based approach to extract review sentences that can serve as rationales. 
+
+%\SC{This para is too wordy and stuff like this can be moved to the methods section.}
+%To address the first challenge, we propose \SC{propose --> define} four desirable properties for rationales: relatedness, specificity, popularity, and diversity. Previous works \cite{wang-etal-2023-scott, chen-etal-2023-rev} argue appropriate rationales of text classification should support the opinion and provide more details. However, for opinions in reviews, many review sentences can satisfy the criteria because of the large quantity of reviews. Therefore, appropriate rationales should be popular among review sentences that meet the criteria and be diverse from each other. Specifically, relatedness measures the relatedness of a rationale to the opinion. Specificity measures the amount of details that a rationale contains. %\SC{This is not what specificity means. Specific means it contains details. It cannot quantify "newness" of information at all. Given this comment, you should revise the beginning of this para to not talk about new but detailed information. } 
+%Popularity measures how popular the rationale is among all review sentences related to the opinion. Diversity measures the difference between extracted rationales. 
+
+%To address the second challenge, we design a model, \Ra, that extracts representative opinions and corresponding rationales from reviews based on four properties. \Ra then uses the extracted opinions and rationales to generate summaries. Since there is no supervision in the review domain for estimating relatedness, popularity, and diversity, we generate in-domain samples based on Aspect-based Sentiment Analysis (ABSA) data to finetune \Ra. To extract multiple rationales efficiently, \Ra uses Gibbs Sampling. 
+
+%\SC{YYY} \SC{Rationale-based opinion summarization presents several interesting challenges. The first challenge is what makes a good rationale. The second challenge is how to extract rationales. }
+
+
+Overall, we propose \Ra (see Fig.~\ref{fig:compare}), an unsupervised extractive system that has two components: an \textit{Opinion Extractor} (to extract representative opinions) and a \textit{Rationales Extractor} (to extract corresponding rationales). Both the representative opinions and corresponding rationales are extracted from the input review sentences in an unsupervised manner and are presented together as the final output summary. %\SCN{need to change the following sentence }
+The Opinion Extractor extracts representative opinions about various aspects of the entity in a concise manner and removes redundancy in them through a graph-based approach. 
+The Rationales Extractor first estimates the four above-mentioned properties of good rationales. 
+Since there is no supervision in the review domain for estimating some of these properties, \Ra uses an alignment %\SCN{(1) relatedness model is overloaded in this paper. Entailment model was better unless you used a really old entailment model. (2) BTW it should be a relatedness model and not an relatedness model } 
+model fine-tuned to the domain of reviews using artificially constructed samples. % augmented data from an existing Aspect-based Sentiment Analysis (ABSA) dataset. 
+The values of these properties collectively represent the joint probability of a set of review sentence to serve as rationales.
+For each representative opinion, \Ra uses Gibbs Sampling to sample a user-specified number of sentences as rationales by approximating this joint probability distribution. %\SCN{I strongly suggest using probability related terminology here because you are talking about Gibbs Sampling. ``The values of these four properties represent the probability of a review sentence serving as a rationale. With this intuition, for each representative opinion, \Ra uses Gibbs Sampling to sample a user-specified number of sentences as rationales such that their joint probability is collectively maximized.''}
+%\SCN{BTW, do not delete content. Just comment them out.}
+
+Our experiments show that rationale-based opinion summaries generated by \Ra are more informative and useful than conventional summaries and the rationales generated by \Ra are better than those generated by strong baselines. 
+Our contributions are three-fold:
+%We conduct automatic and human evaluations to show that rationales extracted by \Ra have the properties we proposed and outperform strong baselines. We also perform human evaluation to show that rationale-based opinion summaries generated by \Ra are more informative and useful than conventional  summaries. 
+\begin{itemize}[topsep=1pt, leftmargin=*, noitemsep]
+    \itemsep0mm
+    \item We propose a new paradigm for summarizing reviews, rationale-based opinion summarization;
+    \item We design \Ra, a model to extract representative opinions and corresponding rationales;
+    \item We evaluate \Ra using automatic metrics and human evaluation and show that it outperforms strong baselines.
+\end{itemize}
+%\SC{your experiments and analysis should also be a part of the contributions. First bullet should be that you introduce a new problem. Second bullet should be that you present a new method (include method's name). Third bullet should be about experiments and analysis. }
+
+
+\section{Related Work}
+There are generally two types of opinion summarization: abstractive %opinion summarization 
+and extractive.% opinion summarization.  
+For abstractive summarization, previous works either use %generate abstractive summaries based on 
+aggregate review sentence representations ~\cite{chu2019meansum,isonuma2021unsupervised} or generate synthetic datasets to train generation models in a supervised setting~\cite{bravzinskas2019unsupervised,amplayo-lapata-2020-unsupervised}. For extractive summarization, previous works generally predict the salience of review sentences based on their distance from the aspect representation ~\cite{angelidis2021extractive}, from the average sentence representation \cite{basu-roy-chowdhury-etal-2022-unsupervised} or from the aspect cluster centers \cite{li2023aspect} and extract salient sentences as summaries. However, opinion summaries generated by previous works are usually generic and lack supporting evidence.
+
+To generate more specific opinion summaries, \cite{iso2021convex} generates summaries based on the convex aggregation of review sentence representations instead of the average. However, such summaries might still lack supporting evidence. For explainability, \citet{suhara2020opiniondigest} cluster the opinions extracted from review sentences and generate summaries based on the clusters. \citet{bar-haim-etal-2021-every} matches review sentences to \textit{key points} and extracts the key points that are matched by most review sentences as summaries. \citet{hosking-etal-2023-attributable} generates path representation for each review sentence and generates summaries based on the selected paths. These works can attribute their summary content to a group of review sentences. However, since their goal is to explain the choice of the summary content, the sizes of these groups of supporting sentences are too large to be useful for user consumption. \Ra aims to address this issue by generating rationale-based opinion summarization where each opinion is supported by a small group of rationales.
+
+
+
+\section{Problem Statement}
+The input in rationale-based opinion summarization is a set of review sentences $S=\{s_1,...,s_n\}$ of a given entity, such as a hotel. The output is a summary $D$ that consists of representative opinions $O=\{o_1,...,o_m\}$ and corresponding sets of rationales $\mathcal{R}=\{R_{1}, R_{2}... R_{m}\}$, where $R_{i} = \{r_{i,1}, r_{i,2}... r_{i,k}\}$, $r_{i,*}$ is a rationale, and $k$ is specified by the user. See Fig.~\ref{fig:compare_sum} for examples of representative opinions and rationales. %\SC{1. You should say here that k is user-specified: The number of rationales per opinion, $k$, is specified by the user. 2. it is not clear that o and r are extracted from S but maybe the problem statement should not worry about that. I added it in the beginning of the method section.}
+
+\section{\Ra}
+\begin{figure}[t]
+\centering
+% \includegraphics[width=2.9in]{workflow1.png}
+\includegraphics[width=0.48\textwidth, keepaspectratio]{graph/workflowv2_20231016040941}
+\caption{Overview of \Ra and its two components: the Opinion Extractor and the Rationales Extractor.} 
+%\caption{Comparision between opinion summarization and rationale-based opinion summarization. The summary for pinion summarization is generated by SemAE \cite{basu-roy-chowdhury-etal-2022-unsupervised}. For rationale-based opinion summarization, each line starts with an opinion (in \textbf{bold}) and follows several rationales (in this example one) that support it. \SC{please make the edits I suggested in the figure caption}}
+\label{fig:compare}
+\end{figure}
+%\SCN{In fig 2, label "Graph-based redundancy reducer"}
+%\SC{See how your problem definition is tied to the method's mention. This is not good. See my phrasing below.}
+%We introduce how \Ra works in this section. The input of \Ra is a set of review sentences $S=\{s_1,...,s_n\}$ of a given entity, such as a hotel. From $S$, \Ra extracts the opinions $O=\{o_1,...,o_m\}$ and corresponding sets of rationales  $R=\{r_1,...,r_m\}$. $O$ and $R$ are then concatenated to form the summary $D$. 
+
+\Ra addresses this problem %rationale-based opinion summarization 
+using two components: an \textit{Opinion Extractor} (\S \ref{oe}) and a \textit{Rationales Extractor} (\S \ref{cand}). The representative opinions and rationales are extracted from the input review sentences in an unsupervised manner. They are combined to form a summary, $D$ (\S \ref{summary}). 
+\Ra uses an alignment model in its processing which is described in \S \ref{entail}.
+%\sout{Opinion Extractor and Rationales Extractor use a textual entailment model to estimate relatedness between opinions and rationales.  
+%\Ra generates in-domain samples to finetune the entailment model (\S \ref{entail}).} %\SCN{mentioning "relatedness between opinions and rationales" is a bad idea because at this stage the reader does not know that you will be estimating this relatedness. For the same reason, you should not mention in-domain samples because the reader does not know what in-domain means. You have not talked about any domains so far.}
+
+%\sout{In \S \ref{oe}, we describe how \Ra extracts $O$ from $S$. In \S \ref{cand}, we describe how \Ra extracts $r_i$ for each $o_i$. In \S \ref{summary}, we describe how \Ra generates summaries based on $O$ and $R$.}
+
+
+%\SC{For each of the paragraphs in this section. The first few sentences should be motivation and then describe what you did. E.g. for the first section, you need to say this section is extracting opinions (point to the relevant part of fig 1 to remind readers what opinions are). Then say opinions should be representative of the prevailing views in the reviews. Then say existing summarization models are good at capturing that. Therefore, \Ra uses a SOTA summarization model and gets their outputs (extractive summaries). Then how do you extract concise opinions from the output of the summarization model. (Avoid calling this output as the summary as much as possible to avoid confusion with your summaries). }
+
+\subsection{Opinion Extractor}
+\label{oe}
+%\SC{This whole paper is about extracintg summary and here you say that \Ra first generates a summary. If this is true then what is the rest of this paper about?  Say: To extract representative opinions $O$, \Ra uses a SOTA extractive summarization model <<IN FOOTNOTE SAY IN YOUR EXPERIMENTS YOU USE SEMAE>> to identify prevailing opinions expressed in the reviews. \Ra then extracts the opinion from each sentence extracted by the summarization model.} 
+In this section, we describe how \Ra extracts representative opinions $O$ from input review sentences $S$. Representative opinions should be concise sentences that summarizes the reviewers' impressions %about various aspects 
+of the entity.
+%\SC{Instead of the following two sentences, talk about what properties you want in opinions, definition of opinions. E.g. they should summarize the reviewers' opinions about different aspects of the entity in a concise manner. }
+%\sout{Opinions are in the form `A is B', like `location is great'.} 
+%\sout{Because of the large size of reviews, \Ra only considers the representative opinions.} 
+Since existing summarization models are good at identifying this information, \Ra uses an existing extractive opinion summarization model to extract summarizing review sentences. Fig. \ref{fig:compare_sum} (top) shows an example. % of extractive summarizing sentences. %\SCN{You might want to change this sentence later based on your experiments.} 
+%\SCN{delete this sentence and see implementation details.} \sout{In our implementation, we use SemAE}~\cite{basu-roy-chowdhury-etal-2022-unsupervised} \sout{to extract the summarizing review sentences but our method is independent of the extractive summarization system.} 
+%\sout{From these sentences, \Ra extracts opinions of the form `A is B' using an ABSA model. ABSA models can extract an opinion from a sentence as a pair of an aspect term and an opinion term. Aspect terms are generally noun phrases and opinion terms are generally adjectives. \Ra converts the pair into the form, `aspect term is opinion term'. For example, from the review sentence, `The hotel was in a great location, fabulous views and fantastic service.', one extracted opinion by \Ra is `location is great'.} 
+
+%\SC{I see that you have undone my changes here. Please rewrite this paragraph. Stuff like "an ABSA model" is not clear. What is ABSA? What is AN ABSA model? You need to have citations and explanations. Also, "opinion" is overloaded here. }
+From these summary sentences, \Ra extracts representative opinions of the form `A is B'. For example, from the review sentence, `The hotel was in a great location, fabulous views, and fantastic service.', one representative opinion extracted by \Ra is `location is great'. We chose this format because it is concise yet informative. 
+%\SCN{Haoyuan, I dictated the phrasing to you and still this part is not clear. I cannot be doing the same thing multiple times. If you disagree with something, bring it up during our discussions. Otherwise, take notes during our meetings so that I don't have to redo things like this. }
+For extracting representative opinions from sentences, \Ra uses a transformer \cite{vaswani2017attention} model proposed by \citet{miao2020snippext} that was finetuned on a ABSA dataset \cite{miao2020snippext, cai-etal-2021-aspect}. %\SCN{Cite the paper that proposed the dataset. If it is the same paper as miao2020snippext, change this sentence to: For extracting representative opinions from sentences, \Ra uses the model proposed by \cite{miao2020snippext} that was trained on the ABSA dataset that they proposed.} 
+%The ABSA dataset consists of review sentences like `Staff at the hotel is helpful.' annotated with the aspect the sentence is talking about (`service' in this example), sentiment (`positive'), and an opinion (`helpful'). To avoid confusion with our representative opinions, we refer to these opinions as ABSA-opinions. The model we used takes as input a sentence and outputs aspects, sentiments, and ABSA-opinions.
+The ABSA dataset consists of review sentences like `Staff at the hotel is helpful.' annotated with the aspect the sentence is talking about (`service' in this example), sentiment (`positive'), and pairs of nouns and adjectives where adjectives describes the nouns (`staff','helpful'). For a given sentence, \Ra uses the model finetuned on this ABSA dataset to extract pairs of nouns and adjectives. \Ra then concatenates the nouns and adjectives in the form of `noun is adjective' like `staff is helpful' to generate the representative opinions. 
+%\SCN{You have described the dataset. Also describe the model that you used (that was trained on this dataset). Something like X et al fintuned a BERT-absed model on this dataset...State the relevant functionality of the model. E.g. given a sentence, the model could extract nouns and adjectives...Then say RATION uses this model on the review sentences and concatenates the output nouns and adjectives as...}
+%\SCN{Looks good now}
+ %\SCN{I understand this is not exactly correct. It outputs a pair but let this be. It is good enough for explanatory purposes.} \Ra uses this model on the extractive summary sentences and obtains the representative opinion from them in the form of `aspect term is ABSA-opinion term' like `service is helpful', `location is great', etc.} 
+%For extracting representative opinions from sentences, \Ra uses an ABSA model\cite{miao2020snippext} to extract ABSA opinions which are pairs of an aspect term and an opinion term. \Ra then converts the ABSA opinion to the representative opinion in the form `aspect term is opinion term'. For example, an ABSA opinion whose aspect term is `location' and opinion term is `great', can be converted to the representative opinion `location is great'.  
+
+%model trained on the \SCN{INCLUDE FULL NAME OF THE DATASET HERE} (ABSA) dataset~\cite{????}. %\SCN{I THINK YOU SAID IT COVERS A WIDE VARIETY OF DOMAINS. IS THAT TRUE? WHAT DOMAINS ARE COVERED? BTW WHAT PURPOSE WAS THIS DATASET DESIGNED FOR? DO YOU ONLY USE THE REVIEW DOMAIN TO TRAIN THE ABSA MODEL OR DO YOU USE ALL DOMAINS?} 
+%The ABSA dataset consists of sentences like review sentences, annotated with pairs of an aspect term and an opinion term. \SCN{please confirm that there is only 1 aspect and 1 opinion term per sentence} 
+%Aspect terms are generally noun phrases and impressions about those aspects are generally adjectives. \SCN{You should rethink this sentence. People will ask why don't you simply use a rule-based system.}
+%For example, a sentence like BLAH is annotated with an aspect term of BLAH and an impression term of BLAH. \SCN{Give example here} \SCN{opinion is overloaded in this paper. So I have replaced ABSA's opinion with impression}
+%We \SCN{or maybe you need to cite someone else here} train a \SCN{PROVIDE TYPE OF MODEL LIKE MLP/GPT/SVM/LR here} model on this dataset and use it to extract representative opinions of the form, `aspect term is impression term', 
+%We find that extracting representative opinions from review sentences is more flexible than extracting short review sentences \cite{bar-haim-etal-2020-quantitative}. \SC{wither remove this sentence or provide more details. }
+
+%\SCN{Please carefully verify what I wrote below.}
+However, since the extracted summarizing sentences are often repetitive, many extracted representative opinions are similar to each other, like `room is spacious' and `room is large'. 
+\Ra removes the redundancy among the extracted representative opinions based on their relationship with review sentences. 
+It assumes that if two representative opinions are related to a similar group of review sentences, they are likely to be similar. %\Ra then clusters similar representative opinions together using a graph-based clustering algorithm and picks a prototypical opinion from each cluster to form the set of representative opinions to be output, $O$. We explain this process below. 
+For this, it first estimates the relatedness between a representative opinion $o$ and review sentence $s$, using an alignment model $M_{align}$ (described in detail later in \S \ref{entail}). \Ra uses the probability $p_{align}(s,o)$ estimated by $M_{align}$ that $s$ aligns with $o$ as the relatedness. 
+%\SCN{the following is basically how classification is done, isn't it? Can you skip this mention of alpha? There are too many such thresholds in your system.}
+%\Ra assumes $s$ aligns with $o$ if the alignment probability as per $M_{align}$, $p_{align}(s,o)$ is greater than a threshold $\alpha$. 
+Next, using this relatedness, \Ra estimates the similarity between two representative opinions $o$ and $o'$. For this, it constructs a feature vector for every representative opinion, $o$, $f_o\in R^n$ whose $i$-th element is $p_{align}(s_i,o)$ if review sentence $s_i$ aligns with $o$, otherwise it is zero. The similarity between two representative opinions $o$ and $o'$, is defined as the cosine similarity between their feature vectors $f_o$ and $f_{o'}$. Next, to cluster similar representative opinions together, \Ra constructs an undirected graph where each node is a representative opinion and there is an edge between two nodes if their similarity is greater than a threshold $\beta$.  %\Ra uses  algorithm to identify the connected components of this graph. It just depth first search.
+Each connected component of the graph forms an \textit{opinion cluster} $G$ and its most prototypical node (the node that is aligns with the most review sentences) is extracted as a representative opinion $o_i \in O$. The number of representative opinions in $O$ is equal to the number of clusters identified above. %Henceforth, we refer to these clusters as \textit{opinion clusters}.   
+
+%\SC{Please see commented out text here. It was resulting in compilation errors and so I have commented it out.}
+% \sout{To estimate the relatedness between an opinion \sout{$o_i$} \SC{$o$} \SCN{since these are really opinion candidates and not opinions, I am replacing oi with o. making corresponding change to sj}  and review sentence \sout{$s_j$} \SC{$s$}, \Ra uses a textual entailment model $M_{align}$ with three labels: entailment, neutral, and contradiction. 
+% We use $p_{align}(s_j,o_i)$ to denote the probability estimated by $M_{align}$ that $s_j$ entails $o_i$. 
+% \Ra assumes $s_j$ entails $o_i$ if $p_{align}(s_j,o_i)$ is greater than a threshold $\alpha$. 
+% \Ra uses $p_{align}(s_j,o_i)$ to measure the relatedness between opinion $o_i$ and review sentence $s_j$. 
+% After obtaining $p_{align}(s_j,o_i)$, \Ra merges the similar opinions into opinion clusters $G_i$ to remove redundancy. 
+% For this purpose, \Ra constructs a undirected graph where each node represents an opinion $o_i$. 
+% For $o_i$, \Ra also generates a feature vector $f_i\in R^n$ whose $j$-th position is $e^o_{i,j}$ if review sentence $s_j$ entails $o_i$, otherwise it is zero. 
+% There is an edge between opinion $o_i$ and opinion $o_j$ if $cos(f_i,f_j)>\beta$. 
+% If opinion $o_j$ and opinion $o_k$ belong to the same connected components, $o_j$ and $o_k$ belong to the same opinion cluster $G_i$. 
+% \Ra selects the opinion belonging to the opinion cluster $G_i$ that entailed by the most review sentences as the representative opinion of $G_i$. 
+% We use $o_i$ to denote the representative opinion of $G_i$ and $O$ is constituted of $o_i$ from all opinion clusters. }
+
+\subsection{Rationales Extractor}
+ \label{cand}
+ %\SC{First you need to describe what a pair is. Use examples to explain}
+%\SC{(1) So far, you talked about segmenting review sentences into clauses. But suddenly you are talking about opinions. How are clauses used for opinion extraction? (2) The heading talks about rationale candidates but the first para is about opinion. The reader does not understand why he/she is reading about opinions. In fact, this relationship between opinions and rationales is not clear from the beginning. It should be mentioned earlier. One possibility is in an overview section between 2.1 and 2.2. Also, maybe you need a separate section on opinion extraction. } 
+In this section, we describe how for each representative opinion $o_i$, \Ra extracts a set of $k$ rationales, $R_i$, from the input review sentences $S$. 
+%\sout{\Ra extracts the rationales $R_i$ based on four properties: relatedness, specificity, popularity, and diversity.} 
+
+For a given representative opinion, $o_i$, not all review sentences are viable candidates for its rationales since they might not be relevant to it. %that particular representative opinion. Therefore, w
+We filter out such nonviable candidates and retain only viable ones as the \textit{rationale candidate set} $C_i$ using the alignment model, $M_{align}$. % (mentioned in \S~\ref{oe}). 
+Let $G_i$ represent the opinion cluster that representative opinion $o_i$ belongs to. A review sentence, $s$, is included in the candidate set $C_i$ if (i) it aligns with at least one opinion in $G_i$, and (ii) it is most related to $G_i$ among all clusters. \Ra defines the relatedness between review sentence $s$ and cluster $G$ as the maximum alignment score between $s$ and any element of $G$: 
+\begin{equation}
+e(s,G)=max_{o \in G} p_{ent}(s,o)
+\label{eqn:sent_clus_rel}
+\end{equation}
+
+%\sout{However, directly estimating the four properties for all review sentences leads to two problems. First, it is not very efficient since many review sentences are not related to any opinions. Second, \Ra concerns more about the rationale's popularity among review sentences related to an opinion but not the rationale's popularity among all review sentences.}
+
+ %\sout{To address these problems, \Ra first extracts a group of review sentences as rationale candidate set $C_i$ for each representative opinion $o_i$ then extracts rationales $R_i$ from $C_i$. The extraction is based on the relatedness between opinion $o_i$ and review sentence $s_j$, $p_{align}(s_j,o_i)$, that is calculated in \S \ref{oe}. Review sentence $s_j$ belongs to $C_i$ based on two standards. First, $s_j$ entails any opinions of opinion cluster $g_i$ that $o_i$ belongs to. Second, $s_j$ is most related to opinion cluster $G_i$ among all opinion clusters. For this, \Ra defines the relatedness between review sentence $s_j$ and $G_i$ as $e^g_{i,j}=max_{o'_k \in G_i} p_{ent}(s_j,o'_k)$. Based on these two standards, each review sentence at most belong to one rationale candidate set. }
+
+ 
+After removing nonviable candidates, \Ra extracts rationales, $R_i$,  from the rationale candidate set, $C_i$,  for each representative opinion $o_i$. 
+%\SCN{If you delete the 4 lines I suggested in the intro to save space, remove "As mentioned in \S \ref{intro}," here.} 
+Good rationales should be related to the corresponding representative opinion (relatedness). They should contain specific details (specificity), represent popular information (popularity), and offer diverse information (diversity). We now describe how to quantify these properties and then describe how to extract rationales based on these properties.
+
+\noindent\textbf{Relatedness} of review sentence $s$ to representative opinion $o_i$, ($rel(s)$), measures how related $s$ is to $o_i$ as compared to all other representative opinions. As before, let $G_i$ represent the cluster that $o_i$ belongs to. Using the definition of relatedness between a review sentence $s$ and a cluster $G$ (Equation~\ref{eqn:sent_clus_rel}), $rel(s)$ is defined as:
+\vspace{-0.2cm}
+  \begin{equation}
+  rel(s)=\frac{e(s,G_i)}{\sum_{G_k \in G_s} e(s,G_k)}
+ \end{equation}
+\noindent where $G_s$ is the set of the opinion clusters that has at least one element that sentence $s$ aligns with.
+ %\SCN{Is this alpha same as alpha in line 173?}
+ %\SCN{skipt th following sentence if possible. It is confusing and unnecessary.}The value of $rel(s)$ is 1 if $s$ only aligns with its representative opinion. \SCN{Is this statement correct? Can you double-check? Also, are we talking about s (only) entailing o or (only) entailing o's cluster?}
+ %\SCN{What is alpha in this equation? Is this alpha same as the alpha used in opinion extractor? If not, use different names. In general, I am worried that you have too many thresholds. In the future, try to have fewer thresholds. In this eqn, you could have just taken the value of $e(s,G_k)$ instead of filtering out some of these clusters. It is the same value mentioned in previous section.}
+ 
+ %\sout{\Ra extracts $R_i$ from the rationale candidate set $C_i$ for the opinion $o_i$ based on \sout{all} four properties: relatedness, specificity, popularity, diversity. For each rationale candidate $s_j\in C_i$, \Ra estimates the relatedness $rel(s_j)$, specificity $spec(s_j)$, and popularity $pop(s_j)$. \Ra extracts rationale candidates that has high $rel(*)$, $spec(*)$, $pop(*)$ while diverse from each other as $R_i$ use Gibbs sampling.} 
+
+%\sout{ $rel(s_j)$ measures whether review sentence $s_j$ is solely related to opinion $o_i$. Since \Ra already considers relatedness between review sentence $s_j$ and its representative opinion $o_i$ in extracting rationale candidates, \Ra considers the relatedness between $s_j$ and other opinions. \Ra calculates $rel(s_j)$ based on the number of other representative opinions it entails:}
+ %\sout{The value of $rel(s_j)$ will be 1 if $s_j$ only entails its representative opinion. }
+
+\noindent\textbf{Specificity} of review sentence $s$, ($spec(s)$), measures the amount of details that $s$ contains. For this, it uses a Deberta \cite{hedeberta} model finetuned on a specificity estimation dataset \cite{ko2019domain}. %\cite{hedeberta} \SCN{fix citation. it does not contain year}  %\SCN{do you fine-tune this model? If yes, provide details. If not, don't mention "fine-tuned" model. Just say "the specificity model proposed by BLAH"} 
+%to estimate the specificity of $s$. %\sout{review sentence $spec(s_j)$.}
+
+ 
+\noindent\textbf{Popularity} of review sentence $s$, ($pop(s)$), measures how representative it is of the rationale candidate set it belongs to. %s being considered for representative opinion, $o$. 
+ %\sout{In other words, since \Ra is considering the sentences in $C_i$ ($s\in C_i$) to extract rationales for $o_i$, $pop(s)$ measures if the information in $s$ is common in $C_i$. }
+ To calculate $pop(s)$, \Ra constructs a weighted undirected graph. The nodes of this graph represent the review sentences in the rationale candidate set $C_i$, $s\in C_i$. The representative opinion $o_i$ also forms a node. There is an edge between two review sentences if one aligns with the other or vice versa (as estimated by $M_{align}$). The weight of this edge is the greater of the two alignment probabilities. There is an edge between a review sentence and the representative opinion if the review sentence aligns with the representative opinion and the weight of this edge is the alignment probability. %} \SCN{no need for the eqn below} 
+ % There is an edge between $s_'$ and $s''$ if $s'$ entails $s''$ or $s''$ entails $s'$ (as estimated by $M_{align}$). 
+ %The weight of the edge is calculated as the maximum entailment probability:
+  %\SCN{how do you define the edge between review sentence and opinion?} 
+ %\sout{how popular review sentence $s_j$ is among the rationale candidate that $s_j$ belongs to. To calculate $pop(s_j)$, \Ra constructs a weighted undirected entailment graph for each review sentence belong to rationale candidate set $C_i$ and opinion $o_i$ based on the probability of entailment $p_{align}(*,*)$. Each node represents a rationale candidate $s_j$ or opinion $o_i$. There will be an edge between $s_j$ and $s_k$ if $s_k$ entails $s_j$ or $s_j$ entails $s_k$ estimated by $M_{align}$. The weight of the edge is calculated as the maximum entailment probability:}
+ \Ra measures the popularity $pop(s)$ of sentence $s$ as the centrality of the corresponding node in this graph. %The popularity $pop(s_j)$ of the rationale candidate $s_j$ is calculated similarly to TextRank \cite{mihalcea2004textrank}. \SCN{Do you need to cite textrank here? replace this sentence with: The popularity of a review sentence $s$ is defined as the centrality of the corresponding node. }
+ 
+\noindent\textbf{Diversity} of a group of review sentences, $s_{1:k}$, ($div(s_{1:k})$), measures how dissimilar their content collectively is. %\SCN{See how repetitive this sentence is ("group of review sentences" is repeated). Also the sentence doesn't contain any additional information. It says diversity means diverse! Replace with: \textbf{Diversity} of a group of review sentences, $s_{1:k}$, ($div(s_{1:k})$), measures how dissimilar their content collectively is.}
+%\sout{The diversity of $s'_{1:k}$ is estimated as the cosine similarity of their bag-of-word representation, denoted as $-\sum_{i<j}sim(s'_{i},s'_{j})$.} 
+It is estimated as the negative of the pairwise cosine similarity of their bag-of-word representations. 
+
+
+\noindent\textbf{Gibbs Rationale Sampler:} Based on the properties defined above, \Ra defines the joint probability of a group of review sentences, $s_{1:k}$, to be selected as rationales to be proportional to:
+\vspace{-0.2cm}
+\begin{equation}
+ exp(\sum_{i=1}^k sal(s_{i})+\gamma div(s_{1:k}))
+ \label{eq:prob}
+ \end{equation}
+\noindent where $\gamma>0$ is the weight of the diversity term and $sal(s)$ is the product of $rel(s)$, $spec(s)$ and $pop(s)$, each normalized to $[0,1]$ using min-max normalization among the rationale candidate set $s$ belongs to.
+
+However, directly computing this probability for all possible groups is computationally expensive. 
+To address this issue, \Ra uses Gibbs Sampling. 
+Gibbs Sampling is a  Markov chain Monte Carlo algorithm that can approximate the joint probability of a group of sentences $s_{1:k} \subset C_i$ being considered as rationales, $R_{i} =\{r_{i1}, r_{i2} ... r_{ik}\}$, for the representative opinion, $o_i$. 
+%it samples individual from this joint probability distribution to identify the rationales, $R_{i} =\{r_{i1}, r_{i2} ... r_{ik}\}$, for the representative opinion, $o_i$, as the set of review sentences, $s_{1:k} \in C_i$. The pseudo-code is shown in Algorithm \ref{alg:1}. } 
+Since the joint probability is difficult to sample from, it iteratively samples individual $r_{i*}$ conditioned on the values of other $r_{i*}$s. The sequence of samples hence obtained form a Markov chain and its stationary distribution approximates the joint distribution. 
+Using $R_{i\neg j}$ to refer to all elements of $R_{i}$ except the $j^{th}$ element $r_{ij}$, the conditional probability $p(r_{ij}=s^*|R_{i\neg j})$ is proportional to:
+\vspace{-0.2cm}
+ \begin{equation}
+ \frac{exp(sal(s^*) + \gamma div(\{R_{i\neg j}, s^*\}))}{\sum_{s \in C_i} exp(sal(s) + \gamma div(\{R_{i\neg j}, s\}))}
+ \end{equation}
+ %$C'_i$ is the candidate set $C_i$ without $s*$. \SCN{I think this is incorrect. the denominator should include s*. I am writing accordingly}
+ %\SCN{Replacing sim with div. Also, using sal instead of sali. It is more common.}
+
+
+This sampling process is detailed in Alg. \ref{alg:1}. The input of the algorithm is the representative opinion $o_i$, its rationale candidate set $C_i$,and $\eta,\theta$ (Line \ref{input}). Initially, $R_i$ are randomly sampled from rationale candidate set $C_i$ (Line \ref{init}). In each Gibbs update, %\SCN{In gibbs sampling, steps are called "gibbs update". Use proper terminology} 
+$r_{i\cdot}$ %\SCN{use $r_{i\cdot}$ to avoid confusion with s*} 
+is sampled from the conditional distribution conditioned on other sentences, $R_{i\neg j}$(Line \ref{cond_prob}). %The length of \textit{burn-in period} is $\eta$. 
+After the \textit{burn-in period} of $\eta$, \Ra records the frequency of sampled review sentence group in additional $\theta$ scans as $R_i$ to approach the stationary distribution more closely %\sout{since the initial conditional probability is still far from the stationary distribution} 
+(Line \ref{record}). \Ra extracts the most frequent review sentence group as the rationales $R_i$ (Line \ref{frequent}). We show example rationale candidate sets and extracted rationales in Figure \ref{fig:sample_rationale_candidate1} and Figure \ref{fig:sample_rationale_candidate2}. %\SCN{You still need a citation for having additional theta steps. Just saying "is still far from the stationary distribution" is not enough. Also, Is there a name for theta like "burn-in period"? HL: Yes it is called burn-in period. I find several textbook for this and it says the burn-in period is a common practice.} 
+%\SCN{eta is your burn in period. what is theta?}
+
+%\SC{Please finish the algorithm description below. The algorithm should be described in text -- what each step is doing.}
+%Initially, $r_{i,*}$ are randomly sampled from rationale candidate set $C_i$. 
+%In each Gibbs update, \SCN{In gibbs sampling, steps are called "gibbs update". Use proper terminology} 
+%$r_{i,*}$ is sampled from the conditional distribution conditioned on other sentences, $R_{i\neg j}$. 
+
+%\SCN{CAN YOU REWRITE THE ALGORITHM USING THE TERMINOLOGY I SUGGESTED ABOVE. THINGS LIKE$R_{i\neg j}$ ARE STANDARD WAY OF REFERRING TO WHAT YOU ARE TALKING ABOUT. ALSO, THE ALGORITHM SHOULD RETURN A SET $R_i$ AND NOT S's }
+
+
+%\sout{Based on $rel(s)$, $spec(s)$, $pop(s)$, \Ra can estimate the salience of $s$ ($sali(s)$) being a appropriate rationales. $pop(s)$, $spec(s)$, $rel(s)$ are all normalized to $[0,1]$ using min-max normalization among rationale candidate set $c_i$ to balance their impact. \Ra estimates the salience of $s$ as the product of these normalized three properties. }
+ 
+ %\sout{\Ra extracts rationales $R_i$ considering both salience and diversity among $R_i$. The probability that $s‘_{1:k}$ are extracted as rationales is proportional to the score function:}
+ %\begin{equation}
+ %exp(\sum_{i=1}^k sali(s'_{i})-\gamma %\sum_{i<j} sim(s_{i},s_{j}))
+ %\end{equation}
+ %\sout{, where $\gamma>0$ is the weight of the diversity term. The salience term encourages \Ra to extract rationales that are related to the representative opinion, specific and popular. The diversity term encourages rationales $R_i$ to provide diverse and non-repetitive. When $k$ is one, $s$ with the highest salience are extracted as rationales $R_i$.
+ 
+ %When $k$ is large, directly computing the probability being extracted as rationales $R_i$ for all review sentence groups is computationally expensive. Due to the computation cost, \Ra uses Gibbs Sampling to estimate $s‘_{1:k}$ with the highest joint probability when $k>1$. At the beginning, $s'_{1:k}$ are randomly sampled from rationale candidate set $C_i$. Within each step, $s'_j$ is randomly sampled conditioned on other sentences, $s'_{1:j-1,j+1:k}$. The conditional probability $p(r_{i_j}=s'_j|s'_{1:j-1,j+1:k})$ equals:}
+ %\begin{equation}
+% \frac{exp(sali(s'_j)-\gamma \sum_{m \neq j} sim(s'_j,s'_m))}{\sum_{s’_l \in c'} exp(sali(s‘_l)-\gamma \sum_{m \neq l} sim(s’_l,s'_m))}
+ %\end{equation}
+ %\SCN{don't use m as iterator because it is the total number of opinions.}
+ %\sout{, where $c'$ is the candidate set $C_i$ without $s'_{1:j-1,j+1:k}$. When the number of steps is above $\eta$, \Ra extracts the most frequent review sentence group $s_{i_{1:k}}$ in additional $\theta$ steps as $R_i$. The pseudo-code is shown in Algorithm \ref{alg:1}.}
+ 
+\begin{algorithm}[t!]
+\caption{Gibbs Rationale Sampler}
+\footnotesize
+\begin{algorithmic}[1]
+\State \textbf{Input}: $\eta$, $\theta$, $o_i$, $C_i$ \label{input}
+\State Randomly initialize $R_i$ from $C_i$ \label{init}
+\State R=\{\} \Comment{R records the frequency of sentence groups}
+\For{$l=1$ to $\eta+\theta$}
+\For{$j=1$ to $k$}
+\State sample $r_{ij}\sim p(r_{ij}=s^*|R_{i\neg j})$\label{cond_prob}
+\If{$l>\eta$}
+\State R[$R_i$]+=1  \EndIf \label{record}
+\EndFor
+\EndFor
+\State $R_i$=$\argmax_R'$R[$R'$] \label{frequent}
+\State \textbf{return} $R_i$
+\end{algorithmic}
+\label{alg:1}
+\end{algorithm}
+%\SC{Shouldn't the input reviews S or $C_i$ be part of the input? Shouldn't the rep opinion be also part of the input? The last line is return s1:k which doesn't appear in the rest of the algorithm. What is R in line 3? Mention that in a comment in the line or in the text. Maybe you are treating it as a temporary variable.}
+
+
+\subsection{Summarization}
+\label{summary}
+We now describe how \Ra generates summary $D$ using representative opinions $O$ and rationales $\mathcal{R}$. 
+In principle, \Ra can simply pair each $o_i \in O$ with the rationales in corresponding $R_i \in \mathcal{R}$. 
+However, sometimes the user might want to put restrictions on the length of the summary.
+In such cases, \Ra gives more importance to representative opinions supported by more review sentences. 
+It obtains them by ranking the representative opinions in $O$ in descending order of the size of the corresponding rationale candidate sets.
+\Ra then constructs the summary, $D$, by picking representative opinions $o_i$ from this ranked list and the corresponding rationales $R_i$ until the length limit is reached (examples shown in Appendix Fig. \ref{fig:sample}). 
+%\Ra uses $O$ and $\mathcal{R}$ to generate a summary $D$ in which opinion $o_i$ is supported by rationales $R_i$. 
+%Due to the maximum word limit, summary $D$ may only contain parts of representative opinions. 
+%\sout{\Ra addresses this by ranking all representative opinions $o_i$ based on the size of rationale candidate set $C_i$ in descending order since opinions supported by more review sentences are generally more important. 
+%Suppose the list of representative opinions after ranking is $[o_1,o_2,...]$. 
+%From $o_1$, \Ra iteratively adds $o_i$ and $R_i$ to $D$ until $D$ reaches the maximum word limit. 
+%Eventually, each line of $D$ is in the form of $o_i$:$R_i$ as in Fig. \ref{fig:compare} bottom.}
+ %\begin{equation} \mathcal{L}(D') &= \frac{\sum_D \log_2 p(w_d;\Theta)}{\mbox{count of tokens}}\\\\ perplexity(D') &= 2^{-\mathcal{L}(D')} \end{equation}
+
+% \SC{The stuff about opinion pairs is not clear to the reader, how were they formed and how were they used in the final summary}
+% Entries for the entire Anthology, followed by custom entries
+\subsection{The Alignment Model}
+\label{entail}
+At various stages in its processing, \Ra uses an alignment model $M_{align}$ to estimate alignment or relatedness between pairs of sentences.  $M_{align}$ takes a pair of sentences $\langle$X, Y$\rangle$ as input, and predicts whether X aligns with Y (\textit{alignment}), X opposes Y (\textit{opposite}) or X is neutral to Y (\textit{neutral}). However, there is no in-domain supervision available for finetuning this alignment model. \Ra therefore finetunes a RoBerta \cite{radford2019language} model on artificially generated samples from the ABSA dataset (described in \S \ref{oe}). %For this, we use the models associated with the dataset (also described in \S \ref{oe}), to %commentiong this out because I think it will be obvious
+It generates two types of fine-tuning samples: \textit{Sent-Opinion} pairs and \textit{Sent-Sent} pairs. %Fig. \ref{fig:aug_sample} shows examples of the two types of samples. \SCN{Currenlty this reference to fig does not work}
+
+%\sout{To address this issue, \Ra uses RoBerta \cite{radford2019language} as the base model and generate sentence pairs from an ABSA dataset in the same domain(like hotel, restaurant) of input reviews.}
+
+%\sout{An ABSA datasets are dataset of review sentences for predicting its sentiment toward an aspect of an certain type entity (like the `location' aspect of `hotel' entity). Each sentence $s$ in the ABSA dataset is annotated with a list of ABSA opinions. Each ABSA opinion is annotated with an aspect and a binary sentiment, such as opinion `staff is helpful' is annotated with `service' aspect and `positive' sentiment. }
+
+%\sout{For each sentence in the ABSA dataset, ABSA models generates two types of pairs to incorporate the domain knowledge into the alignment model $M_{ali}$: \textit{Sent-Opin} pairs and \textit{Sent-Sent} pairs.} 
+
+\noindent\textbf{Sent-Opinion Pairs:} \Ra uses $M_{align}$ to estimate alignment between review sentences and representative opinions (\S \ref{oe}). 
+To enable this learning, we construct \textit{alignment} samples for fine-tuning $M_{align}$ by pairing a sentence, $s$, from the ABSA dataset (X) with the representative opinion extracted from itself (Y) using the method described in \S \ref{oe}. 
+For \textit{neutral} pairs, the second sentence, Y, is a representative opinion obtained from other sentences that have the same sentiment as $s$ but discuss a different category. 
+For \textit{opposite} pairs, the second sentence, Y, is a representative opinion obtained from other sentences with the same category as $s$ but an opposite sentiment. 
+
+%\SCN{Is this correct? Shortening the content}
+\noindent\textbf{Sent-Sent Pairs:} \Ra also uses $M_{align}$ to estimate alignment between review sentences (\S \ref{cand}). 
+To enable this learning, we construct \textit{alignment} samples as before for neutral pairs and opposite pairs except that instead of pairing sentences (X) with representative opinions extracted from randomly sampled sentences, we pair them with the sampled sentences themselves (Y). For alignment pairs, the second sentence Y are a randomly sampled sentence with the same aspect and sentiment as X.
+% To enable this learning, we construct \textit{alignment} samples for fine-tuning $M_{align}$ by pairing a sentence, $s$, (X) with randomly sampled sentences with the same aspect and sentiment.  
+% For \textit{neutral} pairs, the second sentence, Y, is a randomly sampled sentence with a different aspect but with the same sentiment. 
+% For \textit{opposite} pairs, the second sentence, Y, is a randomly sampled sentence with the same aspect but opposite sentiment.
+
+%\SCN{I feel like both type1 and type 2 are similar. Type 1 is identical to Type 2 except that instead of sentences as Y, you have the corresponding representative opinion as Y. If this is true you can simply describe Type 2 first and then say that: \Ra also uses $M_{align}$ to estimate alignment between review sentences and representative opinions (\S \ref{oe}). To enable this learning, \Ra constructs another type of fine-tuning samples which are identical to the ones described above except that instead of the chosen sentence as Y, \Ra extracts the representative opinion using the method described in \S \ref{oe} and uses them as Y. IF YOU DO THIS, FIX THE FIGURE ACCORDINGLY. }
+
+%\sout{\noindent\textbf{Sent-Opin Pairs} Sent-Opin pairs are generated to guarantee that an review sentence aligns to the representative opinions extracted from itself. For these pairs, the first sentence is a sentence in the dataset and the second sentence is a representative opinion converted from an ABSA opinion as described in \S \ref{oe}. Suppose the first sentence is $s$. For alignment pairs, the second sentence is a representative opinion from $s$. For neutral pairs, the second sentence is a representative opinion randomly sampled from other sentences with the aspect not included by $s$ but the same sentiment. For opposite pairs, the second sentence is a representative opinion randomly sampled from other sentences with the aspect category included by $s$ but an opposite sentiment.} %\SCN{which opinions are you talking about? representative opinions or ABSA opinions? or are you talking about } from itself but does not entail other unrelated opinions. For these samples, the premise is $s$, the hypothesis is an opinion. For entailment samples, the hypothesis is $o_{s,i}$. For neutral samples, the hypothesis is an opinion randomly sampled from other sentences with an aspect category not included by $s$ but the same sentiment. For contradiction samples, the hypothesis is an opinion randomly sampled from other sentences with an aspect category included by $s$ but an opposite sentiment.
+
+%\sout{\noindent\textbf{Sent-Sent Pairs} Sent-Sent pairs are generated to incorporate aspect knowledge into $M_{align}$. For example, `shopping mall' is more related to `location' aspect rather than `food' aspect for hotel reviews. Suppose the first sentence is $s$. For alignment pairs, the second sentence is a randomly sampled sentence whose aspects are included by $s$ with the same sentiment. For neutral pairs, the second sentence is randomly sampled sentence whose aspects are not fully included by $s$ but with the same sentiment. For opposite samples, the second sentence is the sentence whose aspects are included by $s$ but with an opposite sentiment.
+
+%An example of generated samples is shown in Fig. \ref{fig:aug_sample}. \Ra then finetunes $M_{ali}$ on these two types of pairs to incorporate domain knowledge. }
+%\SC{At various stages in its processing, \Ra uses an entailment model $M_{align}$ to estimate relatedness between pairs of sentences. We use a model \cite{????} trained on an NLI dataset \cite{???} \SCN{insert some model details} as the base model for $M_{align}$. However, this model is not trained on the review domain and there is no in-domain supervision available for fine-tuning such a model. For this, \Ra automatically constructs NLI samples from a dataset from the review domain -- the ABSA dataset \cite{}. \SCN{NOW DESCRIBE THE ABSA DATASET. FIRST SAY WHAT IT IS FOR (E.G. A SENTIMENT ANALYSIS DATASET, NLI DATASET, TOXICITY DATASET ETC)? WHAT KIND OF DOMAIN IT COVERS? THEN SAY YOU USE SAMPLES FROM THE REVIEW DOMAIN. THEN  DESCRIBE THE FORMAT WITHOUT USING THE TERM OPINION. USE AN ALTERNATE NAME OR MAKE IT EXPLICIT THAT THIS OPINION IS DIFFERENT FROM OUR "REPRESENTATIVE OPINIONS". OR you can say that "to avoid confusion with our "representative opinions" we refer to these as "ABSA opinions"}. then say we convert these samples to NLI samples for fine-tuning Ment. specifically, we construct two types of samples: }
+%\sout{Opinion Extractior and Rationales Extractor of \Ra both use an entailment model $M_{align}$ to estimate relatedness. However, there is no in-domain supervision for finetuning $M_{rel}$.}
+%\SC{general comment that I provided in your ACL submission as well. In that submission as well as many places in this submission, you use symbols for variables instead of names hoping that the readers will remember symbols. Use names as well as  symbols like "there is no in-domain supervision for finetuning the entailment model, $m_e$" }
+%\SC{This discussion of previous work is abrupt. I don't know what these work use the fine-tuned models for. Can you avoid mentioning these works?} Previous works either use models finetuned on general-purpose datasets \cite{bar-haim-etal-2020-quantitative, shen-etal-2023-simple} or ABSA models \SC{reader has no idea what ABSA models or data are. You are using ABSA model as if it was the SVM or BERT. } finetuned in the same domain as reviews \cite{suhara2020opiniondigest, 10.1145/3539597.3570397}. 
+%To address these issues, \Ra converts samples from an ABSA dataset from the review domain to in-domain Natural Language Inference (NLI) samples to finetune $M_{align}$. Each sentence $s$ in the ABSA dataset is annotated with a list of opinions $\{o_{s,1},...,o_{s,s_n}\}$. %\SC{you are using the same symbol for "opinions" is it the same as the opinions in your problem statement? } 
+%Each opinion $o_{s,i}$ belongs to an aspect category and a binary sentiment, such as opinion `staff is helpful' belongs to `service' aspect category and `positive' sentiment. Each generated NLI sample contains a premise and a hypothesis and is labeled with either: entailment, neutral or contradiction. To incorporate domain knowledge into $M_{rel}$, \Ra generates two types of NLI samples:  
+
+%\SC{use heading wisely. In this subsection you have only two headings corresponding to the types of samples. Is it really THE most important thing in this section?}
+%\SCN{In the intro I wrote you augment the data but you don't really do that, do you?}
+%\SC{Do you take a trained NLI model and fine-tune it using artificially constructed examples? Please answer this question here. Which model is this? The ABSA dataset is used only to construct fine-tuning examples and not to train the original model, right?}
+%\SC{The following stuff is not clear to me at all. Use proper terminology. Use "opinions" carefully since it is overloaded. Use premise and hypothesis when talking about constructing the dataset. }
+ %\noindent\textbf{Opinion Samples} Opinion samples are generated to guarantee that sentence $s$ entails opinions \SCN{which opinions are you talking about? representative opinions or ABSA opinions? or are you talking about } from itself but does not entail other unrelated opinions. For these samples, the premise is $s$, the hypothesis is an opinion. For entailment samples, the hypothesis is $o_{s,i}$. For neutral samples, the hypothesis is an opinion randomly sampled from other sentences with an aspect category not included by $s$ but the same sentiment. For contradiction samples, the hypothesis is an opinion randomly sampled from other sentences with an aspect category included by $s$ but an opposite sentiment. %\SC{point to examples otherwise none of this is understandable}
+ 
+ %\noindent\textbf{Sentence Samples} Sentence samples are generated to incorporate aspect category knowledge. For example, `shopping mall' is more related to `location' rather than `food' for hotel reviews. For these samples, the premise is sentence $s$, and the hypothesis is another sentence from the ABSA dataset. For entailment samples, the hypothesis is the sentence whose aspect categories are included by $s$ with the same sentiment. For neutral samples, the hypothesis is the sentence whose aspect categories are not fully included by $s$ but with the same sentiment. For contradiction samples, the hypothesis is the sentence whose aspect categories are included by $s$ but with an opposite sentiment. \SC{What is the premise?}
+ 
+  %An example of generated samples is shown in Fig. \ref{fig:aug_sample}. \Ra then finetunes $M_{align}$ on these in-domain NLI samples. After finetuning, \Ra incorporates the domain knowledge into $M_{align}$ and get an in-domain entailment model. 
+
+
+
+\section{Empirical Evaluation}%\SCN{Rename this to Empirical Evaluation}
+%\SCN{It is a bad idea to have empty sections (consecutive headings). Say "In this section, we describe our experiments." }
+We now describe experiments to evaluate \Ra.
+\subsection{Implementation Detail} %\SCN{This section should appear before the dataset section}
+For the Opinion Extractor, \Ra uses SemAE \cite{basu-roy-chowdhury-etal-2022-unsupervised} as the extractive summarization model but our method is independent of this choice. We only assume the existence of extractive summaries. We also perform experiments on the extractive summaries generated by $\rm Hercules$ \cite{hosking-etal-2023-attributable} (Appendix \ref{sec:hercules_experiment}). % that is trained on the train sets to extract summarizing review sentences. 
+From the summarizing review sentences,  \Ra uses Snippext \cite{miao2020snippext} as the ABSA model to extract representative opinions.
+
+For the Rationales Extractor, to accelerate the calculation of the alignment probability, $p_{align}$, we use a sentiment classification model \cite{barbieri-etal-2020-tweeteval}. Specifically, when the two input sentences do not have the same sentiment label, we directly set their $p_{align}$ to $0$. 
+When extracting rationales, we extract clauses instead of full sentences since we find clauses are more specific to representative opinions than full sentences. We describe the process of dividing sentences into clauses in the appendix \ref{segment}. 
+We also filter out rationale candidate set $C$ with less than five sentences. 
+When estimating popularity $pop(s)$, we use the default TextRank for an undirected graph to estimate the centrality of the node. 
+For estimating $spec(s)$, we finetune a DeBERTa-base \cite{hedeberta} model on the specificity dataset for 3 epochs with the learning rate as 2e-5 and batch size as 32. The weight of the diversity term $\gamma$ is 0.1. As for Gibbs Sampling, $\eta$ is 100 and $\theta$ is 200. When sampling from the conditional probability, we set the temperature of Softmax as 0.01.
+
+For the alignment model $M_{align}$, we use one alignment models for the Space data and the Yelp dataset respectively. We first perform domain adaptation using sentences sampled from the corresponding train sets 
+on RoBERTa-large \cite{liu2019roberta} following steps described in \citet{bar-haim-etal-2021-every}. To generate in-domain pairs to finetune the alignment model $M_{align}$,  aside from sentences in the corresponding ABSA dataset, we additionally sample sentences from the corresponding train set to create a dataset containing 7,000 sentences. The annotations of the sampled sentences are predicted by the same ABSA model that \Ra uses for the Opinion Extractor. For each sentence, we generate one Sent-Opinion pairs and Sent-Sent pairs for each label.
+%We generate one sentence sample with each label for each sentence in the in-domain dataset, while we generate one opinion \SCN{you mean representative opinion?} sample with each label for half of the sentence in the domain-dataset. \SCN{what is "domain-dataset"?} \SCN{I think you should remove this sentence. It will raise questions. }
+We then perform down-sampling to create a dataset containing 24K samples for the Space data and the Yelp dataset respectively and use about 20K of them for training. We use the remaining samples for validation. %\SCN{what do you do with the remaining 24093-20385?}
+The size of the dataset matches the size of ArgKP dataset \cite{bar-haim-etal-2020-arguments} for the fair comparison we described in \S \ref{sec:ent_eval}. 
+We then finetune $M_{align}$ on the in-domain datasets for 3 epochs with the learning rate as 1e-5 and batch size as 32. 
+
+\subsection{Dataset}
+
+
+We perform the experiments on the Space dataset \cite{angelidis2021extractive} and the Yelp dataset\footnote{https://www.yelp.com/dataset}. %\SCN{Do not have the URL as a footnote. See how to create a bib entry with the URL and use that. } 
+For the Space dataset, we held out randomly sampled $250$ entities with $100$ reviews each as the test set. The remaining data was used for training and development. %\SCN{These 2 sentences are difficult to read. You have used "the development set" twice. Similarly in the next sentence you use train too many times. Also, people will ask you why you use the original test set for development? Shouldn't you have used the same test set for consistency with other papers? You don't have the time to fix it now but in the next iteration, use the standard test set. Such changes are simply irritating. Here is a clearer rephrasing based on my understanding. Compare it to your phrasing: For the Space dataset, we held out randomly sampled $250$ entities with $100$ reviews each as the test set. The remaining data was used for training and development. } %\SCN{I read your email but I would still suggest using my phrasing.}
+For the Yelp dataset, we perform cleaning and downsampling (Appendix \ref{sec:prep_yelp}) %\SCN{what is "STANDARD cleaning and downsampling"? Do you have a citation?} 
+and only retain entities whose categories contain `restaurant'. From these entities, we sample $50$ and $250$ entities with $100$ reviews each as the development set and the test set respectively. The statistics of datasets are shown in Appendix Table \ref{tab:dataset_stat}. %For these two datasets, we 
+We tune the hyperparameters on the development sets and report the performance on the test sets. %\SCN{"unless otherwise specified": can you point me to the part where it is indeed otherwise specified?} 
+
+To finetune the ABSA model used in Opinion Extractor and produce fine-tuning samples for $M_{align}$, we use the ABSA dataset in the hotel domain %~\cite{miao2020snippext} 
+for the Space dataset, and ACOS-restaurant dataset~\cite{cai-etal-2021-aspect} for the Yelp dataset. 
+
+
+%\SC{DESCRIBE THE MAIN RESULTS FIRST AND THE $M_{align}$ EVALUATION SHOULD BE AN ANALYSIS OR ADDITIONAL EXPERIMENT.}
+
+\subsection{Rationale-based Summary Evaluation}
+\label{sec:summary}
+We compare rationale-based opinion summaries generated by \Ra with conventional summaries generated by a state-of-the-art opinion summarization model, SemAE \cite{basu-roy-chowdhury-etal-2022-unsupervised} using human evaluation. We ask annotators to compare the two types of summaries in a pairwise manner based on four criteria: which summary includes more information (\textit{informativeness}), which summary contains less repeated phrases (\textit{non-redundancy}), which summary is easier to read (\textit{coherence}), and which summary is more useful for decision making (\textit{usefulness}). We randomly sample 25 entities each from the test sets of the Space dataset and the Yelp dataset and generate 100-word summaries for each entity using \Ra and SemAE. Each pair of summaries is annotated by three annotators recruited from Amazon Mechanical Turk (AMT). The human annotators are required to be in the United States, have HIT Approval Rate greater than 98, and be AMT masters. Fig.~\ref{fig:human_eval2} in the Appendix shows a screenshot of our setup. %\SC{you need to say something more about the annotators. Any filtering on the number of annotations they can do, geographical constraints?} 
+In Table \ref{tab:summ_comp}, we report the win rates of \Ra, the win rates of SemAE, and the tie rates between the two on the four criteria: informativeness, non-redundancy, coherence, and usefulness.
+%\SC{It is not clear to me what numbers are you reporting? You have number of wins/losses/ties for each dataset for \Ra, right? Check Somnath's paper or Anvesh's paper here: https://arxiv.org/pdf/2211.00676.pdf  } \SCN{Are these results statistically significant? You need to report that number because you only have 25 entities.} \SCN{provide a screenshot of the experiment in the Appendix.}
+
+
+%\SCN{comment on statistical significance of the results}
+\begin{table}[]
+\centering
+\small
+\begin{tabular}{lcccc}
+\hline
+       & Info. & Non-Redun.    & Cohe.         & Use.          \\ \hline
+       & \multicolumn{4}{c}{Space}                             \\
+\Ra & 0.52  & \textbf{0.88} & \textbf{0.84} & \textbf{0.68} \\
+SemAE  & 0.32  & 0.04          & 0.12          & 0.28          \\
+Tie    & 0.16  & 0.08          & 0.04          & 0.04          \\ \hline
+       & \multicolumn{4}{c}{Yelp}                              \\
+\Ra & 0.36  & \textbf{1.00} & \textbf{0.68} & \textbf{0.56} \\
+SemAE  & 0.36  & 0.00          & 0.04          & 0.2           \\
+Tie    & 0.28  & 0.00          & 0.28          & 0.24 \\ \hline         
+\end{tabular}
+\caption{Human comparison of rationale-based opinion summaries generated by \Ra with conventional summaries generated by SemAE. \textbf{Bold} numbers indicate significant differences ($p$<0.05, paired bootstrap resampling \cite{koehn-2004-statistical}). Rationale-based opinion summaries outperform conventional opinion summaries on non-redundancy, coherence, and usefulness. }
+\label{tab:summ_comp}
+\end{table}
+
+
+
+From the table, we can see that rationale-based summaries perform significantly better on non-redundancy, coherence, and usefulness %while slightly better on informativeness 
+than conventional summaries. Rationale-based summaries do not perform very well on informativeness because they pair each representative opinion with rationales. %\sout{Therefore, rationale-based summaries might not cover some representative opinions because of the length limit. However, the rationale-based opinion summaries significantly outperform the conventional summaries in other three criteria, suggesting the rationale-based opinion summaries are less redundant, easier to read, and more useful for decision-making.} 
+ Therefore, while they provide more information per representative opinion, they understandably do not cover all opinions expressed in the conventional summaries because of the length limit. This can easily be fixed by increasing the length limit. We also perform error analysis of the summaries generated \Ra (Appendix \ref{sec:error}). Overall, the experiments indicate that rationale-based summaries are less redundant, easier to read, and more useful for decision-making. 
+
+\subsection{Rationale Evaluation}
+\label{sec:ration}
+We evaluate the extracted rationales using automatic (\S \ref{auto}) and human measures (\S \ref{human}).
+\subsubsection{Automatic Evaluation}
+\label{auto}
+We use the following four automatic measures for evaluating rationales for a given opinion.
+
+%To measure \textbf{relatedness} between the rationales and the corresponding representative opinion, ($emb_{rel}$), we use the cosine similarity of their sentence embeddings obtained using SimCSE \cite{gao2021simcse}. $emb_{rel}$ is the average of the similarity between the representative opinion and each of its rationales. 
+To measure \textbf{relatedness} between the rationales and the corresponding representative opinion, $emb_{rel}$, we use the average cosine similarity between the sentence embeddings (obtained using SimCSE \cite{gao2021simcse}) of the representative opinion and each of its rationales. 
+
+
+To measure \textbf{specificity}, $key_{spec}$, we use TF-IDF-based keywords. For this, we concatenate all review sentences belonging to the same rationale candidate set and calculate TF-IDF scores based on the concatenated sentences from each rationale candidate set of an entity. For each rationale candidate set, we extract five words with the highest TF-IDF scores that are not part of the representative opinions as the keywords. These keywords represent the popular details about the representative opinion but are not directly present in it. Given a set of rationales, $key_{spec}$ is the sum of TF-IDF scores of the keywords covered by that set divided by the sum of TF-IDF scores of all keywords. 
+
+To measure \textbf{popularity}, $key_{pop}$, we consider the fraction of rationales' tokens that are keywords. Given a set of rationales, $key_{pop}$ is the sum of TF-IDF scores of the keywords covered by them divided by the sum of TF-IDF scores of all tokens present in the rationales. 
+
+To measure \textbf{diversity} among the rationales, ($emb_{div}$), we use one minus the average pairwise cosine similarity of their sentence embeddings.
+
+
+%\SC{Commenting out the following content}
+% We design four automatic metrics, which corresponds to four properties of good rationales: relatedness, specificity, popularity, and diversity.
+
+% \noindent\textbf{Relatedness} We measure the relatedness between the representative opinion and its rationales based on the cosine similarity of their sentence embedding ($emb_{rel}$). To obtain the sentence embebbing for representative opinions and review sentences, we use SimCSE \cite{gao2021simcse}. $emb_{rel}$ is the average of the similarity between the representative opinion and its each rationales.
+
+% \noindent\textbf{Specificity} We use the ratio of keywords covered by rationales to measure the specificity ($key_{spec}$). To obtain keywords, we concatenate all review sentences belonging to the same rationale candidate set and calculate TF-IDF based on the concatenated sentences from each rationale candidate set of an entity. For each rationale candidate set, we extract five words with top TF-IDF scores that is not part of the opinions as the keywords. We assume these keywords represents the popular details. $key_{spec}$ is calculated as the sum of TF-IDF scores of the keywords covered by the rationales divided by the sum of TF-IDF scores of all keywords. 
+
+% \noindent\textbf{Popularity} We use the ratio of rationale's words that are keywords to measure the popularity ($key_{pop}$). The keywords are obtained the same way as specificity. $key_{pop}$ is calculated as the sum of TF-IDF scores of the keywords covered by the rationales divided by the sum of TF-IDF scores of all words of rationales. 
+
+% \noindent\textbf{Diversity}  We measure the diversity among rationales based on the cosine similarity of their sentence embedding ($emb_{div}$). To obtain sentence embedding, we use SimCSE \cite{gao2021simcse}. $emb_{div}$ is the average of the cosine similarity between all pairs of rationales.
+
+Based on these four measures, we compare \Ra with its variants: \Ra (w/o X). \Ra (w/o X) represents a variant of \Ra that does not consider X for the probability of being rationales (Eqn. \ref{eq:prob}). We also compare \Ra with InstructGPT~\cite{ouyang2022training} version `gpt-3.5-turbo-0613', and two extractive opinion summarization models: SemAE~\cite{basu-roy-chowdhury-etal-2022-unsupervised} and TokenCluster~\cite{li2023aspect}. 
+To extract rationales using InstructGPT, we provide a representative opinion and its corresponding rationale candidate set as input and prompt IntructGPT to extract a predefined number of rationales from the rationale candidate set. The prompt also describes the four desirable properties of rationales (shown in Appendix \ref{sec:instruct}). %\SCN{You describe the input but never say that you ask the model to output blah. Say To extract rationales using X, we provide the A and B as input, and prompt X to select one of input rationale candidates. The instructions also describe the four desirable properties of...}
+%\textcolor{red}{To extract rationales using SemAE and TokenCluster, we feed the rationale candidate set of a representative opinion into these models and use these models to extract a conventional opinion summary with a predefined number of sentences from the rationale candidate set. We treat each sentence of the conventional opinion summary as a rationale of the representative opinion. Since SemAE and TokenCluster are summarization models and do not consider relatedness and specificity, the comparison might not be fair, and we use InstructGPT as the primary baseline.} 
+To extract rationales using SemAE and TokenCluster, we provide the rationale candidate set of a representative opinion as input and use these models to extract a conventional opinion summary of the candidates set with a predefined number of sentences. We treat each sentence of the summary as a rationale for the representative opinion. We use these models as baselines because they can extract popular information from the input. However, they do not consider other aspects of rationale extraction, so the comparison is unfair to them. Therefore, we treat InstructGPT as the primary baseline in this experiment.
+%\SC{This is not clear at all. You mention the input but not the output. Also, these are summarization models, how do you use them for rationale selection? Why does this choice make sense? Answer: I did not think this choice makes sense. However, two reviewers were unsatisfied because we only include InstructGPT as the only baseline. To address this, in rebuttal, we include experiments with these two models as baselines}
+%\SC{You still need to clarify what is input and output. and some justification. You can note that the models are summarization models and this comparison is not fair and so instructgpt is your primary baseline.}%\sout{The instructions describe the four desirable properties of rationales (Appendix).} 
+%\SCN{Point to table/figure/section number in the appendix}  
+We evaluate in two different settings: k=1 and k=3, where k is the number of rationales extracted for each representative opinion. The results are shown in Table \ref{tab:auto}. In addition to the four measures, we also report an \textit{Overall} score which is the average of normalized values ($[0,1]$) of these measures. 
+
+%Based on these four metrics, we compare the rationales generated by \Ra with the rationales generated by its variants. \Ra (w/o X) suggests the variant of \Ra that does not consider X for the probability of being rationales (Eqn. \ref{eq:prob}).  We also use InstructGPT~\cite{ouyang2022training} whose version is `gpt-3.5-turbo-0613' to extract rationales. The input to InstructGPT is the representative opinion and the corresponding rationale candidate set. The instructions describe the four desirable properties of rationales (Appendix). To balance the impact of different metrics, we normalize these metrics to $[0,1]$ among all baselines and use the average of these normalized metrics to evaluate the overall quality of rationales. We evaluate rationales when one rationale is extracted for each representative opinion (k=1) or three rationales are extracted (k=3). The results are shown in Table \ref{tab:auto}.
+
+\begin{table}[t]
+\centering 
+\resizebox{0.47\textwidth}{!}{
+\begin{tabular}{lccccc}
+\hline
+            & $emb_{rel}$ & $key_{spec}$ & $key_{pop}$ & $emb_{div}$ & Overall \\ \hline
+            & \multicolumn{5}{c}{Space (k=1)}             \\
+\Ra          &   0.422      & 0.217     & 0.224    &    -    & 0.710  \\
+~~~w/o $rel$      & 0.423        & 0.223     & 0.225    &  -    & \textbf{0.740}    \\
+~~~w/o $spec$     & 0.555        & 0.147     & 0.208    &   -   & 0.559   \\
+~~~w/o $pop$       & 0.369         & 0.195     & 0.193    &  -   &  0.445   \\
+InstructGPT &  0.586        & 0.139     & 0.129    &   -    &  0.294 \\ 
+SemAE & 0.615 & 0.165 & 0.191 & -  & 0.650 \\
+TokenCluster & 0.610 & 0.142 & 0.177 & - & 0.505 \\
+\hdashline
+            & \multicolumn{5}{c}{Space (k=3)}             \\
+\Ra          &   0.414       & 0.498     & 0.224    &  0.580   &    \textbf{0.730} \\
+~~~w/o $rel$       & 0.415         & 0.499     & 0.223    &  0.575   &  0.724   \\
+~~~w/o $spec$       &  0.508        & 0.420     & 0.222    & 0.528   & 0.625     \\
+~~~w/o $pop$        &  0.377        & 0.465     & 0.203    &  0.627  &  0.508    \\
+~~~w/o $div$       &   0.418       & 0.487     & 0.226    &   0.564   & 0.716    \\ 
+InstructGPT        &   0.501       & 0.438 &   0.193 
+     & 0.530  &  0.434 \\ 
+SemAE & 0.593 & 0.374 &  0.215 & 0.349 & 0.413 \\
+TokenCluster & 0.563 & 0.400 & 0.204 & 0.424 & 0.417 \\ \hline
+            & \multicolumn{5}{c}{Yelp (k=1)}              \\
+\Ra          &  0.358        & 0.202     & 0.233    &  -    &  \textbf{0.718}  \\
+~~~w/o $rel$        & 0.372         & 0.201     & 0.226    &  -   & 0.713    \\
+~~~w/o $spec$      &  0.469        & 0.154     & 0.208    & -   &  0.626    \\
+~~~w/o $pop$      &  0.313        & 0.180     & 0.198    &  -   & 0.504    \\
+InstructGPT     &   0.604       & 0.095      & 0.111    &  -  &  0.333    \\ 
+SemAE & 0.599 & 0.116 & 0.148 & - & 0.497 \\ 
+TokenCluster & 0.581 & 0.128 & 0.159 & - & 0.541 \\ \hdashline
+            & \multicolumn{5}{c}{Yelp (k=3)}              \\
+\Ra          &  0.337        & 0.473     & 0.227    &   0.619    & \textbf{0.734}  \\
+~~~w/o $rel$       & 0.347         & 0.472     & 0.225    & 0.601    &  0.710   \\
+~~~w/o $spec$      &  0.408        & 0.435     & 0.226    & 0.609    & 0.732     \\
+~~~w/o $pop$       &  0.323        & 0.449     & 0.203    &  0.641   & 0.588    \\
+~~~w/o $div$       &  0.345       & 0.455     & 0.228    &  0.596   &  0.691  \\ 
+InstructGPT &  0.444        & 0.396     & 0.194    &   0.597    &  0.537 \\ 
+SemAE & 0.544 & 0.331 & 0.176 & 0.430 & 0.250 \\ 
+TokenCluster & 0.508 & 0.370 & 0.182 & 0.488 & 0.380 \\ \hline
+\end{tabular}}
+\caption{Automatic evaluation of rationales on Space and Yelp datasets with one (k=1) and three (k=3) rationales extracted per representative opinion. Considering the four measures and their \textit{overall} values, \Ra extracts the best rationales. }
+\label{tab:auto}
+\end{table}
+
+% \begin{table}[]
+% \centering 
+% \resizebox{0.47\textwidth}{!}{
+% \begin{tabular}{lccccc}
+% \hline
+%             & $emb_{rel}$ & $key_{spec}$ & $key_{pop}$ & $emb_{div}$ & Overall \\ \hline
+%             & \multicolumn{5}{c}{Space(k=1)}             \\
+% \Ra          &   0.422(0.242)       & 0.217(0.922)     & 0.224(0.996)    &    -    & 0.720  \\
+% ~~~w/o $rel$      & 0.423(0.249)         & 0.223(1.000)     & 0.225(1.000)    &  -    & \textbf{0.750}    \\
+% ~~~w/o $spec$     & 0.555(0.856)         & 0.147(0.096)     & 0.208(0.825)    &   -   & 0.592   \\
+% ~~~w/o $pop$       & 0.369(0.000         & 0.195(0.668)     & 0.193(0.667)    &  -   &  0.445   \\
+% InstructGPT &  0.586(1.000)        & 0.139(0.000)     & 0.129(0.000)    &   -    &  0.333 \\  \hdashline
+%             & \multicolumn{5}{c}{Space(k=3)}             \\
+% \Ra          &   0.414(0.279)       & 0.498(0.990)     & 0.224(0.891)    &  0.580(0.528)   &    \textbf{0.672} \\
+% ~~~w/o $rel$       & 0.415(0.288)         & 0.499(1.000)     & 0.223(0.865)    &  0.575(0.480)   &  0.658   \\
+% ~~~w/o $spec$       &  0.508(1.000)        & 0.420(0.000)     & 0.222(0.835)    & 0.528(0.000)   & 0.459     \\
+% ~~~w/o $pop$        &  0.377(0.000)        & 0.465(0.567)     & 0.203(0.000)    &  0.627(1.000)  &  0.392    \\
+% ~~~w/o $div$       &   0.418(0.311)       & 0.487(0.850)     & 0.226(1.000)    &   0.564(0.362)   & 0.631    \\ \hline
+%             & \multicolumn{5}{c}{Yelp(k=1)}              \\
+% \Ra          &  0.358(0.154)        & 0.202(1.000)     & 0.233(1.000)    &  -    &  \textbf{0.718}  \\
+% ~~~w/o $rel$        & 0.372(0.202)         & 0.201(0.992)     & 0.226(0.946)    &  -   & 0.713    \\
+% ~~~w/o $spec$      &  0.469(0.538)        & 0.154(0.547)     & 0.208(0.794)    & -   &  0.626    \\
+% ~~~w/o $pop$      &  0.313(0.000)        & 0.180(0.797)     & 0.198(0.716)    &  -   & 0.504    \\
+% InstructGPT     &   0.604(0.000)       & 0.095(0.000)      & 0.111(0.000)    &  -  &  0.333    \\ \hdashline
+%             & \multicolumn{5}{c}{Yelp(k=3)}              \\
+% \Ra          &  0.337(0.171)        & 0.473(1.000)     & 0.227(0.936)    &   0.619(0.521)    & \textbf{0.657}  \\
+% ~~~w/o $rel$       & 0.347(0.278)         & 0.472(0.966)     & 0.225(0.853)    & 0.601(0.109)    &  0.551   \\
+% ~~~w/o $spec$      &  0.408(1.000)        & 0.435(0.000)     & 0.226(0.912)    & 0.609(0.286)    & 0.550     \\
+% ~~~w/o $pop$       &  0.323(0.000)        & 0.449(0.358)     & 0.203(0.000)    &  0.641(1.000)   & 0.339    \\
+% ~~~w/o $div$       &  0.345(0.258)        & 0.455(0.521)     & 0.228(1.000)    &  0.596(0.000)   &  0.445  \\ \hline
+% \end{tabular}}
+% \caption{Automatic evaluation of rationales. We evaluate rationales when one rationale is extracted for each representative opinion (k=1) or three rationales are extracted (k=3). Values in bracket are normalized metrics used to evaluate overall quality of rationales. The best overall quality are in \textbf{bold}. \Ra considering all four properties generates best rationales. }
+% \label{tab:auto}
+% \end{table}
+
+From the table, we can observe that in general, rationales generated by \Ra outperform rationales generated by its variants considering the overall quality. This indicates that all terms in the probablity function (Eqn. \ref{eq:prob}) are important for extracting good rationales. For InstructGPT, we observe that although the instructions ask it to extract rationales with lots of details, some of the extracted rationales are paraphrases of the representative opinions, which is indicated by high $emb_{rel}$ but poor $key_{spec}$. We provide more discussion of rationales generated by InstructGPT in Appendix \ref{sec:instruct_rationale}.
+
+%From the table, we can observe that rationales generated by \Ra outperform rationales generated by its variants considering the overall quality except for just extracting one rationale on the Space dataset. The results show that all terms in the probablity function (Equation \ref{eq:prob}) are beneficial for extracting good rationales. \Ra also outperforms InstructGPT. We find that although in the instruction we ask IntructGPT to extract rationales with lots of details, some rationales extracted by it are the paraphrases of the representative opinions, which is also shown by high $emb_{rel}$ but poor $key_{spec}$.
+
+%\SC{This section is difficult to understand because of too many variables. Rewrite with as few variables as possible. When you use variables, use their names as well as symbols so that this part becomes understandable. }
+%$key_f$ is based on the number of keywords that belong to rationales but not opinions. The assumption is that if rationales contain more such keywords, they will contain more specific, popular details related to the opinion. To perform keyword extraction, we first perform the default preprocessing on all $s_j$ belonging to any $c_i$ and $o_j$ belonging to any $g_i$: tokenization using spaCy \cite{Honnibal_spaCy_Industrial-strength_Natural_2020}, lemmatization and removing stopwords using nltk \cite{bird2009natural}, and removing too frequent word or too rare words using gensim \cite{rehurek_lrec}. We then calculate TF-IDF for each $c_i$ using gensim by treating all $s_j\in c_i$ as a single document. For each $c_i$, we exclude words belonging to any $o_j \in g_i$ and obtain 5 words with top TF-IDF from the remaining words. We denote these keywords as $k_i$. $k_{i}$ represents contents that are popular among $c_i$ and not repetitive regard to $g_i$. We show samples of these keywords in Table \ref{tab:keyword}. 
+
+
+
+
+
+\subsubsection{Human Evaluation}
+\label{human}
+We also conduct a human evaluation of the rationales generated by \Ra and InstrutGPT \cite{ouyang2022training} for a given representative opinion. We randomly sample $50$ representative opinions each from the entities belonging to the test sets of the Space dataset and the Yelp dataset and generate three rationales for each representative opinion using \Ra and InstructGPT. Each pair of rationale sets is evaluated by three annotators recruited from Amazon Mechanical Turk. The annotator details are same as in Sec.~\ref{sec:summary}.
+We ask annotators to compare the two rationale sets in a pairwise manner based on three properties: relatedness, specificity, and diversity. Fig.~\ref{fig:human_eval} of the Appendix shows our setup. In Table \ref{tab:ration_comp}, we report the win rate of \Ra, the win rate of InstructGPT, and the tie rate between the two on the three properties.
+
+%\SCN{In all tables, make sure that you report results up to n decimal points where n can be 1 or 2 but be consistent. Here  you use 14.29 as well as 31.2.}
+\begin{table}[]
+\centering
+\begin{tabular}{lccc}
+\hline
+            & Rel. & Spec.         & Div.          \\ \hline
+            & \multicolumn{3}{c}{Space}            \\
+\Ra      & 0.34 & 0.40          & \textbf{0.42} \\
+InstructGPT & 0.34 & 0.30          & 0.22          \\
+Tie         & 0.32 & 0.30          & 0.36          \\ \hline
+            & \multicolumn{3}{c}{Yelp}             \\
+\Ra     & 0.26 & \textbf{0.56} & \textbf{0.64} \\
+InstructGPT & 0.38 & 0.08          & 0.10          \\
+Tie         & 0.36 & 0.36          & 0.26          \\ \hline
+\end{tabular}
+\caption{Human evaluation of rationales generated by \Ra and InstructGPT. % for the same opinion. 
+\textbf{Bold} indicates significant differences ($p$<0.05, paired bootstrap resampling). \Ra outperforms InstructGPT on specificity and diversity and is comparable to it on relatedness}. %\SC{why do you have so many 0s in this table? What does that mean?} \SC{comment on statistical significance of the results}
+\label{tab:ration_comp}
+\end{table}
+We can see from the table that \Ra outperforms InstructGPT on specificity and diversity. % but not on relatedness. %\sout{\Ra does not perform well on relatedness since both models extract rationales from the corresponding rationale candidate set. Since most review sentences belonging to the rationale candidate set are already related to its representative opinion, it is understandable that both systems do not have much difference in relatedness.} 
+%\SCN{I guess you are trying to say that there was a tie for relatedness but that is not clear. See my phrasing. I commented out your phrasing} 
+For relatedness, both systems were judged to be comparable. Since most review sentences belonging to the rationale candidate set are already quite related to the representative opinion, it is understandable that both systems do not have much difference in relatedness. Overall, the experiments indicate that rationales extracted by \Ra are more specific and diverse than InstructGPT.
+
+\subsection{Rationale Candidate Set Evaluation}
+\label{sec:ent_eval}
+
+\begin{table}[t!]
+\centering
+\resizebox{0.48\textwidth}{!}{
+\begin{tabular}{lcccc}
+\hline
+         & \textit{Silh}     & \textit{NPMI}           & \textit{SC}           & Overall  \\ \hline
+         & \multicolumn{4}{c}{Space}                           \\
+$\rm RoBERta_{mnli}$   & 0.089 & -0.061 & 0.970 & 0.779 \\
+$\rm KPA$      & 0.134 & -0.059 & 0.962 & 0.836 \\
+$\rm Snippext$     & 0.108 & -0.103 & 0.934 & 0.265 \\
+$\rm Hercules$ & 0.009 & -0.042 & 0.943 & 0.415 \\
+\Ra   & 0.119 & -0.051 & 0.969 & \textbf{0.906} \\ \hline
+         & \multicolumn{4}{c}{Yelp}                            \\ 
+$\rm RoBERta_{mnli}$     & 0.015 & -0.210 & 0.956 & 0.530 \\
+$\rm KPA$      & 0.035 & -0.208 & 0.934 & 0.758 \\
+$\rm Snippext$     & 0.039 & -0.265 & 0.805 & 0.318 \\
+\Ra   & 0.040 & -0.171 & 0.934 & \textbf{0.953} \\ \hline
+\end{tabular}}
+\caption{Automatic evaluation of rationale candidate sets. Considering the three measures and their overall scores, \Ra generates rationale candidates of better quality than the baselines. }
+\label{tab:seteval}
+\end{table}
+
+% \begin{table}[t!]
+% \centering
+% \resizebox{0.48\textwidth}{!}{
+% \begin{tabular}{lcccc}
+% \hline
+%          & \textit{Silh}     & \textit{NPMI}           & \textit{SC}           & Overall  \\ \hline
+%          & \multicolumn{4}{c}{Space}                           \\
+% $\rm RoBERta_{mnli}$   & 0.089(0.645) & -0.061(0.693) & 0.970(1.000) & 0.779 \\
+% $\rm KPA$      & 0.134(1.000) & -0.059(0.719) & 0.962(0.787) & 0.836 \\
+% $\rm Snippext$     & 0.108(0.795) & -0.103(0.000) & 0.934(0.000) & 0.265 \\
+% $\rm Hercules$ & 0.009(0.000) & -0.042(1.000) & 0.943(0.244) & 0.415 \\
+% \Ra   & 0.119(0.881) & -0.051(0.859) & 0.969(0.979) & \textbf{0.906} \\ \hline
+%          & \multicolumn{4}{c}{Yelp}                            \\ 
+% $\rm RoBERta_{mnli}$     & 0.015(0.000) & -0.210(0.590) & 0.956(1.000) & 0.530 \\
+% $\rm KPA$      & 0.035(0.801) & -0.208(0.610) & 0.934(0.862) & 0.758 \\
+% $\rm Snippext$     & 0.039(0.955) & -0.265(0.000) & 0.805(0.000) & 0.318 \\
+% \Ra   & 0.040(1.000) & -0.171(1.000) & 0.934(0.858) & \textbf{0.953} \\ \hline
+% \end{tabular}}
+% \caption{Rationale candidate set evaluation using automatic metrics. Values in bracket are normalized metrics used to evaluate overall quality of rationale candidate sets. The Best overall performance are in \textbf{bold}. \Ra generates rationale candidates of better quality compared with the baselines. }
+% \label{tab:seteval}
+% \end{table}
+
+\Ra extracts rationales for a representative opinion from a rationale candidate set instead of all review sentences. In this experiment, we evaluate the goodness of this set by comparing it with adaptations of previous works that match a group of review sentences to summary sentences. 
+%\sout{To evaluate the performance of the alignment model $M_{align}$, we compare $M_{align}$ with matching models that  previous works }\cite{suhara2020opiniondigest,bar-haim-etal-2021-every,hosking-etal-2023-attributable, louis-maynez-2023-opinesum} \sout{use to match a group of review sentences to summary sentences. Specifically, we compare the of rationale candidate sets generated by $M_{align}$ with the rationale candidates generated by the matching models in the framework of \Ra.}
+%Rationale candidates extracted by \Ra relates to previous works \cite{suhara2020opiniondigest,bar-haim-etal-2021-every,hosking-etal-2023-attributable, } that match a group of review sentences to a summary sentence.  
+
+For this evaluation, we use three automatic measures. First, we view each rationale candidate set as a cluster of sentences and evaluate the clustering quality. We report Silhouettes scores \cite{rousseeuw1987silhouettes} (\textit{Silh}) based on the cosine similarity of the sentence embeddings. Second, we borrow measures from topic modeling to compute coherence of the sets using TF-IDF scores of tokens for coherence. Third, we also report the entailment score (\textit{SC}) between the concatenation of all candidates in a rationale candidate set and the corresponding representative opinion as predicted by SummaC \cite{laban2022summac}. 
+
+%\sout{Third, to evaluate the relatedness of rationale candidate sets to their corresponding representative opinions, we concatenate all review sentences belonging to $C_i$ as a document. We report the entailment score  (\textit{SC}) between the document and its corresponding representative opinion predicted by SummaC} \cite{laban2022summac}.
+
+%\SC{Make sure that you map each baseline to the corresponding citation. BTW, if you use a previous model, why do all baselines start with \Ra. It gives an impression that all they are not real baselines but just ablations of your model. }
+
+%\SC{Following description is too wordy. You might not have space for it. Use the following:}
+We compare \Ra with four baseline models: $\rm RoBERta_{mnli}$, $\rm KPA$, $\rm Snippext$, and $\rm Hercules$. $\rm RoBERta_{mnli}$ \cite {louis-maynez-2023-opinesum} uses a RoBERta-large \cite{liu2019roberta} finetuned on the MNLI dataset \cite{N18-1101} to match reviews to `propositions'. $\rm KPA$ \cite{bar-haim-etal-2021-every} uses a domain adapted RoBERta-large that is then finetuned on ArgKP dataset \cite{bar-haim-etal-2020-arguments} to match review sentences to `key points'. $\rm Snippext$ \cite{miao2020snippext} is trained on ABSA datasets to estimate the aspect and the sentiment distributions for each opinion and then uses similarity between these distributions to cluster `opinions'.  $\rm Hercules$ \cite{hosking-etal-2023-attributable} generates a path on a tree for each review sentence and summary and then uses path similarity to match review sentences to summary sentences. We use these models to estimate alignment between representative opinions and review sentences (details in Appendix \ref{sec:detail_candidate}), and generate rationale candidate sets accordingly as in \S \ref{cand}. 
+%\SCN{The following sentence is problematic and will raise several follow-up questions: why 8? why 30? why not hercules. I suggest commenting this out.} For a fair comparison, we extract an average of $8$ rationale candidate sets for each entity and all rationale candidate sets on average cover $30\%$ of review sentences except for $\rm Hercules$. 
+Because of the different ranges of these measures, we normalize these measures to $[0,1]$ among all baselines and use the average of these normalized metrics to evaluate the overall quality of rationale candidate sets. 
+%The results are reported in Table \ref{tab:seteval}.
+The results are shown in Table \ref{tab:seteval}. In addition to the three measures, we also report an \textit{Overall} score which is the average of normalized values ($[0,1]$) of these measures. 
+
+From the table, we can observe that the rationale candidate sets generated by \Ra have the best overall performance. The result shows the effectiveness of the in-domain pairs we created to finetune the alignment model.
+
+%We compare \Ra with four baseline models: $\rm RoBERta_{mnli}$, $\rm KPA$, $\rm Snippext$, and $\rm Hercules$. $\rm RoBERta_{mnli}$ uses RoBERta-large \cite{liu2019roberta} finetuned on the MNLI dataset \cite{N18-1101}. $\rm RoBERta_{mnli}$ then uses the finetuned model to estimate the alignment probability. \cite{louis-maynez-2023-opinesum} uses such model to match reviews to propositions. 
+
+%$\rm KPA$ uses RoBERta-large \cite{liu2019roberta} as the base model and performs the same domain adaptation as \Ra. The model is then finetuned on ArgKP dataset. $\rm KPA$ then uses the finetuned model to estimate the alignment probability. \cite{bar-haim-etal-2021-every} uses such model to match review sentences to key points. 
+
+%$\rm Snippext$ uses the ABSA model \cite{miao2020snippext}. $\rm Snippext$ estimates the aspect distribution and the sentiment distribution for each representative opinion and review sentence based on the ABSA model. $\rm Snippext$ then estimates the alignment probability as the product of the cosine similarity of aspect distribution and the sentiment distribution between representaitive opinions and review sentences. \cite{suhara2020opiniondigest} uses such model to cluster opinions. 
+
+%$\rm Hercules$
+
+%For fair comparison, we tune the threshold $\alpha,\beta$ for \Ra and all baselines except for  so that there are on average 8 rationale candidate sets for each entity and all rationale candidate sets on average cover 30 percent of review sentences. 
+\section{Conclusion}
+We propose rationale-based opinion summarization, a new paradigm for summarizing reviews. The rationale-based summaries present representative opinions and their corresponding rationales. We define four desirable properties of rationales: relatedness, specificity, popularity, and diversity. Based on these properties, we propose \Ra, an unsupervised extractive system that extracts representative opinions and their corresponding rationales based on Gibbs sampling. Our experiments show that rationale-based summaries generated by \Ra are more useful than conventional opinion summaries. Our experiments also show that the rationales generated by \Ra outperform its variants and strong baselines. 
+
+%Since we have no supervision to extract rationales, \Ra estimates four properties separately. Future works can explore how to jointly estimate these four properties and improve the efficiency of the algorithm. 
+\section{Limitation}
+\label{sec:limit}
+Since there is no supervision for extracting rationales, \Ra separately estimates the four properties of rationales separately and assign equal importance to relatedness, specificity, and popularity. Future work can collect supervised data to extract rationales and build a system that can jointly model and assign weights to the four properties based on the supervised data. Second limitation is during extracting rationales, \Ra does not consider the similarity between representative opinions. Another limitation is that our datasets and all experiments are only focused on the English language. 
+
+\section{Ethical Consideration}
+We do not expect any ethical risks caused by our work. The datasets we use are all publicly available. We do not annotate any data on our own. %All our datasets have user reviews in the English language. 
+We performed human evaluation experiments on Amazon Mechanical Turk. The annotators were compensated at a rate of \$15 per hour. During the evaluation, human annotators were not exposed to any sensitive or explicit content.
+
+\section{Acknowledgment}
+The authors appreciate the helpful feedback from Mohit Bansal, Somnath Basu Roy Chowdhury, Anvesh Rao Vijjini, and Anneliese Brei in the early phase of this work. This work was partly supported by the National Science Foundation under award DRL-2112635. %\SCN{If you got help from other people, mention their names as well.}
+
+\bibliography{emnlp2023}
+%\bibliographystyle{acl_natbib}
+\clearpage
+\appendix
+\section{Appendix}
+\subsection{Text Segmentation}
+\label{segment}
+
+%\SC{You need to use examples to explain. Also, stuff like length threshold needs to be motivated. } 
+Due to the nature of reviews, many review sentences discuss several unrelated aspects, such as `The room is spacious and staff are helpful.' . These sentences might make rationales less specific to the representative opinions %\SC{rephrase "hurt the performance of rationale extraction". It sounds very performance-driven. You should care about solving the problem before caring about the performance. Think about why it becomes difficult to extract rationales if sentences have multiple aspects? } 
+because they might contain unrelated information concerning a certain opinion. To alleviate these problems, \Ra extracts clauses from review sentences using a constituency parser \cite{kitaev-klein-2018-constituency}. The goal of the extraction is to reach a balance of two criteria. First, the resulting clauses are complete and fluent sentences. Second, the most resulting clauses only discuss one aspect. 
+
+%\SC{The description below is too complex. It also mentions several low-level details like thresholds. Can you simplify it? I suggest this because you spend so much space and even have a figure for this part but it is not an important part of the paper--the important part is rationale extraction.  }
+Given a parse tree of a sentence, \Ra traverse it from its root to determine the boundary of a clause. When a node whose tag is `S' is traversed, if it has not been extracted yet, \Ra will check the length of the corresponding clause. For clauses longer than the maximum length $\epsilon$, they still might discuss several aspects. Therefore, \Ra further traverse all their children as in Fig. \ref{fig:tree3}. For clauses shorter than the minimum length $\gamma$, the clauses might be incomplete and the traversal stops at these nodes. The traversal also stops at the node whose tag is `SBAR' since the corresponding clauses usually complement other clauses. If the length of the corresponding clause is between the maximum length $\epsilon$ and $\gamma$, \Ra will extract the clause as in Fig. \ref{fig:tree1}. If \Ra only extracts one clause from the sentence, \Ra will extract the whole sentence instead to keep the information complete as in Fig. \ref{fig:tree2}. If \Ra extracts more than one clause from the sentence, \Ra will further check the distances between neighboring clauses. If the distance between any two neighboring clauses is larger than $\gamma$, \Ra will also extract the whole sentence. Otherwise, \Ra extracts the clauses. The above process extracts as many clauses as possible while keeping the extracting clauses complete. In the experiment, we set the maximum length as 20 and minimum length as 2.
+
+ \begin{figure*}
+     \centering
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{graph/tree1.pdf}
+         \caption{The root has two clause children and therefore two corresponding clauses are extracted from the sentence. }
+         \label{fig:tree1}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{graph/tree2.pdf}
+         \caption{The whole sentence is extracted to keep the information complete since there is only one clause in the sentence.}
+         \label{fig:tree2}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[t]{0.32\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{graph/tree3.pdf}
+         \caption{The root has two children clause. Since the length of the second clause is longer than the maximum length, \Ra traverse its children and find two children clause. Therefore, three clause are extracted from the sentence.}
+         \label{fig:tree3}
+     \end{subfigure}
+        \caption{Three sentences and their constituency parsing trees. A orange box denotes one extracted clause. }
+        \label{fig:threetree}
+\end{figure*}
+
+\subsection{Preprocessing of Yelp Dataset}
+\label{sec:prep_yelp}
+For yelp dataset, we remove entities that contain less than 20 reviews. For entities containing more than 200 reviews, we randomly sample 200 reviews and discard other reviews of the entities to prevent dominant influences of some entities. For the remaining entities, we perform downsampling to create a dataset containing around 14.9K entities and around 1.22M reviews. The statistics are show in Table \ref{tab:dataset_stat}.
+
+\begin{table}[t!]
+\centering
+\small
+\begin{tabular}{l c c c} 
+\toprule
+% \rowcolor{Gray}
+Dataset & Train  & Dev. & Test  \TBstrut\\ 
+\midrule
+Space  & 11.2K/1.10M      & 50/5K        & 250/25K \Tstrut\\
+Yelp & 14.9K/1.22M       & 50/5K       & 250/25K \Bstrut\\
+\bottomrule
+\end{tabular}
+\caption{Dataset statistics for Space and Yelp. We report entity/review for each split of two datasets.}
+\vspace{-3pt}
+\label{tab:dataset_stat}
+\end{table}
+
+
+\subsection{Preprocessing for Keyword Extraction}
+In \S \ref{sec:ration} and \S \ref{sec:ent_eval}, we extract keywords to evaluate the performance of \Ra. For this purpose, we perform the standard preprocessing. We first remove stop words using NLTK \cite{bird2009natural} and filter out extreme words using Gensim \cite{rehurek_lrec}. We finally perform lemmatization using NLTK. We show examples of extracted keywords in Table \ref{tab:keyword}.
+
+\begin{table}[t]
+\resizebox{0.45\textwidth}{!}{
+\begin{tabular}{cc}
+\hline
+Opinion Cluster                                                                 & Keyword                                                                         \\ \hline
+location is great                                                               & \begin{tabular}[c]{@{}c@{}}seattle downtown vintage\\ library walk\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}bed is super comfortable\\ bed is great\end{tabular} & \begin{tabular}[c]{@{}c@{}}pillow linen comfy\\ ever mattress\end{tabular}     \\ \hline
+\end{tabular}}
+\caption{Samples of opinion clusters and keywords extracted from their rationale candidates. Keywords are shown in descending order of TF-IDF. Most keywords represent details highly related to but not repetitive of the corresponding opinion groups.}
+\label{tab:keyword}
+\end{table}
+
+\subsection{Instruction for InstructGPT}
+\label{sec:instruct}
+To extract rationales using InstructGPT, we provide the instructions that describe the four desirable properties of rationales as well as the representative opinion and its corresponding rationales. Under the extractive setting, we try several variations of prompts including paraphrasing, reordering, and restructuring the instruction material. We show the best instruction that we use for extracting one rationales for each opinion in Figure \ref{fig:oneration} and extracting three rationale for each opinion in Figure \ref{fig:threeration}.  
+\begin{figure*}
+\centering
+\includegraphics[width=0.95\textwidth]{graph/samplev2.pdf}
+\caption{Three sample rationale-based summaries. Each line presents a \textcolor[RGB]{0,112,192}{representative opinion} and its \textcolor[RGB]{0,176,80}{rationale}.}
+\label{fig:sample}
+\end{figure*}
+\begin{figure*}
+\centering
+\includegraphics[width=0.95\textwidth]{graph/onerationale_20231016022016.pdf}
+\caption{Example instruction for extracting one rationale for each representative opinion using InstructGPT.}
+\label{fig:oneration}
+\end{figure*}
+\begin{figure*}
+\centering
+\includegraphics[width=0.95\textwidth]{graph/onerationale_20231016022016.pdf}
+\caption{Example instruction for extracting three rationales for each representative opinion using InstructGPT.}
+\label{fig:threeration}
+\end{figure*}  
+\begin{figure*}
+\centering
+\includegraphics[width=0.95\textwidth]{graph/sample_rationale_candidate.pdf}
+\caption{Rationale candidate sets of sample representative opinions on the Space dataset. \textbf{Bold} sentences are extracted as rationales when one rationale (left) or three rationales (right) are extracted. }
+\label{fig:sample_rationale_candidate1}
+\end{figure*}
+\begin{figure*}
+\centering
+\includegraphics[width=0.95\textwidth]{graph/sample_rationale_candidate_rest.pdf}
+\caption{Rationale candidate sets of sample representative opinions on the Yelp dataset. \textbf{Bold} sentences are extracted as rationales when one rationale (left) or three rationales (right) are extracted. }
+\label{fig:sample_rationale_candidate2}
+\end{figure*}
+\begin{figure*}
+\centering
+\includegraphics[width=0.8\textwidth]{graph/human_eval1.pdf}
+\caption{AMT instructions for human evaluation for comparing rationales.}
+\label{fig:human_eval}
+\end{figure*}
+\begin{figure*}
+\centering
+\includegraphics[width=0.8\textwidth]{graph/human_eval2.pdf}
+\caption{AMT instructions for human evaluation of comparing summaries.}
+\label{fig:human_eval2}
+\end{figure*}
+
+\subsection{Error Analysis of InstructGPT Rationale}
+\label{sec:instruct_rationale}
+ As discussed in Section \ref{auto}, the performance of InstructGPT was encouraging for an initial study but not up to the mark. Specifically, we manually analyzed the InstructGPT’s rationales while also asking for explanations of those rationales. We found that the rationales extracted by the InstructGPT were lacking in many senses. First,  the InstructGPT might ignore the part of the instruction that required the rationales to have additional details as compared to the opinions. The extracted rationales were simply paraphrases of the opinions. This defeats the purpose of having rationales. Second, the InstructGPT might misunderstand what is meant by “containing additional details”. For example, it might focus too much on plural forms or tenses of certain words. The InstructGPT might think “Rooms are great” is an appropriate rationale for “Room is great” because maybe “Rooms are great” suggests there are many rooms that are great instead of one room. We faced these problems even after trying multiple prompts. In the future, as LLMs hopefully improve, future works could revisit this problem for better solutions.
+
+\subsection{Human Evaluation}
+The human annotators are required to be in the United States, have HIT Approval Rate greater than 98, and be masters. The screenshot of the human evaluation interface for rationale evaluation is shown in Figure \ref{fig:human_eval}. The screenshot of the human evaluation interface for summary evaluation is shown in Figure \ref{fig:human_eval2}.
+
+\subsection{Implementation Detail of Rationale Candidate Set Evaluation }
+\label{sec:detail_candidate}
+We compare \Ra with four baseline models: $\rm RoBERta_{mnli}$, $\rm KPA$, $\rm Snippext$, and $\rm Hercules$. $\rm RoBERta_{mnli}$ uses RoBERta-large \cite{liu2019roberta} finetuned on the MNLI dataset \cite{N18-1101}. $\rm RoBERta_{mnli}$ then uses the finetuned model to estimate the alignment probability between review sentences and representative opinions
+
+$\rm KPA$ uses RoBERta-large \cite{liu2019roberta} as the base model and performs the same domain adaptation as \Ra. The model is then finetuned on ArgKP dataset using the same hyperparameters as \cite{bar-haim-etal-2021-every}. $\rm KPA$ then uses the finetuned model to estimate the alignment probability. 
+
+$\rm Snippext$ uses the ABSA model \cite{miao2020snippext}. $\rm Snippext$ estimates the aspect distribution and the sentiment distribution for each representative opinion and review sentence based on the ABSA model. $\rm Snippext$ then estimates the alignment probability as the product of the cosine similarity of aspect distribution and the sentiment distribution between representaitive opinions and review sentences. 
+
+$\rm Hercules$ generates the path representation on a tree for each representative opinions and review sentences. If a representative opinion and a review sentence has the same first node of their path representation, the review sentence belongs to the rationale candidate set of that representative opinion. 
+
+For a fair comparison, we extract an average of $8$ rationale candidate sets for each entity and all rationale candidate sets on average cover $30\%$ of review sentences except for $\rm Hercules$. When using SimCSE to obtain sentence representations, we use `unsup-simcse-roberta-large' version.
+
+%measures the relatedness of $s_j$ using the modified path length between $s_j$ and $o_i$. \Ra defines the path length as the product of edge weight. The relatedness $rel(s_j)$ is measured as the length of the longest path from $o_i$ to $s_j$.
+ %\begin{equation}
+%max_{p' \in path(o_i,s_j)}\prod_{(s_m,s_n) \in p'} w((s_m,s_n))
+ %\end{equation}
+ %where $path(p_{c_i},r_j)$ denote the set of paths from $p_{c_i}$ to $r_j$, $w((s_m,s_n))$ denote the weight of edge $(s_m,s_n)$.
+ %Relatedness guarantees that extracted rationales are closely related to the opinion. Specificity assures that extracted rationales provide more information other than the opinion. Popularity encourages extracted rationales to contain the most frequently discussed information among rationale candidates.
+\subsection{Experiment with Hercules}
+\label{sec:hercules_experiment}
+\Ra is independent of the choice of extractive summarization systems and can work with other extractive summarization systems. In this section, we show the automatic metrics on the Space dataset when the representative opinions are extracted from the summaries produced by the extractive version of $\rm Hercules$. All the implementation details are the same. 
+
+We show the automatic metric for evaulating rationale candidate sets in Table \ref{tab:setevalher}. 
+\begin{table}[t]
+\centering
+\resizebox{0.48\textwidth}{!}{
+\begin{tabular}{lcccc}
+\hline
+         & \textit{Silh}     & \textit{NPMI}           & \textit{SC}           & Overall  \\ \hline
+         & \multicolumn{4}{c}{Space}                           \\
+$\rm RoBERta_{mnli}$   & 0.088 & -0.034 & 0.953 & 0.693 \\
+$\rm KPA$      & 0.142 & -0.013 & 0.946 & 0.925 \\
+$\rm Snippext$     & 0.122 & -0.065 & 0.916 & 0.270 \\
+$\rm Hercules$ & 0.009 & -0.064 & 0.944 & 0.263 \\
+\Ra   & 0.135 & -0.012 & 0.952 & \textbf{0.974} \\ \hline
+\end{tabular}}
+\caption{Automatic evaluation of rationale candidate sets when the representative opinions are extracted from summaries generated by $\rm Hercules$. Considering the three measures and their overall scores, \Ra still generates rationale candidates of better quality than the baselines when using the other extractive opinion summarization system. }
+\label{tab:setevalher}
+\end{table}
+It can be observed that \Ra still generates rationale candidates of better quality than the baselines when using the other extractive opinion summarization system, which also shows \Ra is independent of extractive summarization systems. 
+
+We show the automatic metrics for evaluating rationales in Table \ref{tab:autoher}. 
+\begin{table}[t]
+\centering 
+\resizebox{0.47\textwidth}{!}{
+\begin{tabular}{lccccc}
+\hline
+            & $emb_{rel}$ & $key_{spec}$ & $key_{pop}$ & $emb_{div}$ & Overall \\ \hline
+            & \multicolumn{5}{c}{Space (k=1)}             \\
+\Ra          &   0.399      & 0.236     & 0.237    &    -    & 0.728  \\
+~~~w/o $rel$      & 0.400        & 0.239     & 0.237    &  -    & \textbf{0.748}    \\
+~~~w/o $spec$     & 0.525        & 0.174     & 0.219    &   -   & 0.554   \\
+~~~w/o $pop$       & 0.349         & 0.212     & 0.207    &  -   &  0.389   \\
+InstructGPT &  0.558        & 0.167     & 0.172    &   -    &  0.333 \\  \hdashline
+            & \multicolumn{5}{c}{Space (k=3)}             \\
+\Ra          &   0.390       & 0.520     & 0.239    &  0.577   &    \textbf{0.623} \\
+~~~w/o $rel$       & 0.391         & 0.524     & 0.238    &  0.572   &  0.614   \\
+~~~w/o $spec$       &  0.474        & 0.456     & 0.240    & 0.546   & 0.485     \\
+~~~w/o $pop$        &  0.351        & 0.496     & 0.222    &  0.631  &  0.399    \\
+~~~w/o $div$       &   0.398       & 0.511     & 0.241    &   0.555   & 0.575    \\  \hline
+\end{tabular}}
+\caption{Automatic evaluation of rationales on the Space dataset with one (k=1) and three (k=3) rationales extracted per representative opinion. Considering the four measures and their \textit{overall} values, \Ra still extracts the best rationales when the representative opinions are extracted from summaries generated by the other extractive summarization system. }
+\label{tab:autoher}
+\end{table}
+It can be observed that RATION also extracts the best rationales when the representative opinions are extracted from the summaries produced by Hercules.
+\subsection{Error Analysis}
+\label{sec:error}
+\Ra occasionally generates undesirable rationale-based opinion summaries. We analyze these summaries and find the most common errors are the extracted rationales of an opinion not containing many related details of that opinion. For example, in the right sample of Figure \ref{fig:sample}, the extracted rationale for the opinion `Room is clean', `my room was very clean and included the basics you would expect - a stocked mini-bar, safe, tea/coffe etc.', only mentions `clean' and contains lots of details not related to the detail. The main reason is that \Ra separately estimates the specificity and relatedness as mentioned in Section \ref{sec:limit}. Suppose a sentence discusses aspect X and aspect Y, and it only briefly mentions X but contains lots of details related to Y. When extracting rationales for an opinion about aspects X, the sentence would have a high relatedness score because it mentions X. It would also have a high specificity score because it contains many details. We reduce such errors by dividing review sentences into clauses and extracting clauses as rationales (Appendix \ref{segment}). However, some resulting clauses might still discuss multiple aspects. Future work can explore how to jointly model these four properties at the same time. 
+
+We also find other less frequent errors, such as some representative opinions being too similar and the alignment model making wrong estimations.
+\end{document}

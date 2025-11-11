@@ -1,0 +1,126 @@
+% LREC-COLING 2024 Example; 
+% LREC Is now using templates similar to the ACL ones. 
+\documentclass[10pt, a4paper]{article}
+
+% \usepackage[review]{lrec-coling2024} % this is the new style
+\usepackage{lrec-coling2024} % this is the new style
+
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{multirow}
+\usepackage{amsmath}
+% Include the graphicx
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+% If the title and author information does not fit in the area allocated, uncomment the following
+%
+% \setlength\titlebox{10cm}
+%
+% and set <dim> to something 5cm or larger.
+
+
+
+\title{\methodname: Narrative Reasoning by Grounding to Eventuality-centric Knowledge Graphs}
+% \title{Interpretable Narrative Reasoning by Grounding to Event-centric Knowledge Graphs}
+% \title{Contextualized Narrative Reasoning by Grounding to Eventuality-centric Knowledge Graphs}
+
+% \name{Author1, Author2, Author3} 
+
+% \address{Affiliation1, Affiliation2, Affiliation3 \\
+%          Address1, Address2, Address3 \\
+%          author1@xxx.yy, author2@zzz.edu, author3@hhh.com\\
+%          \{author1, author5, author9\}@abc.org\\}
+
+\newcommand{\ust}{\ensuremath{^\spadesuit}}
+\newcommand{\amazon}{\ensuremath{^\diamondsuit}}
+
+\name{Cheng Jiayang\ust, Lin Qiu\amazon, Chunkit Chan\ust, Xin Liu\ust, Yangqiu Song\ust, Zheng Zhang\amazon}
+
+\address{\ust The Hong Kong University of Science and Technology, 
+\amazon Amazon AWS AI\\
+         \{jchengaj, yqsong\}@cse.ust.hk, 
+         zhaz@amazon.com}
+
+% \ust The Hong Kong University of Science and Technology \\
+% \westlake Westlake University \ \ \ \
+% \amazon Amazon AWS AI\\
+% \texttt{\{jchengaj, yqsong\}@cse.ust.hk} \ \ \ \ 
+% \texttt{zhangyue@westlake.edu.cn} \ \ \ \ 
+% \texttt{zhaz@amazon.com} \\ \\
+
+
+
+
+\abstract{
+Narrative reasoning relies on the understanding of eventualities in story contexts, which requires a wealth of background world knowledge.
+To help machines leverage such knowledge, existing solutions can be categorized into two groups.
+Some focus on implicitly modeling eventuality knowledge by pretraining language models (LMs) with eventuality-aware objectives.
+However, this approach breaks down knowledge structures and lacks interpretability.
+Others explicitly collect world knowledge of eventualities into structured eventuality-centric knowledge graphs (KGs).
+However, existing research on leveraging these knowledge sources for free-texts is limited.
+In this work, we propose an initial comprehensive framework called \methodname, which aims to tackle the problem of grounding free-texts to eventuality-centric KGs for contextualized narrative reasoning.
+We identify two critical problems in this direction: the \textit{event representation} and \textit{sparsity} problems.
+We provide simple yet effective parsing and partial information extraction methods to tackle these problems.
+Experimental results demonstrate that our approach consistently outperforms baseline models when combined with graph neural network (GNN) or large language model (LLM) based graph reasoning models.
+Our framework, incorporating grounded knowledge, achieves state-of-the-art performance while providing interpretable evidence.
+ \\ \newline \Keywords{Knowledge grounding, Eventuality-centric Knowledge Graphs, Reasoning} }
+
+
+ 
+\begin{document}
+\newcommand{\yq}[1]{\textcolor{red}{#1}}
+\newcommand{\jy}[1]{{\color{blue} #1}}
+\newcommand{\remove}[1]{{\color{red} #1}}
+
+\newcommand{\draft}[1]{{\color{blue} #1}}
+\newcommand{\methodname}{EventGround}
+
+\maketitleabstract
+
+
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/methodology}
+\input{sections/experiment}
+
+
+
+\section{Conclusion}
+\vspace{-8pt}
+
+We point out two critical problems on grounding free-texts to eventuality-centric KGs, namely the \textit{event representation} and \textit{event sparsity} problems.
+We propose a simple while effective approach, \methodname, to address these problems and to leverage the retrieved graph knowledge for narrative reasoning.
+Empirical results demonstrate its consistent performance improvement.
+% Further investigation reveals that its normalization and abstraction components drastically alleviates event sparsity.
+Further investigation reveals that the normalization and partial information extraction components  drastically improve the grounding performance by alleviating event sparsity.
+
+
+\newpage
+\input{sections/limitation}
+
+
+\section*{Acknowledgements}
+The authors of this paper were supported by the NSFC Fund (U20B2053) from the NSFC of China, the RIF (R6020-19 and R6021-20) and the GRF (16211520 and 16205322) from RGC of Hong Kong. We also thank the support from the UGC Research Matching Grants (RMGS20EG01-D, RMGS20CR11, RMGS20CR12, RMGS20EG19, RMGS20EG21, RMGS23CR05, RMGS23EG08).
+
+% Entries for the entire Anthology, followed by custom entries
+\bibliography{anthology,custom}
+\bibliographystyle{acl_natbib}
+
+\clearpage
+\input{sections/appendix}
+
+\end{document}

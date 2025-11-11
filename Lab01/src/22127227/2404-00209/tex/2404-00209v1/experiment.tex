@@ -1,0 +1,337 @@
+\section{Experiments}
+
+\subsection{Datasets}
+
+We conduct experiments on three downstream tasks on narrative reasoning.
+The statistics are presented in Table \ref{tab:dataset_statistics}.
+
+\noindent$\bullet$ \textbf{Story Cloze Test v1.0} (SCT-v1.0) was proposed by \citet{mostafazadeh2016corpus} to evaluate the understanding of relations between events. 
+Given four consecutive sentences, the task is to predict the correct ending from two possible choices.
+
+\noindent$\bullet$ \textbf{Story Cloze Test v1.5} (SCT-v1.5) Later, \citet{sharma2018tackling} introduces a new version to correct the artifacts in the previous release.
+For both versions, we follow the common practice \cite{li2019story, yu2020cocolm} to randomly select $100$ validation samples for validation, and use the rest for training.
+    
+\noindent$\bullet$ \textbf{Multiple Choice Narrative Chain} (MCNC) \cite{granroth2016happens, li2018constructing} is a 5-way multiple choice task that requires a system to predict the ending event given its previous context event sequence.
+
+\begin{table}[t]
+\centering
+{\small
+\begin{tabular}{lccc}
+\hline
+\textbf{Name} & \textbf{Train} &  \textbf{Valid} & \textbf{Test}\\
+\hline
+SCT-v1.0 & 1,771 & 100 & 1,871 \\
+SCT-v1.5 & 1,471 & 100 & 1,571 \\
+MCNC & 140,331 & 10,000 & 10,000 \\
+% MPP &  78,528 & 9,816 & 9,817 \\
+\hline
+\end{tabular}
+}
+\caption{Statistics of datasets.}
+\label{tab:dataset_statistics}
+% \vspace{-15pt}
+\end{table}
+
+
+\subsection{Eventuality-centric knowledge graphs}
+ 
+There are eventuality-centric KGs such as ATOMIC \cite{sap2019atomic}, GLUCOSE \cite{mostafazadeh2020glucose} and ASER \cite{zhang2020aser, zhang2022aser}.
+In this paper, we conduct experiments on ASER.
+The nodes in ASER are eventualities, and the edges between them are the discourse relations (e.g.  ``Precedence'', ``Contrast'' and ``Reason'') defined in Penn Discourse Tree Bank \cite{prasad2008penn}.
+To enable grounding normalized events to KGs, we normalize and aggregate eventualities in the ASER-core-100 version\footnote{We obtain the core-100 version by filtering out nodes with frequency lower than 100 from ASER-core: \url{https://hkust-knowcomp.github.io/ASER/}} by detecting and replacing the personal words with aforementioned special tokens.
+The resulting normalized ASER graph contains $193k$ nodes and $6.6m$ edges.
+
+\begin{table*}[t]
+\centering
+{\small
+{
+\begin{tabular}{ll|ccc}
+\hline
+\textbf{Method} & \textbf{Size} &  \textbf{SCT-v1.0} & \textbf{SCT-v1.5} & \textbf{MCNC}\\
+\hline
+\cite{lv2020integrating} & 125M & - & - & 58.66  \\
+\cite{zhou2021modeling} & 469M & - & - & 63.62 \\
+CoCoLM \cite{yu2020cocolm} & 355M & \underline{97.70} & - & - \\
+TransBERT \cite{li2019story} & 355M & 91.80 & 90.30 & - \\
+EventBERT \cite{zhou2022eventbert} & 355M & - & \underline{91.33} & 63.50 \\
+ClarET \cite{zhou2022claret} & 400M & - & 91.18 & \underline{64.61} \\
+\hline
+RoBERTa-base \cite{liu2019roberta} & 125M & 92.75\small{$\pm$0.24} & 87.14\small{$\pm$0.39} & 61.28\small{$\pm$0.14}  \\
+RoBERTa-large \cite{liu2019roberta} & 355M & 96.74\small{$\pm$0.08} & 92.34\small{$\pm$0.06} & 63.01\small{$\pm$0.12}  \\
+DeBERTa-large \cite{he2021debertav3} & 354M & 98.13\small{$\pm$0.34} & 94.67\small{$\pm$0.25}  & 65.67\small{$\pm$0.13}  \\
+\hline
+\methodname\small{-RoBERTa-base} & 126M &  93.30\small{$\pm$0.11} & 87.65\small{$\pm$0.13} & 62.11\small{$\pm$0.07}   \\
+\methodname\small{-RoBERTa-large} & 358M &   97.10\small{$\pm$0.13} & 92.86\small{$\pm$0.05} & 63.96\small{$\pm$0.15}   \\
+\methodname\small{-DeBERTa-large} & 358M &   \textbf{98.29\small{$\pm$0.16}} & \textbf{95.01\small{$\pm$0.32}} & \textbf{66.05\small{$\pm$0.12}}  \\
+\hline
+\end{tabular}
+}
+}
+\caption{Main results on the benchmarks. Numbers are mean and standard deviation of accuracy (\%) over three runs. \underline{Underlined results} are the previous state-of-the-art performance.}
+\label{tab:main_result}
+\end{table*}
+
+
+
+\begin{table}[!t]
+\small
+\centering
+\begin{tabular}{l c c}
+\hline
+\multicolumn{1}{c}{\textbf{Model}}
+& \textbf{SCT-v1.0} & \textbf{SCT-v1.5}\\
+\hline
+Random                          & 50.00 & 50.00\\
+ChatGPT$_\text{Vanilla}$         & 77.80 & 77.00 \\
+ChatGPT$_\text{DOT}$ & 67.80 & 69.00 \\
+ChatGPT$_\text{Node}$         & 72.00 & \textbf{78.00} \\
+ChatGPT$_\text{Node \& Edge}$ & \textbf{79.60} & \textbf{78.00}\\
+\hline
+\end{tabular}
+\caption{ChatGPT evaluation results (accuracy \%). We report the model performance when (1) ChatGPT$_\text{Vanilla}$: no knowledge is provided; (2) ChatGPT$_\text{DOT}$, ChatGPT$_\text{Node}$, and ChatGPT$_\text{Node \& Edge}$: the knowledge subgraphs are transformed into sequences as part of the inputs.}
+\label{tab:ChatGPT_Performance}
+\end{table}
+
+\subsection{Experimental Setup}
+\label{sec:exp-setup}
+We implement the event extractor with AllenNLP SRL tools.\footnote{\url{https://github.com/allenai/allennlp}}
+To normalize the events, the syntactic parser, animacy classifier, and co-reference tools are from Stanford CoreNLP.\footnote{\url{https://stanfordnlp.github.io/CoreNLP/}} 
+In our implementation of the event matching module, due to the large scale of $|\mathcal{V}|$, we employ Faiss \cite{johnson2019billion} to accelerate the similarity search.
+% Data hyper-parameters (graph setting)
+When retrieving subgraph, we set the shortest path length limit $\gamma$ to 3, meaning that there are at most 2 intermediate nodes between any two anchor nodes along the path.
+
+% Details for the graph reasoning model
+We implement the GNN-based reasoning model with Deep Graph Library \cite{wang2019dgl} and Huggingface-Transformers \cite{wolf-etal-2020-transformers}.
+% Model hyper-parameters
+For finetuning the supervised models, we conduct grid-search over model hyper-parameters. 
+The number of convolutional layers $L$ are searched within $\{2, 3, 4\}$, and the hidden size of convolutional layers $\in\{64, 128, 256, 512\}$. 
+For relational convolutional layers, the number of bases is searched within $\{-1, 10, 30\}$.
+We use the Adam \cite{kingma2015adam} optimizer with cosine learning rate schedule to optimize the models.
+The learning rate is set to $1e-5$ for all the ``base'' models, and $5e-6$ for all the ``large'' models.
+All the experiments are run on 4 NVIDIA Tesla-V100 GPUs. 
+
+
+For the LLM-based reasoning model, we adopt ChatGPT~\cite{openai2022chatgpt}.~\footnote{The evaluation is performed in September 2023.}
+We consider three implementations for the graph sequentialization function $t(\cdot)$: (1, DOT) using the DOT language to represent graphs \cite{gansner1993technique, madaan-yang-2021-neural, sakaguchi-etal-2021-proscript-partially}; (2, Node \& Edge) instead of using node indexing as in DOT, we try directly inputing all the nodes and edges (e.g., ``\texttt{[P0] buy a boat --> [P0's] nearby marina have a race; [P2] prepare --> [P2] go to sleep; ...}''); (3, Node) only the nodes are fed into ChatGPT (e.g., ``\texttt{[P0] buy a boat; [P0's] nearby marina have a race ...}'').
+The prompt template is:
+``\texttt{Event knowledge on narrative choice A: \{$t(\mathcal{G}_{joint, A})$\} \textbackslash n Event knowledge on narrative choice B: \{$t(\mathcal{G}_{joint, B})$\} \textbackslash n Question:\{\} \textbackslash n Answer:''}.
+As a baseline, we also test ChatGPT without the additional knowledge (denoted by ``ChatGPT$_\text{Vanilla}$'').
+For SCT-v1.0, we report results on its test set (sampled 500 instances). 
+Since the test set of SCT-v1.5 is no longer publicly available\footnote{\url{https://competitions.codalab.org/competitions/15333}} at the time we ran this experiment, we report the results on its validation set.
+We do not report the performance on MCNC because the lengths of most instances in this set exceed the maximum input length.
+
+
+
+
+\subsection{Main results}
+
+The main results on the three datasets are presented in Table \ref{tab:main_result} and \ref{tab:ChatGPT_Performance}. 
+Per-task performance comparisons are presented in Appendix \ref{sec:appendix_detail_results}.
+
+As shown in Table \ref{tab:main_result}, when coupled with a GNN-based reasoning model, our proposed framework achieves consistent performance gain over different backbone models.
+Moreover, compared with existing knowledge enhanced models, we achieve SOTA performance in three narrative reasoning tasks.
+The knowledge also benefits our LLM-based reasoning model (Table~\ref{tab:ChatGPT_Performance}), especially when the subgraphs are transformed using the ``$\text{Node \& Edge}$'' setting.
+
+
+
+\subsection{Ablation study}
+\label{sec:ablation}
+We conduct ablation studies to investigate the contribution of each component in our framework.
+
+\begin{table}[t]
+\centering
+{\small
+\begin{tabular}{lcc}
+\hline
+     & \methodname\tiny{-RB} &  \methodname\tiny{-BB} \\
+\hline
+w/o know. & 92.75\small{$\pm$0.24} & 83.63\small{$\pm$1.16} \\
+w/o extract. & 91.86\small{$\pm$0.21} & 83.74\small{$\pm$0.38} \\
+w/o norm.   & 92.43\small{$\pm$0.46} & 83.98\small{$\pm$0.87} \\
+\hline
+w/o PIE & 92.81\small{$\pm$0.32} & 83.88\small{$\pm$1.40} \\
+- ARGM & 93.17\small{$\pm$0.25} & 84.79\small{$\pm$1.37} \\
+- ARG2,3,4 & 93.03\small{$\pm$0.49} & 84.53\small{$\pm$0.60} \\
+- ARG1 & \textbf{93.30\small{$\pm$0.11}} & \textbf{85.78\small{$\pm$0.74}} \\
+\hline
+\end{tabular}
+}
+\caption{Effect of event extraction, normalization and partial information extraction (PIE). The mean and standard deviation of accuracies on SCT-v1.0 are reported, where ``RB'' and ``BB'' refer to RoBERTa-base and BERT-base versions.}
+% \vspace{-15pt}
+\label{tab:main_ablation}
+\end{table}
+
+\subsubsection{Effect of event extraction, normalization, and partial information extraction}
+As shown in Table \ref{tab:main_ablation}, we ablate the event extraction (``w/o extract.''), the event normalization (``w/o norm.'') and the partial information extraction (``w/o PIE'' and ``- ARGX'') respectively.
+Specifically, when ablating the event extraction module, we instead use the whole sentence for event grounding.
+When ablating the event normalization part, we skip the normalization step, and use the raw events for grounding.
+For partial information extraction, we drop event arguments in the order described in $\S$~\ref{sec:event_abstraction}, where the highest level (``- ARG1'') contains all the partial events in the previous levels.
+The baseline (``w/o know.'') shows the results of vanilla language models, which do not leverage any external knowledge.
+
+We have several observations. 
+First, the event extraction and normalization steps are necessary. 
+When removed, the performance relative to the baseline does not improve, or even drops.
+Second, the partial information extraction step is crucial.
+By only taking the first level of partial events (removing modifier arguments), we have seen considerable performance gain.
+The model reaches its best performance after dropping ARG1.
+
+In $\S$~\ref{sec:method}, we discuss the \textit{sparsity} of events.
+Here, we conduct both automatic and human evaluation to discuss how our method contribute to the alleviation of sparsity.
+
+\noindent$\bullet$ \textbf{Automatic Evaluation} (Figure \ref{fig:ablation_matching}) We analyze by automatic measures: (1) the average L2 distance $\bar d$ in event matching ($\S$~\ref{sec:event_matching}), and (2) the percentage of events considered as successful match, i.e. with L2 distance below $l=0.65$ (hit rate). 
+
+
+\noindent$\bullet$ \textbf{Human Evaluation} (Table \ref{tab:human_eval}, Figure \ref{fig:ablation_f1}) 
+    We evaluate the matching results by human annotation.
+    Three domain experts are asked to annotate whether event matching is successful for 50 stories ($\sim$500 events) randomly sampled from the validation set of SCT v1.0. 
+    The Fleiss's Kappa value is $0.7414$.
+    We obtain ground-truth labels by majority vote, and present the accuracy of different event matching methods in Table \ref{tab:human_eval}.
+    To investigate the effect of the threshold $l$ used in $\S$~\ref{sec:event_matching}, we visualize F1 scores under different threshold values in Figure \ref{fig:ablation_f1}. 
+    
+
+\begin{figure}[ht]
+% \vspace{-10pt}
+\centering
+\includegraphics[width=0.5\textwidth]{figs/norm_abs.png}
+\caption{A comparison on the event grounding performance under different settings. The bar plot (with $y$-axis on the left) shows the percentage hit rate of event matching. The lines show the average L2 distance $\bar d$. 
+We do not conduct normalization for ``w/o extract.''. }
+\label{fig:ablation_matching}
+% \vspace{-10pt}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+{\small
+\begin{tabular}{lcc}
+\hline
+     & w/o norm. &  w/ norm. \\
+\hline
+w/o extract. & 4.7 & - \\
+\hline
+w/o PIE & 7.5 & 37.5 \\
+- ARGM & 10.0 & 56.2 \\
+- ARG2,3,4 & 14.6 & 73.4 \\
+- ARG1 & 9.9 & 86.6 \\
+\hline
+\end{tabular}
+}
+\caption{Human evaluation for the accuracy of event matching (\%). }
+% \vspace{-10pt}
+% \vspace{-10pt}
+\label{tab:human_eval}
+\end{table}
+
+We can observe that: 
+1) Directly matching sentences to KGs (w/o extract.) has rather low performance, which necessitates the event extraction stage.
+2) The event normalization step drastically improves the matching performance. 
+Removing normalization step can decrease the accuracy by up to $76.7\%$.
+3) In general, the matching performance gradually increases as the abstract level increases.
+4) The Pearson's $r$ between automatic and human evaluation results is $0.8977$, indicating thresholding on $L2$ distance is a reasonable way to automatically filter out poorly matched events.  
+Moreover, from Figure \ref{fig:ablation_f1}, we learn that event extraction, normalization, and partial information extraction improve not only performance but also robustness of event matching. 
+Notably, our main model (w/ norm. -ARG1) has much higher success rate than the other models, and it is meanwhile insensitive to the tuning of threshold $l$.
+
+
+
+
+% Various threshold-performance curves
+\begin{figure}[ht]
+% \vspace{-10pt}
+\centering
+\includegraphics[width=0.5\textwidth]{figs/F1-threshold.png}
+\caption{The F1-score to threshold curves. They reflect the event matching performance under different threshold $l$. }
+\label{fig:ablation_f1}
+% \vspace{10pt}
+\end{figure}
+
+
+
+
+
+
+
+
+\subsubsection{Effect of model structure}
+
+We test the GNN-based reasoning model performance with different backbone text encoders (Table~\ref{tab:ablation_text_encoders}).
+Compared with the baselines (``w/o know.''), our framework consistently improves performance across different versions of LMs.
+
+We also investigate the effect of different GNN configurations in Table \ref{tab:ablation_gnn}.
+Apart from the relational convolutional layers (RGCN \cite{schlichtkrull2018modeling}), we additionally test GIN \cite{xu2018powerful} and GCN \cite{kipf2016semi}, which do not model the edge type information.
+We can observe that RGCN outperforms GIN and GCN under the same settings.
+This indicates the discourse relation knowledge in ASER is beneficial for narrative reasoning.
+
+We evaluate the LLM-based reasoning model under different graph sequentialization settings (Table~\ref{tab:ChatGPT_Performance}).
+It is noteworthy that ChatGPT faces difficulties in understanding the knowledge represented in DOT language, resulting in a performance drop of approximately 10\%. 
+One possible reason for this is that the model was not trained to comprehend such structured representations. 
+Additionally, providing only node information to the model does not yield significant benefits. 
+The model demonstrates improved performance when using the "Node \& Edge" representation of graphs.
+
+\begin{table}[t]
+\centering
+{\small
+\begin{tabular}{lccc}
+\hline
+\textbf{Model} & \textbf{Type} &  \textbf{w/o know.} & \textbf{w/ know.}\\
+\hline
+\multirow{2}{*}{BERT} &
+    \multirow{1}{*}{base} & 83.63\small{$\pm$1.16} & 85.78\small{$\pm$0.74} \\
+    & \multirow{1}{*}{large} & 88.85\small{$\pm$0.23} & 90.49\small{$\pm$0.41} \\
+\hline
+\multirow{2}{*}{RoBERTa} &
+    \multirow{1}{*}{base} & 92.75\small{$\pm$0.24} & 93.30\small{$\pm$0.11} \\
+    & \multirow{1}{*}{large} & 96.74\small{$\pm$0.08} & 97.10\small{$\pm$0.13} \\
+\hline
+\multirow{2}{*}{DeBERTa} &
+    \multirow{1}{*}{base} & 96.03\small{$\pm$0.17} & 96.38\small{$\pm$0.14} \\
+    & \multirow{1}{*}{large} & 98.13\small{$\pm$0.24} & 98.29\small{$\pm$0.16} \\
+\hline
+\end{tabular}
+}
+\caption{Effect of different text encoders. Three backbone language models BERT \cite{devlin2018bert}, RoBERTa \cite{liu2019roberta}, and DeBERTa \cite{he2021debertav3} are tested on SCT-v1.0.}
+\label{tab:ablation_text_encoders}
+% \vspace{-20pt}
+\end{table}
+
+
+\begin{table}[t]
+\centering
+{\small
+\begin{tabular}{cc|cc}
+\hline
+ & & \multicolumn{2}{c}{$L$-layer} \\
+n-hidden & conv. & 2 &  3\\
+\hline
+\multirow{3}{*}{128} &
+    \multirow{1}{*}{\small{RGCN}} & 93.30\small{$\pm$0.11} & 92.97\small{$\pm$0.17} \\
+    & \multirow{1}{*}{\small{GIN}} & 92.93\small{$\pm$0.37} & 92.57\small{$\pm$0.24} \\
+    & \multirow{1}{*}{\small{GCN}} & 92.95\small{$\pm$0.10} & 93.16\small{$\pm$0.22} \\
+\hline
+\multirow{3}{*}{256} &
+    \multirow{1}{*}{\small{RGCN}} & 93.14\small{$\pm$0.20} & 93.12\small{$\pm$0.17} \\
+    & \multirow{1}{*}{\small{GIN}} & 93.05\small{$\pm$0.42} & 92.41\small{$\pm$0.31} \\
+    & \multirow{1}{*}{\small{GCN}} &  92.94\small{$\pm$0.13} & 92.86\small{$\pm$0.21} \\
+\hline
+\end{tabular}
+}
+\caption{Effect of different GNN settings on SCT-v1.0.  }
+\label{tab:ablation_gnn}
+% \vspace{-15pt}
+\end{table}
+
+
+
+
+\subsection{Case study}
+\label{sec:case}
+A running example is presented in Figure \ref{fig:case_study}.
+The top three nodes that our model focuses on are ``\texttt{[P0]} study,'' ``\texttt{[P0]} pass the test,'' and ``\texttt{[P0]} believe.''
+They are highly related to the correct candidate ending 1.
+Also note the path (``\texttt{[P0]} study,'' \textit{Reason}, ``it go well,'' \textit{Conjunction},  ``\texttt{[P0]} pass the test'') could be explained as the causal story:
+Someone studies hard, so it (the learning, or the exam) goes well, and he/she passes the test.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.5\textwidth]{figs/case_study.pdf}
+\caption{An example from SCT-v1.0. The top-10 node attention weights are shown in the barplot. The top-3 nodes are \underline{\textbf{bolded and underlined}} .}
+\label{fig:case_study}
+\end{figure}

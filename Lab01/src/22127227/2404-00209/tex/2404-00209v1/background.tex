@@ -1,0 +1,45 @@
+\section{Background}
+\label{sec:background}
+
+A narrative is a series of related events that can happen everywhere in our daily life.
+Understanding and reasoning based on narratives is a fundamental task~\cite{mostafazadeh2016corpus,li2018constructing,mori2020finding} and has attracted much interest in the NLP community since it is related to downstream applications like text summarization and dialogue generation.
+
+The most crucial problem in narrative reasoning is modeling the relationship between events, which often requires commonsense knowledge~\cite{mostafazadeh2016corpus}. 
+Many large scale commonsense knowledge graphs (KGs) such as ATOMIC~\cite{sap2019atomic}, ConceptNet~\cite{speer2017conceptnet}, ASER~\cite{zhang2020aser,zhang2022aser} and GLUCOSE~\cite{mostafazadeh2020glucose} have been constructed in recent years.
+How to leverage the commonsense-rich knowledge in these resources remains a problem.
+Current solutions can be coarsely categorized into two groups: the knowledge model paradigm and the retrieval-and-integration paradigm.
+Figure~\ref{fig:paradigm} gives an overview of the two paradigms.
+Here the sample question is from Story Cloze Test~\cite{mostafazadeh2016corpus} and the eventuality\footnote{In this work, we use the term ``eventuality'', which includes abstract events, states and activities~\cite{zhang2022aser}, to distinguish from specific events.} subgraph is from ASER.
+
+\begin{figure*}[t]
+\centering
+\vspace{-10pt}
+\includegraphics[width=1\textwidth]{figs/ParadigmComparison.pdf}
+\vspace{-10pt}
+\caption{Overview of the knowledge model paradigm (left) and the retrieval-and-integration paradigm (right). The knowledge model paradigm fine-tunes PLMs with eventuality knowledge and then makes predictions through the fine-tuned blackbox knowledge model. The retrieval-and-integration paradigm retrieves relevant subgraphs of the story context and then makes predictions according to the retrieved subgraph.}
+\vspace{-10pt}
+\label{fig:paradigm}
+\end{figure*}
+
+The knowledge model paradigm leverages external KGs by feeding knowledge pieces (usually in the form of triplets) into pretrained language models (PLMs) and fine-tuning the PLMs with carefully designed training objectives~\cite{yu2020cocolm,zhou2021modeling}.
+The fine-tuned knowledge model can then compute a probability based on the narrative sequence to perform inference.
+{\color{red}
+However, there is a gap between piecemeal training and inference of the entire sequence.
+}
+% Although the fine-tuned knowledge models can remember the knowledge pieces, it is difficult for the models to understand the entire KG with the graph structure broken down.
+Besides, as a common weakness of PLMs, knowledge models suffer from the poor interpretability where they cannot offer explainable evidence at any steps.
+
+On the other hand, the retrieval-and-integration paradigm leverages external KGs by retrieving knowledge relevant to the input texts and integrating the retrieved knowledge into prediction models.
+With the retrieved knowledge, the prediction models can provide evidence along with the predictions.
+However, early works in the retrieval-and-integration paradigm focus on entity-centric KGs~\cite{zhang2019ernie,liu2020k}, which has small semantic coverage in narrative reasoning tasks. 
+\citet{lv2020integrating} first propose to leverage ASER in the script reasoning task~\cite{li2018constructing}, in which the event texts constructed from event tuples, removing complexities in real-world free texts.
+Even so, the semantic matching algorithm in this work often fails in retrieval or introduces noisy knowledge.
+
+% In this work, we extend the retrieval-and-integration paradigm to perform high quality knowledge retrieval and interpretable reasoning on free text based narrative reasoning tasks. 
+The wide adoption of AI critically needs explainability~\cite{hoffman2018metrics}. Thus, despite the appeal of a simpler pipeline (aided by the availability of large PLMs), this work focus on improving retrieval-and-integration approach.
+For high quality knowledge retrieval, we propose an event acquisition pipeline including event extraction, normalization, and abstraction to mine multi-granularity events from input free texts with the help of semantic parsing.
+With the acquired multi-granularity events, we use semantic matching models to ground the events to relevant eventualities in KGs, and thus construct a joint subgraph containing both events from input texts and the eventualities from KGs.
+Then, we encode the subgraph with graph neural networks (GNNs) to make prediction. 
+The constructed subgraph as well as the GNN parameters can provide interpretable evidence.
+% Note that we still leverage PLMs for text embedding, but they are constrained in interpretable prediction, thus not used to compute the subgraph probability.
+% As a result, our approach doesn't critically rely on large PLMs.

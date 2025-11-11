@@ -1,0 +1,731 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is just an example/guide for you to refer to when submitting manuscripts to Frontiers, it is not mandatory to use Frontiers .cls files nor frontiers.tex  %
+% This will only generate the Manuscript, the final article will be typeset by Frontiers after acceptance.
+%                                              %
+%                                                                                                                                                         %
+% When submitting your files, remember to upload this *tex file, the pdf generated with it, the *bib file (if bibliography is not within the *tex) and all the figures.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Version 3.4 Generated 2022/06/14 %%%
+%%% You will need to have the following packages installed: datetime, fmtcount, etoolbox, fcprefix, which are normally inlcuded in WinEdt. %%%
+%%% In http://www.ctan.org/ you can find the packages and how to install them, if necessary. %%%
+%%%  NB logo1.jpg is required in the path in order to correctly compile front page header %%%
+
+\documentclass[utf8]{FrontiersinHarvard} % for articles in journals using the Harvard Referencing Style (Author-Date), for Frontiers Reference Styles by Journal: https://zendesk.frontiersin.org/hc/en-us/articles/360017860337-Frontiers-Reference-Styles-by-Journal
+%\documentclass[utf8]{FrontiersinVancouver} % for articles in journals using the Vancouver Reference Style (Numbered), for Frontiers Reference Styles by Journal: https://zendesk.frontiersin.org/hc/en-us/articles/360017860337-Frontiers-Reference-Styles-by-Journal
+%\documentclass[utf8]{frontiersinFPHY_FAMS} % Vancouver Reference Style (Numbered) for articles in the journals "Frontiers in Physics" and "Frontiers in Applied Mathematics and Statistics"
+
+%\setcitestyle{square} % for articles in the journals "Frontiers in Physics" and "Frontiers in Applied Mathematics and Statistics"
+\usepackage{url,hyperref,lineno,microtype,subcaption,upgreek}
+\usepackage[onehalfspacing]{setspace}
+
+% ZZC: Mark my modifications.
+%\usepackage[authormarkup=none]{changes}
+%\definechangesauthor[name=ZouZe-Cheng,color=red]{ZZC}
+%\providecommand\delete[1]{\deleted[id=ZZC]{#1}}
+%\renewcommand\delete[1]{\deleted[id=ZZC]{#1}}
+%% Search the TeX file for "added" and "delete" to cancel the markups.
+% ZZC: Mark my modifications.
+
+%\linenumbers
+
+
+% Leave a blank line between paragraphs instead of using \\
+
+
+\def\keyFont{\fontsize{8}{11}\helveticabold }
+\def\firstAuthorLast{Zhang {et~al.}} %use et al only if is more than 1 author
+\def\Authors{Xiao-Li Zhang\,$^{1}$,  Yong-Feng Huang\,$^{2,3*}$ and Ze-Cheng Zou\,$^{2}$   }
+% Affiliations should be keyed to the author's name with superscript numbers and be listed as follows: Laboratory, Institute, Department, Organization, City, State abbreviation (USA, Canada, Australia), and Country (without detailed address information such as city zip codes or street names).
+% If one of the authors has a change of address, list the new address below the correspondence details using a superscript symbol and use the same symbol to indicate the author in the author list.
+\def\Address{$^{1}$Department of Physics, Nanjing University, Nanjing 210093, China \\
+$^{2}$School of Astronomy and Space Science, Nanjing University, Nanjing 210023, China \\
+$^{3}$Key Laboratory of Modern Astronomy and Astrophysics (Nanjing University), Ministry of Education, Nanjing 210023, China }
+% The Corresponding Author should be marked with an asterisk
+% Provide the exact contact address (this time including street name and city zip code) and email of the corresponding author
+\def\corrAuthor{Yong-Feng Huang}
+
+\def\corrEmail{hyf@nju.edu.cn}
+
+
+
+
+\begin{document}
+\onecolumn
+\firstpage{1}
+
+\title[Strange quark stars]{Recent progresses in strange quark stars}
+
+\author[\firstAuthorLast ]{\Authors} %This field will be automatically populated
+\address{} %This field will be automatically populated
+\correspondance{} %This field will be automatically populated
+
+\extraAuth{}% If there are more than 1 corresponding author, comment this line and uncomment the next one.
+%\extraAuth{corresponding Author2 \\ Laboratory X2, Institute X2, Department X2, Organization X2, Street X2, City X2 , State XX2 (only USA, Canada and Australia), Zip Code2, X2 Country X2, email2@uni2.edu}
+
+
+\maketitle
+
+
+\begin{abstract}
+
+According to the hypothesis that strange quark matter may be the true ground state
+of matter at extremely high densities, strange quark stars should be stable and could
+exist in the Universe. It is possible that pulsars may actually be strange stars, but not
+neutron stars.  Here we present a short review on recent progresses in the field of
+strange quark stars. Three popular phenomenological models widely used to describe strange quark
+matter are introduced, with special attention being paid on the corresponding equation of state
+in each model. Combining the equation of state with the Tolman-Oppenheimer-Volkov
+equations, the inner structure and mass-radius relation can be obtained for the whole
+sequence of strange stars.  Strong gravitational wave emissions may be generated by
+strange stars through various mechanisms, which may help identify strange stars via
+observations. Especially, close-in strange quark planets with respect to their hosts may provide a unique test for
+the existence of strange quark objects. Fierce electromagnetic bursts
+could also be generated by strange stars. The energy may
+come from the phase transition of neutron stars to strange stars, or from the merger of
+binary strange stars. The collapse of the strange star crust can also release a huge amount
+of energy.  It is shown that strange quark stars may be involved in short gamma-ray bursts
+and fast radio bursts.
+
+%%% Leave the Abstract empty if your article does not require one, please see the Summary Table for full details.
+\section{}
+%For full guidelines regarding your manuscript please refer to \href{http://www.frontiersin.org/about/AuthorGuidelines}{Author Guidelines}.
+
+%% As a primary goal, the abstract should render the general significance and conceptual
+%% advance of the work clearly accessible to a broad readership. References should not
+%% be cited in the abstract. Leave the Abstract empty if your article does not require one,
+%% please see \href{http://www.frontiersin.org/about/AuthorGuidelines#SummaryTable}{Summary Table}
+%% for details according to article type.
+
+
+\tiny
+ \keyFont{ \section{Keywords:} stars: neutron, dense matter, equation of state,
+                 gravitational waves, gamma-ray bursts, fast radio bursts}
+%All article types: you may provide up to 8 keywords; at least 5 are mandatory.
+\end{abstract}
+
+
+\section{Introduction}
+\label{INTRODUCTION}
+
+Strange quark matter, which is a mixture consisting of almost equal numbers of
+deconfined up, down, and strange quarks, may be true ground state of dense
+matter \citep{Witten_1984_PhysRevD,Farhi&Jaffe_1984_PhysRevD}.  If such a strange quark matter hypothesis
+is correct, then the observed pulsars may actually be strange quark stars (also
+shortened as strange stars). Strange quark stars (SQS), which involve extraordinarily high
+densities, intense gravitational fields and strong electromagnetic
+fields \citep{Alcock_1986_ApJ,Colpi_1992_ApJ}, provide ideal natural laboratories
+for exploring physics under extreme astrophysical conditions. However, the nature
+of the strongly interacting matter under such extreme densities is still quite
+unclear, leading to large uncertainties in the internal structure of strange stars.
+A lot of efforts have been devoted to the theoretical and observational aspects
+of strange stars, but many issues still remain unsolved in the field.
+
+Strange quark matter is inherently self-bound by the strong interactions of quarks.
+As a result, compact stars composed of strange quark matter could be bare strange
+stars whose density reduces to zero abruptly at the surface. However, a strange
+star can also have a thin crust composed of normal nuclear matter \citep{Glendenning_1992_ApJ}.
+Because the maximum density of the crust is five times lower than the neutron drip
+density \citep{1997A&A...325..189H}, the light crust has an  almost negligible effect on
+the internal structure of strange stars \citep{Zdunik_2002_A&A}. However, it could
+significantly change the characteristics of electromagnetic emissions from such compact
+stars. Also, collapse of the crust could lead to some kinds of electromagnetic bursts or
+even emission of gravitational waves.
+
+Interestingly, according to the strange quark matter hypothesis, strange quark dwarfs
+and even strange quark planets could also exist. They may be produced due to the
+contamination of white dwarfs/planets by strange nuggets in the Universe. While the stability
+of these low-mass strange objects is still highly
+debated \citep{Glendenning_1995_ApJ,Vartanyan_2012_Ap,Vartanyan_2014_JPhCS,Alford_2017_ApJ,DiClemente_2023_A&A,Goncalves_2023_EPJA},
+they could provide valuable opportunities for identifying strange stars
+due to their significant difference from normal matter white dwarfs and planets
+\citep{Huang_2017_ApJ,Kuerban_2020_ApJ,Wang_2021_PhRvD,Kurban_2022_PhLB}.
+
+The study of strange stars is an active and rapidly developing field. In the past
+few decades, various observational aspects of strange stars have been studied.
+In this review, we are going to present a brief description on some recent progresses
+concerning strange stars. The structure of our paper is organized as follows.
+The composition and internal structure of strange stars are introduced in
+Section \ref{EOS}. Especially, several popular phenomenological models describing the strong interaction
+among quarks are presented. In Section \ref{GW}, gravitational wave (GW) emissions from
+various strange quark objects are discussed. Possible connection between some violent
+electromagnetic bursts (e.g. gamma-ray bursts and fast radio bursts) and strange stars
+are introduced in Section \ref{Electromagnetic Observations}. Finally,
+Section \ref{DISCUSSION AND CONCLUSIONS} presents the conclusions and some further
+discussion.
+
+\section{Internal structure of strange stars}
+\label{EOS}
+
+While thousands of pulsars have been observed, the internal composition and structure of
+them are still controversial. This enigma is closely connected with the interaction and
+properties of matter under extreme densities and temperatures, thus is an important
+issue involving fundamental physics. Theoretically, pulsars could be neutron stars or
+quark stars. In the quark star case, they could either be three-flavor (u, d, s) strange
+stars, or could even be two-flavor (u, d) quark stars. The existence of the
+so called hybrid stars is also suggested, which include a quark matter core encompassed
+by normal nuclear matter \citep{1965Ap......1..251I,2020NatPh..16..907A,2021Univ....7..267M}.
+
+Equation of state (EOS), which gives the relation between pressure and energy density,
+is an important factor that determines the structure and overall properties of compact
+stars. EOS is generally dependent on the composition and temperature of the dense matter.
+In principle, EOS could be derived by considering the strong interaction of microscopic
+particles that constitute the dense matter. However, due to the complexity of strong
+interaction and our poor understanding on it, an accurate derivation of the EOS is still
+impossible. Various models have been proposed to describe the strong interaction of quarks.
+In this section, we will introduce several widely used quark interaction models. The internal
+structure of compact stars based on these models will also be addressed. Note that some
+further complicated ingredients such as the magnetic field and the spin of the star should
+also be included when they play a non-negligible role in some extreme cases.
+
+\subsection{MIT bag model}
+
+The MIT bag model, initially proposed in the 1970s by \cite{Chodos_1974_1_PhRvD,Chodos_1974_PhRvD},
+is a phenomenological theoretical description aiming at explaining the structure of hadrons. In this
+framework, the finite space containing hadrons is regarded as a ``bag''. Hadrons in the bag are
+composed of free quarks, including up, down, and strange quarks in case of strange stars.
+Such a confinement is not a dynamical outcome of any underlying theory but rather a feature
+imposed by hand, achieved through the imposition of particular boundary
+conditions \citep{Buballa_2005_PhR}.
+
+The general form of the EOS of this model is \citep{Shafeeque_2023_JApA, Lohakare_2023_MNRAS}
+\begin{eqnarray}
+	P = k\big( \epsilon c^2 - 4B\big),
+	\label{funcMIT}
+\end{eqnarray}
+where $P$ denotes the pressure within the bag, $\epsilon$ represents the energy density,
+and $c$ is the velocity of light. The parameter $k$  is a constant that depends upon
+the mass of strange quarks  ($m_s$) and the quantum chromodynamics (QCD) coupling constant. Specifically,
+for $m_s=0$, $k=1/3$. $B$ signifies the pressure of the bag, corresponding to the
+energy density when the bag is in a vacuum state. It is a free parameter that could
+be determined by considering the hadron spectra or other experimental data.
+
+The bag constant is also equivalent to the critical pressure of deconfinement, resulting
+in a pressure differential across the surface of the bag. The characteristics of quark
+confinement can be described qualitatively by the bag constant. However, it is too
+simple to describe asymptotic freedom at increasing energy scales, a crucial property
+associated with QCD. Anyway, the model has only one
+free parameter ($B$), making it the simplest theory to compute the EOS of strange
+quark matter.
+
+\subsection{NJL model}
+
+The Nambu–Jona-Lasinio (NJL) model is initially proposed
+by \cite{Nambu_1961_PhRv,Nambu_1961_1_PhRv} to describe the interaction between
+nucleons. It was extended by \cite{Eguchi_1974_PhRvD} to include up and down
+quarks. \cite{Kikkawa_1976_PThPh} further developed the theory to encompass
+three flavors of quarks, including up, down, and strange quarks. In this review, we utilize
+the three-flavor NJL model to describe quark matter inside strange stars.
+The model exhibits spontaneous breaking of chiral symmetry, which is essential for
+understanding the large nucleon mass and the dynamic generation of fermion masses.
+Additionally, the model is noteworthy for its solvability, allowing for simple
+analytical results obtained in certain limiting cases.
+
+The Lagrangian of three-flavor NJL model is generally expressed as
+\begin{eqnarray}
+	\mathcal{L} = \bar{\psi}\left(i \gamma^\mu \partial_\mu - m\right) \psi + \mathcal{L}^{(4)} + \mathcal{L}^{(6)} ,
+\end{eqnarray}
+where $\psi = (\psi_u, \psi_d, \psi_s)^\mathrm{T}$ represents the quark
+field, $\gamma^\mu$ denotes the Dirac matrix, $m= diag(m_u, m_d, m_s)$
+is the fluid quark mass matrix, and $\partial_\mu$ is the partial differential
+operator in four-dimensional spacetime. $\mathcal{L}^{(4)}$
+and $\mathcal{L}^{(6)}$ correspond to four-fermion interaction and
+six-fermion interaction terms, respectively, representing two-body and
+three-body interactions. The isospin symmetry indicates that $m_u = m_d$,
+but $m_s$ differs from both $m_u$ and $m_d$, thereby manifesting the
+$SU(3)$ symmetry breaking in the three-flavor NJL model.
+
+Since quark confinement is not directly reflected in the NJL model, it is often
+used in conjunction with the bag constant ($B$) to derive the EOS. Comparing
+with the MIT bag model, the confinement is a dynamical outcome in the NJL
+model rather than being imposed by hand. However, similar to the MIT bag
+model, the NJL model also fails to explain the characteristics of asymptotic freedom.
+Additionally, in this model, the interaction between quarks is regarded as
+point-to-point interaction without the inclusion of gluons. Consequently, it is
+not a renormalizable field theory, and a regularization scheme must be specified
+to address the improper integrals that arise \citep{Klevansky_1992_RvMP}. For
+more details, readers can refer to the review articles
+by \cite{Klevansky_1992_RvMP} and \cite{Buballa_2005_PhR}.
+
+\subsection{Quasi-particle model}
+
+The quasi-particle model is another phenomenological approach for strange quark matter.
+\cite{Peshier_1994_PhLB} and \cite{Gorenstein_1995_PhRvD} initially employed this model
+to describe the quark-gluon plasma with strong interactions. Here we present a short
+introduction to the model. First, the pressure at zero temperature and finite chemical
+potential can be expressed as a model-independent
+formula \citep{He_2007_JPhG,Zong_2008_PhRvD,Zong_2008_IJMPA},
+\begin{eqnarray}
+	P(\mu) = P(\mu) \rvert_{\mu=0} + \int_{0}^{\mu}\mathrm{d}\mu'\,\rho\big(\mu'\big),
+\end{eqnarray}
+where $\mu$ denotes the chemical potential, $P(\mu) \rvert_{\mu=0}$ signifies the
+pressure at zero chemical potential, and $\rho(\mu)$ is the number density of quarks.
+
+To calculate the pressure, the primary challenge lies in computing the number density
+of quarks, which relies on the quark propagator. However, calculating the quark
+propagator directly from the first principles of QCD is impractical. Therefore, we have
+to employ approximations and then use the quasi-particle model. In this model,
+particles are treated as an ideal gas composed of non-interaction quasi-particles,
+with their masses depending on the temperature and density. This model simplifies
+the calculation of particle interactions, making computations more tractable.
+In this way, the EOS is derived in the framework of the quasi-particle model as \citep{Zhao_2010_MPLA}
+\begin{eqnarray}
+	P(\mu) = P(\mu) \rvert_{\mu=0} + \frac{3}{\uppi^2} \int_{0}^{\mu} \mathrm{d}\mu'\,\theta\Big(\mu' - m\big(\mu'\big)\Big)\Big(\big(\mu'\big)^2 - m\big(\mu'\big)^2\Big)^{3/2} ,
+\end{eqnarray}
+where $m(\mu)$ is the effective mass and $\theta$ is the Heaviside step function.
+Here, three colors and three flavors have been considered for quarks.
+
+In view of quark confinement, the energy density in the vacuum is lower than that
+of free quarks. Consequently, the vacuum pressure at zero chemical
+potential ( $P(\mu) \rvert_{\mu=0}$ ) is negative. Using the MIT bag model for
+reference, we can set $P(\mu) \rvert_{\mu=0} = -B$. However, similar to the
+MIT bag model and NJL model, the quasi-particle model also cannot
+accurately describe the characteristics of asymptotic freedom.
+
+\subsection{Properties of strange stars}
+
+%% Until now, we have discussed three popular models: the MIT bag model, the NJL model,
+%% and the quasi-particle model. It's worth reiterating that the MIT bag model is the simplest
+%% among them, focusing solely on describing the phenomenon of quark confinement
+%% without incorporating additional complexities. Consequently, it can serve as a foundational
+%% component of other more complex models. By integrating the MIT bag model with
+%% other models, we can consider additional details, and ultimately obtain more precise EOSs.
+
+EOS can be derived from the above three popular quark matter models. Using the EOS, we can go further
+to determine the mass and radius of strange stars by solving the Tolman–Oppenheimer–Volkov (TOV)
+equations \citep{1939PhRv...55..364T,Oppenheimer_1939_PhRv}, i.e.
+\begin{align}
+	\frac{\mathrm{d}P(r)}{\mathrm{d}r} &= -\frac{G(\epsilon +P)(M+4\pi r^3 P)}{r(r-2GM)} , \\
+	\frac{\mathrm{d}M(r)}{\mathrm{d}r} &= 4\pi r^2 \epsilon ,
+\end{align}
+where $G$ is the gravitational constant, $r$ and $M$ represent the radius and mass, respectively.
+Typical mass-radius curves of bare strange stars derived by using the MIT bag model
+are shown in the left panel of Figure \ref{Deb_2017_AnPhy}  \citep{Deb_2017_AnPhy}.
+On the other hand, the mass-radius curves of crusted strange stars are shown in the right
+panel of Figure \ref{Deb_2017_AnPhy}  \citep{1997A&A...325..189H}. This mass-radius relationship
+help us understand the maximum and minimum limits of mass, the upper limit of radius, the
+density distribution and even the stability condition of strange stars. We can also compare the
+theoretically predicted parameters with observational data to test the model and gain
+insights into the nature of matter under extreme conditions.
+
+The tidal deformability, which features the distortion of an object caused by external gravitational
+forces, can be measured through gravitational wave observations.  It is quantified by the tidal Love
+number $k_2$ as \citep{Thorne_1998_PhRvD}
+\begin{eqnarray}
+	k_2 = \frac{3}{2} \frac{G^5 M^5 \Lambda}{c^5 r^5} ,
+\end{eqnarray}
+where $\Lambda$ is the dimensionless tidal deformation parameter. The detailed expression for
+$\Lambda$ has been given by \cite{Thorne_1998_PhRvD} and \cite{Flanagan_2008_PhRvD}.
+The sound velocity ($\nu$) is another important parameter that reflects the stiffness of the EOS.
+It can be calculated as
+\begin{eqnarray}
+	\nu^2 = \frac{dP}{d \epsilon}.
+\end{eqnarray}
+
+
+\subsection{Stellar stability}
+
+The TOV equations determine the hydrostatic equilibrium of the stellar structure,
+while whether the resulting configuration is stable or not should be further
+investigated. In most cases, the stellar stability against radial oscillations
+is investigated by applying the Bardeen-Thorne-Meltzer (BTM)
+criterion \citep{1966ApJ...145..505B}. The BTM criterion is usually expressed as
+follows: when moving toward the direction of increasing central pressure along the
+mass-radius curve, at each extremum, one previously stable radial mode becomes
+unstable if the curve bends counterclockwise, while one previously unstable radial
+mode becomes stable if the curve bends clockwise. For bare strange quark objects
+which include the whole bare strange planet-bare strange star series, the conclusion on
+the stability is quite clear. All configurations before the mass-radius curve reaches
+its maximum are stable, with stars of higher central pressure unstable. It means that
+all the bare strange planets and bare strange dwarfs are stable.
+
+However, in the cases of crusted strange quark objects, things become more complicated.
+At first glance, strange dwarfs seem to be unstable according to the BTM criterion (see
+the right panel of Figure~\ref{Deb_2017_AnPhy}). By contrast, \cite{Glendenning_1995_ApJ}
+solved the Sturm-Liouville problem governing stellar stability and claimed that strange
+dwarfs are in fact stable. They found that all the eigenvalues of the radial oscillation
+mode are positive. It is argued that the strange quark core stabilizes the strange dwarf.
+Nevertheless, the detailed mechanism on how the strange quark core stabilizes the
+strange dwarf is not addressed. Later, \cite{Alford_2017_ApJ} revisited the problem
+and solved the Sturm--Liouville problem again. They found that the lowest eigenvalue
+of the radial oscillation mode is negative, which means strange dwarfs are unstable.
+They argued that the lowest eigenvalue was essentially omitted by \cite{Glendenning_1995_ApJ}.
+Recently, \cite{DiClemente_2023_A&A} and \cite{Goncalves_2023_EPJA} further examined the
+issue and found that the difference between \cite{Glendenning_1995_ApJ}
+and \cite{Alford_2017_ApJ} is due to the different matching condition used at the interface
+between strange quark core and nuclear crust. \cite{Alford_2017_ApJ} have used the so-called
+rapid conversion condition, while the calculations of \cite{Glendenning_1995_ApJ} correspond
+to the slow conversion condition. As a result, \cite{DiClemente_2023_A&A}
+and \cite{Goncalves_2023_EPJA} concluded that strange dwarfs are ``slow-stable'' --- being
+stable only when the phase transition process between strange quark matter and nuclear matter is
+slower than the radial perturbation.
+
+In fact, the term ``slow-stable'' is generally used to describe hybrid stars, where 
+the central quark matter is encompassed by nuclear matter and the two kinds of matter 
+can transfer to each other through phase transition. However, in the context of 
+crusted strange dwarfs and planets, the crust and strange core are separated by a 
+strong electric field. There is a ``gap'' (of several hundreds fermis) between strange 
+quark matter and nuclear matter so that the two ``phases'' do not contact with each
+other. As a result, inside strange dwarfs and strange planets, phase transition essentially 
+cannot proceed between the quark matter and the hadronic matter at the bottom of the crust. 
+In other words, these light strange quark objects generally satisfy the slow conversion 
+condition and they are in the ``slow-stable'' state. To conclude, the electric field 
+between strange core and the crust guarantees the stability of strange dwarfs and strange 
+planets against usual radial perturbations. However, note that a too large perturbation may 
+still be able to cause the crust of a strange dwarf to collapse. 
+
+\section{GW emission from strange stars}
+\label{GW}
+
+GW emission was first proposed by Einstein as a prediction of the General Theory of
+Relativity \citep{Einstein_1916_SPAW,Einstein_1918_SPAW}. Any changes in the
+distribution of matter may lead to the variation of the curvature of space-time,
+causing energy to be carried away in the form of gravitational waves.
+The detection of GW signals
+in 2015 by the LIGO collaboration \citep{Abbott_2016_PhRvL} marks the beginning of
+a new multi-messenger era in astronomy. Many efforts have been made to explore various
+possible mechanisms that could generate GWs efficiently.  Compact stars, due to their
+extreme density and dynamic motion, serve as crucial sources of GWs. In this aspect,
+GW emission associated with strange stars may have some special features since their
+internal composition and structure are different from normal neutron stars. We thus
+could potentially use GW observations to help identify strange stars.
+
+\subsection{GWs from binary strange star systems}
+
+Coalescence of binary systems is the most significant stellar GW sources. BH-BH,
+BH-NS, and NS-NS binary systems are common GW sources. Here we focus on
+binaries containing strange quark stars. According to the strange quark matter
+hypothesis \citep{Witten_1984_PhysRevD,Farhi&Jaffe_1984_PhysRevD}, pulsars
+may actually be strange stars. Therefore, we could have BH-SQS and SQS-SQS systems.
+The detection of the controversial GW190814 event, which involves a possible mass-gap
+compact object ($2.5$ -- $2.67 M_\odot$), has drawn a wide attention in the community.
+Although most researchers believe it could be a neutron star, the possibility that it is a
+strange star has also been discussed in numerous
+studies \citep{I.Bombaci_2021_PRL,Miao_2021_ApJL,ZachariasRoupas_2021_PRD,Lopes_2022_ApJ,Oikonomou_2023_PhysRevD}.
+Interestingly, two frequently mentioned GW events, GW170817 and GW190425, are
+suggested to originate from SQS-SQS systems by \cite{Miao_2021_ApJL},
+\cite{AnilKumar_2022_MN}, and \cite{Sagun_2023_ApJ}. Furthermore, theoretical
+calculations of GW radiation from SQS-SQS binary systems have been preformed
+by \cite{Limousin_2005_PhRvD}, \cite{Gondek-Rosinska_2008_arXiv},
+and \cite{Bauswein_2010_PhRvD}. \cite{Moraes_2014_MNRAS} even
+studied the possible existence of NS-SQS binaries and investigated their GW emission.
+
+It should be noted that binary systems containing low-mass strange quark objects can
+also be strong GW sources. For instance, \cite{Lv_2009_RAA} investigated GW emission
+from a white dwarf (WD)--strange dwarf system. Moreover, \cite{Perot_2023_PhRvD}
+argued that GW signal could serve as a better probe to distinguish between strange
+dwarfs from white dwarfs in binaries. More interestingly, strange quark planets could also
+stably exist. It is proposed that the merger of a strange quark planet with a SQS
+can also lead to strong GW emission \citep{Geng_2015_APJL,Zhang_2024_arXiv}.
+Generally, GW emission from merging SQS-strange quark planet will be too weak
+to be detected if it happens at cosmological distances. However, such events occurring
+in our Galaxy or in nearby local galaxies is detectable for the Advanced
+LIGO \citep{Harry_2010} and Einstein Telescope \citep{Hild_2008arXiv}.
+Figure \ref{Geng_2015_APJL} shows that the strain spectral amplitude of GWs from
+coalescing SQS–strange quark planet systems is well above the detection limit
+when they happen in our Galaxy or in local galaxies. At the same time, we could
+also try to identify strange quark objects by searching for close-in planets around
+pulsars. The period of normal matter planet around a pulsar cannot be less than
+6100 s, since it would be tidally disrupted in such a close orbit. On the contrary,
+the period of strange quark planet could be much less than 6100s due to its extreme
+high density. Using this method, several extrasolar planetary systems that contain
+a close-in planet have been argued to be possible candidates of strange planetary
+systems \citep{Kuerban_2020_ApJ}. Since these extrasolar planetary systems
+are all relatively close to us, Figure \ref{Kuerban_2020_ApJ} shows that if they merge,
+the GW emission will be well above the detection limit of current and future GW
+experiments \citep{Kuerban_2020_ApJ}.
+
+Recently, \cite{Zou_2022_ApJ} studied the GW emission produced when a primordial black hole
+inspirals inside a strange star.  The black hole will grow when it swallows the matter from the
+strange star. It will finally fall toward the center of the strange star and convert the whole star into
+a stellar mass black hole. During the process, strong GWs will be emitted, whose frequence falls
+in the range of various ground-based GW detectors, such as the Advanced Virgo, Advanced LIGO,
+LIGO A+ upgrade, Einstein Telescope (ET), and Cosmic Explorer (CE). More importantly, the
+GW signals will be different from that produced when a primordial black hole inspirals inside a
+neutron star, as illustrated in Figure \ref{Zou_2022_ApJ}. Observation of such GW events thus
+could provide a useful discrimination between strange stars and neutron stars.
+
+\subsection{GWs from other mechanisms concerning strange stars}
+
+Aside from merger events, the collapse of a neutron star induced by a phase transition to a strange star can also
+lead to strong GW emission. An increase in the central density of a neutron star can trigger a
+phase transition from hadronic matter to deconfined quark matter within the core. This transition
+may lead to the collapse of the whole neutron star into a more compact strange star, accompanied
+by the emission of GWs. \cite{Lin_2006_ApJ} and \cite{Abdikamalov_2009_MNRAS} utilized
+hydrodynamic simulations to investigate the phase transition process and computed the GW emissions.
+Recently, \cite{Yip_2023_arXiv} incorporated magnetic fields into their numerical studies to explore
+the formation of a magnetized strange star and computed the GW signals through general relativistic
+magnetohydrodynamics simulations. These studies reveal that the emitted GW spectrum is primarily
+dominated by two fundamental modes: the quasi-radial F mode ($l = 0$) and the quadrupolar $^2 f$
+mode ($l = 2$). Additionally, \cite{Yip_2023_arXiv} demonstrated that observations of these
+fundamental modes can help measure the magnetic field strength of the interior toroidal field
+and the baryonic mass fraction of matter in the mixed phase.
+
+In addition to transient GWs produced from catastrophic events, continuous GW emission
+can also arise from global oscillations of strange stars. Specifically, r-mode oscillations occurring
+in rotating SQSs \citep{Andersson_2002_MNRAS,Rupak_2013_PhRvC,Wang_2019_RAA} are
+potential mechanisms to produce continuous GWs. The r-mode instability leads to a gradual
+loss of angular momentum from the compact star, causing it to spin down and emit continuous
+GWs. Additionally,  \cite{Gondek_2003_A&A} proposed that a triaxial, ``bar shaped'' strange star
+could be an efficient source of continuous GW radiation, which is called the bar-mode GW
+emission. Continuous GW emissions are generally much weaker as compared with that of the catastrophic
+GW events \citep{2022Univ....8..442Z}. However, with the improvement in the sensitivity 
+of future detectors, GWs from r-mode and bar-mode instabilities may be detectable, which 
+will provide a novel tool for probing the dense matter in compact stars.
+
+The number of detected GW events is increasing rapidly in recent years. Although most of the observed
+GW events are produced by mergering binary black holes and are not directly related to neutron
+stars/strange stars, it is possible that more and more GW events involving neutron stars/strange stars
+will be detected in the near future. GW observations will be a powerful tool to reveal the internal
+composition and structure of pulsars.
+
+\section{Electromagnetic bursts from strange stars}
+\label{Electromagnetic Observations}
+
+With a strong gravity and magnetic field, a strange star can accrete matter from the surrounding medium
+or from a companion star. This will lead to some kinds of electromagnetic bursts, such as gamma-ray bursts (GRBs)
+and fast radio bursts (FRBs).
+
+\subsection{GRBs from strange stars}
+\label{GRB}
+
+GRBs are one of the most violent stellar explosions. The isotropic equivalent $\gamma$-ray energy released in a typical
+GRB is in a range of $10^{50}$ -- $10^{53}$ ergs. GRBs can be classified into two categories according to
+their duration, i.e. long GRBs that last for longer than $\sim$ 2 s and short GRBs shorter than $\sim$ 2 s. After more than 50
+years of study, it is now generally believed that long GRBs are produced by the collapse of massive stars, while short
+GRBs are produced by the merger of binary compact stars. However, the possibility that some GRBs are produced
+by other mechanisms still cannot be expelled \citep{2016SSRv..202...33L,2021ApJ...921....2Z}. 
+For example, strange stars could be involved in some of these fierce bursts.
+
+The conversion of neutron stars to strange stars through a phase transition process will lead to the release of
+a huge amount of energy, which would be large enough to produce short
+GRBs \citep{Cheng_1996_PhRvL,Wang_2000_A&A,Bombaci_2000_ApJ,Shu_2017_MPLA,Prasad_2018_ApJ}.
+Many factors can trigger the phase transition process. First, when a neutron star accretes matter from the
+ambient environment, its mass increases and will finally exceed a maximum value, beyond which
+the whole star will collapse and be transferred to a strange star. For example, \cite{Berezhiani_2003_ApJ}
+argued that the central object produced in supernova explosion may be metastable.  It could
+accrete the fall-back matter and collapse to form a strange star.  Second, nuclear reactions inside neutron
+stars can change their internal structure. When the pressure, density and temperature are high enough,
+neutron matter can transfer to form quark matter. \cite{Drago_2004_EPJA} considered color
+superconductivity in strange stars and found that diquark condensate could occur, which further
+increases the energy release during the conversion process. Thirdly, sudden fluctuations of density
+inside neutron stars can create a ``seed'' of strange quark matter, which triggers the phase transition
+and propagates outward to the stellar surface. \cite{Mallick_2014_NuPhA} found that during the
+spin down process, the central density of a massive neutron star may increase significantly, triggering
+a phase transition. The effect of magnetic field in the process is also considered.   When a neutron star
+is converted into a strange star, the energy released during the process is of the magnitude
+of $\sim 10^{53}$ ergs, sufficient enough to power cosmological short GRBs.
+
+A strange star can be covered by a normal matter crust. The collapse of the crust can also release
+a large amount of energy and produce an electromagnetic burst. According to
+Equation \ref{funcMIT}, the density is a finite value for strange quark matter when the pressure is
+zero, indicating that it is self-bound. As a result, the mass of strange stars can have a very wide
+range, i.e. from planetary mass strange objects to nearly two-solar-mass strange stars.
+On the surface of strange quark matter, quarks are confined by short-range strong interactions, while 
+electrons are confined by long-range electromagnetic interactions. It leads to the formation of
+an electric field on a lengthscale of hundreds of fermis. The intensity of the electric field can be
+up to $10^{17}$ V cm$^{-1}$. Due to the presence of this strong electric field, normal nuclear
+matter are expelled and accumulates over the surface to form a crust \citep{Alcock_1986_ApJ,1997A&A...325..189H}.
+Numerical simulations by \cite{Jia_2004_ChA&A} shows that when a strange star accretes matter,
+the crust will collapse to trigger a short burst. If the accretion continues, the crust will be re-built
+and re-collapse again and again, resulting in periodic explosive activities. This mechanism may
+account for some kinds of soft gamma-ray repeaters.
+
+\subsection{FRBs from strange stars}
+
+FRBs are fast radio bursts that happen randomly from the sky, typically lasting
+for a timescale of milliseconds \citep{Lorimer_2007_Science,Thornton_2013_Science}.
+Despite their short durations, the energy released during the burst is immense.
+About seven hundred FRB sources have been discovered to date, with nearly 30
+of them confirmed to exhibit repeating explosive activities. However, the possibility
+that other FRB sources may also be repeating still cannot be expelled yet.
+Comprehensive statistical analyses on the properties of repeating FRBs have been
+extensively carried out based on current astronomical observations, imposing various
+constraints on their nature \citep{Li_2017_RAA,Li_2021_ApJ,Hu_2023_ApJS},  but the
+origin of FRBs still remains an open problem in need of further investigations.
+
+Various models have been proposed to explain the observational characteristics of FRBs.
+For non-repeating FRBs, \cite{Geng_2015_ApJ} and \cite{Geng_2020_ApJ} suggested that they could
+result from the collision between a compact star and an asteroid.  Subsequently, for repeating
+bursts, researchers went further to argue that they may arise from multiple collisions as
+magnetized NSs travel through asteroid belts \citep{Dai_2016_ApJ}. On the other hand,
+\cite{Kurban_2022_ApJ} and \cite{Nurmamat_2022_arXiv} proposed that repeating bursts may originate
+from the tidal interactions in a highly elliptical planetary system, in which either a
+neutron star or a strange star could be involved. In their framework, a planet moves in a
+highly elliptical orbit around the compact star. The planet will be partially disrupted every
+time it passes through the periastron since it is very close to the compact host star,
+generating smaller clumps that finally collide with the host to produce periodically
+repeating FRBs. These models can satisfactorily explain many of the observed features
+of repeating FRB sources.
+
+In the previous subsection, we have mentioned that GRBs could originate from the
+collapse of the crust of a strange star. Similarly, it is also plausible that FRBs may be
+triggered by such processes, especially when the strange star is a strongly magnetized
+object. Enormous energy is released during the collapse, giving birth to a large amount
+of electron/positron pairs. The calculations by \cite{Zhang_2018_ApJ} show that these
+electron/positron pairs would be accelerated to relativistic velocities far above the polar
+cap region of the strange star, streaming out along the magnetic field lines and ultimately
+resulting in a short burst in radio waves. More interestingly, \cite{Geng_2021_Innov}
+found that the collapse of the crust of a strange star could happen repeatedly, thus
+can also serve as a potential mechanism for periodic repeating FRBs. In their framework,
+the strange star accretes matter from its companion. The accretion flow streams along the
+magnetic field lines and accumulate in the polar cap region. When the matter at the cap
+becomes too heavy, the local crust will collapse, triggering an FRB. The crust can be
+re-built when the accretion process continues and may collapse again once it is overloaded.
+Periodically repeating FRBs are generated in this way. It should be noted that the active
+window and quiescent stage in one period could be governed by thermal-viscous instabilities
+(see Figure \ref{Geng_2021_Innov}).
+
+\section{Concluding Remarks}
+\label{DISCUSSION AND CONCLUSIONS}
+
+Strange quark matter could be the true ground state of matter at extreme densities.
+Such a hypothesis need to be tested through astronomical investigations. Essentially, we
+should try to discriminate between neutron stars and strange stars through observations.
+In this article, we present a brief review on some recent progresses in this field.
+Various models describing quark confinement are introduced. The corresponding EOS
+derived from these models are presented and compared. By combining these EOSs with
+the TOV equations, we can calculate the inner structure of strange stars, deriving the
+mass-radius relation for the whole sequence of strange quark objects. Due to the different
+internal composition between neutron stars and strange stars, gravitational wave emissions
+from them are different, which could be potentially discerned through observations. Some
+special kinds of electromagnetic bursts could also be connected with strange stars and can
+be used as a probe of these exotic objects.
+
+GW observation is a hopeful tool to test the existence of strange stars. The coalescence of
+binary compact systems which includes at lease one strange object could lead to strong GW
+emission. Previously, people mainly concentrate on relatively high mass binaries, such
+as BH-SQS and SQS-SQS systems. In the past decade, it is found that when a
+low mass strange quark planet merge with its host strange star, strong GW emission will
+also be generated and could be detectable to us if the merger event happens in our Galaxy
+or in local galaxies \citep{Geng_2015_APJL}. Furthermore, strange quark planets revolving
+around their host strange star in a close-in orbit could even be persistent GW
+sources  \citep{Kuerban_2020_ApJ,Zhang_2024_arXiv}, which could be potential goals of
+space-based GW experiments in the future.
+Apart from binary interactions, collapses induced by phase transitions (e.g., from hadronic
+matter to deconfined quark matter) and global oscillations are also likely to generate
+GW emission, which could also be tested by the next generation GW detectors.
+
+GRBs and FRBs are fierce events possibly connected to strange stars. The merger of double
+strange stars can produce a short GRB, which is very similar to that of binary neutron star
+coalescence. Additionally, the conversion of neutron stars to strange stars may also act as
+the energy sources for short GRBs. The total energy released during this phase transition process
+is estimated to be $\sim 10^{53}$ ergs, which is large enough to power short GRBs occurring at
+cosmological distances. Furthermore, the collapse of the crust of strange stars could also act as
+a special mechanism to release a large amount of energy, which could explain FRBs (either one-off
+or repeating) or some weaker GRBs. The collapse may be triggered by accretion process that
+makes the crust overloaded. Finally, the collision of an asteroid with a strange star will also lead
+to some interesting phenomena, which still need to be investigated in detail in the future.
+
+\section*{Conflict of Interest Statement}
+%% All financial, commercial or other relationships that might be perceived by the academic
+%% community as representing a potential conflict of interest must be disclosed. If no such
+%% relationship exists, authors will be asked to confirm the following statement:
+
+The authors declare that the research was conducted in the absence of any commercial or
+financial relationships that could be construed as a potential conflict of interest.
+
+\section*{Author Contributions}
+
+X-LZ: conceptualization, investigation, validation, and writing–original draft.
+Y-FH: conceptualization, funding acquisition, validation, writing–review, and editing.
+Z-CZ: conceptualization, validation, writing–review, and editing.
+%% The Author Contributions section is mandatory for all articles, including articles by sole authors.
+%% If an appropriate statement is not provided on submission, a standard one will be inserted
+%% during the production process. The Author Contributions statement must describe the
+%% contributions of individual authors referred to by their initials and, in doing so, all authors
+%% agree to be accountable for the content of the work.
+%% Please see  \href{https://www.frontiersin.org/about/policies-and-publication-ethics#AuthorshipAuthorResponsibilities}{here}
+%% for full authorship criteria.
+
+\section*{Funding}
+The authors declare that financial support was received for the research, authorship, and/or publication of this article.
+This study was supported by the National Natural Science Foundation of China (Grant Nos. 12233002),
+by National SKA Program of China No. 2020SKA0120300,
+by the National Key R\&D Program of China (2021YFA0718500).
+
+\section*{Data Availability Statement}
+No new data were generated or analyzed in support of this research.
+
+\bibliographystyle{Frontiers-Harvard} %  Many Frontiers journals use the Harvard referencing system (Author-date), to find the style and resources for the journal you are submitting to: https://zendesk.frontiersin.org/hc/en-us/articles/360017860337-Frontiers-Reference-Styles-by-Journal. For Humanities and Social Sciences articles please include page numbers in the in-text citations
+%\bibliographystyle{Frontiers-Vancouver} % Many Frontiers journals use the numbered referencing system, to find the style and resources for the journal you are submitting to: https://zendesk.frontiersin.org/hc/en-us/articles/360017860337-Frontiers-Reference-Styles-by-Journal
+\bibliography{ref}
+
+%%% Make sure to upload the bib file along with the tex file and PDF
+%%% Please see the test.bib file for some examples of references
+
+\section*{Figure captions}
+
+%%% Please be aware that for original research articles we only permit a combined number of 15 figures and tables, one figure with multiple subfigures will count as only one figure.
+%%% Use this if adding the figures directly in the mansucript, if so, please remember to also upload the files when submitting your article
+%%% There is no need for adding the file termination, as long as you indicate where the file is saved. In the examples below the files (logo1.eps and logos.eps) are in the Frontiers LaTeX folder
+%%% If using *.tif files convert them to .jpg or .png
+%%%  NB logo1.eps is required in the path in order to correctly compile front page header %%%
+
+%\begin{figure}[h!]
+%\begin{center}
+%\includegraphics[width=10cm]{logo1}% This is a *.eps file
+%\end{center}
+%\caption{ Enter the caption for your figure here.  Repeat as  necessary for each of your figures}\label{fig:1}
+%\end{figure}
+
+
+%%% If you don't add the figures in the LaTeX files, please upload them when submitting the article.
+%%% Frontiers will add the figures at the end of the provisional pdf automatically
+%%% The use of LaTeX coding to draw Diagrams/Figures/Structures should be avoided. They should be external callouts including graphics.
+
+\begin{figure}[htbp]
+	\includegraphics[width=.49\textwidth]{fig1_1.jpg}
+	\includegraphics[width=.49\textwidth]{fig1_2.jpg}
+	\centering
+	\caption{Mass (normalized in solar masses) versus radius (km) for strange stars. \textit{Left panel:} bare strange stars.
+                      Three different values are taken for the bag constant, i.e.  83, 100 and
+                      120 MeV/fm$^3$. The filled circle on each curve represents the maximum-mass
+                       star \citep{Deb_2017_AnPhy}. \textit{Right panel:} crusted strange stars. 
+                       The solid and dashed lines represent the bottom density of neutron drip 
+                       density ($\rho_\mathrm{drip}$) and $\rho_\mathrm{drip}/5$, 
+                       respectively \citep{1997A&A...325..189H}.}
+	\label{Deb_2017_AnPhy}
+\end{figure}
+
+\begin{figure}[htbp]
+	\includegraphics[scale=.45]{fig2.jpg}
+	\centering
+	\caption{Strain spectral amplitude of GWs against frequency for coalescing
+                     SQS–strange quark planet systems  \citep{Geng_2015_APJL}. Various masses are assumed for the
+                     strange quark planet, and different distances are taken for the system. The
+                     sensitivity curves of advance-LIGO and ET are also shown for comparison.  }
+	\label{Geng_2015_APJL}
+\end{figure}
+
+\begin{figure}[htbp]
+	\includegraphics[scale=.35]{fig3.jpg}
+	\centering
+	\caption{Strain spectral amplitude of GWs against frequency for coalescing strange
+                    quark matter planetary systems \citep{Kuerban_2020_ApJ}. The names of the candidate
+                    strange quark planets are marked in the plot. This figure shows the strain spectral
+                    amplitude of the GW emission when they finally merge with their host in the future. }
+	\label{Kuerban_2020_ApJ}
+\end{figure}
+
+\begin{figure}[htbp]
+	\includegraphics[width=.55\textwidth]{fig4.jpg}
+	\centering
+	\caption{Strain spectral amplitude of GWs against frequency for a primordial black
+                   hole inspiraling inside a strange star or a neutron star \citep{Zou_2022_ApJ}.
+                   The system is assumed to be at 1 kpc from us. The sensitivity curves of several
+                   GW experiments are shown for comparison. }
+	\label{Zou_2022_ApJ}
+\end{figure}
+
+\begin{figure}[htbp]
+	\includegraphics[scale=1.0]{fig5.jpg}
+	\centering
+	\caption{Schematic illustration of periodic repeating fast radio bursts produced in the strange star crust
+                  collapse scenario \citep{Geng_2021_Innov}.  In the active state, the accretion rate is high, leading
+                  to frequent burst activities. In the quiescent state, the accretion rate is low, and no burst will be
+                  generated. }
+	\label{Geng_2021_Innov}
+\end{figure}
+
+\end{document}

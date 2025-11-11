@@ -1,0 +1,103 @@
+\section{Introduction}
+
+Narrative reasoning, such as predicting story endings and reasoning with scripts, is a fundamental task in natural language understanding \cite{mostafazadeh2016corpus, li2018constructing, mori2020finding}. 
+Reasoning with narratives depends on the understanding of eventualities\footnote{We use the linguistic term ``eventuality,'' which includes events, states, and activities \cite{mourelatos1978events, bach1986algebra}. For simplicity, we use the terms ``event'' and ``eventuality'' interchangeably.}\footnote{Jiayang completed this work while interning at Amazon AWS AI Lab.}.
+Consider the following story:
+\begin{quote}
+
+``Tom was tired and wanted to have fun. He bought a movie ticket for Harry Potter.''
+
+\end{quote}
+It can be broken down into multiple sub-sentences:
+\begin{quote}
+
+(\textbf{E1}) Tom was tired. (\textbf{E2}) Tom wanted to have fun. (\textbf{E3}) He bought a movie ticket for Harry Potter.
+
+\end{quote}
+where each of them can be regarded as an \textit{event} with a verb and one to several arguments.
+These events, which are considered as \textit{basic semantic units} in various NLP research \cite{zhang2020aser, yu2020cocolm, zhong2022unsupervised, zhang2022aser}, convey the majority of the meaning within their respective contexts.
+% The necessity of background world knowledge in understanding narrative. Human & machine (not easy for machine)
+% {\color{blue} World knowledge (external event knowledge)}
+% https://www.thoughtco.com/world-knowledge-language-studies-1692508
+% Apart from the event knowledge in contexts, the comprehension of narratives also depends on our background world knowledge \cite{day1998extensive} around these events.\
+
+\begin{figure}[t]
+\centering
+% \vspace{-10pt}
+\includegraphics[width=0.5\textwidth]{figs/motivation.pdf}
+% \vspace{-10pt}
+\caption{Given a piece of story, our goal is to ground it to eventuality-centric KGs to retrieve contextualized background world knowledge for better narrative understanding.}
+\label{fig:motivation}
+\end{figure}
+
+
+For human beings, the comprehension of these semantic units is found to heavily rely on our background \textit{world knowledge} beyond contexts \cite{day1998extensive}.
+% For example, when given ``\textit{the firefighters are rushing into a burning house},'' we can infer that there is a fire and there is probably a fire engine nearby.
+% We may also reason that the firefighters are trying to rescue someone in the house.
+For instance, given \textbf{E1} and \textbf{E2}, we may infer that Tom might have just finished his work.
+Since we know watching movies is a lot of fun, we find it reasonable that Tom chose to do so (from \textbf{E2} to \textbf{E3}).
+We can also reason from \textbf{E3} that Tom would have to arrive at the theater before the movie started.
+
+% Though it is natural for human beings to reason with their knowledge, it is not as easy for machines.
+
+% {\color{blue} summary of the previous paradigms of solving the task. refer to the second section?}
+To model such world knowledge on machines, most existing work fall into two paradigms.
+One is to implicitly model event knowledge by pretraining LMs with event-aware objectives \cite{yu2020cocolm, zhou2021modeling, zhou2022claret, zhou2022eventbert}.
+% This paradigm, however, bypasses the above problems in its philosophy of design, sacrificing explanability brought by the structural information in event KGs.
+This paradigm, however, sacrifices transparency and explanability of reasoning in its philosophy of design.
+% Existing ``explicit'' models
+In comparison, another paradigm focuses on modeling the explicit symbolic event knowledge, usually in the form of eventuality-centric knowledge graphs (KGs, such as ASER \cite{zhang2022aser} and ATOMIC \cite{sap2019atomic}).
+% However, on top of that, how to ground free-text to eventuality-centric KGs is still underexplored.
+% The next step is to ground free-text to these KGs.
+In this direction, how to leverage the symbolic event knowledge in these KGs for reasoning remains under-explored.
+The handful research here only work on a restricted format (\textit{subject-verb-object}) of texts and could not generalize to free-texts \cite{li2018constructing, lv2020integrating, lee2019multi, lee2020weakly}.
+% {\color{red}Add ITa-Lee's research.}
+% However, work are relatively scarce here.
+% {\color{blue} We will go back in details in Section \ref{sec:background}.}
+
+
+
+
+
+% Contributions
+In this paper, we make a step forward to examine the problem of grounding\footnote{Here, the term ``grounding'' refers to a process similar to ``linking'' used in ``entity linking'', where the target is the eventuality-centric KGs.} free-texts to eventuality-centric KGs.
+This problem is non-trivial due to the distinct characteristics of events, including:
+% Several characteristics of events are hindering this process:
+
+\begin{enumerate}
+\vspace{-6pt}
+    \item \textit{Difficulty in representing events.} 
+    First, events appear entangled in texts.
+    They tend to share arguments with other events in the same context (e.g., \textbf{E1} and \textbf{E2}).
+    % This necessitates an event extraction step to separate events from their contexts.
+    Second, when separated from the context, events lose co-reference information in the argument level.
+    % For instance, when viewing them out of context, it is hard to discern whether the pronoun ``they'' in event \textbf{E1} and \textbf{E2} refer to the same target.
+    For instance, it is hard to discern whether the pronoun ``he'' in event \textbf{E3} refers to ``Tom'' in \textbf{E1} and \textbf{E2} or not.
+
+\vspace{-6pt}
+    \item \textit{Sparsity of events.} 
+    Events are sparse in natural language.
+    % This is largely due to its diversity.
+    % For instance, one could paraphrase the event ``\textit{he is drinking a cup of dry white}'' into almost infinite new events, such as ``\textit{a person is drinking alcohol},'' or ``\textit{the general is drinking Sauvignon Blanc},'' simply by adding or removing details.
+    For instance, by adding or removing details, one could paraphrase \textbf{E3} into infinite events describing the same scenario, such as \textit{``he purchased a ticket online for the latest Harry Potter''} or \textit{``he booked a ticket''}.
+    Given the incomplete nature of eventuality-centric KGs, matching arbitrary events to KGs has rather high failure rate.
+\vspace{-6pt}
+\end{enumerate}
+
+% {\color{blue} briefly summarize the following three paragraphs, emphasize the motivation!}
+To tackle the above problems, we propose the very first framework to explicitly ground free-texts to eventuality-centric KGs.
+For the \textit{event representation} problem, we equip semantic parsing based event extraction with an event normalization module, which separates events from contexts while preserving co-reference information.
+Motivated by humans' abstract thinking process, we propose a partial information extraction approach to tackle the \textit{sparsity} problem. This approach conceptualizes events into multiple partial events by omitting argument details.
+Interestingly, we empirically demonstrate that these solutions significantly alleviate the sparsity problem.
+Further, we ground the partial events to KGs to get joint reasoning subgraphs.
+Subsequently, we employ two common graph reasoning models to leverage this knowledge. 
+In addition to a model based on graph neural networks (GNN), we also utilize a model based on a large language model (LLM).
+Experimental results on three narrative reasoning tasks show that our framework consistently outperforms current state-of-the-art models.
+Lastly, we provide a qualitative study to showcase how our approach can provide interpretable evidence for model predictions.
+
+To summarize, the paper's contributions are\footnote{The code and data are available at \url{https://github.com/HKUST-KnowComp/EventGround}.}: 
+\begin{enumerate}
+    \item We develop an initial formulation for the problem of grounding free-texts to eventuality-centric KGs. 
+    \item We propose \methodname, a systematic approach, to solve the \textit{event representation} and \textit{sparsity} problems, and perform narrative reasoning based on the grounded information.
+    \item Experimental results show that our approach outperforms strong baselines and achieves new state-of-the-art performance on three datasets, while providing human-interpretable evidence.
+\end{enumerate}
