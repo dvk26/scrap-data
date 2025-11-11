@@ -13,6 +13,8 @@ def parse_args():
     ap.add_argument("--student-id", required=True, help="e.g., 22127227")
     # direct IDs
     ap.add_argument("--ids", nargs="*", default=[], help="List of arXiv IDs, e.g., 1706.03762 2310.12345")
+    ap.add_argument("--out", help="Custom output directory (default: ./<student-id>)")   # ✅ NEW
+
     # month range blocks (can repeat)
     ap.add_argument("--month", action="append", help="YYYY-MM, e.g., 2024-04")
     ap.add_argument("--start", action="append", type=int, help="Start number in month, e.g., 198")
@@ -47,8 +49,10 @@ def collect_ids(args) -> List[str]:
 
 def main():
     args = parse_args()
-    root = os.path.abspath(args.student_id)
+    # ✅ root chọn theo --out nếu có, ngược lại fallback về student-id
+    root = os.path.abspath(args.out if args.out else args.student_id)
     ensure_dir(root)
+    print(f"Output directory: {root}")  # ✅ log ra màn hình
 
     ids = collect_ids(args)
     total = len(ids)
