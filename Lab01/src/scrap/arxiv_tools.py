@@ -36,10 +36,7 @@ RATE_LIMITER = RateLimiter(3.5)
 # Không dùng delay/num_retries nội bộ của lib, ta tự kiểm soát để chủ động backoff
 ARXIV_CLIENT = arxiv.Client(
     page_size=50,
-    delay=0,
-    num_retries=0,
 )
-
 # ============ UTILITIES ============
 def is_tar_ok(path: str) -> bool:
     """Quick validation: file exists, not an HTML error page, and tarfile can be opened."""
