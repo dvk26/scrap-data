@@ -1,0 +1,35 @@
+{
+    "2009-13461": {
+        "paper_title": "Embedded surfaces with infinite cyclic knot group",
+        "authors": [
+            "Anthony Conway",
+            "Mark Powell"
+        ],
+        "submission_date": "2020-09-28",
+        "semantic_scholar_id": "000960c3f0df9ab78b6966761bbfd24358bbb021"
+    },
+    "1510-02554": {
+        "paper_title": "Crossing changes, Delta moves and sharp moves on welded knots",
+        "authors": [
+            "S. Satoh"
+        ],
+        "submission_date": "2015-10-09",
+        "semantic_scholar_id": "bb98658236efe057185affe5809272476a1a49de"
+    },
+    "0711-1638": {
+        "paper_title": "The Classification of Spun Torus Knots",
+        "authors": [
+            "Blake K. Winter"
+        ],
+        "submission_date": "2007-11-11",
+        "semantic_scholar_id": "1c2da8b9707fee2f4cccd5934848e7d3fb91615f"
+    },
+    "math/0007015": {
+        "paper_title": "UNKNOTTING VIRTUAL KNOTS WITH GAUSS DIAGRAM FORBIDDEN MOVES",
+        "authors": [
+            "Sam Nelson"
+        ],
+        "submission_date": "2000-07-03",
+        "semantic_scholar_id": "f714f5ebd61db09484af12d9f5600cfa549c9f7d"
+    }
+}

@@ -1,0 +1,54 @@
+{
+    "2303-02368": {
+        "paper_title": "Controlling Selenization Equilibrium Enables High-Quality Kesterite Absorbers for Efficient Solar Cells",
+        "authors": [
+            "Xiao Xu",
+            "Jiazheng Zhou",
+            "Kang Yin",
+            "Jinlin Wang",
+            "Licheng Lou",
+            "Meng-meng Jiao",
+            "Bowen Zhang",
+            "Dongmei Li",
+            "Jiangjian Shi",
+            "Huijue Wu",
+            "Yanhong Luo",
+            "Q. Meng"
+        ],
+        "submission_date": "2023-03-04",
+        "semantic_scholar_id": "5ad8b23710d936c030c31d4f170346c45ebb8c1f"
+    },
+    "1912-07889": {
+        "paper_title": "Upper limit to the photovoltaic efficiency of imperfect crystals from first principles",
+        "authors": [
+            "Sunghyun Kim",
+            "Jos'e A. M'arquez",
+            "T. Unold",
+            "A. Walsh"
+        ],
+        "submission_date": "2019-12-17",
+        "semantic_scholar_id": "627b7c01fbe41d1e326868ed5ad2abd6570d722e"
+    },
+    "1810-11259": {
+        "paper_title": "Lone-pair effect on carrier capture in Cu2ZnSnS4solar cells",
+        "authors": [
+            "Sunghyun Kim",
+            "Ji-Sang Park",
+            "Samantha N. Hood",
+            "A. Walsh"
+        ],
+        "submission_date": "2018-10-26",
+        "semantic_scholar_id": "c4f31677dad9ee0c6da5075da377513d7fecd101"
+    },
+    "1805-00022": {
+        "paper_title": "Role of electron-phonon coupling and thermal expansion on band gaps, carrier mobility, and interfacial offsets in kesterite thin-film solar cells",
+        "authors": [
+            "B. Monserrat",
+            "Ji-Sang Park",
+            "Sunghyun Kim",
+            "A. Walsh"
+        ],
+        "submission_date": "2018-04-30",
+        "semantic_scholar_id": "52ccb93f7a15099f4700e7cf555b7332032be0f4"
+    }
+}

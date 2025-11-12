@@ -1,0 +1,117 @@
+{
+    "2206-07360": {
+        "paper_title": "SciTweets - A Dataset and Annotation Framework for Detecting Scientific Online Discourse",
+        "authors": [
+            "Salim Hafid",
+            "Sebastian Schellhammer",
+            "S. Bringay",
+            "Konstantin Todorov",
+            "S. Dietze"
+        ],
+        "submission_date": "2022-06-15",
+        "semantic_scholar_id": "bdf11645b98af6d00bf84282166413afcba2071f"
+    },
+    "2005-10200": {
+        "paper_title": "BERTweet: A pre-trained language model for English Tweets",
+        "authors": [
+            "Dat Quoc Nguyen",
+            "Thanh Vu",
+            "A. Nguyen"
+        ],
+        "submission_date": "2020-05-20",
+        "semantic_scholar_id": "72cdd6ebe0221fb568ef20534f44ba5b35190a56"
+    },
+    "2005-01619": {
+        "paper_title": "From Arguments to Key Points: Towards Automatic Argument Summarization",
+        "authors": [
+            "Roy Bar-Haim",
+            "Lilach Eden",
+            "Roni Friedman",
+            "Yoav Kantor",
+            "Dan Lahav",
+            "N. Slonim"
+        ],
+        "submission_date": "2020-05-04",
+        "semantic_scholar_id": "01f20660e578e781b94af1d31e36790f01a61aec"
+    },
+    "1908-10084": {
+        "paper_title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+        "authors": [
+            "Nils Reimers",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2019-08-27",
+        "semantic_scholar_id": "93d63ec754f29fa22572615320afe0521f7ec66d"
+    },
+    "1907-08971": {
+        "paper_title": "Are You Convinced? Choosing the More Convincing Evidence with a Siamese Network",
+        "authors": [
+            "Martin Gleize",
+            "Eyal Shnarch",
+            "Leshem Choshen",
+            "Lena Dankin",
+            "Guy Moshkowich",
+            "R. Aharonov",
+            "N. Slonim"
+        ],
+        "submission_date": "2019-07-21",
+        "semantic_scholar_id": "8fd90cde74bc4349db1701107444c80db875f13a"
+    },
+    "1906-09821": {
+        "paper_title": "Classification and Clustering of Arguments with Contextualized Word Embeddings",
+        "authors": [
+            "Nils Reimers",
+            "Benjamin Schiller",
+            "Tilman Beck",
+            "Johannes Daxenberger",
+            "Christian Stab",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2019-06-24",
+        "semantic_scholar_id": "8c5ced1d6677eecf173ba895da11d736eb3c7a90"
+    },
+    "1802-05758": {
+        "paper_title": "Cross-topic Argument Mining from Heterogeneous Sources",
+        "authors": [
+            "Christian Stab",
+            "Tristan Miller",
+            "Benjamin Schiller",
+            "Pranav Rai",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2018-02-15",
+        "semantic_scholar_id": "a1e91322798c7ba97ab115c58817adb06005c0c1"
+    },
+    "1704-07203": {
+        "paper_title": "What is the Essence of a Claim? Cross-Domain Claim Identification",
+        "authors": [
+            "Johannes Daxenberger",
+            "Steffen Eger",
+            "Ivan Habernal",
+            "Christian Stab",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2017-04-24",
+        "semantic_scholar_id": "08f6819e66318cd49cddefd5d690a752d1098da7"
+    },
+    "1601-02403": {
+        "paper_title": "Argumentation Mining in User-Generated Web Discourse",
+        "authors": [
+            "Ivan Habernal",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2016-01-11",
+        "semantic_scholar_id": "834d68b9befcc6c68415b460b33435a1822799fb"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

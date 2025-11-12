@@ -1,0 +1,278 @@
+{
+    "2306-11679": {
+        "paper_title": "A primal-dual data-driven method for computational optical imaging with a photonic lantern.",
+        "authors": [
+            "Carlos Santos Garcia",
+            "Mathilde Larcheveque",
+            "Solal O'Sullivan",
+            "Martin Van Waerebeke",
+            "Robert R. Thomson",
+            "A. Repetti",
+            "J. Pesquet"
+        ],
+        "submission_date": "2023-06-20",
+        "semantic_scholar_id": "3ac118a56b496e2a7375e7541e0a9f5b6c44ff59"
+    },
+    "2306-07233": {
+        "paper_title": "Generative Plug and Play: Posterior Sampling for Inverse Problems",
+        "authors": [
+            "Charles A. Bouman",
+            "G. Buzzard"
+        ],
+        "submission_date": "2023-06-12",
+        "semantic_scholar_id": "65a0e6967676e3e331b32a4029323fc93e02828c"
+    },
+    "2306-03466": {
+        "paper_title": "Convergent Bregman Plug-and-Play Image Restoration for Poisson Inverse Problems",
+        "authors": [
+            "Samuel Hurault",
+            "U. Kamilov",
+            "Arthur Leclaire",
+            "N. Papadakis"
+        ],
+        "submission_date": "2023-06-06",
+        "semantic_scholar_id": "56f514024462ae498bf69a9d419f90fa90902b52"
+    },
+    "2304-11200": {
+        "paper_title": "A Plug-and-Play Method with Inpainting Network for Bayesian Uncertainty Quantification in Imaging",
+        "authors": [
+            "Xiaoyu Wang",
+            "M. Tang",
+            "A. Repetti"
+        ],
+        "submission_date": "2023-04-21",
+        "semantic_scholar_id": "184591f3fbe173a2d06e3652d0c37d8cde505106"
+    },
+    "2301-10862": {
+        "paper_title": "Learning Gradients of Convex Functions with Monotone Gradient Networks",
+        "authors": [
+            "Shreyas Chaudhari",
+            "Srinivasa Pranav",
+            "J. Moura"
+        ],
+        "submission_date": "2023-01-25",
+        "semantic_scholar_id": "7a9688a9576753214276c738ad287845f83f10d2"
+    },
+    "2212-07844": {
+        "paper_title": "Differentiating Nonsmooth Solutions to Parametric Monotone Inclusion Problems",
+        "authors": [
+            "J. Bolte",
+            "Edouard Pauwels",
+            "A. Silveti-Falls"
+        ],
+        "submission_date": "2022-12-15",
+        "semantic_scholar_id": "a3844baf8c4f411d32981489d0c75b001eb1f8a8"
+    },
+    "2210-08176": {
+        "paper_title": "Invertible Monotone Operators for Normalizing Flows",
+        "authors": [
+            "Byeongkeun Ahn",
+            "Chiyoon Kim",
+            "Youngjoon Hong",
+            "Hyunwoo J. Kim"
+        ],
+        "submission_date": "2022-10-15",
+        "semantic_scholar_id": "a66e3dc12ff399c048e10662c2f8bcb8d592231d"
+    },
+    "2205-11775": {
+        "paper_title": "Constrained Monotonic Neural Networks",
+        "authors": [
+            "D. Runje",
+            "Sharath M. Shankaranarayana"
+        ],
+        "submission_date": "2022-05-24",
+        "semantic_scholar_id": "3420821a80602403dcdc121f21b3603278c0c008"
+    },
+    "2203-17061": {
+        "paper_title": "Plug-and-Play Methods for Integrating Physical and Learned Models in Computational Imaging: Theory, algorithms, and applications",
+        "authors": [
+            "U. Kamilov",
+            "C. Bouman",
+            "G. Buzzard",
+            "B. Wohlberg"
+        ],
+        "submission_date": "2022-03-31",
+        "semantic_scholar_id": "149042c8dd2e4c718c0d0ef411ec3799c15986d4"
+    },
+    "2202-02388": {
+        "paper_title": "Bregman Plug-And-Play Priors",
+        "authors": [
+            "Abdullah H. Al-Shabili",
+            "Xiaojian Xu",
+            "I. Selesnick",
+            "U. Kamilov"
+        ],
+        "submission_date": "2022-02-04",
+        "semantic_scholar_id": "0775b87c90492adfa669ac017e38dc4c294f7a25"
+    },
+    "2201-13256": {
+        "paper_title": "Proximal denoiser for convergent plug-and-play optimization with nonconvex regularization",
+        "authors": [
+            "Samuel Hurault",
+            "Arthur Leclaire",
+            "N. Papadakis"
+        ],
+        "submission_date": "2022-01-31",
+        "semantic_scholar_id": "91b81bfafd2da1fd2c3fadee5cfd08608d27c4c3"
+    },
+    "2110-03220": {
+        "paper_title": "Gradient Step Denoiser for convergent Plug-and-Play",
+        "authors": [
+            "Samuel Hurault",
+            "Arthur Leclaire",
+            "N. Papadakis"
+        ],
+        "submission_date": "2021-10-07",
+        "semantic_scholar_id": "854926f19cd2426fe6b0bef5ed834c83fd56f97b"
+    },
+    "2105-07380": {
+        "paper_title": "A Variational Inequality Model for the Construction of Signals from Inconsistent Nonlinear Equations",
+        "authors": [
+            "P. Combettes",
+            "Zev Woodstock"
+        ],
+        "submission_date": "2021-05-16",
+        "semantic_scholar_id": "1e2f2ead03e2128a37d922afa05e417453009939"
+    },
+    "2102-07944": {
+        "paper_title": "Deep Equilibrium Architectures for Inverse Problems in Imaging",
+        "authors": [
+            "Davis Gilton",
+            "Greg Ongie",
+            "R. Willett"
+        ],
+        "submission_date": "2021-02-16",
+        "semantic_scholar_id": "2eda00a2a432dfe7f5f294f6b310f5c342b0d837"
+    },
+    "2101-10763": {
+        "paper_title": "Benchmarking Invertible Architectures on Inverse Problems",
+        "authors": [
+            "Jakob Kruse",
+            "Lynton Ardizzone",
+            "C. Rother",
+            "U. Köthe"
+        ],
+        "submission_date": "2021-01-26",
+        "semantic_scholar_id": "2a057da2b5602f0ecc7c3e0ce93d91365290ea33"
+    },
+    "2012-13247": {
+        "paper_title": "Learning Maximally Monotone Operators for Image Recovery",
+        "authors": [
+            "J. Pesquet",
+            "A. Repetti",
+            "M. Terris",
+            "Y. Wiaux"
+        ],
+        "submission_date": "2020-12-24",
+        "semantic_scholar_id": "7797b66664cda16f43ca5e593fc9f101f54976ca"
+    },
+    "2008-02260": {
+        "paper_title": "Fixed Point Strategies in Data Science",
+        "authors": [
+            "P. Combettes",
+            "J. Pesquet"
+        ],
+        "submission_date": "2020-08-05",
+        "semantic_scholar_id": "deb4e0c46f2e389ec5e4528f9dcee643bb6a15fa"
+    },
+    "2008-00226": {
+        "paper_title": "Regularization by Denoising via Fixed-Point Projection (RED-PRO)",
+        "authors": [
+            "Regev Cohen",
+            "Michael Elad",
+            "P. Milanfar"
+        ],
+        "submission_date": "2020-08-01",
+        "semantic_scholar_id": "83ca9d986d24a26cb43c3836127415398b0b3b83"
+    },
+    "2007-01547": {
+        "paper_title": "Descending through a Crowded Valley - Benchmarking Deep Learning Optimizers",
+        "authors": [
+            "Robin M. Schmidt",
+            "Frank Schneider",
+            "Philipp Hennig"
+        ],
+        "submission_date": "2020-07-03",
+        "semantic_scholar_id": "0b72faba82f0b652a5a082b57872c1c8ecaf7e9a"
+    },
+    "1909-10300": {
+        "paper_title": "Conservative set valued fields, automatic differentiation, stochastic gradient methods and deep learning",
+        "authors": [
+            "J. Bolte",
+            "Edouard Pauwels"
+        ],
+        "submission_date": "2019-09-23",
+        "semantic_scholar_id": "181ddbe7c71afc6f71d0d58fba4cb3f4ff84d428"
+    },
+    "1906-09023": {
+        "paper_title": "Backpropagation-Friendly Eigendecomposition",
+        "authors": [
+            "Wei Wang",
+            "Zheng Dang",
+            "Yinlin Hu",
+            "P. Fua",
+            "M. Salzmann"
+        ],
+        "submission_date": "2019-06-21",
+        "semantic_scholar_id": "032d865e92d97613a3659ec4a0b3e3243535b8ff"
+    },
+    "1905-05406": {
+        "paper_title": "Plug-and-Play Methods Provably Converge with Properly Trained Denoisers",
+        "authors": [
+            "Ernest K. Ryu",
+            "Jialin Liu",
+            "Sicheng Wang",
+            "Xiaohan Chen",
+            "Zhangyang Wang",
+            "W. Yin"
+        ],
+        "submission_date": "2019-05-14",
+        "semantic_scholar_id": "e74c8596ea08ef5e366ffdde330ccd6a13284f65"
+    },
+    "1903-01014": {
+        "paper_title": "Lipschitz Certificates for Layered Network Structures Driven by Averaged Activation Operators",
+        "authors": [
+            "P. Combettes",
+            "J. Pesquet"
+        ],
+        "submission_date": "2019-03-03",
+        "semantic_scholar_id": "5d6fff3a863fff27534ff25897e01f1026a0095a"
+    },
+    "1801-09922": {
+        "paper_title": "Modern regularization methods for inverse problems",
+        "authors": [
+            "Martin Benning",
+            "M. Burger"
+        ],
+        "submission_date": "2018-01-30",
+        "semantic_scholar_id": "de2e9799e9ad70afb4e5b9b0fc789840a9818b2a"
+    },
+    "1606-04934": {
+        "paper_title": "Improved Variational Inference with Inverse Autoregressive Flow",
+        "authors": [
+            "Diederik P. Kingma",
+            "Tim Salimans",
+            "M. Welling"
+        ],
+        "submission_date": "2016-06-15",
+        "semantic_scholar_id": "6a97d2668187965743d1b825b306defccbabbb4c"
+    },
+    "1505-05770": {
+        "paper_title": "Variational Inference with Normalizing Flows",
+        "authors": [
+            "Danilo Jimenez Rezende",
+            "S. Mohamed"
+        ],
+        "submission_date": "2015-05-21",
+        "semantic_scholar_id": "0f899b92b7fb03b609fee887e4b6f3b633eaf30d"
+    },
+    "0912-3522": {
+        "paper_title": "Proximal Splitting Methods in Signal Processing",
+        "authors": [
+            "P. Combettes",
+            "J. Pesquet"
+        ],
+        "submission_date": "2009-12-17",
+        "semantic_scholar_id": "8e9f5c99f8c006e78eb9e515ec9c618cc34f2794"
+    }
+}

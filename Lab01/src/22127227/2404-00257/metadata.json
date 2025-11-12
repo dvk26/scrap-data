@@ -1,0 +1,14 @@
+{
+    "paper_title": "YOLOOC: YOLO-based Open-Class Incremental Object Detection with Novel Class Discovery",
+    "authors": [
+        "Qian Wan",
+        "Xiang Xiang",
+        "Qinhao Zhou"
+    ],
+    "publication_venue": "Initially submitted to ACCV 2022",
+    "submission_date": "2024-03-30",
+    "revised_dates": [
+        "2024-03-30",
+        "2024-03-30"
+    ]
+}

@@ -1,0 +1,57 @@
+{
+    "2405-04083": {
+        "paper_title": "On the representation of C-recursive integer sequences by arithmetic terms",
+        "authors": [
+            "Mihai Prunescu",
+            "Lorenzo Sauras-Altuzarra"
+        ],
+        "submission_date": "2024-05-07",
+        "semantic_scholar_id": "e3067010c8383585a46a9fd828f074f3c3f4cfa0"
+    },
+    "2403-12716": {
+        "paper_title": "A New Reduction Method from Multivariate Polynomials to Univariate Polynomials",
+        "authors": [
+            "Cancan Wang",
+            "Ming Su",
+            "Gang Wang",
+            "Qing Zhang"
+        ],
+        "submission_date": "2024-03-19",
+        "semantic_scholar_id": "43b413494da95517bae217fc9cf5868b1490574a"
+    },
+    "2312-00301": {
+        "paper_title": "Arithmetic Terms for Multinomial Coefficient Sums",
+        "authors": [
+            "Joseph M. Shunia",
+            "Lorenzo Sauras-Altuzarra"
+        ],
+        "submission_date": "2023-11-02",
+        "semantic_scholar_id": "94969dfba0e3795ca9ab8826e5b6581877eef52d"
+    },
+    "2312-00302": {
+        "paper_title": "A Polynomial Ring Connecting Central Binomial Coefficients and Gould's Sequence",
+        "authors": [
+            "Joseph M. Shunia"
+        ],
+        "submission_date": "2023-10-12",
+        "semantic_scholar_id": "a62587cd9d2356787404e0579ffa20a1495a3a2c"
+    },
+    "0809-0063": {
+        "paper_title": "Simultaneous modular reduction and Kronecker substitution for small finite fields",
+        "authors": [
+            "J. Dumas",
+            "Laurent Fousse",
+            "B. Salvy"
+        ],
+        "submission_date": "2008-08-30",
+        "semantic_scholar_id": "0a3f2d40f48c005969bfd827c34fb22a0160a40c"
+    },
+    "0712-4046": {
+        "paper_title": "Faster polynomial multiplication via multipoint Kronecker substitution",
+        "authors": [
+            "David Harvey"
+        ],
+        "submission_date": "2007-12-25",
+        "semantic_scholar_id": "8571ca7edc53da6979e908fcd0697e0215d634d3"
+    }
+}

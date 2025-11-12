@@ -1,0 +1,323 @@
+{
+    "2305-08768": {
+        "paper_title": "An Introduction to String Diagrams for Computer Scientists",
+        "authors": [
+            "R. Piedeleu",
+            "F. Zanasi"
+        ],
+        "submission_date": "2023-05-15",
+        "semantic_scholar_id": "bf5923e255e53474e12e8212efda1708181c0703"
+    },
+    "2304-10031": {
+        "paper_title": "Architectures of Topological Deep Learning: A Survey on Topological Neural Networks",
+        "authors": [
+            "Mathilde Papillon",
+            "S. Sanborn",
+            "Mustafa Hajij",
+            "Nina Miolane"
+        ],
+        "submission_date": "2023-04-20",
+        "semantic_scholar_id": "6a544df8622c1375dc73e2bf9b67dfe4ec7a9acf"
+    },
+    "2203-06430": {
+        "paper_title": "Categories of Differentiable Polynomial Circuits for Machine Learning",
+        "authors": [
+            "Paul W. Wilson",
+            "F. Zanasi"
+        ],
+        "submission_date": "2022-03-12",
+        "semantic_scholar_id": "b81c42ad51b88a996d32eeb4f16f32a7d87dee5a"
+    },
+    "2203-00667": {
+        "paper_title": "Generative Adversarial Networks",
+        "authors": [
+            "I. Goodfellow",
+            "Jean Pouget-Abadie",
+            "Mehdi Mirza",
+            "Bing Xu",
+            "David Warde-Farley",
+            "Sherjil Ozair",
+            "Aaron C. Courville",
+            "Yoshua Bengio"
+        ],
+        "submission_date": "2022-03-01",
+        "semantic_scholar_id": "6296aa7cab06eaf058f7291040b320b5a83c0091"
+    },
+    "2105-06763": {
+        "paper_title": "Translating Extensive Form Games to Open Games with Agency",
+        "authors": [
+            "Matteo Capucci",
+            "Neil Ghani",
+            "J. Ledent",
+            "F. Forsberg"
+        ],
+        "submission_date": "2021-05-14",
+        "semantic_scholar_id": "62c76c825fc7fbb1e2a2d4a9c21e3732ad90e860"
+    },
+    "2105-06332": {
+        "paper_title": "Towards Foundations of Categorical Cybernetics",
+        "authors": [
+            "Matteo Capucci",
+            "Bruno Gavranovi'c",
+            "Jules Hedges",
+            "E. Rischel"
+        ],
+        "submission_date": "2021-05-13",
+        "semantic_scholar_id": "8067985717d94e24ef6fb1ff56cd96b944403b8c"
+    },
+    "2104-13478": {
+        "paper_title": "Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges",
+        "authors": [
+            "M. Bronstein",
+            "Joan Bruna",
+            "Taco Cohen",
+            "Petar Velivckovi'c"
+        ],
+        "submission_date": "2021-04-27",
+        "semantic_scholar_id": "14014c024674991149f3ecf9314c93f7e029ef1a"
+    },
+    "2103-01931": {
+        "paper_title": "Categorical Foundations of Gradient-Based Learning",
+        "authors": [
+            "G. Cruttwell",
+            "Bruno Gavranovi'c",
+            "Neil Ghani",
+            "Paul W. Wilson",
+            "F. Zanasi"
+        ],
+        "submission_date": "2021-03-02",
+        "semantic_scholar_id": "019bb9e5edad5be97021878aad6c16feb23ea67c"
+    },
+    "2101-10488": {
+        "paper_title": "Reverse Derivative Ascent: A Categorical Approach to Learning Boolean Circuits",
+        "authors": [
+            "Paul W. Wilson",
+            "F. Zanasi"
+        ],
+        "submission_date": "2021-01-26",
+        "semantic_scholar_id": "4c39731fe46a383cdf01270c941ce09aee74535d"
+    },
+    "2005-04735": {
+        "paper_title": "Categorical Stochastic Processes and Likelihood",
+        "authors": [
+            "Dan Shiebler"
+        ],
+        "submission_date": "2020-05-10",
+        "semantic_scholar_id": "011b421381f85c3bca1d5953d165dbb9ca2b4dc5"
+    },
+    "2002-11480": {
+        "paper_title": "String Diagrams for Optics",
+        "authors": [
+            "G. Boisseau"
+        ],
+        "submission_date": "2020-02-11",
+        "semantic_scholar_id": "ac617296e978bb7d753cbee3c38eb9c0a13bbe69"
+    },
+    "2001-07488": {
+        "paper_title": "Profunctor optics, a categorical update",
+        "authors": [
+            "Bryce Clarke",
+            "Derek Elkins",
+            "J. Gibbons",
+            "Fosco Loregiàn",
+            "B. Milewski",
+            "Emily Pillmore",
+            "Mario Rom'an"
+        ],
+        "submission_date": "2020-01-21",
+        "semantic_scholar_id": "d08a8a70b5217508d400ed3fd357371cd19a72be"
+    },
+    "1910-07065": {
+        "paper_title": "Reverse derivative categories",
+        "authors": [
+            "Robin Cockett",
+            "G. Cruttwell",
+            "J. Gallagher",
+            "J. Lemay",
+            "Benjamin MacAdam",
+            "G. Plotkin",
+            "D. Pronk"
+        ],
+        "submission_date": "2019-10-15",
+        "semantic_scholar_id": "53b74ce7e6af7803af5d7ed5a4fadb2d111993c2"
+    },
+    "1908-02202": {
+        "paper_title": "Generalized Lens Categories via functors $\\mathcal{C}^{\\rm op}\\to\\mathsf{Cat}$",
+        "authors": [
+            "David I. Spivak"
+        ],
+        "submission_date": "2019-08-06",
+        "semantic_scholar_id": "3a47aaca77631f0db4e035239ece5d1829e7d511"
+    },
+    "1907-08292": {
+        "paper_title": "Compositional Deep Learning",
+        "authors": [
+            "Bruno Gavranovic"
+        ],
+        "submission_date": "2019-07-16",
+        "semantic_scholar_id": "2e4d61d0f4ab8a0c254302882aa354eaf08b558e"
+    },
+    "1903-01093": {
+        "paper_title": "Differentiable Causal Computations via Delayed Trace",
+        "authors": [
+            "David Sprunger",
+            "Shin-ya Katsumata"
+        ],
+        "submission_date": "2019-03-04",
+        "semantic_scholar_id": "ac6657dec735d561d9bb7a7cb6a2d69e1ce0a457"
+    },
+    "1903-03671": {
+        "paper_title": "Lenses and Learners",
+        "authors": [
+            "Brendan Fong",
+            "Michael Johnson"
+        ],
+        "submission_date": "2019-03-05",
+        "semantic_scholar_id": "db16b6859003d7026e18c4a08597923c57e84ac1"
+    },
+    "1809-00738": {
+        "paper_title": "Categories of Optics",
+        "authors": [
+            "Mitchell Riley"
+        ],
+        "submission_date": "2018-09-03",
+        "semantic_scholar_id": "0208e681fa7ae18aae73a7553792899576f51494"
+    },
+    "1808-05545": {
+        "paper_title": "Limits of bimorphic lenses",
+        "authors": [
+            "Jules Hedges"
+        ],
+        "submission_date": "2018-08-16",
+        "semantic_scholar_id": "ecd7fdf53c994685194f3cb907eb68b2418110bd"
+    },
+    "1804-00746": {
+        "paper_title": "The simple essence of automatic differentiation",
+        "authors": [
+            "Conal Elliott"
+        ],
+        "submission_date": "2018-04-02",
+        "semantic_scholar_id": "89d3cbe1a27ee45b03b0b3cc91d727470e30afa6"
+    },
+    "1711-10455": {
+        "paper_title": "Backprop as Functor: A compositional perspective on supervised learning",
+        "authors": [
+            "Brendan Fong",
+            "David I. Spivak",
+            "Rémy Tuyéras"
+        ],
+        "submission_date": "2017-11-28",
+        "semantic_scholar_id": "a54512c6f7669837b042ce913e44d5b5863d655b"
+    },
+    "1703-10247": {
+        "paper_title": "Diagrammatic Semantics for Digital Circuits",
+        "authors": [
+            "D. Ghica",
+            "A. Jung",
+            "Aliaume Lopez"
+        ],
+        "submission_date": "2017-03-29",
+        "semantic_scholar_id": "58e94fe38f6e2a4ec89dd757a4765917983522d8"
+    },
+    "1606-08514": {
+        "paper_title": "Towards Verified Artificial Intelligence",
+        "authors": [
+            "S. Seshia",
+            "Dorsa Sadigh"
+        ],
+        "submission_date": "2016-06-27",
+        "semantic_scholar_id": "a41b5b11123ea588753fb2fd25be1dfa47593482"
+    },
+    "1606-04474": {
+        "paper_title": "Learning to learn by gradient descent by gradient descent",
+        "authors": [
+            "Marcin Andrychowicz",
+            "Misha Denil",
+            "Sergio Gomez Colmenarejo",
+            "Matthew W. Hoffman",
+            "David Pfau",
+            "T. Schaul",
+            "Nando de Freitas"
+        ],
+        "submission_date": "2016-06-14",
+        "semantic_scholar_id": "71683e224ab91617950956b5005ed0439a733a71"
+    },
+    "1603-04641": {
+        "paper_title": "Compositional Game Theory",
+        "authors": [
+            "Neil Ghani",
+            "Jules Hedges",
+            "Viktor Winschel",
+            "Philipp Zahn"
+        ],
+        "submission_date": "2016-03-15",
+        "semantic_scholar_id": "39fc4e0bdae60f410cab1c7a80661a0a75c6b42f"
+    },
+    "1512-03385": {
+        "paper_title": "Deep Residual Learning for Image Recognition",
+        "authors": [
+            "Kaiming He",
+            "X. Zhang",
+            "Shaoqing Ren",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-12-10",
+        "semantic_scholar_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d"
+    },
+    "1511-00363": {
+        "paper_title": "BinaryConnect: Training Deep Neural Networks with binary weights during propagations",
+        "authors": [
+            "Matthieu Courbariaux",
+            "Yoshua Bengio",
+            "J. David"
+        ],
+        "submission_date": "2015-11-02",
+        "semantic_scholar_id": "a5733ff08daff727af834345b9cfff1d0aa109ec"
+    },
+    "1412-1897": {
+        "paper_title": "Deep neural networks are easily fooled: High confidence predictions for unrecognizable images",
+        "authors": [
+            "Anh Totti Nguyen",
+            "J. Yosinski",
+            "J. Clune"
+        ],
+        "submission_date": "2014-12-05",
+        "semantic_scholar_id": "4543670c4b2d88a9b67525e0084044adef94ae76"
+    },
+    "1412-0035": {
+        "paper_title": "Understanding deep image representations by inverting them",
+        "authors": [
+            "Aravindh Mahendran",
+            "A. Vedaldi"
+        ],
+        "submission_date": "2014-11-26",
+        "semantic_scholar_id": "4d790c8fae40357d24813d085fa74a436847fb49"
+    },
+    "1405-6881": {
+        "paper_title": "Categories in Control",
+        "authors": [
+            "J. Baez",
+            "Jason Erbele"
+        ],
+        "submission_date": "2014-05-27",
+        "semantic_scholar_id": "d06f9d5c849009b465d0fa0978d2d1153cfa3f05"
+    },
+    "1312-6034": {
+        "paper_title": "Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps",
+        "authors": [
+            "K. Simonyan",
+            "A. Vedaldi",
+            "Andrew Zisserman"
+        ],
+        "submission_date": "2013-12-20",
+        "semantic_scholar_id": "dc6ac3437f0a6e64e4404b1b9d188394f8a3bf71"
+    },
+    "1009-1166": {
+        "paper_title": "Functorial data migration",
+        "authors": [
+            "David I. Spivak"
+        ],
+        "submission_date": "2010-09-06",
+        "semantic_scholar_id": "cf47e45de46ee257fff387a360be5c372e8977b4"
+    }
+}

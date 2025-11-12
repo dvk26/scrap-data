@@ -1,0 +1,45 @@
+{
+    "2501-15542": {
+        "paper_title": "Estimating the Optimal Number of Clusters in Categorical Data Clustering by Silhouette Coefficient",
+        "authors": [
+            "Duy-Tai Dinh",
+            "T. Fujinami",
+            "V. Huynh"
+        ],
+        "submission_date": "2025-01-26",
+        "semantic_scholar_id": "ead6d61efbb89f91bcd0522c4eee416d58c048df"
+    },
+    "1706-05587": {
+        "paper_title": "Rethinking Atrous Convolution for Semantic Image Segmentation",
+        "authors": [
+            "Liang-Chieh Chen",
+            "G. Papandreou",
+            "Florian Schroff",
+            "Hartwig Adam"
+        ],
+        "submission_date": "2017-06-17",
+        "semantic_scholar_id": "ee4a012a4b12d11d7ab8c0e79c61e807927a163c"
+    },
+    "1612-01105": {
+        "paper_title": "Pyramid Scene Parsing Network",
+        "authors": [
+            "Hengshuang Zhao",
+            "Jianping Shi",
+            "Xiaojuan Qi",
+            "Xiaogang Wang",
+            "Jiaya Jia"
+        ],
+        "submission_date": "2016-12-04",
+        "semantic_scholar_id": "1031a69923b80ad01cf3fbb703d10757a80e699b"
+    },
+    "1511-00561": {
+        "paper_title": "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation",
+        "authors": [
+            "Vijay Badrinarayanan",
+            "Alex Kendall",
+            "R. Cipolla"
+        ],
+        "submission_date": "2015-11-02",
+        "semantic_scholar_id": "b0c065cd43aa7280e766b5dcbcc7e26abce59330"
+    }
+}

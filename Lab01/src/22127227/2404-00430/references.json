@@ -1,0 +1,154 @@
+{
+    "2201-00327": {
+        "paper_title": "Endpoint estimates and optimality for the generalized spherical maximal operator on radial functions",
+        "authors": [
+            "A. Nowak",
+            "L. Roncal",
+            "T. Szarek"
+        ],
+        "submission_date": "2022-01-02",
+        "semantic_scholar_id": "0622c72d33b01f7f1f7cff9e64c783d0af0c11bc"
+    },
+    "2009-07366": {
+        "paper_title": "Variation bounds for spherical averages",
+        "authors": [
+            "David Beltran",
+            "R. Oberlin",
+            "L. Roncal",
+            "A. Seeger",
+            "Betsy Stovall"
+        ],
+        "submission_date": "2020-09-15",
+        "semantic_scholar_id": "9b262a19c838829d1ed8c2481d5e3028571ac0e3"
+    },
+    "2009-00227": {
+        "paper_title": "Multi-scale Sparse Domination",
+        "authors": [
+            "David Beltran",
+            "J. Roos",
+            "A. Seeger"
+        ],
+        "submission_date": "2020-09-01",
+        "semantic_scholar_id": "e01134f6040ef71700ae3541ac02d7ade3d9d1e2"
+    },
+    "2008-08897": {
+        "paper_title": "Rough semimartingales and p-variation estimates for martingale transforms",
+        "authors": [
+            "P. Friz",
+            "Pavel Zorin-Kranich"
+        ],
+        "submission_date": "2020-08-20",
+        "semantic_scholar_id": "33688ff84aab1b4c50f26f76b6bfe736857a0d29"
+    },
+    "1909-10693": {
+        "paper_title": "A sharp square function estimate for the cone in\n ℝ3",
+        "authors": [
+            "L. Guth",
+            "Hong Wang",
+            "Ruixiang Zhang"
+        ],
+        "submission_date": "2019-09-24",
+        "semantic_scholar_id": "09061a8dd280d9edaae27798c0805f538d91aae2"
+    },
+    "1812-11616": {
+        "paper_title": "Sharp Local Smoothing Estimates for Fourier Integral Operators",
+        "authors": [
+            "David Beltran",
+            "J. Hickman",
+            "C. Sogge"
+        ],
+        "submission_date": "2018-12-30",
+        "semantic_scholar_id": "ff2dc0bc423b1bc4560fe1d3479557063ef7138e"
+    },
+    "1809-03803": {
+        "paper_title": "Jump inequalities for translation-invariant operators of Radon type on Zd",
+        "authors": [
+            "Mariusz Mirek",
+            "E. Stein",
+            "Pavel Zorin-Kranich"
+        ],
+        "submission_date": "2018-09-11",
+        "semantic_scholar_id": "ca6ed17d3b6b033543c238510b88cc7e2f5d82ae"
+    },
+    "1808-09048": {
+        "paper_title": "A bootstrapping approach to jump inequalities and their applications",
+        "authors": [
+            "Mariusz Mirek",
+            "E. Stein",
+            "Pavel Zorin-Kranich"
+        ],
+        "submission_date": "2018-08-27",
+        "semantic_scholar_id": "cfdcca386a1258bf5db34d540e17eac17475b55c"
+    },
+    "1808-04592": {
+        "paper_title": "Jump inequalities via real interpolation",
+        "authors": [
+            "Mariusz Mirek",
+            "E. Stein",
+            "Pavel Zorin-Kranich"
+        ],
+        "submission_date": "2018-08-14",
+        "semantic_scholar_id": "e64ec67c01dbdda1196ad73821158933419264b4"
+    },
+    "1710-10988": {
+        "paper_title": "Sharp variation-norm estimates for oscillatory\nintegrals related to Carleson’s theorem",
+        "authors": [
+            "Shaoming Guo",
+            "J. Roos",
+            "Po-Lam Yung"
+        ],
+        "submission_date": "2017-10-30",
+        "semantic_scholar_id": "fcc3f7ce4825d5887e2579c6b23a8200c88acb61"
+    },
+    "1606-00080": {
+        "paper_title": "On local smoothing problems and Stein's maximal spherical means",
+        "authors": [
+            "Changxing Miao",
+            "Jianwei Yang",
+            "Jiqiang Zheng"
+        ],
+        "submission_date": "2016-06-01",
+        "semantic_scholar_id": "0a8d82b0093fcbbe26d579f2fb95b7fca97c4e2f"
+    },
+    "1512-07523": {
+        "paper_title": "L^p(Z^d)-estimates for discrete operators of Radon type: Variational estimates",
+        "authors": [
+            "Mariusz Mirek",
+            "E. Stein",
+            "B. Trojan"
+        ],
+        "submission_date": "2015-12-23",
+        "semantic_scholar_id": "d8bf4353cf8ba0c747a7acd38ab70e084eb9903b"
+    },
+    "1409-7120": {
+        "paper_title": "Weighted and vector-valued variational estimates for ergodic averages",
+        "authors": [
+            "B. Krause",
+            "Pavel Zorin-Kranich"
+        ],
+        "submission_date": "2014-09-24",
+        "semantic_scholar_id": "5af3ad4255451cc5bbde458984cd7332fb2279f0"
+    },
+    "1511-05129": {
+        "paper_title": "Weighted variation inequalities for differential operators and singular integrals in higher dimensions",
+        "authors": [
+            "T. Ma",
+            "J. Torrea",
+            "Quanhua Xu"
+        ],
+        "submission_date": "2015-11-16",
+        "semantic_scholar_id": "b37c0fd5af58537acbd326a747436aa867a6c3de"
+    },
+    "0910-1555": {
+        "paper_title": "A variation norm Carleson theorem",
+        "authors": [
+            "R. Oberlin",
+            "A. Seeger",
+            "T. Tao",
+            "C. Thiele",
+            "James Wright"
+        ],
+        "submission_date": "2009-10-08",
+        "semantic_scholar_id": "7ba2b77467c98607168892f90ca0debd55a16dda"
+    }
+}

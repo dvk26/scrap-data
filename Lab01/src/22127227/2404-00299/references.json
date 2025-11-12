@@ -1,0 +1,812 @@
+{
+    "2403-15612": {
+        "paper_title": "InterFusion: Text-Driven Generation of 3D Human-Object Interaction",
+        "authors": [
+            "Sisi Dai",
+            "Wenhao Li",
+            "Haowen Sun",
+            "Haibin Huang",
+            "Chongyang Ma",
+            "Hui Huang",
+            "Kai Xu",
+            "Ruizhen Hu"
+        ],
+        "submission_date": "2024-03-22",
+        "semantic_scholar_id": "7b586c0ef0e8f16fdfe230eba4d2a8379af9d54b"
+    },
+    "2403-12835": {
+        "paper_title": "AnySkill: Learning Open-Vocabulary Physical Skill for Interactive Agents",
+        "authors": [
+            "Jieming Cui",
+            "Tengyu Liu",
+            "Nian Liu",
+            "Yaodong Yang",
+            "Yixin Zhu",
+            "Siyuan Huang"
+        ],
+        "submission_date": "2024-03-19",
+        "semantic_scholar_id": "128785349190fcced541db12f6c3386f79547db9"
+    },
+    "2403-11237": {
+        "paper_title": "FORCE: Physics-Aware Human-Object Interaction",
+        "authors": [
+            "Xiaohan Zhang",
+            "Bharat Lal Bhatnagar",
+            "Sebastian Starke",
+            "Ilya A. Petrov",
+            "V. Guzov",
+            "Helisa Dhamo",
+            "Eduardo P'erez-Pellitero",
+            "Gerard Pons-Moll"
+        ],
+        "submission_date": "2024-03-17",
+        "semantic_scholar_id": "17bd98772e47c30b233e971ab3fa1405f03533cb"
+    },
+    "2403-08629": {
+        "paper_title": "Scaling Up Dynamic Human-Scene Interaction Modeling",
+        "authors": [
+            "Nan Jiang",
+            "Zhiyuan Zhang",
+            "Hongjie Li",
+            "Xiaoxuan Ma",
+            "Zan Wang",
+            "Yixin Chen",
+            "Tengyu Liu",
+            "Yixin Zhu",
+            "Siyuan Huang"
+        ],
+        "submission_date": "2024-03-13",
+        "semantic_scholar_id": "e78cbe9654bc5ac261ff7501c3fca974a8648ab2"
+    },
+    "2312-06553": {
+        "paper_title": "HOI-Diff: Text-Driven Synthesis of 3D Human-Object Interactions using Diffusion Models",
+        "authors": [
+            "Xiaogang Peng",
+            "Yiming Xie",
+            "Zizhao Wu",
+            "Varun Jampani",
+            "Deqing Sun",
+            "Huaizu Jiang"
+        ],
+        "submission_date": "2023-12-11",
+        "semantic_scholar_id": "de0ff131625a7b824145ed5db689cccb17f2b854"
+    },
+    "2312-08869": {
+        "paper_title": "I'M HOI: Inertia-Aware Monocular Capture of 3D Human-Object Interactions",
+        "authors": [
+            "Chengfeng Zhao",
+            "Juze Zhang",
+            "Jiashen Du",
+            "Ziwei Shan",
+            "Junye Wang",
+            "Jingyi Yu",
+            "Jingya Wang",
+            "Lan Xu"
+        ],
+        "submission_date": "2023-12-10",
+        "semantic_scholar_id": "42dd005841011fd0562ebd782b72ed1e9fa70ca8"
+    },
+    "2312-04393": {
+        "paper_title": "PhysHOI: Physics-Based Imitation of Dynamic Human-Object Interaction",
+        "authors": [
+            "Yinhuai Wang",
+            "Jing-de Lin",
+            "Ailing Zeng",
+            "Zhengyi Luo",
+            "Jian Zhang",
+            "Lei Zhang"
+        ],
+        "submission_date": "2023-12-07",
+        "semantic_scholar_id": "1127a0bb0e6e78fcfaf6af21b2f5b99cefacb2c3"
+    },
+    "2312-03913": {
+        "paper_title": "Controllable Human-Object Interaction Synthesis",
+        "authors": [
+            "Jiaman Li",
+            "Alexander Clegg",
+            "Roozbeh Mottaghi",
+            "Jiajun Wu",
+            "Xavi Puig",
+            "C. K. Liu"
+        ],
+        "submission_date": "2023-12-06",
+        "semantic_scholar_id": "7a009257d453ca2226aa9ec594196c7bcfe1b9d3"
+    },
+    "2311-16097": {
+        "paper_title": "CG-HOI: Contact-Guided 3D Human-Object Interaction Generation",
+        "authors": [
+            "Christian Diller",
+            "Angela Dai"
+        ],
+        "submission_date": "2023-11-27",
+        "semantic_scholar_id": "01f949303303ec72cf74028295d548e49ebdc1f7"
+    },
+    "2310-02242": {
+        "paper_title": "Hierarchical Generation of Human-Object Interactions with Diffusion Probabilistic Models",
+        "authors": [
+            "Huaijin Pi",
+            "Sida Peng",
+            "Minghui Yang",
+            "Xiaowei Zhou",
+            "Hujun Bao"
+        ],
+        "submission_date": "2023-10-03",
+        "semantic_scholar_id": "ac28a7ab5b5bb755f982ce7c8323a46de95650ac"
+    },
+    "2309-16237": {
+        "paper_title": "Object Motion Guided Human Motion Synthesis",
+        "authors": [
+            "Jiaman Li",
+            "Jiajun Wu",
+            "C. K. Liu"
+        ],
+        "submission_date": "2023-09-28",
+        "semantic_scholar_id": "d8d868912202cd7490a388dcbdeb0627f23bd435"
+    },
+    "2407-20545": {
+        "paper_title": "StackFLOW: Monocular Human-Object Reconstruction by Stacked Normalizing Flow with Offset",
+        "authors": [
+            "Chaofan Huo",
+            "Ye Shi",
+            "Yuexin Ma",
+            "Lan Xu",
+            "Jingyi Yu",
+            "Jingya Wang"
+        ],
+        "submission_date": "2024-07-30",
+        "semantic_scholar_id": "75dd79a554d14c44732a0a780ed1f654d1bca37b"
+    },
+    "2304-05684": {
+        "paper_title": "InterGen: Diffusion-Based Multi-human Motion Generation Under Complex Interactions",
+        "authors": [
+            "Hanming Liang",
+            "Wenqian Zhang",
+            "Wenxu Li",
+            "Jingyi Yu",
+            "Lan Xu"
+        ],
+        "submission_date": "2023-04-12",
+        "semantic_scholar_id": "390eabbedf9a25d82eefd01a484b1f81fdd801df"
+    },
+    "2304-02643": {
+        "paper_title": "Segment Anything",
+        "authors": [
+            "A. Kirillov",
+            "Eric Mintun",
+            "Nikhila Ravi",
+            "Hanzi Mao",
+            "Chloé Rolland",
+            "Laura Gustafson",
+            "Tete Xiao",
+            "Spencer Whitehead",
+            "A. Berg",
+            "Wan-Yen Lo",
+            "Piotr Dollár",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2023-04-05",
+        "semantic_scholar_id": "7470a1702c8c86e6f28d32cfa315381150102f5b"
+    },
+    "2303-17912": {
+        "paper_title": "CIRCLE: Capture In Rich Contextual Environments",
+        "authors": [
+            "Joao Pedro Araujo",
+            "Jiaman Li",
+            "Karthik Vetrivel",
+            "Rishi G. Agarwal",
+            "D. Gopinath",
+            "Jiajun Wu",
+            "Alexander Clegg",
+            "C. Liu"
+        ],
+        "submission_date": "2023-03-31",
+        "semantic_scholar_id": "65edf9188b698091de0591d459fe212e6d00ea16"
+    },
+    "2303-16479": {
+        "paper_title": "Visibility Aware Human-Object Interaction Tracking from Single RGB Camera",
+        "authors": [
+            "Xianghui Xie",
+            "Bharat Lal Bhatnagar",
+            "Gerard Pons-Moll"
+        ],
+        "submission_date": "2023-03-29",
+        "semantic_scholar_id": "0f84a2501bef8850bd4456f4f27ad5d48d94e297"
+    },
+    "2302-01058": {
+        "paper_title": "IKOL: Inverse kinematics optimization layer for 3D human pose and shape estimation via Gauss-Newton differentiation",
+        "authors": [
+            "Juze Zhang",
+            "Ye Shi",
+            "Yuexin Ma",
+            "Lan Xu",
+            "Jingyi Yu",
+            "Jingya Wang"
+        ],
+        "submission_date": "2023-02-02",
+        "semantic_scholar_id": "aa5262e4d46f8565de1d6049d1f85e8e2033601a"
+    },
+    "2212-07626": {
+        "paper_title": "NeuralDome: A Neural Modeling Pipeline on Multi-View Human-Object Interactions",
+        "authors": [
+            "Juze Zhang",
+            "Haimin Luo",
+            "Hongdian Yang",
+            "Xinru Xu",
+            "Qianyang Wu",
+            "Ye Shi",
+            "Jingyi Yu",
+            "Lan Xu",
+            "Jingya Wang"
+        ],
+        "submission_date": "2022-12-15",
+        "semantic_scholar_id": "4c4f400bdfe9903ce5ec8f774956d18030bef826"
+    },
+    "2212-04636": {
+        "paper_title": "Ego-Body Pose Estimation via Ego-Head Pose Estimation",
+        "authors": [
+            "Jiaman Li",
+            "C. Liu",
+            "Jiajun Wu"
+        ],
+        "submission_date": "2022-12-09",
+        "semantic_scholar_id": "4b9745ec5a8fbcc091c45b437dbddd3adde8c486"
+    },
+    "2212-04360": {
+        "paper_title": "MIME: Human-Aware 3D Scene Generation",
+        "authors": [
+            "Hongwei Yi",
+            "C. Huang",
+            "Shashank Tripathi",
+            "Lea Hering",
+            "Justus Thies",
+            "Michael J. Black"
+        ],
+        "submission_date": "2022-12-08",
+        "semantic_scholar_id": "324259c972a2e9774854348ca5182628447f51b4"
+    },
+    "2212-04495": {
+        "paper_title": "MoFusion: A Framework for Denoising-Diffusion-Based Motion Synthesis",
+        "authors": [
+            "Rishabh Dabral",
+            "M. H. Mughal",
+            "Vladislav Golyanik",
+            "C. Theobalt"
+        ],
+        "submission_date": "2022-12-08",
+        "semantic_scholar_id": "dbdfd1623586009305a3e4965bf2c233a46aea5a"
+    },
+    "2210-09729": {
+        "paper_title": "HUMANISE: Language-conditioned Human Motion Generation in 3D Scenes",
+        "authors": [
+            "Zan Wang",
+            "Yixin Chen",
+            "Tengyu Liu",
+            "Yixin Zhu",
+            "Wei Liang",
+            "Siyuan Huang"
+        ],
+        "submission_date": "2022-10-18",
+        "semantic_scholar_id": "95054a9501ace643ce8fc652d6fb59d481d7231c"
+    },
+    "2209-14916": {
+        "paper_title": "Human Motion Diffusion Model",
+        "authors": [
+            "Guy Tevet",
+            "Sigal Raab",
+            "Brian Gordon",
+            "Yonatan Shafir",
+            "Daniel Cohen-Or",
+            "Amit H. Bermano"
+        ],
+        "submission_date": "2022-09-29",
+        "semantic_scholar_id": "15736f7c205d961c00378a938daffaacb5a0718d"
+    },
+    "2209-12354": {
+        "paper_title": "InterCap: Joint Markerless 3D Tracking of Humans and Objects in Interaction from Multi-view RGB-D Images",
+        "authors": [
+            "Yinghao Huang",
+            "Omid Tehari",
+            "Michael J. Black",
+            "Dimitrios Tzionas Max Planck Institute for Intelligent Systems",
+            "Tubingen",
+            "Germany",
+            "U. Amsterdam",
+            "Amsterdam",
+            "The Netherlands."
+        ],
+        "submission_date": "2022-09-26",
+        "semantic_scholar_id": "50456c74a81d2878c4f53edcebb510bd8568a000"
+    },
+    "2208-00571": {
+        "paper_title": "CLIFF: Carrying Location Information in Full Frames into Human Pose and Shape Estimation",
+        "authors": [
+            "Zhihao Li",
+            "Jianzhuang Liu",
+            "Zhensong Zhang",
+            "Songcen Xu",
+            "Youliang Yan"
+        ],
+        "submission_date": "2022-08-01",
+        "semantic_scholar_id": "718f7cf0a671779605dee3e03789b2172aaf889a"
+    },
+    "2207-07115": {
+        "paper_title": "XMem: Long-Term Video Object Segmentation with an Atkinson-Shiffrin Memory Model",
+        "authors": [
+            "Ho Kei Cheng",
+            "A. Schwing"
+        ],
+        "submission_date": "2022-07-14",
+        "semantic_scholar_id": "01724c36660359545e1368fc80c99f4bde44a190"
+    },
+    "2206-09553": {
+        "paper_title": "Capturing and Inferring Dense Full-Body Human-Scene Contact",
+        "authors": [
+            "C. Huang",
+            "Hongwei Yi",
+            "Markus Hoschle",
+            "Matvey Safroshkin",
+            "Tsvetelina Alexiadis",
+            "Senya Polikovsky",
+            "D. Scharstein",
+            "Michael J. Black"
+        ],
+        "submission_date": "2022-06-20",
+        "semantic_scholar_id": "397098bab2055d1513fba6c79d3114de30eafbcc"
+    },
+    "2205-15410": {
+        "paper_title": "LiDAR-aid Inertial Poser: Large-scale Human Motion Capture by Sparse Inertial and LiDAR Sensors",
+        "authors": [
+            "Yiming Ren",
+            "Chengfeng Zhao",
+            "Yannan He",
+            "Peishan Cong",
+            "Hanming Liang",
+            "Jingyi Yu",
+            "Lan Xu",
+            "Yuexin Ma"
+        ],
+        "submission_date": "2022-05-30",
+        "semantic_scholar_id": "d1e79d4562b08611ceda59edeef4c11b4d79cd11"
+    },
+    "2204-12484": {
+        "paper_title": "ViTPose: Simple Vision Transformer Baselines for Human Pose Estimation",
+        "authors": [
+            "Yufei Xu",
+            "Jing Zhang",
+            "Qiming Zhang",
+            "Dacheng Tao"
+        ],
+        "submission_date": "2022-04-26",
+        "semantic_scholar_id": "fdcad86866ca22d8417599deb41b54fe01487ce8"
+    },
+    "2204-06950": {
+        "paper_title": "BEHAVE: Dataset and Method for Tracking Human Object Interactions",
+        "authors": [
+            "Bharat Lal Bhatnagar",
+            "Xianghui Xie",
+            "Ilya A. Petrov",
+            "C. Sminchisescu",
+            "C. Theobalt",
+            "Gerard Pons-Moll"
+        ],
+        "submission_date": "2022-04-14",
+        "semantic_scholar_id": "831f9c2ccd2017a5391709b190ed258d3655797a"
+    },
+    "2204-02445": {
+        "paper_title": "CHORE: Contact, Human and Object REconstruction from a single RGB image",
+        "authors": [
+            "Xianghui Xie",
+            "Bharat Lal Bhatnagar",
+            "Gerard Pons-Moll"
+        ],
+        "submission_date": "2022-04-05",
+        "semantic_scholar_id": "48742939a4b3acb4b89ca85530dc1935c30a6d92"
+    },
+    "2203-16427": {
+        "paper_title": "Balanced MSE for Imbalanced Visual Regression",
+        "authors": [
+            "Jiawei Ren",
+            "Mingyuan Zhang",
+            "Cunjun Yu",
+            "Ziwei Liu"
+        ],
+        "submission_date": "2022-03-30",
+        "semantic_scholar_id": "d2a696b0803c227bc9bc5ff764dca74aadbf4b13"
+    },
+    "2203-03609": {
+        "paper_title": "Human-Aware Object Placement for Visual Environment Reconstruction",
+        "authors": [
+            "Hongwei Yi",
+            "C. Huang",
+            "Dimitrios Tzionas",
+            "Muhammed Kocabas",
+            "Mohamed Hassan",
+            "Siyu Tang",
+            "Justus Thies",
+            "Michael J. Black"
+        ],
+        "submission_date": "2022-03-07",
+        "semantic_scholar_id": "bab1c6eaf32c8c97efa33344a88039ca5f863eb5"
+    },
+    "2207-07900": {
+        "paper_title": "Mutual Adaptive Reasoning for Monocular 3D Multi-Person Pose Estimation",
+        "authors": [
+            "Yuwei Li",
+            "Longwen Zhang",
+            "Zesong Qiu",
+            "Ying-Ping Jiang",
+            "Yuyao Zhang",
+            "Nianyi Li",
+            "Yuexin Ma",
+            "Lan Xu",
+            "Jingyi Yu"
+        ],
+        "submission_date": "2022-07-16",
+        "semantic_scholar_id": "a38895f660aae6a2eb6d72ee84b363d807db9603"
+    },
+    "2108-08420": {
+        "paper_title": "D3D-HOI: Dynamic 3D Human-Object Interactions from Videos",
+        "authors": [
+            "Xiang Xu",
+            "H. Joo",
+            "Greg Mori",
+            "M. Savva"
+        ],
+        "submission_date": "2021-08-19",
+        "semantic_scholar_id": "c25a724a849b489c95846992a42c3e9811eb0e9e"
+    },
+    "2108-08844": {
+        "paper_title": "Gravity-Aware Monocular 3D Human-Object Reconstruction",
+        "authors": [
+            "Rishabh Dabral",
+            "Soshi Shimada",
+            "Arjun Jain",
+            "C. Theobalt",
+            "Vladislav Golyanik"
+        ],
+        "submission_date": "2021-08-19",
+        "semantic_scholar_id": "de05a8a61edcf76a6384ddaa6f588fa234608150"
+    },
+    "2108-08284": {
+        "paper_title": "Stochastic Scene-Aware Motion Prediction",
+        "authors": [
+            "Mohamed Hassan",
+            "Duygu Ceylan",
+            "Ruben Villegas",
+            "Jun Saito",
+            "Jimei Yang",
+            "Yi Zhou",
+            "Michael J. Black"
+        ],
+        "submission_date": "2021-08-18",
+        "semantic_scholar_id": "7c5144952e771330c10d5facd49115c5ddead0d0"
+    },
+    "2108-06428": {
+        "paper_title": "FrankMocap: A Monocular 3D Whole-Body Pose Estimation System via Regression and Integration",
+        "authors": [
+            "Yu Rong",
+            "Takaaki Shiratori",
+            "H. Joo"
+        ],
+        "submission_date": "2021-08-13",
+        "semantic_scholar_id": "b95b3d49086ec84df6d81075fbaf502292046132"
+    },
+    "2108-00362": {
+        "paper_title": "Neural Free-Viewpoint Performance Rendering under Complex Human-object Interactions",
+        "authors": [
+            "Guoxing Sun",
+            "Xin Chen",
+            "Yizhang Chen",
+            "Anqi Pang",
+            "Pei-Ying Lin",
+            "Yuheng Jiang",
+            "Lan Xu",
+            "Jingya Wang",
+            "Jingyi Yu"
+        ],
+        "submission_date": "2021-08-01",
+        "semantic_scholar_id": "9cb12a28abe74ab17826c47cd980efdfad94c01d"
+    },
+    "2105-02467": {
+        "paper_title": "Body Meshes as Points",
+        "authors": [
+            "Jianfeng Zhang",
+            "Dongdong Yu",
+            "J. Liew",
+            "Xuecheng Nie",
+            "Jiashi Feng"
+        ],
+        "submission_date": "2021-05-06",
+        "semantic_scholar_id": "ca2073cc1907cd1f357fdda8de71ff1405628ce1"
+    },
+    "2104-08527": {
+        "paper_title": "PARE: Part Attention Regressor for 3D Human Body Estimation",
+        "authors": [
+            "Muhammed Kocabas",
+            "C. Huang",
+            "Otmar Hilliges",
+            "Michael J. Black"
+        ],
+        "submission_date": "2021-04-17",
+        "semantic_scholar_id": "35e8508edf2e754af17503eea2d151c7504b7314"
+    },
+    "2104-03304": {
+        "paper_title": "Hand-Object Contact Consistency Reasoning for Human Grasps Generation",
+        "authors": [
+            "Hanwen Jiang",
+            "Shaowei Liu",
+            "Jiashun Wang",
+            "Xiaolong Wang"
+        ],
+        "submission_date": "2021-04-07",
+        "semantic_scholar_id": "fbaa73cbcbc5c9c9e7fdf2e13c44d9f1d9caf985"
+    },
+    "2012-01591": {
+        "paper_title": "Holistic 3D Human and Scene Mesh Estimation from Single View Images",
+        "authors": [
+            "Zhenzhen Weng",
+            "Serena Yeung"
+        ],
+        "submission_date": "2020-12-02",
+        "semantic_scholar_id": "8912d80a422f483644cb7b2116353a97e2a5cc5b"
+    },
+    "2012-00619": {
+        "paper_title": "We are More than Our Joints: Predicting how 3D Bodies Move",
+        "authors": [
+            "Yan Zhang",
+            "Michael J. Black",
+            "Siyu Tang"
+        ],
+        "submission_date": "2020-12-01",
+        "semantic_scholar_id": "428b671d9b5e5f571497ce164e205e1a130cd068"
+    },
+    "2011-14672": {
+        "paper_title": "HybrIK: A Hybrid Analytical-Neural Inverse Kinematics Solution for 3D Human Pose and Shape Estimation",
+        "authors": [
+            "Jiefeng Li",
+            "Chao Xu",
+            "Zhicun Chen",
+            "Siyuan Bian",
+            "Lixin Yang",
+            "Cewu Lu"
+        ],
+        "submission_date": "2020-11-30",
+        "semantic_scholar_id": "d9714b7fe6234fdb465b1e12a76e1ebbd8c0b29d"
+    },
+    "2008-12272": {
+        "paper_title": "Monocular, One-stage, Regression of Multiple 3D People",
+        "authors": [
+            "Yu Sun",
+            "Qian Bao",
+            "Wu Liu",
+            "Yili Fu",
+            "Michael J. Black",
+            "Tao Mei"
+        ],
+        "submission_date": "2020-08-27",
+        "semantic_scholar_id": "232e6c63c1bae395520ba6c13668e6cca98b855d"
+    },
+    "2008-11469": {
+        "paper_title": "SMAP: Single-Shot Multi-Person Absolute 3D Pose Estimation",
+        "authors": [
+            "Jianan Zhen",
+            "Qi Fang",
+            "Jiaming Sun",
+            "Wentao Liu",
+            "Wei Jiang",
+            "H. Bao",
+            "Xiaowei Zhou"
+        ],
+        "submission_date": "2020-08-26",
+        "semantic_scholar_id": "477c82c1313851e8e93189a90fcac6c44b50db78"
+    },
+    "2008-11200": {
+        "paper_title": "GRAB: A Dataset of Whole-Body Human Grasping of Objects",
+        "authors": [
+            "Omid Taheri",
+            "N. Ghorbani",
+            "Michael J. Black",
+            "Dimitrios Tzionas"
+        ],
+        "submission_date": "2020-08-25",
+        "semantic_scholar_id": "0808f356856bf8db3f5f24645dadc8e169fd14d2"
+    },
+    "2007-15649": {
+        "paper_title": "Perceiving 3D Human-Object Spatial Arrangements from a Single Image in the Wild",
+        "authors": [
+            "Jason Y. Zhang",
+            "Sam Pepose",
+            "H. Joo",
+            "Deva Ramanan",
+            "J. Malik",
+            "Angjoo Kanazawa"
+        ],
+        "submission_date": "2020-07-30",
+        "semantic_scholar_id": "8d06d979ee6cad4f387615e10951fb156885ebb9"
+    },
+    "2007-03672": {
+        "paper_title": "Long-term Human Motion Prediction with Scene Context",
+        "authors": [
+            "Zhe Cao",
+            "Hang Gao",
+            "K. Mangalam",
+            "Qi-Zhi Cai",
+            "Minh Vo",
+            "J. Malik"
+        ],
+        "submission_date": "2020-07-07",
+        "semantic_scholar_id": "6e8b522ee29c232026ecf228ed1896bc65f019b4"
+    },
+    "2006-11239": {
+        "paper_title": "Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Jonathan Ho",
+            "Ajay Jain",
+            "P. Abbeel"
+        ],
+        "submission_date": "2020-06-19",
+        "semantic_scholar_id": "5c126ae3421f05768d8edd97ecd44b1364e2c99a"
+    },
+    "2002-12625": {
+        "paper_title": "4D Association Graph for Realtime Multi-Person Motion Capture Using Multiple Video Cameras",
+        "authors": [
+            "Yuxiang Zhang",
+            "Liang An",
+            "Tao Yu",
+            "Xiu Li",
+            "Kun Li",
+            "Yebin Liu"
+        ],
+        "submission_date": "2020-02-28",
+        "semantic_scholar_id": "ba9369e64f844b337c7a9831a5e43b532e0787d1"
+    },
+    "1912-05656": {
+        "paper_title": "VIBE: Video Inference for Human Body Pose and Shape Estimation",
+        "authors": [
+            "Muhammed Kocabas",
+            "Nikos Athanasiou",
+            "Michael J. Black"
+        ],
+        "submission_date": "2019-12-11",
+        "semantic_scholar_id": "decf55f42e15b3ce56c6bd14eb14906cec29b7ab"
+    },
+    "1912-02923": {
+        "paper_title": "Generating 3D People in Scenes Without People",
+        "authors": [
+            "Yan Zhang",
+            "Mohamed Hassan",
+            "Heiko Neumann",
+            "Michael J. Black",
+            "Siyu Tang"
+        ],
+        "submission_date": "2019-12-05",
+        "semantic_scholar_id": "b161b24718f743f37ff24fd0350d8527559c1839"
+    },
+    "1909-12828": {
+        "paper_title": "Learning to Reconstruct 3D Human Pose and Shape via Model-Fitting in the Loop",
+        "authors": [
+            "Nikos Kolotouros",
+            "G. Pavlakos",
+            "Michael J. Black",
+            "Kostas Daniilidis"
+        ],
+        "submission_date": "2019-09-27",
+        "semantic_scholar_id": "0c2b90305dbeb11950ff71718cb3331048124d50"
+    },
+    "1908-06963": {
+        "paper_title": "Resolving 3D Human Pose Ambiguities With 3D Scene Constraints",
+        "authors": [
+            "Mohamed Hassan",
+            "Vasileios Choutas",
+            "Dimitrios Tzionas",
+            "Michael J. Black"
+        ],
+        "submission_date": "2019-08-20",
+        "semantic_scholar_id": "c6db4ab2622533d161cde8838053f74c5c4eb3b6"
+    },
+    "1907-11346": {
+        "paper_title": "Camera Distance-Aware Top-Down Approach for 3D Multi-Person Pose Estimation From a Single RGB Image",
+        "authors": [
+            "Gyeongsik Moon",
+            "Ju Yong Chang",
+            "Kyoung Mu Lee"
+        ],
+        "submission_date": "2019-07-26",
+        "semantic_scholar_id": "213e0b84c93d0ac8d96a257b11e3a4891bae4a40"
+    },
+    "1904-03278": {
+        "paper_title": "AMASS: Archive of Motion Capture As Surface Shapes",
+        "authors": [
+            "Naureen Mahmood",
+            "N. Ghorbani",
+            "N. Troje",
+            "Gerard Pons-Moll",
+            "Michael J. Black"
+        ],
+        "submission_date": "2019-04-05",
+        "semantic_scholar_id": "690c817ab5be8017ff713fa1028669debde205af"
+    },
+    "1712-06584": {
+        "paper_title": "End-to-End Recovery of Human Shape and Pose",
+        "authors": [
+            "Angjoo Kanazawa",
+            "Michael J. Black",
+            "D. Jacobs",
+            "Jitendra Malik"
+        ],
+        "submission_date": "2017-12-18",
+        "semantic_scholar_id": "e73696016b43314a7bef6015dacbe702af472d96"
+    },
+    "1712-03453": {
+        "paper_title": "Single-Shot Multi-person 3D Pose Estimation from Monocular RGB",
+        "authors": [
+            "Dushyant Mehta",
+            "Oleksandr Sotnychenko",
+            "Franziska Mueller",
+            "Weipeng Xu",
+            "Srinath Sridhar",
+            "Gerard Pons-Moll",
+            "C. Theobalt"
+        ],
+        "submission_date": "2017-12-09",
+        "semantic_scholar_id": "dd1bfd1fa97b2a97fd82cc0103fa5c98a34b0d37"
+    },
+    "1711-07566": {
+        "paper_title": "Neural 3D Mesh Renderer",
+        "authors": [
+            "Hiroharu Kato",
+            "Y. Ushiku",
+            "T. Harada"
+        ],
+        "submission_date": "2017-11-20",
+        "semantic_scholar_id": "7eb89cbdfdde8cb6071a48fb44173a757f51bfd5"
+    },
+    "1702-04405": {
+        "paper_title": "ScanNet: Richly-Annotated 3D Reconstructions of Indoor Scenes",
+        "authors": [
+            "Angela Dai",
+            "Angel X. Chang",
+            "M. Savva",
+            "Maciej Halber",
+            "T. Funkhouser",
+            "M. Nießner"
+        ],
+        "submission_date": "2017-02-14",
+        "semantic_scholar_id": "e52e37cd91366f07df1f98e88f87010f494dd16e"
+    },
+    "1612-00593": {
+        "paper_title": "PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation",
+        "authors": [
+            "C. Qi",
+            "Hao Su",
+            "Kaichun Mo",
+            "L. Guibas"
+        ],
+        "submission_date": "2016-12-02",
+        "semantic_scholar_id": "d997beefc0922d97202789d2ac307c55c2c52fba"
+    },
+    "1512-03385": {
+        "paper_title": "Deep Residual Learning for Image Recognition",
+        "authors": [
+            "Kaiming He",
+            "X. Zhang",
+            "Shaoqing Ren",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-12-10",
+        "semantic_scholar_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d"
+    },
+    "1506-02178": {
+        "paper_title": "Capturing Hands in Action Using Discriminative Salient Points and Physics Simulation",
+        "authors": [
+            "Dimitrios Tzionas",
+            "Luca Ballan",
+            "A. Srikantha",
+            "Pablo Aponte",
+            "M. Pollefeys",
+            "Juergen Gall"
+        ],
+        "submission_date": "2015-06-06",
+        "semantic_scholar_id": "4061faa41d8327e2c4125227dd758c0d3706415b"
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "1512-02076": {
+        "paper_title": "TianQin: a space-borne gravitational wave detector",
+        "authors": [
+            "Jun Luo",
+            "Li-Sheng Chen",
+            "Huizong Duan",
+            "Y. Gong",
+            "Shoucun Hu",
+            "J. Ji",
+            "Qi Liu",
+            "Jianwei Mei",
+            "V. Milyukov",
+            "M. Sazhin",
+            "C. Shao",
+            "V. Toth",
+            "H. Tu",
+            "Yamin Wang",
+            "Yan Wang",
+            "H. Yeh",
+            "M. Zhan",
+            "Yonghe Zhang",
+            "V. Zharov",
+            "Zebing Zhou"
+        ],
+        "submission_date": "2015-12-07",
+        "semantic_scholar_id": "0d60a849e5f97282d8f8849cd82951a8f71a72d6"
+    },
+    "1207-2442": {
+        "paper_title": "Torsion-balance tests of the weak equivalence principle",
+        "authors": [
+            "T. A. Wagner",
+            "S. Schlamminger",
+            "J. Gundlach",
+            "E. Adelberger"
+        ],
+        "submission_date": "2012-07-10",
+        "semantic_scholar_id": "f7ce1140a8dd0cef41527afbcaea2a01a2fb0336"
+    },
+    "0907-5375": {
+        "paper_title": "Gas damping force noise on a macroscopic test body in an infinite gas reservoir",
+        "authors": [
+            "A. Cavalleri",
+            "G. Ciani",
+            "R. Dolesi",
+            "M. Hueller",
+            "D. Nicolodi",
+            "D. Tombolato",
+            "S. Vitale",
+            "P. Wass",
+            "W. Weber"
+        ],
+        "submission_date": "2009-07-30",
+        "semantic_scholar_id": "acdcea18c46c3660c81db41fa6971b9699ef14b6"
+    }
+}

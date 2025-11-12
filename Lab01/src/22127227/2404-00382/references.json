@@ -1,0 +1,87 @@
+{
+    "2202-04880": {
+        "paper_title": "Stochastic Linear-Quadratic Optimal Control Problems with Random Coefficients and Markovian Regime Switching System",
+        "authors": [
+            "Jiaqiang Wen",
+            "Xunjing Li",
+            "J. Xiong",
+            "Xin Zhang"
+        ],
+        "submission_date": "2022-02-10",
+        "semantic_scholar_id": "293b7e6060678d9112b52b03a9f475febcfd8ac8"
+    },
+    "2201-01433": {
+        "paper_title": "Non-homogeneous stochastic LQ control with regime switching and random coefficients",
+        "authors": [
+            "Ying Hu",
+            "Xiaomin Shi",
+            "Z. Xu"
+        ],
+        "submission_date": "2022-01-05",
+        "semantic_scholar_id": "da04faf75871812f971edb72f8737aa87b66d3c7"
+    },
+    "2004-11832": {
+        "paper_title": "Constrained stochastic LQ control with regime switching and application to portfolio selection",
+        "authors": [
+            "Ying Hu",
+            "Xiaomin Shi",
+            "Z. Xu"
+        ],
+        "submission_date": "2020-04-24",
+        "semantic_scholar_id": "d622a4bebc7889c3fe0d2c8342de1c701dce2e12"
+    },
+    "1811-07338": {
+        "paper_title": "Well-posedness of Stochastic Riccati Equations and Closed-Loop Solvability for Stochastic Linear Quadratic Optimal Control Problems",
+        "authors": [
+            "Qi Lu"
+        ],
+        "submission_date": "2018-11-18",
+        "semantic_scholar_id": "b020105813e6f1814b54762206dcb4ea3ef80486"
+    },
+    "1809-00261": {
+        "paper_title": "Indefinite stochastic linear-quadratic optimal control problems with random coefficients: Closed-loop representation of open-loop optimal controls",
+        "authors": [
+            "Jingrui Sun",
+            "J. Xiong",
+            "J. Yong"
+        ],
+        "submission_date": "2018-09-01",
+        "semantic_scholar_id": "941caf4d86c1b7a03c8b9d9d3f1079ba5d6f4082"
+    },
+    "1608-05688": {
+        "paper_title": "Infinite horizon jump-diffusion forward-backward stochastic differential equations and their application to backward linear-quadratic problems",
+        "authors": [
+            "Zhiyong Yu"
+        ],
+        "submission_date": "2016-08-19",
+        "semantic_scholar_id": "42b27fa130e5e7057fe98326dda0689489408dff"
+    },
+    "1508-02163": {
+        "paper_title": "Open-Loop and Closed-Loop Solvabilities for Stochastic Linear Quadratic Optimal Control Problems",
+        "authors": [
+            "Jingrui Sun",
+            "Xunjing Li",
+            "J. Yong"
+        ],
+        "submission_date": "2015-08-10",
+        "semantic_scholar_id": "71e30618a067cc4665dbade4df9de845b3ce0c7b"
+    },
+    "1401-4754": {
+        "paper_title": "Linear Quadratic Stochastic Differential Games: Open-Loop and Closed-Loop Saddle Points",
+        "authors": [
+            "Jingrui Sun",
+            "J. Yong"
+        ],
+        "submission_date": "2014-01-19",
+        "semantic_scholar_id": "3663a389f08ea630db6dbe694daa3eba5f096e39"
+    },
+    "0801-3505": {
+        "paper_title": "Harmonic analysis of stochastic equations and backward stochastic differential equations",
+        "authors": [
+            "F. Delbaen",
+            "Shanjian Tang"
+        ],
+        "submission_date": "2008-01-23",
+        "semantic_scholar_id": "d6b4d2f4046631a385a42ee0a44189d1c5db5aab"
+    }
+}

@@ -1,0 +1,229 @@
+{
+    "2210-00965": {
+        "paper_title": "Green Learning: Introduction, Examples and Outlook",
+        "authors": [
+            "C.-C. Jay Kuo",
+            "A. Madni"
+        ],
+        "submission_date": "2022-10-03",
+        "semantic_scholar_id": "3510e82d17ef39e5f0aebc9129439643793e0adb"
+    },
+    "2206-14400": {
+        "paper_title": "GreenBIQA: A Lightweight Blind Image Quality Assessment Method",
+        "authors": [
+            "Zhanxuan Mei",
+            "Yun Cheng Wang",
+            "Xingze He",
+            "C. J. Kuo"
+        ],
+        "submission_date": "2022-06-29",
+        "semantic_scholar_id": "b876b8905209d05514ceba36904375a5ddf7e549"
+    },
+    "2203-11924": {
+        "paper_title": "On Supervised Feature Selection from High Dimensional Feature Spaces",
+        "authors": [
+            "Yijing Yang",
+            "Wei Wang",
+            "Hongyu Fu",
+            "C. J. Kuo"
+        ],
+        "submission_date": "2022-03-22",
+        "semantic_scholar_id": "79997f059418eff1f21e51ae02f27fc3098bd3ba"
+    },
+    "2112-03731": {
+        "paper_title": "SalFBNet: Learning Pseudo-Saliency Distribution via Feedback Convolutional Networks",
+        "authors": [
+            "Guanqun Ding",
+            "Nevrez Imamoglu",
+            "Ali Caglayan",
+            "M. Murakawa",
+            "Ryosuke Nakamura"
+        ],
+        "submission_date": "2021-12-07",
+        "semantic_scholar_id": "ececadb0f88b8c31da80daed998178234a3d74da"
+    },
+    "2111-14338": {
+        "paper_title": "Improving Deep Learning Interpretability by Saliency Guided Training",
+        "authors": [
+            "Aya Abdelsalam Ismail",
+            "H. C. Bravo",
+            "S. Feizi"
+        ],
+        "submission_date": "2021-11-29",
+        "semantic_scholar_id": "dc1909cb3d1913f92d45ed5a7fbe95179befbdc3"
+    },
+    "2107-04020": {
+        "paper_title": "TGHop: an explainable, efficient, and lightweight method for texture generation",
+        "authors": [
+            "Xuejing Lei",
+            "Ganning Zhao",
+            "Kaitai Zhang",
+            "C. J. Kuo"
+        ],
+        "submission_date": "2021-07-08",
+        "semantic_scholar_id": "8b02e6dac5f2c6e999d117309d9c95fbb0911b5e"
+    },
+    "2105-12441": {
+        "paper_title": "DeepGaze IIE: Calibrated prediction in and out-of-domain for state-of-the-art saliency modeling",
+        "authors": [
+            "Akis Linardos",
+            "Matthias Kümmerer",
+            "Ori Press",
+            "M. Bethge"
+        ],
+        "submission_date": "2021-05-26",
+        "semantic_scholar_id": "734e34ffbf9846e2e35b075c1fd1ee1b82193845"
+    },
+    "2103-06929": {
+        "paper_title": "DefakeHop: A Light-Weight High-Performance Deepfake Detector",
+        "authors": [
+            "Hong-Shuo Chen",
+            "Mozhdeh Rouhsedaghat",
+            "Hamza Ghani",
+            "Shuowen Hu",
+            "Suya You",
+            "C. J. Kuo"
+        ],
+        "submission_date": "2021-03-11",
+        "semantic_scholar_id": "cf4ee08b8f571cc40f5c0e07906c49caf0ac023d"
+    },
+    "2006-01791": {
+        "paper_title": "SaliencyMix: A Saliency Guided Data Augmentation Strategy for Better Regularization",
+        "authors": [
+            "Better Regulariza",
+            "A. Uddin",
+            "Sirazam Monira",
+            "Wheemyung Shin",
+            "TaeChoong Chung",
+            "S. Bae"
+        ],
+        "submission_date": "2020-06-02",
+        "semantic_scholar_id": "29e34b721a72357ab83717643c1566f977e6a761"
+    },
+    "2003-05477": {
+        "paper_title": "Unified Image and Video Saliency Modeling",
+        "authors": [
+            "Richard Droste",
+            "Jianbo Jiao",
+            "J. Noble"
+        ],
+        "submission_date": "2020-03-11",
+        "semantic_scholar_id": "b01cb5c42ba693c84967bfd2ec94e420586164cc"
+    },
+    "2002-03141": {
+        "paper_title": "Pixelhop++: A Small Successive-Subspace-Learning-Based (Ssl-Based) Model For Image Classification",
+        "authors": [
+            "Yueru Chen",
+            "Mozhdeh Rouhsedaghat",
+            "Suya You",
+            "R. Rao",
+            "C.-C. Jay Kuo"
+        ],
+        "submission_date": "2020-02-08",
+        "semantic_scholar_id": "8a4f46417e1239f562fb7ecd7addb3631edcb871"
+    },
+    "1905-06803": {
+        "paper_title": "How is Gaze Influenced by Image Transformations? Dataset and Model",
+        "authors": [
+            "Zhaohui Che",
+            "A. Borji",
+            "Guangtao Zhai",
+            "Xiongkuo Min",
+            "G. Guo",
+            "P. Le Callet"
+        ],
+        "submission_date": "2019-05-16",
+        "semantic_scholar_id": "a5fd56ba206c8798e114266d1d184f26aec2435b"
+    },
+    "1810-02786": {
+        "paper_title": "Interpretable Convolutional Neural Networks via Feedforward Design",
+        "authors": [
+            "C.-C. Jay Kuo",
+            "Min Zhang",
+            "Siyang Li",
+            "Jiali Duan",
+            "Yueru Chen"
+        ],
+        "submission_date": "2018-10-05",
+        "semantic_scholar_id": "38ff1be1f6b6f53b82ba4527721820dedeb59afc"
+    },
+    "1805-01047": {
+        "paper_title": "EML-NET: An Expandable Multi-Layer NETwork for Saliency Prediction",
+        "authors": [
+            "Sen Jia"
+        ],
+        "submission_date": "2018-05-02",
+        "semantic_scholar_id": "3ba81addcc50e8b4a0bad42fa84b6fe26a9b8a6f"
+    },
+    "1611-09571": {
+        "paper_title": "Predicting Human Eye Fixations via an LSTM-Based Saliency Attentive Model",
+        "authors": [
+            "Marcella Cornia",
+            "L. Baraldi",
+            "G. Serra",
+            "R. Cucchiara"
+        ],
+        "submission_date": "2016-11-29",
+        "semantic_scholar_id": "b7e336a7d3cd82ae8cd5e85d3cb62f0b6091a0e5"
+    },
+    "1603-02754": {
+        "paper_title": "XGBoost: A Scalable Tree Boosting System",
+        "authors": [
+            "Tianqi Chen",
+            "Carlos Guestrin"
+        ],
+        "submission_date": "2016-03-09",
+        "semantic_scholar_id": "26bc9195c6343e4d7f434dd65b4ad67efe2be27a"
+    },
+    "1603-00845": {
+        "paper_title": "Shallow and Deep Convolutional Networks for Saliency Prediction",
+        "authors": [
+            "Junting Pan",
+            "E. Sayrol",
+            "Xavier Giro-i-Nieto",
+            "Kevin McGuinness",
+            "N. O’Connor"
+        ],
+        "submission_date": "2016-03-02",
+        "semantic_scholar_id": "9528e2e8c20517ab916f803c0371abb4f0ed488b"
+    },
+    "1512-03385": {
+        "paper_title": "Deep Residual Learning for Image Recognition",
+        "authors": [
+            "Kaiming He",
+            "X. Zhang",
+            "Shaoqing Ren",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-12-10",
+        "semantic_scholar_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d"
+    },
+    "1505-03581": {
+        "paper_title": "CAT2000: A Large Scale Fixation Dataset for Boosting Saliency Research",
+        "authors": [
+            "A. Borji",
+            "L. Itti"
+        ],
+        "submission_date": "2015-05-14",
+        "semantic_scholar_id": "519feb1f3c23baea6960dfa204521f96a74b82bb"
+    },
+    "1411-1045": {
+        "paper_title": "Deep Gaze I: Boosting Saliency Prediction with Feature Maps Trained on ImageNet",
+        "authors": [
+            "Matthias Kümmerer",
+            "Lucas Theis",
+            "M. Bethge"
+        ],
+        "submission_date": "2014-11-04",
+        "semantic_scholar_id": "652e652bca63f60c2c5f5840d4a34bb743f699b9"
+    },
+    "1409-1556": {
+        "paper_title": "Very Deep Convolutional Networks for Large-Scale Image Recognition",
+        "authors": [
+            "K. Simonyan",
+            "Andrew Zisserman"
+        ],
+        "submission_date": "2014-09-04",
+        "semantic_scholar_id": "eb42cf88027de515750f230b23b1a057dc782108"
+    }
+}

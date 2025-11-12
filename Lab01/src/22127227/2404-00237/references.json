@@ -1,0 +1,410 @@
+{
+    "2408-00766": {
+        "paper_title": "Optimizing Diffusion Models for Joint Trajectory Prediction and Controllable Generation",
+        "authors": [
+            "Yixiao Wang",
+            "Chen Tang",
+            "Lingfeng Sun",
+            "Simone Rossi",
+            "Yichen Xie",
+            "Chensheng Peng",
+            "T. Hannagan",
+            "Stefano Sabatini",
+            "Nicola Poerio",
+            "Masayoshi Tomizuka",
+            "Wei Zhan"
+        ],
+        "submission_date": "2024-08-01",
+        "semantic_scholar_id": "757bd58782db1f9046fa04866c2bb9be887f0996"
+    },
+    "2403-15712": {
+        "paper_title": "PNAS-MOT: Multi-Modal Object Tracking With Pareto Neural Architecture Search",
+        "authors": [
+            "Chensheng Peng",
+            "Zhaoyu Zeng",
+            "Jinling Gao",
+            "Jundong Zhou",
+            "Masayoshi Tomizuka",
+            "Xinbing Wang",
+            "Cheng Zhou",
+            "Nanyang Ye"
+        ],
+        "submission_date": "2024-03-23",
+        "semantic_scholar_id": "20cda81a0a8e37f3bffd90aad201e40f567a167a"
+    },
+    "2403-08125": {
+        "paper_title": "Q-SLAM: Quadric Representations for Monocular SLAM",
+        "authors": [
+            "Chensheng Peng",
+            "Chenfeng Xu",
+            "Yue Wang",
+            "Mingyu Ding",
+            "Heng Yang",
+            "Masayoshi Tomizuka",
+            "Kurt Keutzer",
+            "Marco Pavone",
+            "Wei Zhan"
+        ],
+        "submission_date": "2024-03-12",
+        "semantic_scholar_id": "488ef11afd70db4823a9b35db0fe435a96be10a5"
+    },
+    "2402-06680": {
+        "paper_title": "Social Physics Informed Diffusion Model for Crowd Simulation",
+        "authors": [
+            "Hongyi Chen",
+            "Jingtao Ding",
+            "Yong Li",
+            "Yue Wang",
+            "Xiao-Ping Zhang"
+        ],
+        "submission_date": "2024-02-08",
+        "semantic_scholar_id": "ad8d9ce3e2ee35e765827a11bc15918362459a35"
+    },
+    "2310-06721": {
+        "paper_title": "Tweedie Moment Projected Diffusions for Inverse Problems",
+        "authors": [
+            "Benjamin Boys",
+            "M. Girolami",
+            "Jakiw Pidstrigach",
+            "Sebastian Reich",
+            "Alan Mosca",
+            "Ömer Deniz Akyildiz"
+        ],
+        "submission_date": "2023-10-10",
+        "semantic_scholar_id": "c51cd38054318d5a79cb060f80575f78ffc7bd1e"
+    },
+    "2307-09306": {
+        "paper_title": "EigenTrajectory: Low-Rank Descriptors for Multi-Modal Trajectory Forecasting",
+        "authors": [
+            "Inhwan Bae",
+            "Jean Oh",
+            "Hae-Gon Jeon"
+        ],
+        "submission_date": "2023-07-18",
+        "semantic_scholar_id": "b5d799b1f3aebd7549d2945f42691346418192f0"
+    },
+    "2306-03083": {
+        "paper_title": "MotionDiffuser: Controllable Multi-Agent Motion Prediction Using Diffusion",
+        "authors": [
+            "C. Jiang",
+            "Andre Cornman",
+            "C. Park",
+            "Benjamin Sapp",
+            "Yin Zhou",
+            "Drago Anguelov"
+        ],
+        "submission_date": "2023-06-05",
+        "semantic_scholar_id": "7de381a18b7fc6f716da6fa4534bc302f4f46dbd"
+    },
+    "2305-06292": {
+        "paper_title": "Joint Metrics Matter: A Better Standard for Trajectory Forecasting",
+        "authors": [
+            "Erica Weng",
+            "Hanako Hoshino",
+            "Deva Ramanan",
+            "Kris M. Kitani"
+        ],
+        "submission_date": "2023-05-10",
+        "semantic_scholar_id": "33d55eddb08fb0181228109d3cc3be2d8b55781f"
+    },
+    "2303-16005": {
+        "paper_title": "Uncovering the Missing Pattern: Unified Framework Towards Trajectory Imputation and Prediction",
+        "authors": [
+            "Yi Xu",
+            "Armin Bazarjani",
+            "Hyung-gun Chi",
+            "Chiho Choi",
+            "Y. Fu"
+        ],
+        "submission_date": "2023-03-28",
+        "semantic_scholar_id": "34aa5546668fa15e9582cc422b7384536001dc98"
+    },
+    "2303-10895": {
+        "paper_title": "Leapfrog Diffusion Model for Stochastic Trajectory Prediction",
+        "authors": [
+            "Wei Mao",
+            "Chenxin Xu",
+            "Qi Zhu",
+            "Siheng Chen",
+            "Yanfeng Wang"
+        ],
+        "submission_date": "2023-03-20",
+        "semantic_scholar_id": "4500f038684d573d3f414ad6f94a6e7d73a596f9"
+    },
+    "2303-09556": {
+        "paper_title": "Efficient Diffusion Training via Min-SNR Weighting Strategy",
+        "authors": [
+            "Tiankai Hang",
+            "Shuyang Gu",
+            "Chen Li",
+            "Jianmin Bao",
+            "Dong Chen",
+            "Han Hu",
+            "Xin Geng",
+            "B. Guo"
+        ],
+        "submission_date": "2023-03-16",
+        "semantic_scholar_id": "d37ee0c440e36df133722093f6a824f4964e8ae0"
+    },
+    "2210-17366": {
+        "paper_title": "Guided Conditional Diffusion for Controllable Traffic Simulation",
+        "authors": [
+            "Ziyuan Zhong",
+            "Davis Rempe",
+            "Danfei Xu",
+            "Yuxiao Chen",
+            "Sushant Veer",
+            "Tong Che",
+            "Baishakhi Ray",
+            "M. Pavone"
+        ],
+        "submission_date": "2022-10-31",
+        "semantic_scholar_id": "247fbf266e70e196d983f53e7b4990b9548b0fc5"
+    },
+    "2209-14687": {
+        "paper_title": "Diffusion Posterior Sampling for General Noisy Inverse Problems",
+        "authors": [
+            "Hyungjin Chung",
+            "Jeongsol Kim",
+            "Michael T. McCann",
+            "M. Klasky",
+            "J. C. Ye"
+        ],
+        "submission_date": "2022-09-29",
+        "semantic_scholar_id": "61e46884567be7cad12e999365b16a8d3414b678"
+    },
+    "2208-00094": {
+        "paper_title": "Robust Trajectory Prediction against Adversarial Attacks",
+        "authors": [
+            "Yulong Cao",
+            "Danfei Xu",
+            "Xinshuo Weng",
+            "Z. Mao",
+            "Anima Anandkumar",
+            "Chaowei Xiao",
+            "M. Pavone"
+        ],
+        "submission_date": "2022-07-29",
+        "semantic_scholar_id": "331db13b61404c38b0052ef28c66c4d824d0a2d0"
+    },
+    "2207-10435": {
+        "paper_title": "Human Trajectory Prediction via Neural Social Physics",
+        "authors": [
+            "Jiangbei Yue",
+            "Dinesh Manocha",
+            "He Wang"
+        ],
+        "submission_date": "2022-07-21",
+        "semantic_scholar_id": "a4e3dd8af9fe7982b5599ce32e96371b15a3aa43"
+    },
+    "2206-09012": {
+        "paper_title": "Diffusion models as plug-and-play priors",
+        "authors": [
+            "Alexandros Graikos",
+            "Nikolay Malkin",
+            "N. Jojic",
+            "D. Samaras"
+        ],
+        "submission_date": "2022-06-17",
+        "semantic_scholar_id": "44b3fb61bec49f5e4d8a3b81ddc6082aedd771fe"
+    },
+    "2206-00364": {
+        "paper_title": "Elucidating the Design Space of Diffusion-Based Generative Models",
+        "authors": [
+            "Tero Karras",
+            "M. Aittala",
+            "Timo Aila",
+            "S. Laine"
+        ],
+        "submission_date": "2022-06-01",
+        "semantic_scholar_id": "2f4c451922e227cbbd4f090b74298445bbd900d0"
+    },
+    "2205-09991": {
+        "paper_title": "Planning with Diffusion for Flexible Behavior Synthesis",
+        "authors": [
+            "Michael Janner",
+            "Yilun Du",
+            "J. Tenenbaum",
+            "S. Levine"
+        ],
+        "submission_date": "2022-05-20",
+        "semantic_scholar_id": "3ebdd3db0dd91069fa0cd31cbf8308b60b1b565e"
+    },
+    "2203-13777": {
+        "paper_title": "Stochastic Trajectory Prediction via Motion Indeterminacy Diffusion",
+        "authors": [
+            "Tianpei Gu",
+            "Guangyi Chen",
+            "Junlong Li",
+            "Chunze Lin",
+            "Yongming Rao",
+            "Jie Zhou",
+            "Jiwen Lu"
+        ],
+        "submission_date": "2022-03-25",
+        "semantic_scholar_id": "13b5aae86ac2a4daae35ce31de726e55dd77e0ba"
+    },
+    "2203-11474": {
+        "paper_title": "Remember Intentions: Retrospective-Memory-based Trajectory Prediction",
+        "authors": [
+            "Chenxin Xu",
+            "Wei Mao",
+            "Wenjun Zhang",
+            "Siheng Chen"
+        ],
+        "submission_date": "2022-03-22",
+        "semantic_scholar_id": "36660ac08f47df66c6ebccbafbdd4daa3e129885"
+    },
+    "2201-09865": {
+        "paper_title": "RePaint: Inpainting using Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Andreas Lugmayr",
+            "Martin Danelljan",
+            "Andrés Romero",
+            "F. Yu",
+            "R. Timofte",
+            "L. Gool"
+        ],
+        "submission_date": "2022-01-24",
+        "semantic_scholar_id": "1e91fa21b890a8f5d615578f4ddf46c3cb394691"
+    },
+    "2112-10752": {
+        "paper_title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+        "authors": [
+            "Robin Rombach",
+            "A. Blattmann",
+            "Dominik Lorenz",
+            "Patrick Esser",
+            "B. Ommer"
+        ],
+        "submission_date": "2021-12-20",
+        "semantic_scholar_id": "c10075b3746a9f3dd5811970e93c8ca3ad39b39d"
+    },
+    "2110-07288": {
+        "paper_title": "View Vertically: A Hierarchical Network for Trajectory Prediction via Fourier Spectrums",
+        "authors": [
+            "Conghao Wong",
+            "Beihao Xia",
+            "Ziming Hong",
+            "Qinmu Peng",
+            "Xinge You"
+        ],
+        "submission_date": "2021-10-14",
+        "semantic_scholar_id": "f15a7ab18637b1ec5ad16e5d739a67f4b76ec874"
+    },
+    "2103-14107": {
+        "paper_title": "Stepwise Goal-Driven Networks for Trajectory Prediction",
+        "authors": [
+            "Chuhua Wang",
+            "Yuchen Wang",
+            "Mingze Xu",
+            "David J. Crandall"
+        ],
+        "submission_date": "2021-03-25",
+        "semantic_scholar_id": "d7f0a93030e75aebccd8a63dfd9d6aebb256572b"
+    },
+    "2103-14023": {
+        "paper_title": "AgentFormer: Agent-Aware Transformers for Socio-Temporal Multi-Agent Forecasting",
+        "authors": [
+            "Ye Yuan",
+            "Xinshuo Weng",
+            "Yanglan Ou",
+            "Kris Kitani"
+        ],
+        "submission_date": "2021-03-25",
+        "semantic_scholar_id": "44121878a5f390f178e241310a65afef1ccac33c"
+    },
+    "2103-02015": {
+        "paper_title": "PECNet: A Deep Multi-Label Segmentation Network for Eosinophilic Esophagitis Biopsy Diagnostics",
+        "authors": [
+            "Nati Daniel",
+            "Ariel Larey",
+            "Eliel Aknin",
+            "Garrett A. Osswald",
+            "J. Caldwell",
+            "M. Rochman",
+            "M. Collins",
+            "Guang-Yu Yang",
+            "Nicoleta C. Arva",
+            "K. Capocelli",
+            "M. Rothenberg",
+            "Y. Savir"
+        ],
+        "submission_date": "2021-03-02",
+        "semantic_scholar_id": "57017dcb85ea713050d895f30db41e96e49912c1"
+    },
+    "2011-13456": {
+        "paper_title": "Score-Based Generative Modeling through Stochastic Differential Equations",
+        "authors": [
+            "Yang Song",
+            "Jascha Narain Sohl-Dickstein",
+            "Diederik P. Kingma",
+            "Abhishek Kumar",
+            "Stefano Ermon",
+            "Ben Poole"
+        ],
+        "submission_date": "2020-11-26",
+        "semantic_scholar_id": "633e2fbfc0b21e959a244100937c5853afca4853"
+    },
+    "2010-05796": {
+        "paper_title": "Pedestrian Trajectory Prediction with Convolutional Neural Networks",
+        "authors": [
+            "Simone Zamboni",
+            "Zekarias T. Kefato",
+            "Sarunas Girdzijauskas",
+            "Noren Christoffer",
+            "L. D. Col"
+        ],
+        "submission_date": "2020-10-12",
+        "semantic_scholar_id": "805b18f062d3694c3e1118d29ecc069014b8f59d"
+    },
+    "2006-11239": {
+        "paper_title": "Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Jonathan Ho",
+            "Ajay Jain",
+            "P. Abbeel"
+        ],
+        "submission_date": "2020-06-19",
+        "semantic_scholar_id": "5c126ae3421f05768d8edd97ecd44b1364e2c99a"
+    },
+    "2004-02025": {
+        "paper_title": "It Is Not the Journey but the Destination: Endpoint Conditioned Trajectory Prediction",
+        "authors": [
+            "K. Mangalam",
+            "Harshayu Girase",
+            "Shreya Agarwal",
+            "Kuan-Hui Lee",
+            "E. Adeli",
+            "J. Malik",
+            "Adrien Gaidon"
+        ],
+        "submission_date": "2020-04-04",
+        "semantic_scholar_id": "08809dada9c78ed7cb6eec79e41c72759364d22f"
+    },
+    "1803-10892": {
+        "paper_title": "Social GAN: Socially Acceptable Trajectories with Generative Adversarial Networks",
+        "authors": [
+            "Agrim Gupta",
+            "Justin Johnson",
+            "Li Fei-Fei",
+            "S. Savarese",
+            "Alexandre Alahi"
+        ],
+        "submission_date": "2018-03-29",
+        "semantic_scholar_id": "49c076bbc21ab76720b610ab3840c15ce3dc4e6c"
+    },
+    "1710-10903": {
+        "paper_title": "Graph Attention Networks",
+        "authors": [
+            "Petar Velickovic",
+            "Guillem Cucurull",
+            "Arantxa Casanova",
+            "Adriana Romero",
+            "P. Lio’",
+            "Yoshua Bengio"
+        ],
+        "submission_date": "2017-10-30",
+        "semantic_scholar_id": "33998aff64ce51df8dee45989cdca4b6b1329ec4"
+    }
+}

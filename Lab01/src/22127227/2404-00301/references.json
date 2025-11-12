@@ -1,0 +1,735 @@
+{
+    "2307-10854": {
+        "paper_title": "BlendFace: Re-designing Identity Encoders for Face-Swapping",
+        "authors": [
+            "Kaede Shiohara",
+            "Xingchao Yang",
+            "Takafumi Taketomi"
+        ],
+        "submission_date": "2023-07-20",
+        "semantic_scholar_id": "a0ea4daf977675d3587b155dde6c46e4fc92cb20"
+    },
+    "2307-07928": {
+        "paper_title": "Reinforced Disentanglement for Face Swapping without Skip Connection",
+        "authors": [
+            "Xiaohang Ren",
+            "Xingyu Chen",
+            "Pengfei Yao",
+            "Harry Shum",
+            "Baoyuan Wang"
+        ],
+        "submission_date": "2023-07-16",
+        "semantic_scholar_id": "fca6d9030c58a6aa0d96cc977f7ac0bdc7c2e141"
+    },
+    "2306-06513": {
+        "paper_title": "Learning Image-Adaptive Codebooks for Class-Agnostic Image Restoration",
+        "authors": [
+            "Kechun Liu",
+            "Yitong Jiang",
+            "Inchang Choi",
+            "Jinwei Gu"
+        ],
+        "submission_date": "2023-06-10",
+        "semantic_scholar_id": "81c739551f9122f5dc5ddf78900c577e716ad49a"
+    },
+    "2305-09641": {
+        "paper_title": "FitMe: Deep Photorealistic 3D Morphable Model Avatars",
+        "authors": [
+            "Alexandros Lattas",
+            "Stylianos Moschoglou",
+            "Stylianos Ploumpis",
+            "Baris Gecer",
+            "Jiankang Deng",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2023-05-16",
+        "semantic_scholar_id": "aeb0372f0cf0112f0053122a07b0bb7cf63f2a5c"
+    },
+    "2305-06077": {
+        "paper_title": "Relightify: Relightable 3D Faces from a Single Image via Diffusion Models",
+        "authors": [
+            "Foivos Paraperas Papantoniou",
+            "Alexandros Lattas",
+            "Stylianos Moschoglou",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2023-05-10",
+        "semantic_scholar_id": "cf7f48b90ae00a70122a2b7ab4de715821ff35e0"
+    },
+    "2304-03117": {
+        "paper_title": "DreamFace: Progressive Generation of Animatable 3D Faces under Text Guidance",
+        "authors": [
+            "Longwen Zhang",
+            "Qiwei Qiu",
+            "Hongyang Lin",
+            "Qixuan Zhang",
+            "Cheng Shi",
+            "Wei Yang",
+            "Ye Shi",
+            "Sibei Yang",
+            "Lan Xu",
+            "Jingyi Yu"
+        ],
+        "submission_date": "2023-04-01",
+        "semantic_scholar_id": "73782be72f7188ef4a24482435352ec22d49e710"
+    },
+    "2303-11686": {
+        "paper_title": "Learning a 3D Morphable Face Reflectance Model from Low-Cost Data",
+        "authors": [
+            "Yuxuan Han",
+            "Zhibo Wang",
+            "Feng Xu"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "d7a885e953bf5f1b198b56aab345f7ff17180ea6"
+    },
+    "2211-13874": {
+        "paper_title": "FFHQ-UV: Normalized Facial UV-Texture Dataset for 3D Face Reconstruction",
+        "authors": [
+            "Haoran Bai",
+            "Di Kang",
+            "Haoxian Zhang",
+            "Jin-shan Pan",
+            "Linchao Bao"
+        ],
+        "submission_date": "2022-11-25",
+        "semantic_scholar_id": "e2e34dc10482795a94e401c343a78cb333960996"
+    },
+    "2211-14068": {
+        "paper_title": "Fine-Grained Face Swapping Via Regional GAN Inversion",
+        "authors": [
+            "Zhian Liu",
+            "Maomao Li",
+            "Yong Zhang",
+            "Cairong Wang",
+            "Qi Zhang",
+            "Jue Wang",
+            "Yongwei Nie"
+        ],
+        "submission_date": "2022-11-25",
+        "semantic_scholar_id": "1c786abe365dd4870ae33119d258b58538178f69"
+    },
+    "2209-13514": {
+        "paper_title": "StyleSwap: Style-Based Generator Empowers Robust Face Swapping",
+        "authors": [
+            "Zhi-liang Xu",
+            "Hang Zhou",
+            "Zhibin Hong",
+            "Ziwei Liu",
+            "Jiaming Liu",
+            "Zhizhi Guo",
+            "Junyu Han",
+            "Jingtuo Liu",
+            "Errui Ding",
+            "Jingdong Wang"
+        ],
+        "submission_date": "2022-09-27",
+        "semantic_scholar_id": "46f44519be4ce6d05af8556b7a839c252b20018c"
+    },
+    "2206-11253": {
+        "paper_title": "Towards Robust Blind Face Restoration with Codebook Lookup Transformer",
+        "authors": [
+            "Shangchen Zhou",
+            "Kelvin C. K. Chan",
+            "Chongyi Li",
+            "Chen Change Loy"
+        ],
+        "submission_date": "2022-06-22",
+        "semantic_scholar_id": "3476a29b7af78020367123153c6e1a7ce586e7a0"
+    },
+    "2205-03962": {
+        "paper_title": "Towards Racially Unbiased Skin Tone Estimation via Scene Disambiguation",
+        "authors": [
+            "Haiwen Feng",
+            "Timo Bolkart",
+            "J. Tesch",
+            "Michael J. Black",
+            "V. Abrevaya"
+        ],
+        "submission_date": "2022-05-08",
+        "semantic_scholar_id": "950c2f099ac229bcc238279683f1caa6462e2f10"
+    },
+    "2203-04564": {
+        "paper_title": "Region-Aware Face Swapping",
+        "authors": [
+            "Chao Xu",
+            "Jiangning Zhang",
+            "Miao Hua",
+            "Qian He",
+            "Zili Yi",
+            "Yong Liu"
+        ],
+        "submission_date": "2022-03-09",
+        "semantic_scholar_id": "0e151acf98d2661dc70ae49e56cd217d0b15c17d"
+    },
+    "2112-10752": {
+        "paper_title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+        "authors": [
+            "Robin Rombach",
+            "A. Blattmann",
+            "Dominik Lorenz",
+            "Patrick Esser",
+            "B. Ommer"
+        ],
+        "submission_date": "2021-12-20",
+        "semantic_scholar_id": "c10075b3746a9f3dd5811970e93c8ca3ad39b39d"
+    },
+    "2112-07945": {
+        "paper_title": "Efficient Geometry-aware 3D Generative Adversarial Networks",
+        "authors": [
+            "Eric Chan",
+            "Connor Z. Lin",
+            "Matthew A. Chan",
+            "Koki Nagano",
+            "Boxiao Pan",
+            "Shalini De Mello",
+            "Orazio Gallo",
+            "L. Guibas",
+            "Jonathan Tremblay",
+            "S. Khamis",
+            "Tero Karras",
+            "Gordon Wetzstein"
+        ],
+        "submission_date": "2021-12-15",
+        "semantic_scholar_id": "7c0a7419114db2209c2f386bc1537e90417cf9d4"
+    },
+    "2112-05957": {
+        "paper_title": "AvatarMe++: Facial Shape and BRDF Inference with Photorealistic Rendering-Aware GANs",
+        "authors": [
+            "Alexandros Lattas",
+            "Stylianos Moschoglou",
+            "Stylianos Ploumpis",
+            "Baris Gecer",
+            "A. Ghosh",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2021-12-11",
+        "semantic_scholar_id": "2a908071bf945d99f608057c6137762134b16a83"
+    },
+    "2111-01007": {
+        "paper_title": "Projected GANs Converge Faster",
+        "authors": [
+            "Axel Sauer",
+            "Kashyap Chitta",
+            "Jens Muller",
+            "Andreas Geiger"
+        ],
+        "submission_date": "2021-11-01",
+        "semantic_scholar_id": "ffd43946c7fe947ef3213e7a668a36e9d41c8f4b"
+    },
+    "2110-04800": {
+        "paper_title": "Self-Supervised 3D Face Reconstruction via Conditional Estimation",
+        "authors": [
+            "Yandong Wen",
+            "Weiyang Liu",
+            "B. Raj",
+            "Rita Singh"
+        ],
+        "submission_date": "2021-10-10",
+        "semantic_scholar_id": "c29a5282d98efc6f2404f50c940f0ca999fb23fd"
+    },
+    "2106-09965": {
+        "paper_title": "HifiFace: 3D Shape and Semantic Prior Guided High Fidelity Face Swapping",
+        "authors": [
+            "Yuhan Wang",
+            "Xu Chen",
+            "Junwei Zhu",
+            "Wenqing Chu",
+            "Ying Tai",
+            "Chengjie Wang",
+            "Jilin Li",
+            "Yongjian Wu",
+            "Feiyue Huang",
+            "R. Ji"
+        ],
+        "submission_date": "2021-06-18",
+        "semantic_scholar_id": "8ac82f78745a6eabe27b8e3e4f8d32ba6e76279e"
+    },
+    "2106-11423": {
+        "paper_title": "Normalized Avatar Synthesis Using StyleGAN and Perceptual Refinement",
+        "authors": [
+            "Huiwen Luo",
+            "Koki Nagano",
+            "Han-Wei Kung",
+            "Mclean Goldwhite",
+            "Qingguo Xu",
+            "Zejian Wang",
+            "Lingyu Wei",
+            "Liwen Hu",
+            "Hao Li"
+        ],
+        "submission_date": "2021-06-21",
+        "semantic_scholar_id": "4ffddfa047a18e9153cb0b798f4187b93d39d9a3"
+    },
+    "2105-04932": {
+        "paper_title": "One Shot Face Swapping on Megapixels",
+        "authors": [
+            "Yuhao Zhu",
+            "Qi Li",
+            "Jian Wang",
+            "Chengzhong Xu",
+            "Zhenan Sun"
+        ],
+        "submission_date": "2021-05-11",
+        "semantic_scholar_id": "1564ee7e4d0d17177b4c199a22ba9783e16a785e"
+    },
+    "2105-04714": {
+        "paper_title": "Sample and Computation Redistribution for Efficient Face Detection",
+        "authors": [
+            "Jia Guo",
+            "Jiankang Deng",
+            "Alexandros Lattas",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2021-05-10",
+        "semantic_scholar_id": "99d171aa12175c4d5d97d91c4032757719e22ae0"
+    },
+    "2104-04638": {
+        "paper_title": "Pixel Codec Avatars",
+        "authors": [
+            "Shugao Ma",
+            "T. Simon",
+            "Jason M. Saragih",
+            "Dawei Wang",
+            "Yuecheng Li",
+            "F. D. L. Torre",
+            "Yaser Sheikh"
+        ],
+        "submission_date": "2021-04-09",
+        "semantic_scholar_id": "86fa97fec1f7efd0264c87423fc752cf311a007d"
+    },
+    "2104-03493": {
+        "paper_title": "Riggable 3D Face Reconstruction via In-Network Optimization",
+        "authors": [
+            "Ziqian Bai",
+            "Zhaopeng Cui",
+            "Xiaoming Liu",
+            "P. Tan"
+        ],
+        "submission_date": "2021-04-08",
+        "semantic_scholar_id": "68dfbbbc82deae29d37559b750762244517c2c94"
+    },
+    "2103-15432": {
+        "paper_title": "Towards High Fidelity Monocular Face Reconstruction with Rich Reflectance using Self-supervised Learning and Ray Tracing",
+        "authors": [
+            "Abdallah Dib",
+            "C. Thébault",
+            "Junghyun Ahn",
+            "P. Gosselin",
+            "C. Theobalt",
+            "Louis Chevallier"
+        ],
+        "submission_date": "2021-03-29",
+        "semantic_scholar_id": "05f27eef7385b342993941166eec8c8b8a811f55"
+    },
+    "2103-11139": {
+        "paper_title": "MogFace: Towards a Deeper Appreciation on Face Detection",
+        "authors": [
+            "Yang Liu",
+            "Fei Wang",
+            "Baigui Sun",
+            "Hao Li"
+        ],
+        "submission_date": "2021-03-20",
+        "semantic_scholar_id": "10622c1e0b2209af8258aa90fa75ab51faf5ead3"
+    },
+    "2103-04098": {
+        "paper_title": "WebFace260M: A Benchmark Unveiling the Power of Million-Scale Deep Face Recognition",
+        "authors": [
+            "Zheng Zhu",
+            "Guan Huang",
+            "Jiankang Deng",
+            "Yun Ye",
+            "Junjie Huang",
+            "Xinze Chen",
+            "Jiagang Zhu",
+            "Tian Yang",
+            "Jiwen Lu",
+            "Dalong Du",
+            "Jie Zhou"
+        ],
+        "submission_date": "2021-03-06",
+        "semantic_scholar_id": "cc3eb6f34b5815d73eafc63f24793147e2a48b98"
+    },
+    "2102-02717": {
+        "paper_title": "RoI Tanh-polar Transformer Network for Face Parsing in the Wild",
+        "authors": [
+            "Yiming Lin",
+            "Jie Shen",
+            "Yujiang Wang",
+            "M. Pantic"
+        ],
+        "submission_date": "2021-02-04",
+        "semantic_scholar_id": "7828d73f4f126fd7819a87bc59e45dded0d8c554"
+    },
+    "2101-04061": {
+        "paper_title": "Towards Real-World Blind Face Restoration with Generative Facial Prior",
+        "authors": [
+            "Xintao Wang",
+            "Yu Li",
+            "Honglun Zhang",
+            "Ying Shan"
+        ],
+        "submission_date": "2021-01-11",
+        "semantic_scholar_id": "54483c5672bbee68cb77969d9cf6681209230b95"
+    },
+    "2012-09841": {
+        "paper_title": "Taming Transformers for High-Resolution Image Synthesis",
+        "authors": [
+            "Patrick Esser",
+            "Robin Rombach",
+            "B. Ommer"
+        ],
+        "submission_date": "2020-12-17",
+        "semantic_scholar_id": "47f7ec3d0a5e6e83b6768ece35206a94dc81919c"
+    },
+    "2012-04012": {
+        "paper_title": "Learning an animatable detailed 3D face model from in-the-wild images",
+        "authors": [
+            "Yao Feng",
+            "Haiwen Feng",
+            "Michael J. Black",
+            "Timo Bolkart"
+        ],
+        "submission_date": "2020-12-07",
+        "semantic_scholar_id": "3b9abbc46f85edd74e0d25811f016b1ba5da33d7"
+    },
+    "2106-06340": {
+        "paper_title": "SimSwap: An Efficient Framework For High Fidelity Face Swapping",
+        "authors": [
+            "Renwang Chen",
+            "Xuanhong Chen",
+            "Bingbing Ni",
+            "Yanhao Ge"
+        ],
+        "submission_date": "2021-06-11",
+        "semantic_scholar_id": "3c68f95ee183e43b476d33448876979576d5d729"
+    },
+    "2007-12494": {
+        "paper_title": "Self-Supervised Monocular 3D Face Reconstruction by Occlusion-Aware Multi-view Geometry Consistency",
+        "authors": [
+            "Jiaxiang Shang",
+            "Tianwei Shen",
+            "Shiwei Li",
+            "Lei Zhou",
+            "Mingmin Zhen",
+            "Tian Fang",
+            "Long Quan"
+        ],
+        "submission_date": "2020-07-24",
+        "semantic_scholar_id": "df77b9876df3318b174809cd4d83041512948d7d"
+    },
+    "2004-02711": {
+        "paper_title": "A Morphable Face Albedo Model",
+        "authors": [
+            "William Smith",
+            "Alassane Seck",
+            "Hannah M. Dee",
+            "Bernard Paul Tiddeman",
+            "J. Tenenbaum",
+            "B. Egger"
+        ],
+        "submission_date": "2020-04-06",
+        "semantic_scholar_id": "4f9212870bf4932d61164dd74f9ce39f4742670a"
+    },
+    "2004-03458": {
+        "paper_title": "Learning Formation of Physically-Based Face Attributes",
+        "authors": [
+            "Ruilong Li",
+            "Kalle Bladin",
+            "Yajie Zhao",
+            "Chinmay Chinara",
+            "Owen Ingraham",
+            "Pengda Xiang",
+            "Xinglei Ren",
+            "P. Prasad",
+            "B. Kishore",
+            "Jun Xing",
+            "Hao Li"
+        ],
+        "submission_date": "2020-04-02",
+        "semantic_scholar_id": "8bcb7121fee11f59104c8dd6381f77786ac1a3b9"
+    },
+    "1912-13457": {
+        "paper_title": "FaceShifter: Towards High Fidelity And Occlusion Aware Face Swapping",
+        "authors": [
+            "Lingzhi Li",
+            "Jianmin Bao",
+            "Hao Yang",
+            "Dong Chen",
+            "Fang Wen"
+        ],
+        "submission_date": "2019-12-31",
+        "semantic_scholar_id": "110dc626fcf90a49ec8c7c654533174e2705f734"
+    },
+    "1912-04958": {
+        "paper_title": "Analyzing and Improving the Image Quality of StyleGAN",
+        "authors": [
+            "Tero Karras",
+            "S. Laine",
+            "M. Aittala",
+            "Janne Hellsten",
+            "J. Lehtinen",
+            "Timo Aila"
+        ],
+        "submission_date": "2019-12-03",
+        "semantic_scholar_id": "14fdc18d9c164e5b0d6d946b3238c04e81921358"
+    },
+    "1912-01703": {
+        "paper_title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
+        "authors": [
+            "Adam Paszke",
+            "Sam Gross",
+            "Francisco Massa",
+            "Adam Lerer",
+            "James Bradbury",
+            "Gregory Chanan",
+            "Trevor Killeen",
+            "Zeming Lin",
+            "N. Gimelshein",
+            "L. Antiga",
+            "Alban Desmaison",
+            "Andreas Köpf",
+            "E. Yang",
+            "Zachary DeVito",
+            "Martin Raison",
+            "Alykhan Tejani",
+            "Sasank Chilamkurthy",
+            "Benoit Steiner",
+            "Lu Fang",
+            "Junjie Bai",
+            "Soumith Chintala"
+        ],
+        "submission_date": "2019-12-03",
+        "semantic_scholar_id": "3c8a456509e6c0805354bd40a35e3f2dbf8069b1"
+    },
+    "1909-02215": {
+        "paper_title": "Synthesizing Coupled 3D Face Modalities by Trunk-Branch Generative Adversarial Networks",
+        "authors": [
+            "Baris Gecer",
+            "Alexandros Lattas",
+            "Stylianos Ploumpis",
+            "Jiankang Deng",
+            "A. Papaioannou",
+            "Stylianos Moschoglou",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2019-09-05",
+        "semantic_scholar_id": "13d7deb38eaad59a0121392731c2e6832b2d83f3"
+    },
+    "1909-01815": {
+        "paper_title": "3D Morphable Face Models—Past, Present, and Future",
+        "authors": [
+            "B. Egger",
+            "W. Smith",
+            "A. Tewari",
+            "Stefanie Wuhrer",
+            "M. Zollhöfer",
+            "T. Beeler",
+            "Florian Bernard",
+            "Timo Bolkart",
+            "A. Kortylewski",
+            "S. Romdhani",
+            "C. Theobalt",
+            "V. Blanz",
+            "T. Vetter"
+        ],
+        "submission_date": "2019-09-03",
+        "semantic_scholar_id": "c7d3f544e83ce26ae67ad98ca2d5c5ec76d8e812"
+    },
+    "1907-11922": {
+        "paper_title": "MaskGAN: Towards Diverse and Interactive Facial Image Manipulation",
+        "authors": [
+            "Cheng-Han Lee",
+            "Ziwei Liu",
+            "Lingyun Wu",
+            "Ping Luo"
+        ],
+        "submission_date": "2019-07-27",
+        "semantic_scholar_id": "9a2d83ed7d7cc647421e976d8669b023974fff67"
+    },
+    "1903-08527": {
+        "paper_title": "Accurate 3D Face Reconstruction With Weakly-Supervised Learning: From Single Image to Image Set",
+        "authors": [
+            "Yu Deng",
+            "Jiaolong Yang",
+            "Sicheng Xu",
+            "Dong Chen",
+            "Yunde Jia",
+            "Xin Tong"
+        ],
+        "submission_date": "2019-03-20",
+        "semantic_scholar_id": "c5651aea43997f71891c2cc7694ddf51af95c2c0"
+    },
+    "1902-05978": {
+        "paper_title": "GANFIT: Generative Adversarial Network Fitting for High Fidelity 3D Face Reconstruction",
+        "authors": [
+            "Baris Gecer",
+            "Stylianos Ploumpis",
+            "I. Kotsia",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2019-02-15",
+        "semantic_scholar_id": "6220cac2e0fbebea5c28d9e8b7d399eb5c375357"
+    },
+    "1812-07603": {
+        "paper_title": "FML: Face Model Learning From Videos",
+        "authors": [
+            "A. Tewari",
+            "Florian Bernard",
+            "Pablo Garrido",
+            "Gaurav Bharaj",
+            "Mohamed A. Elgharib",
+            "H. Seidel",
+            "P. Pérez",
+            "M. Zollhöfer",
+            "C. Theobalt"
+        ],
+        "submission_date": "2018-12-18",
+        "semantic_scholar_id": "f09070b62123f6662bc77f4b670d54cc7156bcc5"
+    },
+    "1812-04948": {
+        "paper_title": "A Style-Based Generator Architecture for Generative Adversarial Networks",
+        "authors": [
+            "Tero Karras",
+            "S. Laine",
+            "Timo Aila"
+        ],
+        "submission_date": "2018-12-12",
+        "semantic_scholar_id": "ceb2ebef0b41e31c1a21b28c2734123900c005e2"
+    },
+    "1804-03786": {
+        "paper_title": "Nonlinear 3D Face Morphable Model",
+        "authors": [
+            "Luan Tran",
+            "Xiaoming Liu"
+        ],
+        "submission_date": "2018-04-11",
+        "semantic_scholar_id": "09ec60f2eea5d43792b2bc9da63b1c9b7719f666"
+    },
+    "1801-09414": {
+        "paper_title": "CosFace: Large Margin Cosine Loss for Deep Face Recognition",
+        "authors": [
+            "H. Wang",
+            "Yitong Wang",
+            "Zheng Zhou",
+            "Xing Ji",
+            "Zhifeng Li",
+            "Dihong Gong",
+            "Jin Zhou",
+            "Wei Liu"
+        ],
+        "submission_date": "2018-01-29",
+        "semantic_scholar_id": "9dc915697768dd1f7c7b97e2c25c90b02241958b"
+    },
+    "1801-03924": {
+        "paper_title": "The Unreasonable Effectiveness of Deep Features as a Perceptual Metric",
+        "authors": [
+            "Richard Zhang",
+            "Phillip Isola",
+            "Alexei A. Efros",
+            "Eli Shechtman",
+            "Oliver Wang"
+        ],
+        "submission_date": "2018-01-11",
+        "semantic_scholar_id": "c468bbde6a22d961829e1970e6ad5795e05418d1"
+    },
+    "1712-04695": {
+        "paper_title": "UV-GAN: Adversarial Facial UV Map Completion for Pose-Invariant Face Recognition",
+        "authors": [
+            "Jiankang Deng",
+            "Shiyang Cheng",
+            "Niannan Xue",
+            "Yuxiang Zhou",
+            "S. Zafeiriou"
+        ],
+        "submission_date": "2017-12-13",
+        "semantic_scholar_id": "1929863fff917ee7f6dc428fc1ce732777668eca"
+    },
+    "1711-00937": {
+        "paper_title": "Neural Discrete Representation Learning",
+        "authors": [
+            "Aäron van den Oord",
+            "O. Vinyals",
+            "K. Kavukcuoglu"
+        ],
+        "submission_date": "2017-11-02",
+        "semantic_scholar_id": "f466157848d1a7772fb6d02cdac9a7a5e7ef982e"
+    },
+    "1710-10196": {
+        "paper_title": "Progressive Growing of GANs for Improved Quality, Stability, and Variation",
+        "authors": [
+            "Tero Karras",
+            "Timo Aila",
+            "S. Laine",
+            "J. Lehtinen"
+        ],
+        "submission_date": "2017-10-27",
+        "semantic_scholar_id": "744fe47157477235032f7bb3777800f9f2f45e52"
+    },
+    "1710-08092": {
+        "paper_title": "VGGFace2: A Dataset for Recognising Faces across Pose and Age",
+        "authors": [
+            "Qiong Cao",
+            "Li Shen",
+            "Weidi Xie",
+            "Omkar M. Parkhi",
+            "Andrew Zisserman"
+        ],
+        "submission_date": "2017-10-23",
+        "semantic_scholar_id": "70c59dc3470ae867016f6ab0e008ac8ba03774a1"
+    },
+    "1703-06868": {
+        "paper_title": "Arbitrary Style Transfer in Real-Time with Adaptive Instance Normalization",
+        "authors": [
+            "Xun Huang",
+            "Serge J. Belongie"
+        ],
+        "submission_date": "2017-03-20",
+        "semantic_scholar_id": "be0ef77fb0345c5851bb5d297f3ed84ae3c581ee"
+    },
+    "1611-07004": {
+        "paper_title": "Image-to-Image Translation with Conditional Adversarial Networks",
+        "authors": [
+            "Phillip Isola",
+            "Jun-Yan Zhu",
+            "Tinghui Zhou",
+            "Alexei A. Efros"
+        ],
+        "submission_date": "2016-11-21",
+        "semantic_scholar_id": "8acbe90d5b852dadea7810345451a99608ee54c7"
+    },
+    "1412-6980": {
+        "paper_title": "Adam: A Method for Stochastic Optimization",
+        "authors": [
+            "Diederik P. Kingma",
+            "Jimmy Ba"
+        ],
+        "submission_date": "2014-12-22",
+        "semantic_scholar_id": "a6cb366736791bcccc5c8639de5a8f9636bf87e8"
+    },
+    "1409-1556": {
+        "paper_title": "Very Deep Convolutional Networks for Large-Scale Image Recognition",
+        "authors": [
+            "K. Simonyan",
+            "Andrew Zisserman"
+        ],
+        "submission_date": "2014-09-04",
+        "semantic_scholar_id": "eb42cf88027de515750f230b23b1a057dc782108"
+    },
+    "2103-14030": {
+        "paper_title": "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+        "authors": [
+            "Ze Liu",
+            "Yutong Lin",
+            "Yue Cao",
+            "Han Hu",
+            "Yixuan Wei",
+            "Zheng Zhang",
+            "Stephen Lin",
+            "B. Guo"
+        ],
+        "submission_date": "2021-03-25",
+        "semantic_scholar_id": "c8b25fab5608c3e033d34b4483ec47e68ba109b7"
+    }
+}

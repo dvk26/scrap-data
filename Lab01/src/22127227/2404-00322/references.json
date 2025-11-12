@@ -1,0 +1,421 @@
+{
+    "2212-12719": {
+        "paper_title": "MURPHY: Relations Matter in Surgical Workflow Analysis",
+        "authors": [
+            "Shang Zhao",
+            "Yanzhe Liu",
+            "Qiyuan Wang",
+            "Dai Sun",
+            "Rong Liu",
+            "S.Kevin Zhou"
+        ],
+        "submission_date": "2022-12-24",
+        "semantic_scholar_id": "05198a120b80384297182de3d5074688e780f284"
+    },
+    "2212-04582": {
+        "paper_title": "Towards Holistic Surgical Scene Understanding",
+        "authors": [
+            "Natalia Valderrama",
+            "Paola Ruiz Puentes",
+            "Isabela Hernández",
+            "Nicolás Ayobi",
+            "Mathilde Verlyck",
+            "J. Santander",
+            "J. Caicedo",
+            "N. Fernández",
+            "P. Arbeláez"
+        ],
+        "submission_date": "2022-12-08",
+        "semantic_scholar_id": "99319f9d45b31b8e46816dbb6f9b2e6d31f7e564"
+    },
+    "2201-11957": {
+        "paper_title": "Global-Reasoned Multi-Task Learning Model for Surgical Scene Understanding",
+        "authors": [
+            "Lalithkumar Seenivasan",
+            "Sai Mitheran",
+            "Mobarak Islam Hoque",
+            "Hongliang Ren"
+        ],
+        "submission_date": "2022-01-28",
+        "semantic_scholar_id": "52f32a73d9547dc800d3c01c072f3e5cb5ab1e72"
+    },
+    "2112-01838": {
+        "paper_title": "Efficient Two-Stage Detection of Human-Object Interactions with a Novel Unary-Pairwise Transformer",
+        "authors": [
+            "Frederic Z. Zhang",
+            "Dylan Campbell",
+            "Stephen Gould"
+        ],
+        "submission_date": "2021-12-03",
+        "semantic_scholar_id": "8417515766a5568fd111b7e90b9e98941aa1d513"
+    },
+    "2109-03223": {
+        "paper_title": "Rendezvous: Attention Mechanisms for the Recognition of Surgical Action Triplets in Endoscopic Videos",
+        "authors": [
+            "C. Nwoye",
+            "Tong Yu",
+            "Cristians Gonzalez",
+            "B. Seeliger",
+            "P. Mascagni",
+            "D. Mutter",
+            "J. Marescaux",
+            "N. Padoy"
+        ],
+        "submission_date": "2021-09-07",
+        "semantic_scholar_id": "643e645f805d2c49a4f32fc6970bcda6d86c6cb4"
+    },
+    "2104-03178": {
+        "paper_title": "The SARAS Endoscopic Surgeon Action Detection (ESAD) dataset: Challenges and methods",
+        "authors": [
+            "V. Bawa",
+            "Gurkirt Singh",
+            "Francis KapingA",
+            "I. Skarga-Bandurova",
+            "Elettra Oleari",
+            "A. Leporini",
+            "Carmela Landolfo",
+            "Pengfei Zhao",
+            "Xiao Xiang",
+            "Gongning Luo",
+            "Kuanquan Wang",
+            "Liangzhi Li",
+            "Bowen Wang",
+            "Shang Zhao",
+            "Li Li",
+            "Armando Stabile",
+            "F. Setti",
+            "R. Muradore",
+            "Fabio Cuzzolin"
+        ],
+        "submission_date": "2021-04-07",
+        "semantic_scholar_id": "2045fa910344c040be13c4b4ebbe2d7790bf5d81"
+    },
+    "2103-17120": {
+        "paper_title": "Learning Domain Adaptation with Model Calibration for Surgical Report Generation in Robotic Surgery",
+        "authors": [
+            "Mengya Xu",
+            "Mobarak Islam Hoque",
+            "C. Lim",
+            "Hongliang Ren"
+        ],
+        "submission_date": "2021-03-31",
+        "semantic_scholar_id": "d44d8fb85e91c12cda3253c0e0dc4595e277ebcd"
+    },
+    "2103-13111": {
+        "paper_title": "MIcro-Surgical Anastomose Workflow recognition challenge report",
+        "authors": [
+            "Arnaud Huaulmé",
+            "Duygu Sarikaya",
+            "Kévin Le Mut",
+            "Fabien Despinoy",
+            "Yonghao Long",
+            "Q. Dou",
+            "Chin-Boon Chng",
+            "Wenjun Lin",
+            "S. Kondo",
+            "Laura Bravo Sánchez",
+            "P. Arbeláez",
+            "Wolfgang Reiter",
+            "M. Mitsuishi",
+            "K. Harada",
+            "P. Jannin"
+        ],
+        "submission_date": "2021-03-24",
+        "semantic_scholar_id": "fbde4b672bf1b793fe67373cad1d3feb1e1c1c14"
+    },
+    "2103-05399": {
+        "paper_title": "QPIC: Query-Based Pairwise Human-Object Interaction Detection with Image-Wide Contextual Information",
+        "authors": [
+            "Masato Tamura",
+            "Hiroki Ohashi",
+            "Tomoaki Yoshinaga"
+        ],
+        "submission_date": "2021-03-09",
+        "semantic_scholar_id": "b6d6223bfa9de61d675d2fd4dd43c5924f393a55"
+    },
+    "2103-04503": {
+        "paper_title": "End-to-End Human Object Interaction Detection with HOI Transformer",
+        "authors": [
+            "Cheng Zou",
+            "Bohan Wang",
+            "Yue Hu",
+            "Junqi Liu",
+            "Qianyu Wu",
+            "Yu Zhao",
+            "Boxun Li",
+            "Chenguang Zhang",
+            "Chi Zhang",
+            "Yichen Wei",
+            "Jian Sun"
+        ],
+        "submission_date": "2021-03-08",
+        "semantic_scholar_id": "cd14aaff955812810a21ce4cde9c5eb17a13dfee"
+    },
+    "2102-12218": {
+        "paper_title": "Multi-task temporal convolutional networks for joint recognition of surgical phases and steps in gastric bypass procedures",
+        "authors": [
+            "Sanat Ramesh",
+            "D. Dall’Alba",
+            "Cristians Gonzalez",
+            "Tong Yu",
+            "P. Mascagni",
+            "D. Mutter",
+            "J. Marescaux",
+            "P. Fiorini",
+            "N. Padoy"
+        ],
+        "submission_date": "2021-02-24",
+        "semantic_scholar_id": "68fc3600584b74766a5153767ecfb627fabc1cdf"
+    },
+    "2012-12453": {
+        "paper_title": "CholecSeg8k: A Semantic Segmentation Dataset for Laparoscopic Cholecystectomy Based on Cholec80",
+        "authors": [
+            "W.-Y. Hong",
+            "Chang-Lung Kao",
+            "Y.-H. Kuo",
+            "J.-R. Wang",
+            "Wanxing Chang",
+            "C.-S. Shih"
+        ],
+        "submission_date": "2020-12-23",
+        "semantic_scholar_id": "4853df296d052c17de6c788c7a8ead10097a3e97"
+    },
+    "2012-06060": {
+        "paper_title": "Spatially Conditioned Graphs for Detecting Human–Object Interactions",
+        "authors": [
+            "Frederic Z. Zhang",
+            "Dylan Campbell",
+            "Stephen Gould"
+        ],
+        "submission_date": "2020-12-11",
+        "semantic_scholar_id": "afbfcb659a7cc2fc6c1bc19aa5cb0f9defdeacc5"
+    },
+    "2007-05405": {
+        "paper_title": "Recognition of Instrument-Tissue Interactions in Endoscopic Videos via Action Triplets",
+        "authors": [
+            "C. Nwoye",
+            "Cristians Gonzalez",
+            "Tong Yu",
+            "P. Mascagni",
+            "D. Mutter",
+            "J. Marescaux",
+            "N. Padoy"
+        ],
+        "submission_date": "2020-07-10",
+        "semantic_scholar_id": "237e6d1c5f0b6d04d3ee70963c44544cc562c325"
+    },
+    "2007-03357": {
+        "paper_title": "Learning and Reasoning with the Graph Structure Representation in Robotic Surgery",
+        "authors": [
+            "Mobarak Islam Hoque",
+            "Seenivasan Lalithkumar",
+            "Lim Chwee Ming",
+            "Hongliang Ren"
+        ],
+        "submission_date": "2020-07-07",
+        "semantic_scholar_id": "402579ecbc3acacedd83c1d53c603cfa1bbf3e0a"
+    },
+    "2006-07164": {
+        "paper_title": "ESAD: Endoscopic Surgeon Action Detection Dataset",
+        "authors": [
+            "V. Bawa",
+            "Gurkirt Singh",
+            "Francis KapingA",
+            "InnaSkarga-Bandurova",
+            "A. Leporini",
+            "Carmela Landolfo",
+            "Armando Stabile",
+            "Francesco Setti",
+            "R. Muradore",
+            "Elettra Oleari",
+            "Fabio Cuzzolin"
+        ],
+        "submission_date": "2020-06-12",
+        "semantic_scholar_id": "7594f3ee9b0bee6d26c0467bfe4bbc72a34e092f"
+    },
+    "2005-03501": {
+        "paper_title": "Heidelberg colorectal data set for surgical data science in the sensor operating room",
+        "authors": [
+            "L. Maier-Hein",
+            "M. Wagner",
+            "T. Ross",
+            "Annika Reinke",
+            "S. Bodenstedt",
+            "Peter M. Full",
+            "Hellena Hempe",
+            "D. Filimon",
+            "Patrick Scholz",
+            "T. Tran",
+            "Pierangela Bruno",
+            "A. Kisilenko",
+            "Benjamin Müller",
+            "Tornike Davitashvili",
+            "Manuela Capek",
+            "M. Tizabi",
+            "Matthias Eisenmann",
+            "T. Adler",
+            "J. Gröhl",
+            "Melanie Schellenberg",
+            "S. Seidlitz",
+            "T. Y. E. Lai",
+            "Veith Roethlingshoefer",
+            "Fabian Both",
+            "Sebastian Bittel",
+            "M. Mengler",
+            "M. Apitz",
+            "S. Speidel",
+            "H. Kenngott",
+            "B. Müller-Stich"
+        ],
+        "submission_date": "2020-05-07",
+        "semantic_scholar_id": "0669286d8d4ca8ec2fdf16b7813157c21eb690be"
+    },
+    "1808-07962": {
+        "paper_title": "Learning Human-Object Interactions by Graph Parsing Neural Networks",
+        "authors": [
+            "Siyuan Qi",
+            "Wenguan Wang",
+            "Baoxiong Jia",
+            "Jianbing Shen",
+            "Song-Chun Zhu"
+        ],
+        "submission_date": "2018-08-23",
+        "semantic_scholar_id": "4ce19e59b6c99b960df645d753fd29d2ccd9b7b4"
+    },
+    "1808-10437": {
+        "paper_title": "iCAN: Instance-Centric Attention Network for Human-Object Interaction Detection",
+        "authors": [
+            "Chen Gao",
+            "Yuliang Zou",
+            "Jia-Bin Huang"
+        ],
+        "submission_date": "2018-08-30",
+        "semantic_scholar_id": "72976d066d38d3d378d75dcf1467b0a295acad6b"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1706-02216": {
+        "paper_title": "Inductive Representation Learning on Large Graphs",
+        "authors": [
+            "William L. Hamilton",
+            "Z. Ying",
+            "J. Leskovec"
+        ],
+        "submission_date": "2017-06-07",
+        "semantic_scholar_id": "6b7d6e6416343b2a122f8416e69059ce919026ef"
+    },
+    "2008-00936": {
+        "paper_title": "Detection and Localization of Robotic Tools in Robot-Assisted Surgery Videos Using Deep Neural Networks for Region Proposal and Detection",
+        "authors": [
+            "Duygu Sarikaya",
+            "Jason J. Corso",
+            "K. Guru"
+        ],
+        "submission_date": "2020-07-29",
+        "semantic_scholar_id": "f4c42c58c6649538c85b85b5357b29793798109b"
+    },
+    "1701-06482": {
+        "paper_title": "Surgical data science for next-generation interventions",
+        "authors": [
+            "L. Maier-Hein",
+            "S. Vedula",
+            "S. Speidel",
+            "N. Navab",
+            "R. Kikinis",
+            "A. Park",
+            "Matthias Eisenmann",
+            "H. Feußner",
+            "G. Forestier",
+            "S. Giannarou",
+            "M. Hashizume",
+            "Darko Katic",
+            "H. Kenngott",
+            "M. Kranzfelder",
+            "Anand Malpani",
+            "K. März",
+            "T. Neumuth",
+            "N. Padoy",
+            "Carla M. Pugh",
+            "N. Schoch",
+            "D. Stoyanov",
+            "Russell H. Taylor",
+            "M. Wagner",
+            "Gregory Hager",
+            "P. Jannin"
+        ],
+        "submission_date": "2017-01-23",
+        "semantic_scholar_id": "0ec2d4c804dd2b4446e1808dc85b4fe4a27b1766"
+    },
+    "1608-08242": {
+        "paper_title": "Temporal Convolutional Networks: A Unified Approach to Action Segmentation",
+        "authors": [
+            "Colin S. Lea",
+            "R. Vidal",
+            "A. Reiter",
+            "Gregory Hager"
+        ],
+        "submission_date": "2016-08-29",
+        "semantic_scholar_id": "6903ea1adc08200dfe2df5a54896c4c76a0088d1"
+    },
+    "1606-06329": {
+        "paper_title": "Recognizing Surgical Activities with Recurrent Neural Networks",
+        "authors": [
+            "R. DiPietro",
+            "Colin S. Lea",
+            "Anand Malpani",
+            "N. Ahmidi",
+            "S. Vedula",
+            "Gyusung I. Lee",
+            "Mija R. Lee",
+            "Gregory Hager"
+        ],
+        "submission_date": "2016-06-20",
+        "semantic_scholar_id": "a4ce937e19fdf5eefffdc4f7d55b35e96c7ec4ba"
+    },
+    "1602-03012": {
+        "paper_title": "EndoNet: A Deep Architecture for Recognition Tasks on Laparoscopic Videos",
+        "authors": [
+            "A. P. Twinanda",
+            "S. Shehata",
+            "D. Mutter",
+            "J. Marescaux",
+            "M. Mathelin",
+            "N. Padoy"
+        ],
+        "submission_date": "2016-02-09",
+        "semantic_scholar_id": "44cadd24a58af15898e18e4450df5134fddd3c7b"
+    },
+    "1506-01497": {
+        "paper_title": "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
+        "authors": [
+            "Shaoqing Ren",
+            "Kaiming He",
+            "Ross B. Girshick",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-06-04",
+        "semantic_scholar_id": "424561d8585ff8ebce7d5d07de8dbf7aae5e7270"
+    },
+    "1505-04474": {
+        "paper_title": "Visual Semantic Role Labeling",
+        "authors": [
+            "Saurabh Gupta",
+            "Jitendra Malik"
+        ],
+        "submission_date": "2015-05-17",
+        "semantic_scholar_id": "0c5f9f5083b9fca4dcdbc4b122099ac1f630728b"
+    }
+}

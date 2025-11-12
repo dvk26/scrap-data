@@ -1,0 +1,285 @@
+{
+    "2312-05230": {
+        "paper_title": "Language Models, Agent Models, and World Models: The LAW for Machine Reasoning and Planning",
+        "authors": [
+            "Zhiting Hu",
+            "Tianmin Shu"
+        ],
+        "submission_date": "2023-12-08",
+        "semantic_scholar_id": "c4c1c1d7312c7be6ad000f84201a72494dea33d3"
+    },
+    "2309-16650": {
+        "paper_title": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+        "authors": [
+            "Qiao Gu",
+            "Ali Kuwajerwala",
+            "Sacha Morin",
+            "Krishna Murthy Jatavallabhula",
+            "Bipasha Sen",
+            "Aditya Agarwal",
+            "Corban Rivera",
+            "William Paul",
+            "Kirsty Ellis",
+            "Ramalingam Chellappa",
+            "Chuang Gan",
+            "C. D. Melo",
+            "J. B. Tenenbaum",
+            "Antonio Torralba",
+            "F. Shkurti",
+            "L. Paull"
+        ],
+        "submission_date": "2023-09-28",
+        "semantic_scholar_id": "174a3290ff0040e0f6a7a0b43bcd752c456350a0"
+    },
+    "2307-13204": {
+        "paper_title": "GraspGPT: Leveraging Semantic Knowledge From a Large Language Model for Task-Oriented Grasping",
+        "authors": [
+            "Chao Tang",
+            "Dehao Huang",
+            "Wenqiang Ge",
+            "Weiyu Liu",
+            "Hong Zhang"
+        ],
+        "submission_date": "2023-07-25",
+        "semantic_scholar_id": "5a52c09e88febafeb7e0e8485b06924443d97ab6"
+    },
+    "2303-06228": {
+        "paper_title": "Zero-Shot Object Searching Using Large-scale Object Relationship Prior",
+        "authors": [
+            "Hongyi Chen",
+            "Ruinian Xu",
+            "Shuo Cheng",
+            "P. Vela",
+            "Danfei Xu"
+        ],
+        "submission_date": "2023-03-10",
+        "semantic_scholar_id": "f3da5ba7fcd23fb3c147b65ef03990c7dc82703c"
+    },
+    "2301-13166": {
+        "paper_title": "ESC: Exploration with Soft Commonsense Constraints for Zero-shot Object Navigation",
+        "authors": [
+            "KAI-QING Zhou",
+            "Kai Zheng",
+            "Connor Pryor",
+            "Yilin Shen",
+            "Hongxia Jin",
+            "L. Getoor",
+            "X. Wang"
+        ],
+        "submission_date": "2023-01-30",
+        "semantic_scholar_id": "6710e66648fe6846397ccecf72478effb44d7bc1"
+    },
+    "2211-00562": {
+        "paper_title": "Leveraging Commonsense for Object Localisation in Partial Scenes",
+        "authors": [
+            "Francesco Giuliari",
+            "Geri Skenderi",
+            "M. Cristani",
+            "A. D. Bue",
+            "Yiming Wang"
+        ],
+        "submission_date": "2022-11-01",
+        "semantic_scholar_id": "18c5d668117a268a4c07e80e8ae89f0302784890"
+    },
+    "2210-02438": {
+        "paper_title": "DALL-E-Bot: Introducing Web-Scale Diffusion Models to Robotics",
+        "authors": [
+            "Ivan Kapelyukh",
+            "Vitalis Vosylius",
+            "Edward Johns"
+        ],
+        "submission_date": "2022-10-05",
+        "semantic_scholar_id": "4fd4e392fb39124744bdfbb6d71ae2030be5132e"
+    },
+    "2209-08803": {
+        "paper_title": "Zero-shot Active Visual Search (ZAVIS): Intelligent Object Search for Robotic Assistants",
+        "authors": [
+            "Jeongeun Park",
+            "Taerim Yoon",
+            "Jejoon Hong",
+            "Youngjae Yu",
+            "Matthew K. X. J. Pan",
+            "Sungjoon Choi"
+        ],
+        "submission_date": "2022-09-19",
+        "semantic_scholar_id": "636dc0bbbc26d29086d0015272dc86ae996b7be4"
+    },
+    "2206-06994": {
+        "paper_title": "ProcTHOR: Large-Scale Embodied AI Using Procedural Generation",
+        "authors": [
+            "Matt Deitke",
+            "Eli VanderBilt",
+            "Alvaro Herrasti",
+            "Luca Weihs",
+            "Jordi Salvador",
+            "Kiana Ehsani",
+            "Winson Han",
+            "Eric Kolve",
+            "Ali Farhadi",
+            "Aniruddha Kembhavi",
+            "Roozbeh Mottaghi"
+        ],
+        "submission_date": "2022-06-14",
+        "semantic_scholar_id": "d7bca917b753b996074203cc77ba45935b7c62d7"
+    },
+    "2203-10421": {
+        "paper_title": "CoWs on Pasture: Baselines and Benchmarks for Language-Driven Zero-Shot Object Navigation",
+        "authors": [
+            "S. Gadre",
+            "Mitchell Wortsman",
+            "Gabriel Ilharco",
+            "Ludwig Schmidt",
+            "Shuran Song"
+        ],
+        "submission_date": "2022-03-20",
+        "semantic_scholar_id": "742b195fb4c2868a4e60012c8e0bf7db43bb5650"
+    },
+    "2201-13360": {
+        "paper_title": "Hydra: A Real-time Spatial Perception System for 3D Scene Graph Construction and Optimization",
+        "authors": [
+            "Nathan Hughes",
+            "Yun Chang",
+            "L. Carlone"
+        ],
+        "submission_date": "2022-01-31",
+        "semantic_scholar_id": "104fc0dbe5a3fdd81f3a7e372e09147e0ce9c890"
+    },
+    "2110-09991": {
+        "paper_title": "Towards Optimal Correlational Object Search",
+        "authors": [
+            "Kaiyu Zheng",
+            "Rohan Chitnis",
+            "Yoonchang Sung",
+            "G. Konidaris",
+            "Stefanie Tellex"
+        ],
+        "submission_date": "2021-10-19",
+        "semantic_scholar_id": "5d46a094d0add44e2d00fca9cba4867b51f1957a"
+    },
+    "2012-14700": {
+        "paper_title": "Image-to-Image Retrieval by Learning Similarity between Scene Graphs",
+        "authors": [
+            "Sangwoong Yoon",
+            "Woo-Young Kang",
+            "Sungwook Jeon",
+            "SeongEun Lee",
+            "C. Han",
+            "Jonghun Park",
+            "Eun-Sol Kim"
+        ],
+        "submission_date": "2020-12-29",
+        "semantic_scholar_id": "2e0570df4e56d51be58b53166e853d848ef767af"
+    },
+    "2007-01072": {
+        "paper_title": "Scene Graph Reasoning for Visual Question Answering",
+        "authors": [
+            "Marcel Hildebrandt",
+            "Hang Li",
+            "Rajat Koner",
+            "Volker Tresp",
+            "Stephan Günnemann"
+        ],
+        "submission_date": "2020-07-02",
+        "semantic_scholar_id": "59f14747ef7ba486fd45664f3902e3ad7b395a0d"
+    },
+    "2006-13171": {
+        "paper_title": "ObjectNav Revisited: On Evaluation of Embodied Agents Navigating to Objects",
+        "authors": [
+            "Dhruv Batra",
+            "Aaron Gokaslan",
+            "Aniruddha Kembhavi",
+            "Oleksandr Maksymets",
+            "Roozbeh Mottaghi",
+            "M. Savva",
+            "Alexander Toshev",
+            "Erik Wijmans"
+        ],
+        "submission_date": "2020-06-23",
+        "semantic_scholar_id": "19c8c5a32cb0d77cd22ee1201e31306f0cd6100a"
+    },
+    "1712-05474": {
+        "paper_title": "AI2-THOR: An Interactive 3D Environment for Visual AI",
+        "authors": [
+            "Eric Kolve",
+            "Roozbeh Mottaghi",
+            "Winson Han",
+            "Eli VanderBilt",
+            "Luca Weihs",
+            "Alvaro Herrasti",
+            "Matt Deitke",
+            "Kiana Ehsani",
+            "Daniel Gordon",
+            "Yuke Zhu",
+            "Aniruddha Kembhavi",
+            "A. Gupta",
+            "Ali Farhadi"
+        ],
+        "submission_date": "2017-12-14",
+        "semantic_scholar_id": "89c8aad71433f7638d2e2c009e1ea20e039f832d"
+    },
+    "1707-09700": {
+        "paper_title": "Scene Graph Generation from Objects, Phrases and Region Captions",
+        "authors": [
+            "Yikang Li",
+            "Wanli Ouyang",
+            "Bolei Zhou",
+            "Kun Wang",
+            "Xiaogang Wang"
+        ],
+        "submission_date": "2017-07-31",
+        "semantic_scholar_id": "cf2de559e5a6235783e0762862f6e42192f142a8"
+    },
+    "1702-04405": {
+        "paper_title": "ScanNet: Richly-Annotated 3D Reconstructions of Indoor Scenes",
+        "authors": [
+            "Angela Dai",
+            "Angel X. Chang",
+            "M. Savva",
+            "Maciej Halber",
+            "T. Funkhouser",
+            "M. Nießner"
+        ],
+        "submission_date": "2017-02-14",
+        "semantic_scholar_id": "e52e37cd91366f07df1f98e88f87010f494dd16e"
+    },
+    "1701-02426": {
+        "paper_title": "Scene Graph Generation by Iterative Message Passing",
+        "authors": [
+            "Danfei Xu",
+            "Yuke Zhu",
+            "C. Choy",
+            "Li Fei-Fei"
+        ],
+        "submission_date": "2017-01-10",
+        "semantic_scholar_id": "34b73c1aa158b892bbe41705b4ae5bf01ecaea86"
+    },
+    "1612-03975": {
+        "paper_title": "ConceptNet 5.5: An Open Multilingual Graph of General Knowledge",
+        "authors": [
+            "R. Speer",
+            "Joshua Chin",
+            "Catherine Havasi"
+        ],
+        "submission_date": "2016-12-12",
+        "semantic_scholar_id": "26aa6fe2028b5eefbaa40ab54ef725bbbe7d9810"
+    },
+    "1602-07332": {
+        "paper_title": "Visual Genome: Connecting Language and Vision Using Crowdsourced Dense Image Annotations",
+        "authors": [
+            "Ranjay Krishna",
+            "Yuke Zhu",
+            "O. Groth",
+            "Justin Johnson",
+            "K. Hata",
+            "Joshua Kravitz",
+            "Stephanie Chen",
+            "Yannis Kalantidis",
+            "Li-Jia Li",
+            "David A. Shamma",
+            "Michael S. Bernstein",
+            "Li Fei-Fei"
+        ],
+        "submission_date": "2016-02-23",
+        "semantic_scholar_id": "afcf4dbd2ef300e5c4b35043d4fbe516807cdf7d"
+    }
+}

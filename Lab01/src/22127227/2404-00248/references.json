@@ -1,0 +1,109 @@
+{
+    "2210-02955": {
+        "paper_title": "Probabilistic solutions of fractional differential and partial differential equations and their Monte Carlo simulations",
+        "authors": [
+            "T. Oraby",
+            "Harrinson Arrubla",
+            "E. Suazo"
+        ],
+        "submission_date": "2022-10-06",
+        "semantic_scholar_id": "72860f370785818f06c5c9f4f74e939fdaa67761"
+    },
+    "2007-02098": {
+        "paper_title": "The Wright Functions of the Second Kind in Mathematical Physics",
+        "authors": [
+            "F. Mainardi",
+            "A. Consiglio"
+        ],
+        "submission_date": "2020-07-04",
+        "semantic_scholar_id": "3f69ae55f522cbd2969a78f8a4ff1aa5a317ed5c"
+    },
+    "1808-06803": {
+        "paper_title": "The fractional d'Alembert's formulas",
+        "authors": [
+            "Cheng-Gang Li",
+            "Miao Li",
+            "S. Piskarev",
+            "M. Meerschaert"
+        ],
+        "submission_date": "2018-08-21",
+        "semantic_scholar_id": "7ab2b6d7157bf7071ca83e2dafa50035a4d8d77b"
+    },
+    "1111-3060": {
+        "paper_title": "Fractional oscillator.",
+        "authors": [
+            "A. Stanislavsky"
+        ],
+        "submission_date": "2011-11-13",
+        "semantic_scholar_id": "8cfe369da9357e5c64e32adcde82e4526b7d5899"
+    },
+    "1004-4413": {
+        "paper_title": "Mittag-Leffler Waiting Time, Power Laws,Rarefaction, Continuous Time Random Walk, Diffusion Limit",
+        "authors": [
+            "R. Gorenflo"
+        ],
+        "submission_date": "2010-04-26",
+        "semantic_scholar_id": "37e9dac9fa4660a1f910e1605129681d3d997e61"
+    },
+    "1004-2950": {
+        "paper_title": "The -Wright Function in Time-Fractional Diffusion Processes: A Tutorial Survey",
+        "authors": [
+            "F. Mainardi",
+            "Antonio Mura",
+            "G. Pagnini"
+        ],
+        "submission_date": "2010-04-17",
+        "semantic_scholar_id": "7e20f28861af17b126f85212ec59687f420afa52"
+    },
+    "0907-0253": {
+        "paper_title": "SDEs Driven by a Time-Changed Lévy Process and Their Associated Time-Fractional Order Pseudo-Differential Equations",
+        "authors": [
+            "Marjorie G. Hahn",
+            "Kei Kobayashi",
+            "S. Umarov"
+        ],
+        "submission_date": "2009-07-01",
+        "semantic_scholar_id": "e43d2fb9367855fad777097c5c1504f0bd7c3bc2"
+    },
+    "0807-4349": {
+        "paper_title": "The Riccati Differential Equation and a Diffusion-Type Equation",
+        "authors": [
+            "E. Suazo",
+            "S. Suslov",
+            "J. Vega-Guzmán"
+        ],
+        "submission_date": "2008-07-28",
+        "semantic_scholar_id": "3455ac73b148edd6ada0be19faa051f9f2c754ac"
+    },
+    "0801-3246": {
+        "paper_title": "Propagator of a Charged Particle with a Spin in Uniform Magnetic and Perpendicular Electric Fields",
+        "authors": [
+            "Ricardo Cordero-Soto",
+            "Raquel M. López",
+            "E. Suazo",
+            "S. Suslov"
+        ],
+        "submission_date": "2008-01-21",
+        "semantic_scholar_id": "c6429fbac282c0b01978fcf08e5e45a771196ce1"
+    },
+    "cond-mat/0702419": {
+        "paper_title": "The fundamental solution of the space-time fractional diffusion equation",
+        "authors": [
+            "F. Mainardi",
+            "Yuri Luchko",
+            "G. Pagnini"
+        ],
+        "submission_date": "2007-02-18",
+        "semantic_scholar_id": "e9a7209531e4f0632397aad8d98ea4adf2fe0360"
+    },
+    "math/0701455": {
+        "paper_title": "Renewal processes of Mittag-Leffler and Wright type",
+        "authors": [
+            "F. Mainardi",
+            "R. Gorenflo",
+            "A. Vivoli"
+        ],
+        "submission_date": "2007-01-16",
+        "semantic_scholar_id": "fbbe3dbcdc34bb9c97d759e29f0e824aca2920ae"
+    }
+}

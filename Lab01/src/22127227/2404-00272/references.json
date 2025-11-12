@@ -1,0 +1,184 @@
+{
+    "2401-09417": {
+        "paper_title": "Vision Mamba: Efficient Visual Representation Learning with Bidirectional State Space Model",
+        "authors": [
+            "Lianghui Zhu",
+            "Bencheng Liao",
+            "Qian Zhang",
+            "Xinlong Wang",
+            "Wenyu Liu",
+            "Xinggang Wang"
+        ],
+        "submission_date": "2024-01-17",
+        "semantic_scholar_id": "38c48a1cd296d16dc9c56717495d6e44cc354444"
+    },
+    "2312-00752": {
+        "paper_title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+        "authors": [
+            "Albert Gu",
+            "Tri Dao"
+        ],
+        "submission_date": "2023-12-01",
+        "semantic_scholar_id": "7bbc7595196a0606a07506c4fb1473e5e87f6082"
+    },
+    "2303-14526": {
+        "paper_title": "Selective Structured State-Spaces for Long-Form Video Understanding",
+        "authors": [
+            "Jue Wang",
+            "Wenjie Zhu",
+            "Pichao Wang",
+            "Xiang Yu",
+            "Linda Liu",
+            "Mohamed Omar",
+            "Raffay Hamid"
+        ],
+        "submission_date": "2023-03-25",
+        "semantic_scholar_id": "983d8b87693e909eb8b2f2fe74a6244dd65b61ee"
+    },
+    "2212-14052": {
+        "paper_title": "Hungry Hungry Hippos: Towards Language Modeling with State Space Models",
+        "authors": [
+            "Tri Dao",
+            "Daniel Y. Fu",
+            "Khaled Kamal Saab",
+            "A. Thomas",
+            "A. Rudra",
+            "Christopher Ré"
+        ],
+        "submission_date": "2022-12-28",
+        "semantic_scholar_id": "5a77b508302771fc083bf24e0bcda8553c9b5421"
+    },
+    "2209-01206": {
+        "paper_title": "Transformers in Remote Sensing: A Survey",
+        "authors": [
+            "Abdulaziz Amer Aleissaee",
+            "Amandeep Kumar",
+            "R. Anwer",
+            "Salman H. Khan",
+            "Hisham Cholakkal",
+            "Guisong Xia",
+            "F. Khan"
+        ],
+        "submission_date": "2022-09-02",
+        "semantic_scholar_id": "744ee04b08e04ad216bd586ac74bbc1fed0dea8f"
+    },
+    "2204-01692": {
+        "paper_title": "Long Movie Clip Classification with State-Space Video Models",
+        "authors": [
+            "Md. Mohaiminul Islam",
+            "Gedas Bertasius"
+        ],
+        "submission_date": "2022-04-04",
+        "semantic_scholar_id": "9226ae23b95b3f6891461e086d910ffeb7ac448a"
+    },
+    "2203-04771": {
+        "paper_title": "Multiscale Convolutional Transformer with Center Mask Pretraining for Hyperspectral Image Classification",
+        "authors": [
+            "Sen Jia",
+            "Yifan Wang"
+        ],
+        "submission_date": "2022-03-09",
+        "semantic_scholar_id": "a9a0882576c4ae8489d2eefa7e725e8d70b51099"
+    },
+    "2111-00396": {
+        "paper_title": "Efficiently Modeling Long Sequences with Structured State Spaces",
+        "authors": [
+            "Albert Gu",
+            "Karan Goel",
+            "Christopher R'e"
+        ],
+        "submission_date": "2021-10-31",
+        "semantic_scholar_id": "ac2618b2ce5cdcf86f9371bcca98bc5e37e46f51"
+    },
+    "2107-02988": {
+        "paper_title": "SpectralFormer: Rethinking Hyperspectral Image Classification With Transformers",
+        "authors": [
+            "D. Hong",
+            "Zhu Han",
+            "Jing Yao",
+            "Lianru Gao",
+            "Bing Zhang",
+            "A. Plaza",
+            "J. Chanussot"
+        ],
+        "submission_date": "2021-07-07",
+        "semantic_scholar_id": "e38dc0554dd89745bb17039a4d4ee9d714cf77f1"
+    },
+    "2103-07678": {
+        "paper_title": "A review of machine learning in processing remote sensing data for mineral exploration",
+        "authors": [
+            "Hodjat Shirmard",
+            "E. Farahbakhsh",
+            "R. Müller",
+            "Rohitash Chandra"
+        ],
+        "submission_date": "2021-03-13",
+        "semantic_scholar_id": "a526942013b67c9ab46455c0b76180561739bc3c"
+    },
+    "2008-02457": {
+        "paper_title": "Graph Convolutional Networks for Hyperspectral Image Classification",
+        "authors": [
+            "D. Hong",
+            "Lianru Gao",
+            "Jing Yao",
+            "Bing Zhang",
+            "A. Plaza",
+            "J. Chanussot"
+        ],
+        "submission_date": "2020-08-06",
+        "semantic_scholar_id": "56ac2cac5c9f4996de3cc0c344d12ec3b8e7e8e6"
+    },
+    "2003-02822": {
+        "paper_title": "Feature Extraction for Hyperspectral Imagery: The Evolution From Shallow to Deep: Overview and Toolbox",
+        "authors": [
+            "Behnood Rasti",
+            "D. Hong",
+            "Renlong Hang",
+            "Pedram Ghamisi",
+            "Xudong Kang",
+            "J. Chanussot",
+            "J. Benediktsson"
+        ],
+        "submission_date": "2020-03-05",
+        "semantic_scholar_id": "3d852a8aea396f2c110d4aeaec301030de93a8f8"
+    },
+    "1910-12861": {
+        "paper_title": "Deep Learning for Hyperspectral Image Classification: An Overview",
+        "authors": [
+            "Shutao Li",
+            "Weiwei Song",
+            "Leyuan Fang",
+            "Yushi Chen",
+            "Pedram Ghamisi",
+            "J. Benediktsson"
+        ],
+        "submission_date": "2019-10-26",
+        "semantic_scholar_id": "4f71ab367eb37cfd145d41327f7bb14077e5e7c5"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1902-10858": {
+        "paper_title": "Cascaded Recurrent Neural Networks for Hyperspectral Image Classification",
+        "authors": [
+            "Renlong Hang",
+            "Qingshan Liu",
+            "D. Hong",
+            "Pedram Ghamisi"
+        ],
+        "submission_date": "2019-02-28",
+        "semantic_scholar_id": "9ed92e11c78d1f96bf364ced84ae8a07b56ac321"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "paper_title": "SpikingJET: Enhancing Fault Injection for Fully and Convolutional Spiking Neural Networks",
+    "authors": [
+        "Anil Bayram Gogebakan",
+        "Enrico Magliano",
+        "Alessio Carpegna",
+        "Annachiara Ruospo",
+        "Alessandro Savino",
+        "Stefano Di Carlo"
+    ],
+    "publication_venue": "2024 IEEE 30th International Symposium on On-Line Testing and Robust System Design (IOLTS)",
+    "submission_date": "2024-03-30",
+    "revised_dates": [
+        "2024-03-30"
+    ]
+}

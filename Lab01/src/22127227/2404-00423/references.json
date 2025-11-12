@@ -1,0 +1,20 @@
+{
+    "2003-01985": {
+        "paper_title": "Revisiting Security Vulnerabilities in Commercial Password Managers",
+        "authors": [
+            "M. Carr",
+            "S. F. Shahandashti"
+        ],
+        "submission_date": "2020-03-04",
+        "semantic_scholar_id": "dcf9ac532aebfb672a898c89d6ecd711697e8d92"
+    },
+    "1908-03296": {
+        "paper_title": "That Was Then, This Is Now: A Security Evaluation of Password Generation, Storage, and Autofill in Browser-Based Password Managers",
+        "authors": [
+            "Sean Oesch",
+            "Scott Ruoti"
+        ],
+        "submission_date": "2019-08-09",
+        "semantic_scholar_id": "3c1f54eea4f1f6ab4962e77f5079cbe02639d581"
+    }
+}

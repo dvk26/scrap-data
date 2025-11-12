@@ -1,0 +1,14 @@
+{
+    "paper_title": "DiLM: Distilling Dataset into Language Model for Text-level Dataset Distillation",
+    "authors": [
+        "Aru Maekawa",
+        "Satoshi Kosugi",
+        "Kotaro Funakoshi",
+        "Manabu Okumura"
+    ],
+    "publication_venue": "Accepted by Findings of NAACL 2024",
+    "submission_date": "2024-03-30",
+    "revised_dates": [
+        "2024-03-30"
+    ]
+}

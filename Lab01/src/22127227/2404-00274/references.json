@@ -1,0 +1,430 @@
+{
+    "2404-05330": {
+        "paper_title": "Rydberg superatoms: An artificial quantum system for quantum information processing and quantum optics",
+        "authors": [
+            "X. Shao",
+            "S. Su",
+            "Lin Li",
+            "Rejish Nath",
+            "Jin-Hui Wu",
+            "Weibin Li"
+        ],
+        "submission_date": "2024-04-08",
+        "semantic_scholar_id": "d26a77f7b196743847bee5f8f1840c9702d03e66"
+    },
+    "2312-03982": {
+        "paper_title": "Logical quantum processor based on reconfigurable atom arrays",
+        "authors": [
+            "D. Bluvstein",
+            "S. Evered",
+            "A. Geim",
+            "Sophie H. Li",
+            "Hengyun Zhou",
+            "T. Manovitz",
+            "S. Ebadi",
+            "M. Cain",
+            "Marcin Kalinowski",
+            "Dominik Hangleiter",
+            "J. Pablo",
+            "Bonilla Ataides",
+            "N. Maskara",
+            "Iris Cong",
+            "Xun Gao",
+            "Pedro Sales Rodriguez",
+            "Thomas Karolyshyn",
+            "G. Semeghini",
+            "M. Gullans",
+            "Markus Greiner",
+            "Vladan Vuleti´c",
+            "M. Lukin"
+        ],
+        "submission_date": "2023-12-07",
+        "semantic_scholar_id": "9cac672bb24d6216c2b5728f940e69395d188bdd"
+    },
+    "2302-12575": {
+        "paper_title": "Fast Single-Shot Imaging of Individual Ions via Homodyne Detection of Rydberg-Blockade-Induced Absorption.",
+        "authors": [
+            "Jinjin Du",
+            "T. Vogt",
+            "Wenhui Li"
+        ],
+        "submission_date": "2023-02-24",
+        "semantic_scholar_id": "2b42b8354043ceb015efdb29000592c5a28c9450"
+    },
+    "2207-09383": {
+        "paper_title": "A subwavelength atomic array switched by a single Rydberg atom",
+        "authors": [
+            "K. Srakaew",
+            "P. Weckesser",
+            "Simon Hollerith",
+            "David Wei",
+            "D. Adler",
+            "I. Bloch",
+            "J. Zeiher"
+        ],
+        "submission_date": "2022-07-19",
+        "semantic_scholar_id": "c82aa4a7785ab7db84a32c1e0ee5f61f3c57d3c7"
+    },
+    "2105-11050": {
+        "paper_title": "Fast Preparation and Detection of a Rydberg Qubit Using Atomic Ensembles.",
+        "authors": [
+            "Wenchao Xu",
+            "Aditya V. Venkatramani",
+            "Sergio H. Cantu",
+            "Tamara Šumarac",
+            "Valentin Klüsener",
+            "M. Lukin",
+            "V. Vuleti'c"
+        ],
+        "submission_date": "2021-05-24",
+        "semantic_scholar_id": "f27676cba9891204d4fba8ad43565292970712c4"
+    },
+    "2012-12268": {
+        "paper_title": "Quantum simulation of 2D antiferromagnets with hundreds of Rydberg atoms",
+        "authors": [
+            "P. Scholl",
+            "M. Schuler",
+            "H. Williams",
+            "A. Eberharter",
+            "D. Barredo",
+            "Kai-Niklas Schymik",
+            "Vincent Lienhard",
+            "Louis-Paul Henry",
+            "T. C. Lang",
+            "T. Lahaye",
+            "A. Läuchli",
+            "A. Browaeys"
+        ],
+        "submission_date": "2020-12-22",
+        "semantic_scholar_id": "64b8306b2e5c1ab74f05ba9f2294bbed3e94b8f1"
+    },
+    "2012-12281": {
+        "paper_title": "Quantum phases of matter on a 256-atom programmable quantum simulator",
+        "authors": [
+            "S. Ebadi",
+            "Tout T. Wang",
+            "H. Levine",
+            "A. Keesling",
+            "G. Semeghini",
+            "Ahmed Omran",
+            "D. Bluvstein",
+            "R. Samajdar",
+            "H. Pichler",
+            "W. Ho",
+            "Soonwon Choi",
+            "S. Sachdev",
+            "M. Greiner",
+            "V. Vuletić",
+            "M. Lukin"
+        ],
+        "submission_date": "2020-12-22",
+        "semantic_scholar_id": "8466edf6fcdb2b524b0aec25107963c04f785de5"
+    },
+    "2008-08512": {
+        "paper_title": "Pulsed Ion Microscope to Probe Quantum Gases",
+        "authors": [
+            "C. Veit",
+            "N. Zuber",
+            "O. Herrera-Sancho",
+            "V. S. V. Anasuri",
+            "T. Schmid",
+            "F. Meinert",
+            "R. Löw",
+            "T. Pfau"
+        ],
+        "submission_date": "2020-08-19",
+        "semantic_scholar_id": "4fe1378fda3f38ef4779554fd66b989226843f07"
+    },
+    "2002-07413": {
+        "paper_title": "Many-body physics with individually controlled Rydberg atoms",
+        "authors": [
+            "A. Browaeys",
+            "T. Lahaye"
+        ],
+        "submission_date": "2020-02-18",
+        "semantic_scholar_id": "a8fafcc2d9bdf4412bc9d8126082569bca347635"
+    },
+    "1807-05795": {
+        "paper_title": "A photon–photon quantum gate based on Rydberg interactions",
+        "authors": [
+            "Daniel Tiarks",
+            "Steffen Schmidt-Eberle",
+            "T. Stolz",
+            "G. Rempe",
+            "S. Dürr"
+        ],
+        "submission_date": "2018-07-16",
+        "semantic_scholar_id": "a99f045fb35e787d94f0fdb78d35ec1b4548267b"
+    },
+    "1804-04871": {
+        "paper_title": "Spin-resolved single-atom imaging of \nLi6\n in free space",
+        "authors": [
+            "Andrea Bergschneider",
+            "Vincent M. Klinkhamer",
+            "J. Becher",
+            "Ralf Klemt",
+            "G. Zurn",
+            "P. Preiss",
+            "S. Jochim"
+        ],
+        "submission_date": "2018-04-13",
+        "semantic_scholar_id": "77fbef43e0737e28dba14cb1ee964610b9a73c2b"
+    },
+    "1701-02915": {
+        "paper_title": "A high resolution ion microscope for cold atoms",
+        "authors": [
+            "M. Stecker",
+            "Hannah Schefzyk",
+            "J. Fort'agh",
+            "A. Günther"
+        ],
+        "submission_date": "2017-01-11",
+        "semantic_scholar_id": "5555df13c509f886c93b32605b23c99b174950ac"
+    },
+    "1612-05529": {
+        "paper_title": "ARC: An open-source library for calculating properties of alkali Rydberg atoms",
+        "authors": [
+            "N. Šibalić",
+            "J. Pritchard",
+            "C. Adams",
+            "K. Weatherill"
+        ],
+        "submission_date": "2016-12-16",
+        "semantic_scholar_id": "0d2d59b5164a5477445b163626fa583d1d1ce4b1"
+    },
+    "1607-04419": {
+        "paper_title": "Lévy statistics of interacting Rydberg gases",
+        "authors": [
+            "T. Vogt",
+            "Jingshan Han",
+            "Alexandre Hoang Thiery",
+            "Wenhui Li"
+        ],
+        "submission_date": "2016-07-15",
+        "semantic_scholar_id": "f0e2467be694f3cb46e8d04ea91bfda372989c49"
+    },
+    "1603-00635": {
+        "paper_title": "Spectral shift and dephasing of electromagnetically induced transparency in an interacting Rydberg gas",
+        "authors": [
+            "Jingshan Han",
+            "T. Vogt",
+            "Wenhui Li"
+        ],
+        "submission_date": "2016-03-02",
+        "semantic_scholar_id": "e7beff400ef1a69d1fe6c605caffbdc3d9f988c2"
+    },
+    "1602-06117": {
+        "paper_title": "Nonlinear quantum optics mediated by Rydberg interactions",
+        "authors": [
+            "O. Firstenberg",
+            "C. S. Adams",
+            "S. Hofferberth"
+        ],
+        "submission_date": "2016-02-19",
+        "semantic_scholar_id": "850c648d9f366337eb202a436c9b0276572badf4"
+    },
+    "1511-09445": {
+        "paper_title": "Enhancement of Rydberg-mediated single-photon nonlinearities by electrically tuned Förster resonances",
+        "authors": [
+            "H. Gorniaczyk",
+            "C. Tresp",
+            "P. Bienias",
+            "A. Paris-Mandoki",
+            "Weibin Li",
+            "I. Mirgorodskiy",
+            "H. Büchler",
+            "Igor Lesanovsky",
+            "S. Hofferberth"
+        ],
+        "submission_date": "2015-11-30",
+        "semantic_scholar_id": "f88c429a7c810b9cc9da8d255185575a60cee85f"
+    },
+    "1404-3061": {
+        "paper_title": "Single-photon transistor using a Förster resonance.",
+        "authors": [
+            "Daniel Tiarks",
+            "S. Baur",
+            "K. Schneider",
+            "S. Dürr",
+            "G. Rempe"
+        ],
+        "submission_date": "2014-04-11",
+        "semantic_scholar_id": "e5d2f5ab64fdfb0faa435b653f689503ce6e9064"
+    },
+    "1404-2876": {
+        "paper_title": "Single-photon transistor mediated by interstate Rydberg interactions.",
+        "authors": [
+            "H. Gorniaczyk",
+            "C. Tresp",
+            "J. Schmidt",
+            "H. Fedder",
+            "S. Hofferberth"
+        ],
+        "submission_date": "2014-04-10",
+        "semantic_scholar_id": "06d6de8bc1365a04df0354253811c148c7e895db"
+    },
+    "1307-3509": {
+        "paper_title": "Single-photon switch based on Rydberg blockade.",
+        "authors": [
+            "S. Baur",
+            "Daniel Tiarks",
+            "G. Rempe",
+            "S. Dürr"
+        ],
+        "submission_date": "2013-07-12",
+        "semantic_scholar_id": "c32d3eef296a15e4ada703a43a6439cd57ca66f3"
+    },
+    "1302-0682": {
+        "paper_title": "Stimulated adiabatic passage in a dissipative ensemble of atoms with strong Rydberg-state interactions",
+        "authors": [
+            "D. Petrosyan",
+            "K. Mølmer"
+        ],
+        "submission_date": "2013-02-04",
+        "semantic_scholar_id": "9e2873ef3232024dea623a939d83f28f7514ce5b"
+    },
+    "1212-2423": {
+        "paper_title": "Spatial correlations of Rydberg excitations in optically driven atomic ensembles",
+        "authors": [
+            "D. Petrosyan",
+            "M. Hoening",
+            "M. Fleischhauer"
+        ],
+        "submission_date": "2012-12-11",
+        "semantic_scholar_id": "22f82e52df5628597c3539e1746a54d8e5fc4acb"
+    },
+    "1209-0944": {
+        "paper_title": "Observation of spatially ordered structures in a two-dimensional Rydberg gas",
+        "authors": [
+            "P. Schauss",
+            "M. Cheneau",
+            "M. Endres",
+            "T. Fukuhara",
+            "S. Hild",
+            "Ahmed Omran",
+            "T. Pohl",
+            "C. Gross",
+            "S. Kuhr",
+            "I. Bloch"
+        ],
+        "submission_date": "2012-09-05",
+        "semantic_scholar_id": "981f0a20c79d1e7a5099fe7fdca5d30428b53d1c"
+    },
+    "1208-2911": {
+        "paper_title": "Steady-state crystallization of Rydberg excitations in an optically driven lattice gas",
+        "authors": [
+            "M. Hoening",
+            "D. Muth",
+            "D. Petrosyan",
+            "M. Fleischhauer"
+        ],
+        "submission_date": "2012-08-14",
+        "semantic_scholar_id": "e23b253b631e0b381e75d6865f76734ff6816efa"
+    },
+    "1202-2012": {
+        "paper_title": "Entropic enhancement of spatial correlations in a laser-driven Rydberg gas",
+        "authors": [
+            "C. Ates",
+            "I. Lesanovsky"
+        ],
+        "submission_date": "2012-02-09",
+        "semantic_scholar_id": "969415f22084b809acd96357c0c0d997537140e6"
+    },
+    "1106-5443": {
+        "paper_title": "Interaction enhanced imaging of individual Rydberg atoms in dense gases.",
+        "authors": [
+            "G. Günter",
+            "M. Robert-de-Saint-Vincent",
+            "H. Schempp",
+            "C. Hofmann",
+            "Shannon Whitlock",
+            "M. Weidemüller"
+        ],
+        "submission_date": "2011-06-27",
+        "semantic_scholar_id": "d6e96cbea4ba5fc0e01efb52948c56e188a58ac0"
+    },
+    "1106-4444": {
+        "paper_title": "Amplifying single impurities immersed in a gas of ultracold atoms",
+        "authors": [
+            "B. Olmos",
+            "W. Li",
+            "S. Hofferberth",
+            "I. Lesanovsky"
+        ],
+        "submission_date": "2011-06-22",
+        "semantic_scholar_id": "c57c3a14f7cc6f5cbc3d845d623c5a428602ae40"
+    },
+    "1006-4087": {
+        "paper_title": "Cooperative atom-light interaction in a blockaded Rydberg ensemble.",
+        "authors": [
+            "J. Pritchard",
+            "J. Pritchard",
+            "D. Maxwell",
+            "D. Maxwell",
+            "A. Gauguet",
+            "A. Gauguet",
+            "K. Weatherill",
+            "K. Weatherill",
+            "Matthew P. A. Jones",
+            "Matthew P. A. Jones",
+            "C. Adams",
+            "C. Adams"
+        ],
+        "submission_date": "2010-06-21",
+        "semantic_scholar_id": "cd609da8e897b253579b5b3e7016dd2dfc47bf48"
+    },
+    "0909-4777": {
+        "paper_title": "Quantum information with Rydberg atoms",
+        "authors": [
+            "M. Saffman",
+            "Thomas G. Walker",
+            "K. Mølmer"
+        ],
+        "submission_date": "2009-09-25",
+        "semantic_scholar_id": "2983ae6d52e019b91c8f82009cae6b6dd085e99d"
+    },
+    "0810-2960": {
+        "paper_title": "Observation of collective excitation of two individual atoms in the Rydberg blockade regime",
+        "authors": [
+            "A. Gaëtan",
+            "Y. Miroshnychenko",
+            "T. Wilk",
+            "A. Chotia",
+            "M. Viteau",
+            "D. Comparat",
+            "P. Pillet",
+            "A. Browaeys",
+            "P. Grangier"
+        ],
+        "submission_date": "2008-10-16",
+        "semantic_scholar_id": "ed147b72de24c0b8125b8dc2e9f0d00b0fc9231f"
+    },
+    "0805-0758": {
+        "paper_title": "Observation of Rydberg blockade between two atoms",
+        "authors": [
+            "E. Urban",
+            "T. Johnson",
+            "T. Henage",
+            "L. Isenhower",
+            "D. Yavuz",
+            "Thomas G. Walker",
+            "M. Saffman"
+        ],
+        "submission_date": "2008-05-06",
+        "semantic_scholar_id": "9c917dc9eeb5cb3da02b35da969e6ed9ab3025a5"
+    },
+    "quant-ph/0011028": {
+        "paper_title": "Dipole blockade and quantum information processing in mesoscopic atomic ensembles.",
+        "authors": [
+            "M. Lukin",
+            "M. Fleischhauer",
+            "R. Côté",
+            "Luming Duan",
+            "D. Jaksch",
+            "J. Cirac",
+            "P. Zoller"
+        ],
+        "submission_date": "2000-11-07",
+        "semantic_scholar_id": "f2e9ee532f13e3644435c03673a617593f7be712"
+    }
+}

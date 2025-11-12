@@ -1,0 +1,212 @@
+{
+    "1811-01969": {
+        "paper_title": "Advances in photonic quantum sensing",
+        "authors": [
+            "S. Pirandola",
+            "Bhaskar Roy Bardhan",
+            "T. Gehring",
+            "C. Weedbrook",
+            "S. Lloyd"
+        ],
+        "submission_date": "2018-11-05",
+        "semantic_scholar_id": "cd0e375bfbe35122e280f5ca468a582b47fa62b0"
+    },
+    "1712-06738": {
+        "paper_title": "Three-Path Atom Interferometry with Large Momentum Separation.",
+        "authors": [
+            "B. Plotkin-Swing",
+            "Daniel Gochnauer",
+            "Katherine E. McAlpine",
+            "Eric S. Cooper",
+            "A. Jamison",
+            "Subhadeep Gupta"
+        ],
+        "submission_date": "2017-12-19",
+        "semantic_scholar_id": "6057a6200924dfa70ed91c6afa84d91d927a6f72"
+    },
+    "1711-10459": {
+        "paper_title": "Distributed Quantum Sensing Using Continuous-Variable Multipartite Entanglement",
+        "authors": [
+            "Quntao Zhuang",
+            "Zheshen Zhang",
+            "J. Shapiro"
+        ],
+        "submission_date": "2017-11-28",
+        "semantic_scholar_id": "5da9ce92065de141f26d4d25a5c57e4989a9cdc4"
+    },
+    "1710-00005": {
+        "paper_title": "Quantum information or entanglement transfer between subsystems",
+        "authors": [
+            "S. Giddings",
+            "Massimiliano Rota"
+        ],
+        "submission_date": "2017-09-29",
+        "semantic_scholar_id": "76d411a714f32170d97f8c5f1dde8b8a0733739f"
+    },
+    "1411-0999": {
+        "paper_title": "Long distance cavity entanglement by entanglement swapping using atomic momenta",
+        "authors": [
+            "S. Haq",
+            "A. Khalique"
+        ],
+        "submission_date": "2014-11-04",
+        "semantic_scholar_id": "49d0544a150733bafcd92fe72cb27a5446b10f46"
+    },
+    "1209-4191": {
+        "paper_title": "Entanglement swapping between photons that have never coexisted.",
+        "authors": [
+            "E. Megidish",
+            "A. Halevy",
+            "T. Shacham",
+            "T. Dvir",
+            "L. Dovrat",
+            "H. Eisenberg"
+        ],
+        "submission_date": "2012-09-19",
+        "semantic_scholar_id": "9dd5d912e2262673095a125043ed6831e6a6fbdb"
+    },
+    "1210-0736": {
+        "paper_title": "Quantum Computation and Quantum Information",
+        "authors": [
+            "Yazhen Wang"
+        ],
+        "submission_date": "2012-10-02",
+        "semantic_scholar_id": "ddbf9bc7a13e503f9afcaa4aea1a6495afb41dc8"
+    },
+    "1203-4834": {
+        "paper_title": "Experimental delayed-choice entanglement swapping",
+        "authors": [
+            "Xiao-song Ma",
+            "S. Zotter",
+            "J. Kofler",
+            "R. Ursin",
+            "T. Jennewein",
+            "Č. Brukner",
+            "A. Zeilinger"
+        ],
+        "submission_date": "2012-03-21",
+        "semantic_scholar_id": "cc4db80f7f81e09bb8dddc7b5f99d1b2b1d8e728"
+    },
+    "0809-1064": {
+        "paper_title": "Reconstruction of non-classical cavity field states with snapshots of their decoherence",
+        "authors": [
+            "S. Deléglise",
+            "I. Dotsenko",
+            "C. Sayrin",
+            "J. Bernu",
+            "M. Brune",
+            "J. Raimond",
+            "S. Haroche"
+        ],
+        "submission_date": "2008-09-05",
+        "semantic_scholar_id": "9acd343f330975b51abc1757e002e23de4118177"
+    },
+    "0808-2972": {
+        "paper_title": "Multistage entanglement swapping.",
+        "authors": [
+            "A. Goebel",
+            "C. Wagenknecht",
+            "Qiang Zhang",
+            "Yu-Ao Chen",
+            "Kai Chen",
+            "J. Schmiedmayer",
+            "Jian-Wei Pan"
+        ],
+        "submission_date": "2008-08-21",
+        "semantic_scholar_id": "9e3c3a4e7f73520d4ffd7f670a8b39bb3beebe4d"
+    },
+    "0808-1532": {
+        "paper_title": "Graph states for quantum secret sharing",
+        "authors": [
+            "D. Markham",
+            "B. Sanders"
+        ],
+        "submission_date": "2008-08-11",
+        "semantic_scholar_id": "8ee8f3457f3d5a9091b8f016e1015b4af9203201"
+    },
+    "quant-ph/0612138": {
+        "paper_title": "Ultrahigh finesse Fabry-Pérot superconducting resonator",
+        "authors": [
+            "S. Kuhr",
+            "S. Gleyzes",
+            "C. Guerlin",
+            "J. Bernu",
+            "U. Hoff",
+            "S. Del'eglise",
+            "S. Osnaghi",
+            "M. Brune",
+            "J. Raimond",
+            "S. Haroche",
+            "E. Jacques",
+            "P. Bosland",
+            "B. Visentin"
+        ],
+        "submission_date": "2006-12-16",
+        "semantic_scholar_id": "62388d674ce0503f31158162981f5bfb96b940d6"
+    },
+    "quant-ph/0609130": {
+        "paper_title": "Experimental entanglement of six photons in graph states",
+        "authors": [
+            "Chaoyang Lu",
+            "Xiaoqi Zhou",
+            "O. Guhne",
+            "Wei-bo Gao",
+            "Jin Zhang",
+            "Zhen-Sheng Yuan",
+            "A. Goebel",
+            "Tao Yang",
+            "Jian-Wei Pan"
+        ],
+        "submission_date": "2006-09-18",
+        "semantic_scholar_id": "a3dd791ebeb54615fd41bef1b232bae84a3742e5"
+    },
+    "quant-ph/0310084": {
+        "paper_title": "Single-Atom Trajectories in Higher-Order Transverse Modes of a High-Finesse Optical Cavity",
+        "authors": [
+            "T. Puppe",
+            "P. Maunz",
+            "T. Fischer",
+            "P. Pinkse",
+            "G. Rempe"
+        ],
+        "submission_date": "2003-10-13",
+        "semantic_scholar_id": "bbc5e8c027e3225d271d176b79c6430bbe30a7a0"
+    },
+    "quant-ph/0201086": {
+        "paper_title": "Engineering entanglement between external degrees of freedom of atoms via Bragg scattering",
+        "authors": [
+            "A. Khalique",
+            "F. Saif"
+        ],
+        "submission_date": "2002-01-19",
+        "semantic_scholar_id": "07553d4bd0e04f1c711b0411588f49bcc4ac23f7"
+    },
+    "quant-ph/0101103": {
+        "paper_title": "Characterization of high-finesse mirrors: Loss, phase shifts, and mode structure in an optical cavity",
+        "authors": [
+            "C. Hood",
+            "H. Kimble",
+            "Jun Ye"
+        ],
+        "submission_date": "2001-01-22",
+        "semantic_scholar_id": "74d46a23425af167abb61db067406b2008a252c4"
+    },
+    "quant-ph/9904042": {
+        "paper_title": "Delayed choice for entanglement swapping",
+        "authors": [
+            "A. Peres"
+        ],
+        "submission_date": "1999-04-11",
+        "semantic_scholar_id": "7097da738ed0382331a5df31eed98fda9214798a"
+    },
+    "quant-ph/9708004": {
+        "paper_title": "Multiparticle generalization of entanglement swapping",
+        "authors": [
+            "S. Bose",
+            "V. Vedral",
+            "P. Knight"
+        ],
+        "submission_date": "1997-08-01",
+        "semantic_scholar_id": "27a94a63ed32d19fbad79e483a323bb13af4e4a2"
+    }
+}

@@ -1,0 +1,137 @@
+{
+    "2202-06671": {
+        "paper_title": "Neighborhood Contrastive Learning for Scientific Document Representations with Citation Embeddings",
+        "authors": [
+            "Malte Ostendorff",
+            "Nils Rethmeier",
+            "Isabelle Augenstein",
+            "Bela Gipp",
+            "Georg Rehm"
+        ],
+        "submission_date": "2022-02-14",
+        "semantic_scholar_id": "72d5bd1095f9719742212f81a2a3790583e95796"
+    },
+    "2102-06008": {
+        "paper_title": "Cross-Domain Multi-Task Learning for Sequential Sentence Classification in Research Papers",
+        "authors": [
+            "Arthur Brack",
+            "Anett Hoppe",
+            "Pascal Buschermöhle",
+            "R. Ewerth"
+        ],
+        "submission_date": "2021-02-11",
+        "semantic_scholar_id": "39497ab3540372c61eac1cf597edef5500f7d084"
+    },
+    "2004-07180": {
+        "paper_title": "SPECTER: Document-level Representation Learning using Citation-informed Transformers",
+        "authors": [
+            "Arman Cohan",
+            "Sergey Feldman",
+            "Iz Beltagy",
+            "Doug Downey",
+            "Daniel S. Weld"
+        ],
+        "submission_date": "2020-04-15",
+        "semantic_scholar_id": "a3e4ceb42cbcd2c807d53aff90a8cb1f5ee3f031"
+    },
+    "1909-04054": {
+        "paper_title": "Pretrained Language Models for Sequential Sentence Classification",
+        "authors": [
+            "Arman Cohan",
+            "Iz Beltagy",
+            "Daniel King",
+            "Bhavana Dalvi",
+            "Daniel S. Weld"
+        ],
+        "submission_date": "2019-09-09",
+        "semantic_scholar_id": "a550ad9d7f47b65f7788287a23717a4f7c5b75c7"
+    },
+    "1908-10084": {
+        "paper_title": "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks",
+        "authors": [
+            "Nils Reimers",
+            "Iryna Gurevych"
+        ],
+        "submission_date": "2019-08-27",
+        "semantic_scholar_id": "93d63ec754f29fa22572615320afe0521f7ec66d"
+    },
+    "1903-10676": {
+        "paper_title": "SciBERT: A Pretrained Language Model for Scientific Text",
+        "authors": [
+            "Iz Beltagy",
+            "Kyle Lo",
+            "Arman Cohan"
+        ],
+        "submission_date": "2019-03-26",
+        "semantic_scholar_id": "156d217b0a911af97fa1b5a71dc909ccef7a8028"
+    },
+    "1902-07669": {
+        "paper_title": "ScispaCy: Fast and Robust Models for Biomedical Natural Language Processing",
+        "authors": [
+            "Mark Neumann",
+            "Daniel King",
+            "Iz Beltagy",
+            "Bridger Waleed Ammar"
+        ],
+        "submission_date": "2019-02-20",
+        "semantic_scholar_id": "de28ec1d7bd38c8fc4e8ac59b6133800818b4e29"
+    },
+    "1808-06161": {
+        "paper_title": "Hierarchical Neural Networks for Sequential Sentence Classification in Medical Scientific Abstracts",
+        "authors": [
+            "Di Jin",
+            "Peter Szolovits"
+        ],
+        "submission_date": "2018-08-19",
+        "semantic_scholar_id": "2389d6e6707abc763945b2e78a43c8a06feb7bd9"
+    },
+    "1805-02262": {
+        "paper_title": "Construction of the Literature Graph in Semantic Scholar",
+        "authors": [
+            "Bridger Waleed Ammar",
+            "Dirk Groeneveld",
+            "Chandra Bhagavatula",
+            "Iz Beltagy",
+            "Miles Crawford",
+            "Doug Downey",
+            "Jason Dunkelberger",
+            "Ahmed Elgohary",
+            "Sergey Feldman",
+            "Vu A. Ha",
+            "Rodney Michael Kinney",
+            "Sebastian Kohlmeier",
+            "Kyle Lo",
+            "Tyler C. Murray",
+            "Hsu-Han Ooi",
+            "Matthew E. Peters",
+            "Joanna L. Power",
+            "Sam Skjonsberg",
+            "Lucy Lu Wang",
+            "Christopher Wilhelm",
+            "Zheng Yuan",
+            "Madeleine van Zuylen",
+            "Oren Etzioni"
+        ],
+        "submission_date": "2018-05-06",
+        "semantic_scholar_id": "649def34f8be52c8b66281af98ae884c09aef38b"
+    },
+    "1710-06071": {
+        "paper_title": "PubMed 200k RCT: a Dataset for Sequential Sentence Classification in Medical Abstracts",
+        "authors": [
+            "Franck Dernoncourt",
+            "Ji Young Lee"
+        ],
+        "submission_date": "2017-10-17",
+        "semantic_scholar_id": "937e55826b0fe64e42a43121681e5e4a62ddcc40"
+    },
+    "1503-03832": {
+        "paper_title": "FaceNet: A unified embedding for face recognition and clustering",
+        "authors": [
+            "Florian Schroff",
+            "Dmitry Kalenichenko",
+            "James Philbin"
+        ],
+        "submission_date": "2015-03-12",
+        "semantic_scholar_id": "5aa26299435bdf7db874ef1640a6c3b5a4a2c394"
+    }
+}

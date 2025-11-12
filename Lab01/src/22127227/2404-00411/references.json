@@ -1,0 +1,263 @@
+{
+    "2404-08522": {
+        "paper_title": "FuXi-DA: a generalized deep learning data assimilation framework for assimilating satellite observations",
+        "authors": [
+            "Xiaoze Xu",
+            "Xiuyu Sun",
+            "Wei Han",
+            "Xiaohui Zhong",
+            "Lei Chen",
+            "Hao Li"
+        ],
+        "submission_date": "2024-04-12",
+        "semantic_scholar_id": "60a9f6431b94943b5272e187ce40861b4a4d0f4b"
+    },
+    "2401-05932": {
+        "paper_title": "DiffDA: a diffusion model for weather-scale data assimilation",
+        "authors": [
+            "Langwen Huang",
+            "Lukas Gianinazzi",
+            "Yuejiang Yu",
+            "P. Dueben",
+            "Torsten Hoefler"
+        ],
+        "submission_date": "2024-01-11",
+        "semantic_scholar_id": "244d8dc93c0af56a4f9db9b474d5b3ed1793a995"
+    },
+    "2312-12462": {
+        "paper_title": "Towards an End-to-End Artificial Intelligence Driven Global Weather Forecasting System",
+        "authors": [
+            "Kun Chen",
+            "Lei Bai",
+            "Fenghua Ling",
+            "Peng Ye",
+            "Tao Chen",
+            "Kang Chen",
+            "Tao Han",
+            "Wanli Ouyang"
+        ],
+        "submission_date": "2023-12-18",
+        "semantic_scholar_id": "fa026e1a3e001074c40f7e18cf407a31b253ce6f"
+    },
+    "2312-03876": {
+        "paper_title": "Scaling transformer neural networks for skillful and reliable medium-range weather forecasting",
+        "authors": [
+            "Tung Nguyen",
+            "Rohan Shah",
+            "Hritik Bansal",
+            "Troy Arcomano",
+            "Sandeep Madireddy",
+            "R. Maulik",
+            "V. Kotamarthi",
+            "Ian Foster",
+            "Aditya Grover"
+        ],
+        "submission_date": "2023-12-06",
+        "semantic_scholar_id": "f9bbc83553ebf8fea9e485ce31b10799d69150e1"
+    },
+    "2308-15560": {
+        "paper_title": "WeatherBench 2: A Benchmark for the Next Generation of Data‐Driven Global Weather Models",
+        "authors": [
+            "S. Rasp",
+            "Stephan Hoyer",
+            "Alexander Merose",
+            "I. Langmore",
+            "P. Battaglia",
+            "Tyler Russel",
+            "Alvaro Sanchez-Gonzalez",
+            "Vivian Q. Yang",
+            "Rob Carver",
+            "Shreya Agrawal",
+            "M. Chantry",
+            "Z. B. Bouallègue",
+            "P. Dueben",
+            "C. Bromberg",
+            "Jared Sisk",
+            "Luke Barrington",
+            "Aaron Bell",
+            "Fei Sha"
+        ],
+        "submission_date": "2023-08-29",
+        "semantic_scholar_id": "f46239e42370b0370427bfddda70869ca09fc758"
+    },
+    "2306-12873": {
+        "paper_title": "FuXi: a cascade machine learning forecasting system for 15-day global weather forecast",
+        "authors": [
+            "Lei Chen",
+            "Xiaohui Zhong",
+            "Feng-jun Zhang",
+            "Yuan Cheng",
+            "Yinghui Xu",
+            "Yuan Qi",
+            "Hao Li"
+        ],
+        "submission_date": "2023-06-22",
+        "semantic_scholar_id": "e795f62df9ccac2a39e126f95404e5364d55193c"
+    },
+    "2304-02948": {
+        "paper_title": "FengWu: Pushing the Skillful Global Medium-range Weather Forecast beyond 10 Days Lead",
+        "authors": [
+            "Kan Chen",
+            "Tao Han",
+            "Junchao Gong",
+            "Lei Bai",
+            "Fenghua Ling",
+            "Jingyao Luo",
+            "Xi Chen",
+            "Lei Ma",
+            "Tianning Zhang",
+            "Rui Su",
+            "Yuanzheng Ci",
+            "Bin Li",
+            "Xiaokang Yang",
+            "Wanli Ouyang"
+        ],
+        "submission_date": "2023-04-06",
+        "semantic_scholar_id": "f4a62db4dd86129561a16b0a18cc09985580554c"
+    },
+    "2301-10343": {
+        "paper_title": "ClimaX: A foundation model for weather and climate",
+        "authors": [
+            "Tung Nguyen",
+            "Johannes Brandstetter",
+            "Ashish Kapoor",
+            "Jayesh K. Gupta",
+            "Aditya Grover"
+        ],
+        "submission_date": "2023-01-24",
+        "semantic_scholar_id": "874deb5f06f35e52ae13a921b23611eec4abd1da"
+    },
+    "2211-10381": {
+        "paper_title": "Environmental sensor placement with convolutional Gaussian neural processes",
+        "authors": [
+            "Tom R. Andersson",
+            "W. Bruinsma",
+            "Stratis Markou",
+            "James Requeima",
+            "Alejandro Coca-Castro",
+            "Anna Vaughan",
+            "A. Ellis",
+            "M. Lazzara",
+            "Daniel P. Jones",
+            "Scott Hosking",
+            "Richard E. Turner"
+        ],
+        "submission_date": "2022-11-18",
+        "semantic_scholar_id": "c62b0356d61a7bd72695fda71a215ac6e6d91348"
+    },
+    "2211-02556": {
+        "paper_title": "Pangu-Weather: A 3D High-Resolution Model for Fast and Accurate Global Weather Forecast",
+        "authors": [
+            "Kaifeng Bi",
+            "Lingxi Xie",
+            "Hengheng Zhang",
+            "Xin Chen",
+            "Xiaotao Gu",
+            "Qi Tian"
+        ],
+        "submission_date": "2022-11-03",
+        "semantic_scholar_id": "4405874879827cacf199d26e8e23e4f547f72a2c"
+    },
+    "2101-07950": {
+        "paper_title": "Convolutional conditional neural processes for local climate downscaling",
+        "authors": [
+            "Anna Vaughan",
+            "Will Tebbutt",
+            "J. Hosking",
+            "Richard E. Turner"
+        ],
+        "submission_date": "2021-01-20",
+        "semantic_scholar_id": "8e5a144667571360401cfd88a170fa0b019d262a"
+    },
+    "2010-11929": {
+        "paper_title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+        "authors": [
+            "Alexey Dosovitskiy",
+            "Lucas Beyer",
+            "Alexander Kolesnikov",
+            "Dirk Weissenborn",
+            "Xiaohua Zhai",
+            "Thomas Unterthiner",
+            "Mostafa Dehghani",
+            "M. Minderer",
+            "G. Heigold",
+            "S. Gelly",
+            "Jakob Uszkoreit",
+            "N. Houlsby"
+        ],
+        "submission_date": "2020-10-22",
+        "semantic_scholar_id": "268d347e8a55b5eb82fb5e7d2f800e33c75ab18a"
+    },
+    "2005-08748": {
+        "paper_title": "Deep learning for post-processing ensemble weather forecasts",
+        "authors": [
+            "Peter Grönquist",
+            "Chengyuan Yao",
+            "Tal Ben-Nun",
+            "Nikoli Dryden",
+            "P. Dueben",
+            "Shigang Li",
+            "T. Hoefler"
+        ],
+        "submission_date": "2020-05-18",
+        "semantic_scholar_id": "120e02f8c51b8bf55402334a5d9bbd20490cb0b2"
+    },
+    "2005-06613": {
+        "paper_title": "A framework for probabilistic weather forecast post-processing across models and lead times using machine learning",
+        "authors": [
+            "Charlie Kirkwood",
+            "T. Economou",
+            "H. Odbert",
+            "N. Pugeault"
+        ],
+        "submission_date": "2020-05-06",
+        "semantic_scholar_id": "4ed0f0dc8642a8f8ebfb5b9ed1de32494a3e51b2"
+    },
+    "1910-13556": {
+        "paper_title": "Convolutional Conditional Neural Processes",
+        "authors": [
+            "Jonathan Gordon",
+            "W. Bruinsma",
+            "Andrew Y. K. Foong",
+            "James Requeima",
+            "Yann Dubois",
+            "Richard E. Turner"
+        ],
+        "submission_date": "2019-10-29",
+        "semantic_scholar_id": "ab6418856eced17a5139e757fb9880c9e2df24fc"
+    },
+    "1505-04597": {
+        "paper_title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+        "authors": [
+            "O. Ronneberger",
+            "P. Fischer",
+            "T. Brox"
+        ],
+        "submission_date": "2015-05-18",
+        "semantic_scholar_id": "6364fdaa0a0eccd823a779fcdd489173f938e91a"
+    },
+    "1210-7191": {
+        "paper_title": "HadISD: a quality-controlled global synoptic report database for selected variables at long-term stations from 1973–2011",
+        "authors": [
+            "R. Dunn",
+            "K. Willett",
+            "P. Thorne",
+            "E. V. Woolley",
+            "I. Durre",
+            "A. Dai",
+            "D. Parker",
+            "Russ E. Vose Met Office Hadley Centre",
+            "Exeter",
+            "Uk",
+            "CICS-NC",
+            "Asheville",
+            "Nc",
+            "Noaa Ncdc",
+            "Ncar",
+            "Boulder",
+            "Co"
+        ],
+        "submission_date": "2012-10-26",
+        "semantic_scholar_id": "95e04d7bda32e0da94c6a340b563602b723e48d6"
+    }
+}

@@ -1,0 +1,369 @@
+{
+    "2306-14462": {
+        "paper_title": "Multi-task Item-attribute Graph Pre-training for Strict Cold-start Item Recommendation",
+        "authors": [
+            "Yuwei Cao",
+            "Liangwei Yang",
+            "Chen Wang",
+            "Zhiwei Liu",
+            "Hao Peng",
+            "Chenyu You",
+            "Philip S. Yu"
+        ],
+        "submission_date": "2023-06-26",
+        "semantic_scholar_id": "d1ec673291252e20e75d9444f62f5bf16b121cb4"
+    },
+    "2305-15498": {
+        "paper_title": "Large Language Models for User Interest Journeys",
+        "authors": [
+            "Konstantina Christakopoulou",
+            "Alberto Lalama",
+            "Cj Adams",
+            "Iris Qu",
+            "Yifat Amir",
+            "Samer Chucri",
+            "Pierce Vollucci",
+            "Fabio Soldo",
+            "Dina Bseiso",
+            "Sarah Scodel",
+            "Lucas Dixon",
+            "Ed H. Chi",
+            "Minmin Chen"
+        ],
+        "submission_date": "2023-05-24",
+        "semantic_scholar_id": "f834aed32f5531bfa426faab71878c549572500e"
+    },
+    "2305-07001": {
+        "paper_title": "Recommendation as Instruction Following: A Large Language Model Empowered Recommendation Approach",
+        "authors": [
+            "Junjie Zhang",
+            "Ruobing Xie",
+            "Yupeng Hou",
+            "Wayne Xin Zhao",
+            "Leyu Lin",
+            "Ji-rong Wen"
+        ],
+        "submission_date": "2023-05-11",
+        "semantic_scholar_id": "0383e049e98c9eedbc61be728d4ef037300bbedf"
+    },
+    "2305-06474": {
+        "paper_title": "Do LLMs Understand User Preferences? Evaluating LLMs On User Rating Prediction",
+        "authors": [
+            "Wang-Cheng Kang",
+            "Jianmo Ni",
+            "Nikhil Mehta",
+            "M. Sathiamoorthy",
+            "Lichan Hong",
+            "Ed H. Chi",
+            "D. Cheng"
+        ],
+        "submission_date": "2023-05-10",
+        "semantic_scholar_id": "ed8832466a4295a6c110eb6beec9531d54b5aede"
+    },
+    "2305-00447": {
+        "paper_title": "TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation",
+        "authors": [
+            "Keqin Bao",
+            "Jizhi Zhang",
+            "Yang Zhang",
+            "Wenjie Wang",
+            "Fuli Feng",
+            "Xiangnan He"
+        ],
+        "submission_date": "2023-04-30",
+        "semantic_scholar_id": "3487c12512fa41d3a4d64f00cb842525a8590ad3"
+    },
+    "2303-14524": {
+        "paper_title": "Chat-REC: Towards Interactive and Explainable LLMs-Augmented Recommender System",
+        "authors": [
+            "Yunfan Gao",
+            "Tao Sheng",
+            "Youlin Xiang",
+            "Yun Xiong",
+            "Haofen Wang",
+            "Jiawei Zhang"
+        ],
+        "submission_date": "2023-03-25",
+        "semantic_scholar_id": "0cfdd655100055f234fd23ebecd915504b8e00e3"
+    },
+    "2302-13971": {
+        "paper_title": "LLaMA: Open and Efficient Foundation Language Models",
+        "authors": [
+            "Hugo Touvron",
+            "Thibaut Lavril",
+            "Gautier Izacard",
+            "Xavier Martinet",
+            "M. Lachaux",
+            "Timothée Lacroix",
+            "Baptiste Rozière",
+            "Naman Goyal",
+            "Eric Hambro",
+            "Faisal Azhar",
+            "Aur'elien Rodriguez",
+            "Armand Joulin",
+            "Edouard Grave",
+            "Guillaume Lample"
+        ],
+        "submission_date": "2023-02-27",
+        "semantic_scholar_id": "57e849d0de13ed5f91d086936296721d4ff75a75"
+    },
+    "2205-08084": {
+        "paper_title": "M6-Rec: Generative Pretrained Language Models are Open-Ended Recommender Systems",
+        "authors": [
+            "Zeyu Cui",
+            "Jianxin Ma",
+            "Chang Zhou",
+            "Jingren Zhou",
+            "Hongxia Yang"
+        ],
+        "submission_date": "2022-05-17",
+        "semantic_scholar_id": "cbf3bf8f541f5b446c59c8deacbcc18527768c75"
+    },
+    "2203-13366": {
+        "paper_title": "Recommendation as Language Processing (RLP): A Unified Pretrain, Personalized Prompt & Predict Paradigm (P5)",
+        "authors": [
+            "Shijie Geng",
+            "Shuchang Liu",
+            "Zuohui Fu",
+            "Yingqiang Ge",
+            "Yongfeng Zhang"
+        ],
+        "submission_date": "2022-03-24",
+        "semantic_scholar_id": "df602516e28a9ef0ef665ed0aef551984d8d770d"
+    },
+    "2109-12613": {
+        "paper_title": "SimpleX: A Simple and Strong Baseline for Collaborative Filtering",
+        "authors": [
+            "Kelong Mao",
+            "Jieming Zhu",
+            "Jinpeng Wang",
+            "Quanyu Dai",
+            "Zhenhua Dong",
+            "Xi Xiao",
+            "Xiuqiang He"
+        ],
+        "submission_date": "2021-09-26",
+        "semantic_scholar_id": "6d552f03bd4c49565f5e76190712c41da1aa862b"
+    },
+    "2109-01652": {
+        "paper_title": "Finetuned Language Models Are Zero-Shot Learners",
+        "authors": [
+            "Jason Wei",
+            "Maarten Bosma",
+            "Vincent Zhao",
+            "Kelvin Guu",
+            "Adams Wei Yu",
+            "Brian Lester",
+            "Nan Du",
+            "Andrew M. Dai",
+            "Quoc V. Le"
+        ],
+        "submission_date": "2021-09-03",
+        "semantic_scholar_id": "ff0b2681d7b05e16c46dfb71d980cc2f605907cd"
+    },
+    "2104-08773": {
+        "paper_title": "Cross-Task Generalization via Natural Language Crowdsourcing Instructions",
+        "authors": [
+            "Swaroop Mishra",
+            "Daniel Khashabi",
+            "Chitta Baral",
+            "Hannaneh Hajishirzi"
+        ],
+        "submission_date": "2021-04-18",
+        "semantic_scholar_id": "cbdb45fc16b0885905b91d84281c310e6cb49e9c"
+    },
+    "2008-07873": {
+        "paper_title": "S3-Rec: Self-Supervised Learning for Sequential Recommendation with Mutual Information Maximization",
+        "authors": [
+            "Kun Zhou",
+            "Haibo Wang",
+            "Wayne Xin Zhao",
+            "Yutao Zhu",
+            "Sirui Wang",
+            "Fuzheng Zhang",
+            "Zhongyuan Wang",
+            "Ji-rong Wen"
+        ],
+        "submission_date": "2020-08-18",
+        "semantic_scholar_id": "39dbb388062b63e82e984d46e2c20b5ca9885b42"
+    },
+    "2005-14165": {
+        "paper_title": "Language Models are Few-Shot Learners",
+        "authors": [
+            "Tom B. Brown",
+            "Benjamin Mann",
+            "Nick Ryder",
+            "Melanie Subbiah",
+            "J. Kaplan",
+            "Prafulla Dhariwal",
+            "Arvind Neelakantan",
+            "Pranav Shyam",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Sandhini Agarwal",
+            "Ariel Herbert-Voss",
+            "Gretchen Krueger",
+            "T. Henighan",
+            "R. Child",
+            "A. Ramesh",
+            "Daniel M. Ziegler",
+            "Jeff Wu",
+            "Clemens Winter",
+            "Christopher Hesse",
+            "Mark Chen",
+            "Eric Sigler",
+            "Ma-teusz Litwin",
+            "Scott Gray",
+            "Benjamin Chess",
+            "Jack Clark",
+            "Christopher Berner",
+            "Sam McCandlish",
+            "Alec Radford",
+            "I. Sutskever",
+            "Dario Amodei"
+        ],
+        "submission_date": "2020-05-28",
+        "semantic_scholar_id": "90abbc2cf38462b954ae1b772fac9532e2ccd8b0"
+    },
+    "1910-10683": {
+        "paper_title": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+        "authors": [
+            "Colin Raffel",
+            "Noam M. Shazeer",
+            "Adam Roberts",
+            "Katherine Lee",
+            "Sharan Narang",
+            "Michael Matena",
+            "Yanqi Zhou",
+            "Wei Li",
+            "Peter J. Liu"
+        ],
+        "submission_date": "2019-10-23",
+        "semantic_scholar_id": "6c4b76232bb72897685d19b3d264c6ee3005bc2b"
+    },
+    "1906-09217": {
+        "paper_title": "Hierarchical Gating Networks for Sequential Recommendation",
+        "authors": [
+            "Chen Ma",
+            "Peng Kang",
+            "Xue Liu"
+        ],
+        "submission_date": "2019-06-21",
+        "semantic_scholar_id": "7f29eb8863755cafa9aeef8dbc55105f1dd8c587"
+    },
+    "1904-06690": {
+        "paper_title": "BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer",
+        "authors": [
+            "Fei Sun",
+            "Jun Liu",
+            "Jian Wu",
+            "Changhua Pei",
+            "Xiao Lin",
+            "Wenwu Ou",
+            "Peng Jiang"
+        ],
+        "submission_date": "2019-04-14",
+        "semantic_scholar_id": "690edf44e8739fd80bdfb76f40c9a4a222f3bba8"
+    },
+    "1808-09781": {
+        "paper_title": "Self-Attentive Sequential Recommendation",
+        "authors": [
+            "Wang-Cheng Kang",
+            "Julian McAuley"
+        ],
+        "submission_date": "2018-08-20",
+        "semantic_scholar_id": "97faeefa771e8cc8e55159e2bd03e6f5eef249a8"
+    },
+    "1809-07426": {
+        "paper_title": "Personalized Top-N Sequential Recommendation via Convolutional Sequence Embedding",
+        "authors": [
+            "Jiaxi Tang",
+            "Ke Wang"
+        ],
+        "submission_date": "2018-09-19",
+        "semantic_scholar_id": "75a927501749c2cbc0e19a58f798f04de59df64a"
+    },
+    "1708-05031": {
+        "paper_title": "Neural Collaborative Filtering",
+        "authors": [
+            "Xiangnan He",
+            "Lizi Liao",
+            "Hanwang Zhang",
+            "Liqiang Nie",
+            "Xia Hu",
+            "Tat-Seng Chua"
+        ],
+        "submission_date": "2017-08-16",
+        "semantic_scholar_id": "ad42c33c299ef1c53dfd4697e3f7f98ed0ca31dd"
+    },
+    "1606-07792": {
+        "paper_title": "Wide & Deep Learning for Recommender Systems",
+        "authors": [
+            "Heng-Tze Cheng",
+            "L. Koc",
+            "Jeremiah Harmsen",
+            "T. Shaked",
+            "Tushar Chandra",
+            "H. Aradhye",
+            "Glen Anderson",
+            "G. Corrado",
+            "Wei Chai",
+            "M. Ispir",
+            "Rohan Anil",
+            "Zakaria Haque",
+            "Lichan Hong",
+            "Vihan Jain",
+            "Xiaobing Liu",
+            "Hemal Shah"
+        ],
+        "submission_date": "2016-06-24",
+        "semantic_scholar_id": "657fbf29ea0b4904a3e98d1556f9acf38dddae5f"
+    },
+    "1511-06939": {
+        "paper_title": "Session-based Recommendations with Recurrent Neural Networks",
+        "authors": [
+            "Balázs Hidasi",
+            "Alexandros Karatzoglou",
+            "L. Baltrunas",
+            "D. Tikk"
+        ],
+        "submission_date": "2015-11-21",
+        "semantic_scholar_id": "e0021d61c2ab1334bc725852edd44597f4c65dff"
+    },
+    "1406-1078": {
+        "paper_title": "Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation",
+        "authors": [
+            "Kyunghyun Cho",
+            "B. V. Merrienboer",
+            "Çaglar Gülçehre",
+            "Dzmitry Bahdanau",
+            "Fethi Bougares",
+            "Holger Schwenk",
+            "Yoshua Bengio"
+        ],
+        "submission_date": "2014-06-03",
+        "semantic_scholar_id": "0b544dfe355a5070b60986319a3f51fb45d1348e"
+    },
+    "1205-2618": {
+        "paper_title": "BPR: Bayesian Personalized Ranking from Implicit Feedback",
+        "authors": [
+            "Steffen Rendle",
+            "Christoph Freudenthaler",
+            "Zeno Gantner",
+            "L. Schmidt-Thieme"
+        ],
+        "submission_date": "2012-05-09",
+        "semantic_scholar_id": "db16e908246f32b60a6e0a8e27093aa145fbb1ed"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

@@ -1,0 +1,191 @@
+{
+    "2404-07224": {
+        "paper_title": "Detection of Financial Opportunities in Micro-Blogging Data With a Stacked Classification System",
+        "authors": [
+            "Francisco de Arriba-Pérez",
+            "Silvia García-Méndez",
+            "J. A. Regueiro-Janeiro",
+            "F. González-Castaño"
+        ],
+        "submission_date": "2024-03-29",
+        "semantic_scholar_id": "188700006a05445324a486e73bd31b161c910896"
+    },
+    "2405-17610": {
+        "paper_title": "Explainable machine learning multi-label classification of Spanish legal judgements",
+        "authors": [
+            "Francisco de Arriba-Pérez",
+            "Silvia García-Méndez",
+            "F. González-Castaño",
+            "Jaime González-González"
+        ],
+        "submission_date": "2024-05-27",
+        "semantic_scholar_id": "2519fb51b45ec6191ac83d3677404bfc71752e6e"
+    },
+    "2402-09197": {
+        "paper_title": "Implementing local-explainability in Gradient Boosting Trees: Feature Contribution",
+        "authors": [
+            "Ángel Delgado-Panadero",
+            "Beatriz Hernández-Lorca",
+            "María Teresa García-Ordás",
+            "J. Benítez-Andrades"
+        ],
+        "submission_date": "2024-02-14",
+        "semantic_scholar_id": "5253f63a931bc6943a178bafd4a9818f64666f2a"
+    },
+    "2112-03033": {
+        "paper_title": "Unsupervised law article mining based on deep pre-trained language representation models with application to the Italian civil code",
+        "authors": [
+            "Andrea Tagarelli",
+            "Andrea Simeri"
+        ],
+        "submission_date": "2021-12-02",
+        "semantic_scholar_id": "9985cdc3ff93528daff6b026489058c0afbf6a13"
+    },
+    "2006-05908": {
+        "paper_title": "Embed2Detect: temporally clustered embedded words for event detection in social media",
+        "authors": [
+            "Hansi Hettiarachchi",
+            "Mariam Adedoyin-Olowe",
+            "Jagdev Bhogal",
+            "M. Gaber"
+        ],
+        "submission_date": "2020-06-10",
+        "semantic_scholar_id": "c3976bd3d2e1f1d809af6689a0ec3ec6266ea8ca"
+    },
+    "2005-04289": {
+        "paper_title": "Explainable Matrix - Visualization for Global and Local Interpretability of Random Forest Classification Ensembles",
+        "authors": [
+            "Mário Popolin Neto",
+            "F. Paulovich"
+        ],
+        "submission_date": "2020-05-08",
+        "semantic_scholar_id": "057fae7b0d8017a110007aafa03861be55f08548"
+    },
+    "2001-05153": {
+        "paper_title": "Extending Class Activation Mapping Using Gaussian Receptive Field",
+        "authors": [
+            "Bum Jun Kim",
+            "Gyogwon Koo",
+            "Hyeyeon Choi",
+            "Sang Woo Kim"
+        ],
+        "submission_date": "2020-01-15",
+        "semantic_scholar_id": "0cf05a7f10a06f4ebf9c270c4b37c527654b2d15"
+    },
+    "1904-08067": {
+        "paper_title": "Text Classification Algorithms: A Survey",
+        "authors": [
+            "Kamran Kowsari",
+            "K. Meimandi",
+            "Mojtaba Heidarysafa",
+            "Sanjana Mendu",
+            "Laura E. Barnes",
+            "Donald E. Brown"
+        ],
+        "submission_date": "2019-04-17",
+        "semantic_scholar_id": "ba10b8f9ee40b68053af9e6c2383aa2c6e39e9be"
+    },
+    "1903-10676": {
+        "paper_title": "SciBERT: A Pretrained Language Model for Scientific Text",
+        "authors": [
+            "Iz Beltagy",
+            "Kyle Lo",
+            "Arman Cohan"
+        ],
+        "submission_date": "2019-03-26",
+        "semantic_scholar_id": "156d217b0a911af97fa1b5a71dc909ccef7a8028"
+    },
+    "1805-11571": {
+        "paper_title": "Human-in-the-Loop Interpretability Prior",
+        "authors": [
+            "Isaac Lage",
+            "A. Ross",
+            "Been Kim",
+            "S. Gershman",
+            "F. Doshi-Velez"
+        ],
+        "submission_date": "2018-05-29",
+        "semantic_scholar_id": "9364eff879a9dcb34fe3dfdd0843e69c14dd333b"
+    },
+    "1802-01933": {
+        "paper_title": "A Survey of Methods for Explaining Black Box Models",
+        "authors": [
+            "Riccardo Guidotti",
+            "A. Monreale",
+            "F. Turini",
+            "D. Pedreschi",
+            "F. Giannotti"
+        ],
+        "submission_date": "2018-02-06",
+        "semantic_scholar_id": "f7325d232c7ac7d2daaf6605377058db5b5b83cc"
+    },
+    "1710-08191": {
+        "paper_title": "Human-in-the-loop Artificial Intelligence",
+        "authors": [
+            "Fabio Massimo Zanzotto"
+        ],
+        "submission_date": "2017-10-23",
+        "semantic_scholar_id": "b2277775e67ad13a5ab22d86a055e1f49a4cc8f5"
+    },
+    "1711-00399": {
+        "paper_title": "Counterfactual Explanations Without Opening the Black Box: Automated Decisions and the GDPR",
+        "authors": [
+            "Sandra Wachter",
+            "B. Mittelstadt",
+            "Chris Russell"
+        ],
+        "submission_date": "2017-11-01",
+        "semantic_scholar_id": "4f309712e705210df5695240a5d5fb53ea1f8641"
+    },
+    "1706-07269": {
+        "paper_title": "Explanation in Artificial Intelligence: Insights from the Social Sciences",
+        "authors": [
+            "Tim Miller"
+        ],
+        "submission_date": "2017-06-22",
+        "semantic_scholar_id": "e89dfa306723e8ef031765e9c44e5f6f94fd8fda"
+    },
+    "1704-01975": {
+        "paper_title": "An Automated Text Categorization Framework based on Hyperparameter Optimization",
+        "authors": [
+            "Eric Sadit Tellez",
+            "Daniela Moctezuma",
+            "Sabino Miranda-Jiménez",
+            "Mario Graff"
+        ],
+        "submission_date": "2017-04-06",
+        "semantic_scholar_id": "c13c10d2c6e591afa61ba50c8bc1395c7dc56e52"
+    },
+    "1612-08468": {
+        "paper_title": "Visualizing the effects of predictor variables in black box supervised learning models",
+        "authors": [
+            "D. Apley",
+            "Jingyu Zhu"
+        ],
+        "submission_date": "2016-12-27",
+        "semantic_scholar_id": "59b83c823a20cf1ce7a47805857d3c41c94357fe"
+    },
+    "1512-02479": {
+        "paper_title": "Explaining nonlinear classification decisions with deep Taylor decomposition",
+        "authors": [
+            "G. Montavon",
+            "S. Lapuschkin",
+            "Alexander Binder",
+            "W. Samek",
+            "Klaus-Robert Müller"
+        ],
+        "submission_date": "2015-12-08",
+        "semantic_scholar_id": "056713e422a0753c5eb1733d73e9f8185e2015d4"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "paper_title": "Can LLMs Master Math? Investigating Large Language Models on Math Stack Exchange",
+    "authors": [
+        "Ankit Satpute",
+        "Noah Giessing",
+        "Andre Greiner-Petter",
+        "Moritz Schubotz",
+        "Olaf Teschke",
+        "Akiko Aizawa",
+        "Bela Gipp"
+    ],
+    "publication_venue": "Accepted for publication at the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR) July 14--18, 2024, Washington D.C.,USA",
+    "submission_date": "2024-03-30",
+    "revised_dates": [
+        "2024-03-30"
+    ]
+}

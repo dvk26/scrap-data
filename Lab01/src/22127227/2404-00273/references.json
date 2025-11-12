@@ -1,0 +1,71 @@
+{
+    "2101-04769": {
+        "paper_title": "Room-temperature control and electrical readout of individual nitrogen-vacancy nuclear spins",
+        "authors": [
+            "Michal Gulka",
+            "D. Wirtitsch",
+            "V. Iv'ady",
+            "Jelle Vodnik",
+            "J. Hruby",
+            "G. Magchiels",
+            "E. Bourgeois",
+            "Á. Gali",
+            "M. Trupke",
+            "M. Nesladek"
+        ],
+        "submission_date": "2021-01-12",
+        "semantic_scholar_id": "7e706ae8219edef696e3c587d6e9fe32184a1000"
+    },
+    "1904-11221": {
+        "paper_title": "Double quantum dot scenario for spin resonance in current noise",
+        "authors": [
+            "B. Horovitz",
+            "A. Golub"
+        ],
+        "submission_date": "2019-04-25",
+        "semantic_scholar_id": "64ffb7c215e4347a15cda30904daee3b00dc1664"
+    },
+    "1806-02181": {
+        "paper_title": "High-resolution spectroscopy of single nuclear spins via sequential weak measurements",
+        "authors": [
+            "Matthias Pfender",
+            "Ping Wang",
+            "H. Sumiya",
+            "S. Onoda",
+            "Wen Yang",
+            "D. Dasari",
+            "P. Neumann",
+            "Xin-Yu Pan",
+            "J. Isoya",
+            "Renbao Liu",
+            "J. Wrachtrup"
+        ],
+        "submission_date": "2018-06-06",
+        "semantic_scholar_id": "06a01c6cedb645a17653f292471b5ffd4698b8d7"
+    },
+    "1711-10970": {
+        "paper_title": "Fingerprints of single nuclear spin energy levels using STM - ENDOR.",
+        "authors": [
+            "Y. Manassen",
+            "M. Averbukh",
+            "Moamen Jbara",
+            "Bernhard Siebenhofer",
+            "A. Shnirman",
+            "B. Horovitz"
+        ],
+        "submission_date": "2017-11-29",
+        "semantic_scholar_id": "2634d3d8abbedc9b67d927a616d65644382ebb57"
+    },
+    "cond-mat/0702664": {
+        "paper_title": "Nuclear magnetic resonance imaging with 90-nm resolution.",
+        "authors": [
+            "H. J. Mamin",
+            "M. Poggio",
+            "M. Poggio",
+            "C. Degen",
+            "Daniel Rugar"
+        ],
+        "submission_date": "2007-02-27",
+        "semantic_scholar_id": "9075c405a3f66acc3f79394d4ae38cad4dd3a1de"
+    }
+}

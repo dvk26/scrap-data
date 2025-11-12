@@ -1,0 +1,63 @@
+{
+    "2311-10426": {
+        "paper_title": "Polymorphic Type Inference for Dynamic Languages",
+        "authors": [
+            "Giuseppe Castagna",
+            "Mickaël Laurent",
+            "K. Nguyen"
+        ],
+        "submission_date": "2023-11-17",
+        "semantic_scholar_id": "23b465dfe5ca1ca6db137eb076f41effe8e23649"
+    },
+    "2304-08267": {
+        "paper_title": "Structural Subtyping as Parametric Polymorphism",
+        "authors": [
+            "W. Tang",
+            "Daniel Hillerstrom",
+            "James McKinna",
+            "Michel Steuwer",
+            "Ornela Dardha",
+            "Rongxiao Fu",
+            "S. Lindley"
+        ],
+        "submission_date": "2023-04-17",
+        "semantic_scholar_id": "17271a358a1dad851a21f990c6f286fd90cb7698"
+    },
+    "2302-12783": {
+        "paper_title": "Set-theoretic Types for Erlang",
+        "authors": [
+            "Albert Schimpf",
+            "Stefan Wehr",
+            "Annette Bieniusa"
+        ],
+        "submission_date": "2023-02-24",
+        "semantic_scholar_id": "48801fae69ca11c7ca161e026d1dff994b8c3757"
+    },
+    "2108-06296": {
+        "paper_title": "An ML-style record calculus with extensible records",
+        "authors": [
+            "Sandra Alves",
+            "Miguel Ramos"
+        ],
+        "submission_date": "2021-08-13",
+        "semantic_scholar_id": "698dd0b181be1a57a4e21d47b296f54408518510"
+    },
+    "1606-01106": {
+        "paper_title": "Set-theoretic types for polymorphic variants",
+        "authors": [
+            "Giuseppe Castagna",
+            "T. Petrucciani",
+            "K. Nguyen"
+        ],
+        "submission_date": "2016-06-03",
+        "semantic_scholar_id": "bf7840d31d568c114dbb4fab564fbae3fbfcfd7e"
+    },
+    "1406-2061": {
+        "paper_title": "Koka: Programming with Row Polymorphic Effect Types",
+        "authors": [
+            "Daan Leijen"
+        ],
+        "submission_date": "2014-06-09",
+        "semantic_scholar_id": "b618ace6a46f3a0f9d451591415d3913897cbb50"
+    }
+}

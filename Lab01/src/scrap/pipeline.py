@@ -10,7 +10,7 @@ from .semantic_scholar import (
     get_references_with_arxiv_ids, enrich_references_with_dates
 )
 
-# def process_one_paper(student_root: str, base_id: str):
+# def process_one_paper(student_root: str, base_id: str, v1_only: bool=False, skip_ref: bool=False):
 #     yymm = to_yymm_id(base_id)
 #     paper_dir = os.path.join(student_root, yymm)
 #     ensure_dir(paper_dir)
@@ -34,7 +34,7 @@ from .semantic_scholar import (
 
 #         out_dir = os.path.join(tex_root, f"{to_yymm_id(base_id)}v{v}")
 #         try:
-#             extract_only_tex(tgz_path, out_dir)
+#             extract_tex_bib(tgz_path, out_dir)
 #             any_source_ok = True
 #         except ValueError:
 #             print(f"[WARN] Invalid tar for {arxiv_id_v} -> skip extraction")
@@ -55,12 +55,12 @@ from .semantic_scholar import (
 #     write_json(os.path.join(paper_dir, "metadata.json"), asdict(meta))
 
 #     # references.bib
-#     try:
-#         bib = fetch_bibtex(base_id)
-#         with open(os.path.join(paper_dir, "references.bib"), "w", encoding="utf-8") as f:
-#             f.write(bib)
-#     except Exception:
-#         pass
+#     # try:
+#     #     bib = fetch_bibtex(base_id)
+#     #     with open(os.path.join(paper_dir, "references.bib"), "w", encoding="utf-8") as f:
+#     #         f.write(bib)
+#     # except Exception:
+#     #     pass
 
 #     # references.json
 #     try:

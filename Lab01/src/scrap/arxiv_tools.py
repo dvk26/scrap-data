@@ -7,14 +7,25 @@ from .utils import ensure_dir, to_yymm_id, fetch
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import functools
 TEX_BIB_EXTS = {".tex", ".bib"}
-
+import time
 import tarfile
 import os
 import shutil
 import threading
+import os, requests, traceback
+from arxiv import HTTPError
 
 # reuse a single arXiv client to reduce creation overhead
-ARXIV_CLIENT = arxiv.Client()
+ARXIV_CLIENT = arxiv.Client(num_retries=5)  # tăng retry
+_ARXIV_GATE = threading.Semaphore(1)
+ARXIV_DELAY_SEC = 1.5  # 1.5–3.0s là an toàn
+
+@functools.lru_cache(maxsize=4096)
+def get_result_by_id(arxiv_id: str) -> arxiv.Result:
+    with _ARXIV_GATE:
+        time.sleep(ARXIV_DELAY_SEC)
+        search = arxiv.Search(id_list=[arxiv_id])
+        return next(ARXIV_CLIENT.results(search))
 
 @functools.lru_cache(maxsize=4096)
 def get_result_by_id(arxiv_id: str) -> arxiv.Result:
@@ -33,9 +44,6 @@ def list_all_versions(base_id: str, v1_only: bool=False) -> List[int]:
             break
     return versions or [1]
 
-def get_result_by_id(arxiv_id: str) -> arxiv.Result:
-    search = arxiv.Search(id_list=[arxiv_id])
-    return next(ARXIV_CLIENT.results(search))
 
 # ...existing code...
 def is_tar_ok(path: str) -> bool:
@@ -57,31 +65,54 @@ def is_tar_ok(path: str) -> bool:
         return False
 # ...existing code...
 
+
 def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
     """
-    Download file .tar(.gz)  of a version. Return True if download and check OK, False if not exist/invalid.
+    Download file .tar(.gz) of a version.
+    Return True if valid tar downloaded, False otherwise.
+    Logs detailed server responses for debugging.
     """
     tgz_path = os.path.join(save_dir, filename)
     try:
         res = get_result_by_id(arxiv_id_with_ver)
         res.download_source(dirpath=save_dir, filename=filename)
-        # Check valid tar file
+
+        # Kiểm tra tar hợp lệ
         if not is_tar_ok(tgz_path):
-            # arXiv may return HTML/404 -> delete to avoid confusion next time
-            os.remove(tgz_path)
-            try:
-                os.remove(tgz_path)
-            except Exception:
-                pass
-            return False
-        return True
-    except Exception:
-        # Download failed (usually no source)
-        try:
+            # Nếu server trả HTML/404 thay vì tar
             if os.path.exists(tgz_path):
+                with open(tgz_path, "rb") as f:
+                    head = f.read(256)
+                print(f"[WARN] {arxiv_id_with_ver} => invalid tar (maybe HTML?) head={head[:80]!r}")
                 os.remove(tgz_path)
-        except Exception:
-            pass
+            return False
+
+        return True
+
+    except HTTPError as e:
+        print(f"[HTTPError] {arxiv_id_with_ver} => status={e.status_code} url={e.url}")
+        # 429: rate-limit; 404: no source; 403: access denied
+        if e.status_code == 429:
+            print("→ Too many requests: hit rate limit, try sleep/backoff.")
+        elif e.status_code == 404:
+            print("→ No source for this paper/version.")
+        elif e.status_code == 403:
+            print("→ Forbidden: requester-pays or IP blocked.")
+        else:
+            print(traceback.format_exc())
+        return False
+
+    except requests.HTTPError as e:
+        print(f"[requests.HTTPError] {arxiv_id_with_ver} => {e.response.status_code} {e.response.reason}")
+        print("Response body preview:", e.response.text[:300])
+        return False
+
+    except Exception as e:
+        print(f"[EXCEPTION] {arxiv_id_with_ver} => {type(e).__name__}: {e}")
+        print(traceback.format_exc())
+        if os.path.exists(tgz_path):
+            try: os.remove(tgz_path)
+            except: pass
         return False
 
 

@@ -1,0 +1,281 @@
+{
+    "2106-07499": {
+        "paper_title": "An Empirical Survey of Data Augmentation for Limited Data Learning in NLP",
+        "authors": [
+            "Jiaao Chen",
+            "Derek Tam",
+            "Colin Raffel",
+            "Mohit Bansal",
+            "Diyi Yang"
+        ],
+        "submission_date": "2021-06-14",
+        "semantic_scholar_id": "013eb12ce5468f79d58bf859653f4929c5a2bd14"
+    },
+    "2106-04681": {
+        "paper_title": "Data Expansion using Back Translation and Paraphrasing for Hate Speech Detection",
+        "authors": [
+            "D. Beddiar",
+            "Md Saroar Jahan",
+            "M. Oussalah"
+        ],
+        "submission_date": "2021-05-25",
+        "semantic_scholar_id": "65d97dcfaa171ad4db332c501716ccdea973e560"
+    },
+    "2012-07004": {
+        "paper_title": "C2C-GenDA: Cluster-to-Cluster Generation for Data Augmentation of Slot Filling",
+        "authors": [
+            "Yutai Hou",
+            "Sanyuan Chen",
+            "Wanxiang Che",
+            "Cheng Chen",
+            "Ting Liu"
+        ],
+        "submission_date": "2020-12-13",
+        "semantic_scholar_id": "c326c1d6f154bbc9822f900ddcf42f482ec9c611"
+    },
+    "2010-12472": {
+        "paper_title": "HateBERT: Retraining BERT for Abusive Language Detection in English",
+        "authors": [
+            "Tommaso Caselli",
+            "Valerio Basile",
+            "Jelena Mitrović",
+            "M. Granitzer"
+        ],
+        "submission_date": "2020-10-23",
+        "semantic_scholar_id": "9927a15ddf5313d97c98f0111fd191caf507ce72"
+    },
+    "2004-07807": {
+        "paper_title": "Classification Benchmarks for Under-resourced Bengali Language based on Multichannel Convolutional-LSTM Network",
+        "authors": [
+            "Md. Rezaul Karim",
+            "Bharathi Raja Chakravarthi",
+            "Mihael Arcan",
+            "John P. McCrae",
+            "Michael Cochez"
+        ],
+        "submission_date": "2020-04-11",
+        "semantic_scholar_id": "407ebb66dfe7d36a9d74168ce5ee4343e141a546"
+    },
+    "2004-01970": {
+        "paper_title": "BAE: BERT-based Adversarial Examples for Text Classification",
+        "authors": [
+            "Siddhant Garg",
+            "Goutham Ramakrishnan"
+        ],
+        "submission_date": "2020-04-04",
+        "semantic_scholar_id": "06a427e1688f92053a38c73cb4e0da25177c89e7"
+    },
+    "2003-02245": {
+        "paper_title": "Data Augmentation using Pre-trained Transformer Models",
+        "authors": [
+            "Varun Kumar",
+            "Ashutosh Choudhary",
+            "Eunah Cho"
+        ],
+        "submission_date": "2020-03-04",
+        "semantic_scholar_id": "f06ffb43f588575aa910d9e7cc38958e0410d496"
+    },
+    "1909-11942": {
+        "paper_title": "ALBERT: A Lite BERT for Self-supervised Learning of Language Representations",
+        "authors": [
+            "Zhenzhong Lan",
+            "Mingda Chen",
+            "Sebastian Goodman",
+            "Kevin Gimpel",
+            "Piyush Sharma",
+            "Radu Soricut"
+        ],
+        "submission_date": "2019-09-26",
+        "semantic_scholar_id": "7a064df1aeada7e69e5173f7d4c8606f4470365b"
+    },
+    "1909-11241": {
+        "paper_title": "Atalaya at TASS 2019: Data Augmentation and Robust Embeddings for Sentiment Analysis",
+        "authors": [
+            "F. Luque"
+        ],
+        "submission_date": "2019-09-25",
+        "semantic_scholar_id": "bb6e5a4e25243b274d5c9e8db46ce5c6402a31a3"
+    },
+    "1909-10351": {
+        "paper_title": "TinyBERT: Distilling BERT for Natural Language Understanding",
+        "authors": [
+            "Xiaoqi Jiao",
+            "Yichun Yin",
+            "Lifeng Shang",
+            "Xin Jiang",
+            "Xiao Chen",
+            "Linlin Li",
+            "F. Wang",
+            "Qun Liu"
+        ],
+        "submission_date": "2019-09-23",
+        "semantic_scholar_id": "0cbf97173391b0430140117027edcaf1a37968c7"
+    },
+    "1907-11692": {
+        "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "authors": [
+            "Yinhan Liu",
+            "Myle Ott",
+            "Naman Goyal",
+            "Jingfei Du",
+            "Mandar Joshi",
+            "Danqi Chen",
+            "Omer Levy",
+            "M. Lewis",
+            "Luke Zettlemoyer",
+            "Veselin Stoyanov"
+        ],
+        "submission_date": "2019-07-26",
+        "semantic_scholar_id": "077f8329a7b6fa3b7c877a57b81eb6c18b5f87de"
+    },
+    "1905-08941": {
+        "paper_title": "Augmenting Data with Mixup for Sentence Classification: An Empirical Study",
+        "authors": [
+            "Hongyu Guo",
+            "Yongyi Mao",
+            "Richong Zhang"
+        ],
+        "submission_date": "2019-05-22",
+        "semantic_scholar_id": "e601c09867dfbee176333067b2e79b8548e993a9"
+    },
+    "1904-12848": {
+        "paper_title": "Unsupervised Data Augmentation for Consistency Training",
+        "authors": [
+            "Qizhe Xie",
+            "Zihang Dai",
+            "E. Hovy",
+            "Minh-Thang Luong",
+            "Quoc V. Le"
+        ],
+        "submission_date": "2019-04-29",
+        "semantic_scholar_id": "0feea94f89d395436bf41bd10c797447eecbc128"
+    },
+    "1903-09460": {
+        "paper_title": "Data Augmentation via Dependency Tree Morphing for Low-Resource Languages",
+        "authors": [
+            "Gözde Gül Şahin",
+            "Mark Steedman"
+        ],
+        "submission_date": "2019-03-22",
+        "semantic_scholar_id": "67b945a9f85a17819e557ced41dc6ebc5a50d9cd"
+    },
+    "1807-01554": {
+        "paper_title": "Sequence-to-Sequence Data Augmentation for Dialogue Language Understanding",
+        "authors": [
+            "Yutai Hou",
+            "Yijia Liu",
+            "Wanxiang Che",
+            "Ting Liu"
+        ],
+        "submission_date": "2018-07-04",
+        "semantic_scholar_id": "7e877011074793d6f378fc0c3e67ed5422ea3ce5"
+    },
+    "1805-06201": {
+        "paper_title": "Contextual Augmentation: Data Augmentation by Words with Paradigmatic Relations",
+        "authors": [
+            "Sosuke Kobayashi"
+        ],
+        "submission_date": "2018-05-16",
+        "semantic_scholar_id": "78a5efc6d0ef9a1e4cfd375e189474305d0b099f"
+    },
+    "1803-09402": {
+        "paper_title": "Aggression-annotated Corpus of Hindi-English Code-mixed Data",
+        "authors": [
+            "Ritesh Kumar",
+            "Aishwarya N. Reganti",
+            "A. Bhatia",
+            "T. Maheshwari"
+        ],
+        "submission_date": "2018-03-26",
+        "semantic_scholar_id": "45094ab1ae50337033514e48213397d35b821e43"
+    },
+    "1801-06482": {
+        "paper_title": "Deep Learning for Detecting Cyberbullying Across Multiple Social Media Platforms",
+        "authors": [
+            "Sweta Agrawal",
+            "Amit Awekar"
+        ],
+        "submission_date": "2018-01-19",
+        "semantic_scholar_id": "bcf9b7058473787ea925fd6ee6b1e0706ce986a5"
+    },
+    "1711-00279": {
+        "paper_title": "Paraphrase Generation with Deep Reinforcement Learning",
+        "authors": [
+            "Zichao Li",
+            "Xin Jiang",
+            "Lifeng Shang",
+            "Hang Li"
+        ],
+        "submission_date": "2017-11-01",
+        "semantic_scholar_id": "a3be639d7e915b5f4e1499e52e1fcfd0940a31e5"
+    },
+    "1710-09412": {
+        "paper_title": "mixup: Beyond Empirical Risk Minimization",
+        "authors": [
+            "Hongyi Zhang",
+            "Moustapha Cissé",
+            "Yann Dauphin",
+            "David Lopez-Paz"
+        ],
+        "submission_date": "2017-10-25",
+        "semantic_scholar_id": "4feef0fd284feb1233399b400eb897f59ec92755"
+    },
+    "1709-05074": {
+        "paper_title": "A Deep Generative Framework for Paraphrase Generation",
+        "authors": [
+            "Ankush Gupta",
+            "Arvind Agarwal",
+            "Prawaan Singh",
+            "Piyush Rai"
+        ],
+        "submission_date": "2017-09-15",
+        "semantic_scholar_id": "5a5a1076c3a3d4f7cbcc48a1e3f14307deec6b7a"
+    },
+    "1511-06709": {
+        "paper_title": "Improving Neural Machine Translation Models with Monolingual Data",
+        "authors": [
+            "Rico Sennrich",
+            "B. Haddow",
+            "Alexandra Birch"
+        ],
+        "submission_date": "2015-11-20",
+        "semantic_scholar_id": "f3b96ef2dc1fc5e14982f1b963db8db6a54183bb"
+    },
+    "1412-6980": {
+        "paper_title": "Adam: A Method for Stochastic Optimization",
+        "authors": [
+            "Diederik P. Kingma",
+            "Jimmy Ba"
+        ],
+        "submission_date": "2014-12-22",
+        "semantic_scholar_id": "a6cb366736791bcccc5c8639de5a8f9636bf87e8"
+    },
+    "1408-5882": {
+        "paper_title": "Convolutional Neural Networks for Sentence Classification",
+        "authors": [
+            "Yoon Kim"
+        ],
+        "submission_date": "2014-08-25",
+        "semantic_scholar_id": "1f6ba0782862ec12a5ec6d7fb608523d55b0c6ba"
+    },
+    "cs/0506075": {
+        "paper_title": "Seeing Stars: Exploiting Class Relationships for Sentiment Categorization with Respect to Rating Scales",
+        "authors": [
+            "B. Pang",
+            "Lillian Lee"
+        ],
+        "submission_date": "2005-06-17",
+        "semantic_scholar_id": "6af58c061f2e4f130c3b795c21ff0c7e3903278f"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

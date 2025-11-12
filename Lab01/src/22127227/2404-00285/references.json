@@ -1,0 +1,693 @@
+{
+    "2304-15010": {
+        "paper_title": "LLaMA-Adapter V2: Parameter-Efficient Visual Instruction Model",
+        "authors": [
+            "Peng Gao",
+            "Jiaming Han",
+            "Renrui Zhang",
+            "Ziyi Lin",
+            "Shijie Geng",
+            "Aojun Zhou",
+            "W. Zhang",
+            "Pan Lu",
+            "Conghui He",
+            "Xiangyu Yue",
+            "Hongsheng Li",
+            "Y. Qiao"
+        ],
+        "submission_date": "2023-04-28",
+        "semantic_scholar_id": "570079bbdd8758dfe865097e05719313c9c1301a"
+    },
+    "2304-07193": {
+        "paper_title": "DINOv2: Learning Robust Visual Features without Supervision",
+        "authors": [
+            "M. Oquab",
+            "Timothée Darcet",
+            "Théo Moutakanni",
+            "Huy Q. Vo",
+            "Marc Szafraniec",
+            "Vasil Khalidov",
+            "Pierre Fernandez",
+            "Daniel Haziza",
+            "Francisco Massa",
+            "Alaaeldin El-Nouby",
+            "Mahmoud Assran",
+            "Nicolas Ballas",
+            "Wojciech Galuba",
+            "Russ Howes",
+            "Po-Yao (Bernie) Huang",
+            "Shang-Wen Li",
+            "Ishan Misra",
+            "Michael G. Rabbat",
+            "Vasu Sharma",
+            "Gabriel Synnaeve",
+            "Huijiao Xu",
+            "H. Jégou",
+            "J. Mairal",
+            "Patrick Labatut",
+            "Armand Joulin",
+            "Piotr Bojanowski"
+        ],
+        "submission_date": "2023-04-14",
+        "semantic_scholar_id": "5a9cb1b3dc4655218b3deeaf4a2417a9a8cd0891"
+    },
+    "2303-16199": {
+        "paper_title": "LLaMA-Adapter: Efficient Fine-tuning of Language Models with Zero-init Attention",
+        "authors": [
+            "Renrui Zhang",
+            "Jiaming Han",
+            "Aojun Zhou",
+            "Xiangfei Hu",
+            "Shilin Yan",
+            "Pan Lu",
+            "Hongsheng Li",
+            "Peng Gao",
+            "Y. Qiao"
+        ],
+        "submission_date": "2023-03-28",
+        "semantic_scholar_id": "a757999ed260d7bc45484dc6b4456bf33fe6f679"
+    },
+    "2212-13827": {
+        "paper_title": "Escaping Saddle Points for Effective Generalization on Class-Imbalanced Data",
+        "authors": [
+            "Harsh Rangwani",
+            "Sumukh K Aithal",
+            "Mayank Mishra",
+            "R. Venkatesh Babu"
+        ],
+        "submission_date": "2022-12-28",
+        "semantic_scholar_id": "52aaaaa98ca8d40ac81a763e34a413ad9002baf0"
+    },
+    "2211-12933": {
+        "paper_title": "Join the High Accuracy Club on ImageNet with A Binary Neural Network Ticket",
+        "authors": [
+            "Nianhui Guo",
+            "Joseph Bethge",
+            "C. Meinel",
+            "Haojin Yang"
+        ],
+        "submission_date": "2022-11-23",
+        "semantic_scholar_id": "f47ae084b19cd872996fc046a9b3745ab5b5a47e"
+    },
+    "2205-12694": {
+        "paper_title": "Train Flat, Then Compress: Sharpness-Aware Minimization Learns More Compressible Models",
+        "authors": [
+            "Clara Na",
+            "Sanket Vaibhav Mehta",
+            "Emma Strubell"
+        ],
+        "submission_date": "2022-05-25",
+        "semantic_scholar_id": "e1f8fec943544d4079ae6556d9c07a88b203da4a"
+    },
+    "2204-06125": {
+        "paper_title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
+        "authors": [
+            "A. Ramesh",
+            "Prafulla Dhariwal",
+            "Alex Nichol",
+            "Casey Chu",
+            "Mark Chen"
+        ],
+        "submission_date": "2022-04-13",
+        "semantic_scholar_id": "c57293882b2561e1ba03017902df9fc2f289dea2"
+    },
+    "2203-14197": {
+        "paper_title": "Long- Tailed Recognition via Weight Balancing",
+        "authors": [
+            "Shaden Alshammari",
+            "Yu-Xiong Wang",
+            "Deva Ramanan",
+            "Shu Kong"
+        ],
+        "submission_date": "2022-03-27",
+        "semantic_scholar_id": "cc8e9f795f83c5107816bd500acb13c4e200198c"
+    },
+    "2203-02155": {
+        "paper_title": "Training language models to follow instructions with human feedback",
+        "authors": [
+            "Long Ouyang",
+            "Jeff Wu",
+            "Xu Jiang",
+            "Diogo Almeida",
+            "Carroll L. Wainwright",
+            "Pamela Mishkin",
+            "Chong Zhang",
+            "Sandhini Agarwal",
+            "Katarina Slama",
+            "Alex Ray",
+            "John Schulman",
+            "Jacob Hilton",
+            "Fraser Kelton",
+            "Luke E. Miller",
+            "Maddie Simens",
+            "Amanda Askell",
+            "Peter Welinder",
+            "P. Christiano",
+            "Jan Leike",
+            "Ryan J. Lowe"
+        ],
+        "submission_date": "2022-03-04",
+        "semantic_scholar_id": "d766bffc357127e0dc86dd69561d5aeb520d6f4c"
+    },
+    "2112-02880": {
+        "paper_title": "AdaSTE: An Adaptive Straight-Through Estimator to Train Binary Neural Networks",
+        "authors": [
+            "Huu Le",
+            "R. Høier",
+            "Che-Tsung Lin",
+            "C. Zach"
+        ],
+        "submission_date": "2021-12-06",
+        "semantic_scholar_id": "ea79fa7e4fef32732ffee4d2994bd8a6fd6f423e"
+    },
+    "2111-06377": {
+        "paper_title": "Masked Autoencoders Are Scalable Vision Learners",
+        "authors": [
+            "Kaiming He",
+            "Xinlei Chen",
+            "Saining Xie",
+            "Yanghao Li",
+            "Piotr Doll'ar",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2021-11-11",
+        "semantic_scholar_id": "6351ebb4a3287f5f3e1273464b3b91e5df5a16d7"
+    },
+    "2110-08851": {
+        "paper_title": "Unsupervised Representation Learning for Binary Networks by Joint Classifier Learning",
+        "authors": [
+            "Dahyun Kim",
+            "Jonghyun Choi"
+        ],
+        "submission_date": "2021-10-17",
+        "semantic_scholar_id": "b1ffcc3fc04304e9d71643ffbcaead9ecb74bd4a"
+    },
+    "2110-08562": {
+        "paper_title": "BNAS v2: Learning Architectures for Binary Networks with Empirical Improvements",
+        "authors": [
+            "Dahyun Kim",
+            "Kunal Pratap Singh",
+            "Jonghyun Choi"
+        ],
+        "submission_date": "2021-10-16",
+        "semantic_scholar_id": "d7b792f42f287221fc759140860c029c8b7f61e4"
+    },
+    "2107-12028": {
+        "paper_title": "Parametric Contrastive Learning",
+        "authors": [
+            "Jiequan Cui",
+            "Zhisheng Zhong",
+            "Shu Liu",
+            "Bei Yu",
+            "Jiaya Jia"
+        ],
+        "submission_date": "2021-07-26",
+        "semantic_scholar_id": "6900eaf98c9d35aaf2f1f8a411ca62343fe449a2"
+    },
+    "2106-11309": {
+        "paper_title": "How Do Adam and Training Strategies Help BNNs Optimization?",
+        "authors": [
+            "Zechun Liu",
+            "Zhiqiang Shen",
+            "Shichao Li",
+            "Koen Helwegen",
+            "Dong Huang",
+            "Kwang-Ting Cheng"
+        ],
+        "submission_date": "2021-06-21",
+        "semantic_scholar_id": "2e5aafa18a0034940bcc48e5bac5851df5627f61"
+    },
+    "2104-10510": {
+        "paper_title": "Balanced Knowledge Distillation for Long-tailed Learning",
+        "authors": [
+            "Shaoyu Zhang",
+            "Chen Chen",
+            "Xiyuan Hu",
+            "Silong Peng"
+        ],
+        "submission_date": "2021-04-21",
+        "semantic_scholar_id": "29b06e097c9ac8857d565ddbc210800e7eb45695"
+    },
+    "2104-00298": {
+        "paper_title": "EfficientNetV2: Smaller Models and Faster Training",
+        "authors": [
+            "Mingxing Tan",
+            "Quoc V. Le"
+        ],
+        "submission_date": "2021-04-01",
+        "semantic_scholar_id": "8f8f73f0f208302546c825ed474432389ed63be4"
+    },
+    "2103-15042": {
+        "paper_title": "Distilling Virtual Examples for Long-tailed Recognition",
+        "authors": [
+            "Yingying He",
+            "Jianxin Wu",
+            "Xiu-Shen Wei"
+        ],
+        "submission_date": "2021-03-28",
+        "semantic_scholar_id": "f61810f6b6202b2cac12236ecb0bfd1ecd230eb2"
+    },
+    "2102-08946": {
+        "paper_title": "S2-BNN: Bridging the Gap Between Self-Supervised Real and 1-bit Neural Networks via Guided Distribution Calibration",
+        "authors": [
+            "Zhiqiang Shen",
+            "Zechun Liu",
+            "Jie Qin",
+            "Lei Huang",
+            "Kwang-Ting Cheng",
+            "M. Savvides"
+        ],
+        "submission_date": "2021-02-17",
+        "semantic_scholar_id": "3168089f726aa704c9deadac2070b829ad66367d"
+    },
+    "2101-10633": {
+        "paper_title": "ResLT: Residual Learning for Long-Tailed Recognition",
+        "authors": [
+            "Jiequan Cui",
+            "Shu Liu",
+            "Zhuotao Tian",
+            "Zhisheng Zhong",
+            "Jiaya Jia"
+        ],
+        "submission_date": "2021-01-26",
+        "semantic_scholar_id": "1b529732c32053897df685b65613177741c5f0aa"
+    },
+    "2010-04871": {
+        "paper_title": "Training Binary Neural Networks through Learning with Noisy Supervision",
+        "authors": [
+            "Kai Han",
+            "Yunhe Wang",
+            "Yixing Xu",
+            "Chunjing Xu",
+            "E. Wu",
+            "Chang Xu"
+        ],
+        "submission_date": "2020-10-10",
+        "semantic_scholar_id": "98c7509d3845b5be1c9ea6103d38a12ab60266e5"
+    },
+    "2010-03558": {
+        "paper_title": "High-Capacity Expert Binary Networks",
+        "authors": [
+            "Adrian Bulat",
+            "Brais Martínez",
+            "Georgios Tzimiropoulos"
+        ],
+        "submission_date": "2020-10-07",
+        "semantic_scholar_id": "06c4ba737d5bae10de2476ccc902bec6fb76cfc2"
+    },
+    "2010-01809": {
+        "paper_title": "Long-tailed Recognition by Routing Diverse Distribution-Aware Experts",
+        "authors": [
+            "Xudong Wang",
+            "Long Lian",
+            "Zhongqi Miao",
+            "Ziwei Liu",
+            "Stella X. Yu"
+        ],
+        "submission_date": "2020-10-05",
+        "semantic_scholar_id": "d618752d2e666d7b25f1bd6c7c3bd7c056e19d96"
+    },
+    "2010-01412": {
+        "paper_title": "Sharpness-Aware Minimization for Efficiently Improving Generalization",
+        "authors": [
+            "Pierre Foret",
+            "Ariel Kleiner",
+            "H. Mobahi",
+            "Behnam Neyshabur"
+        ],
+        "submission_date": "2020-10-03",
+        "semantic_scholar_id": "a2cd073b57be744533152202989228cb4122270a"
+    },
+    "2104-00466": {
+        "paper_title": "Improving Calibration for Long-Tailed Recognition",
+        "authors": [
+            "Zhisheng Zhong",
+            "Jiequan Cui",
+            "Shu Liu",
+            "Jiaya Jia"
+        ],
+        "submission_date": "2021-04-01",
+        "semantic_scholar_id": "09ce0a5073dde62e6cff2d5dfed1944e024e951e"
+    },
+    "2009-12991": {
+        "paper_title": "Long-Tailed Classification by Keeping the Good and Removing the Bad Momentum Causal Effect",
+        "authors": [
+            "Kaihua Tang",
+            "Jianqiang Huang",
+            "Hanwang Zhang"
+        ],
+        "submission_date": "2020-09-28",
+        "semantic_scholar_id": "c5e4ed93580d50c46426642cd85b93d0e64629a3"
+    },
+    "2007-10740": {
+        "paper_title": "Balanced Meta-Softmax for Long-Tailed Visual Recognition",
+        "authors": [
+            "Jiawei Ren",
+            "Cunjun Yu",
+            "Shunan Sheng",
+            "Xiao Ma",
+            "Haiyu Zhao",
+            "Shuai Yi",
+            "Hongsheng Li"
+        ],
+        "submission_date": "2020-07-21",
+        "semantic_scholar_id": "d3806e9fefce863dfec7f6f83537bfb24edb278c"
+    },
+    "2006-10408": {
+        "paper_title": "Overcoming Classifier Imbalance for Long-Tail Object Detection With Balanced Group Softmax",
+        "authors": [
+            "Yu Li",
+            "Tao Wang",
+            "Bingyi Kang",
+            "Sheng Tang",
+            "Chunfeng Wang",
+            "Jintao Li",
+            "Jiashi Feng"
+        ],
+        "submission_date": "2020-06-18",
+        "semantic_scholar_id": "5d25110b71e8f3ddb54aceabeb274dfc187c2991"
+    },
+    "2003-11535": {
+        "paper_title": "Training Binary Neural Networks with Real-to-Binary Convolutions",
+        "authors": [
+            "Brais Martínez",
+            "Jing Yang",
+            "Adrian Bulat",
+            "Georgios Tzimiropoulos"
+        ],
+        "submission_date": "2020-03-25",
+        "semantic_scholar_id": "ed9aef35fd6b96f0f357d703143c0941331b5968"
+    },
+    "2003-05176": {
+        "paper_title": "Equalization Loss for Long-Tailed Object Recognition",
+        "authors": [
+            "Jingru Tan",
+            "Changbao Wang",
+            "Buyu Li",
+            "Quanquan Li",
+            "Wanli Ouyang",
+            "Changqing Yin",
+            "Junjie Yan"
+        ],
+        "submission_date": "2020-03-11",
+        "semantic_scholar_id": "6b7fac87b4ef98eceabfc47fd00a7190b1a48900"
+    },
+    "2003-03961": {
+        "paper_title": "BiDet: An Efficient Binarized Object Detector",
+        "authors": [
+            "Ziwei Wang",
+            "Ziyi Wu",
+            "Jiwen Lu",
+            "Jie Zhou"
+        ],
+        "submission_date": "2020-03-09",
+        "semantic_scholar_id": "11e6f96d122f69d908570f3bbd3a28f27971aa76"
+    },
+    "2003-03488": {
+        "paper_title": "ReActNet: Towards Precise Binary Neural Network with Generalized Activation Functions",
+        "authors": [
+            "Zechun Liu",
+            "Zhiqiang Shen",
+            "M. Savvides",
+            "Kwang-Ting Cheng"
+        ],
+        "submission_date": "2020-03-07",
+        "semantic_scholar_id": "1fab639219c601ddaf73430249035c827fbc1d7f"
+    },
+    "2003-01711": {
+        "paper_title": "BATS: Binary ArchitecTure Search",
+        "authors": [
+            "Adrian Bulat",
+            "Brais Martínez",
+            "Georgios Tzimiropoulos"
+        ],
+        "submission_date": "2020-03-03",
+        "semantic_scholar_id": "51d61c2323a1435994572b14d7be5def51ad8af1"
+    },
+    "2002-10778": {
+        "paper_title": "Training Binary Neural Networks using the Bayesian Learning Rule",
+        "authors": [
+            "Xiangming Meng",
+            "Roman Bachmann",
+            "M. E. Khan"
+        ],
+        "submission_date": "2020-02-25",
+        "semantic_scholar_id": "b433ad4e8e82cf89c240929fc9f6d3c1cebd2382"
+    },
+    "2002-06963": {
+        "paper_title": "Learning Architectures for Binary Networks",
+        "authors": [
+            "Kunal Pratap Singh",
+            "Dahyun Kim",
+            "Jonghyun Choi"
+        ],
+        "submission_date": "2020-02-17",
+        "semantic_scholar_id": "3349302ad96f90a5d9b95af412cf7a5aae128d15"
+    },
+    "2002-05709": {
+        "paper_title": "A Simple Framework for Contrastive Learning of Visual Representations",
+        "authors": [
+            "Ting Chen",
+            "Simon Kornblith",
+            "Mohammad Norouzi",
+            "Geoffrey E. Hinton"
+        ],
+        "submission_date": "2020-02-13",
+        "semantic_scholar_id": "7af72a461ed7cda180e7eab878efd5f35d79bbf4"
+    },
+    "2001-01536": {
+        "paper_title": "Learning From Multiple Experts: Self-paced Knowledge Distillation for Long-tailed Classification",
+        "authors": [
+            "Liuyu Xiang",
+            "Guiguang Ding"
+        ],
+        "submission_date": "2020-01-06",
+        "semantic_scholar_id": "029c31eee72ee0eb4d3058d48e276a2710f92325"
+    },
+    "1912-02413": {
+        "paper_title": "BBN: Bilateral-Branch Network With Cumulative Learning for Long-Tailed Visual Recognition",
+        "authors": [
+            "Boyan Zhou",
+            "Quan Cui",
+            "Xiu-Shen Wei",
+            "Zhao-Min Chen"
+        ],
+        "submission_date": "2019-12-05",
+        "semantic_scholar_id": "a08a2f61b02998567bab3c69e98311b11c73d64e"
+    },
+    "1911-05722": {
+        "paper_title": "Momentum Contrast for Unsupervised Visual Representation Learning",
+        "authors": [
+            "Kaiming He",
+            "Haoqi Fan",
+            "Yuxin Wu",
+            "Saining Xie",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2019-11-13",
+        "semantic_scholar_id": "add2f205338d70e10ce5e686df4a690e2851bdfc"
+    },
+    "1910-09217": {
+        "paper_title": "Decoupling Representation and Classifier for Long-Tailed Recognition",
+        "authors": [
+            "Bingyi Kang",
+            "Saining Xie",
+            "Marcus Rohrbach",
+            "Zhicheng Yan",
+            "Albert Gordo",
+            "Jiashi Feng",
+            "Yannis Kalantidis"
+        ],
+        "submission_date": "2019-10-21",
+        "semantic_scholar_id": "dcc4c760c3f1cb17f953c487190b735030c33b78"
+    },
+    "1909-13863": {
+        "paper_title": "XNOR-Net++: Improved binary neural networks",
+        "authors": [
+            "Adrian Bulat",
+            "Georgios Tzimiropoulos"
+        ],
+        "submission_date": "2019-09-30",
+        "semantic_scholar_id": "e61b99889e6f811b5c2657a534ad0de468c545a9"
+    },
+    "1906-07413": {
+        "paper_title": "Learning Imbalanced Datasets with Label-Distribution-Aware Margin Loss",
+        "authors": [
+            "Kaidi Cao",
+            "Colin Wei",
+            "Adrien Gaidon",
+            "Nikos Aréchiga",
+            "Tengyu Ma"
+        ],
+        "submission_date": "2019-06-18",
+        "semantic_scholar_id": "bcfba69c2fadf2efea83be12fda2601f8d4681af"
+    },
+    "1905-11946": {
+        "paper_title": "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks",
+        "authors": [
+            "Mingxing Tan",
+            "Quoc V. Le"
+        ],
+        "submission_date": "2019-05-28",
+        "semantic_scholar_id": "4f2eda8077dc7a69bb2b4e0a1a086cf054adb3f9"
+    },
+    "1905-04899": {
+        "paper_title": "CutMix: Regularization Strategy to Train Strong Classifiers With Localizable Features",
+        "authors": [
+            "Sangdoo Yun",
+            "Dongyoon Han",
+            "Seong Joon Oh",
+            "Sanghyuk Chun",
+            "Junsuk Choe",
+            "Y. Yoo"
+        ],
+        "submission_date": "2019-05-13",
+        "semantic_scholar_id": "ed17929e66da7f8fbc3666bf5eb613d302ddde0c"
+    },
+    "1904-01866": {
+        "paper_title": "A Comprehensive Overhaul of Feature Distillation",
+        "authors": [
+            "Byeongho Heo",
+            "Jeesoo Kim",
+            "Sangdoo Yun",
+            "Hyojin Park",
+            "Nojun Kwak",
+            "J. Choi"
+        ],
+        "submission_date": "2019-04-03",
+        "semantic_scholar_id": "b096edfdecaf44c3783ee71cda9bf829809d0f17"
+    },
+    "1901-05555": {
+        "paper_title": "Class-Balanced Loss Based on Effective Number of Samples",
+        "authors": [
+            "Yin Cui",
+            "Menglin Jia",
+            "Tsung-Yi Lin",
+            "Yang Song",
+            "Serge J. Belongie"
+        ],
+        "submission_date": "2019-01-16",
+        "semantic_scholar_id": "54036f43acc6c9b49b334270c7237217685f52fb"
+    },
+    "1808-00278": {
+        "paper_title": "Bi-Real Net: Enhancing the Performance of 1-bit CNNs With Improved Representational Capability and Advanced Training Algorithm",
+        "authors": [
+            "Zechun Liu",
+            "Baoyuan Wu",
+            "Wenhan Luo",
+            "Xin Yang",
+            "W. Liu",
+            "K. Cheng"
+        ],
+        "submission_date": "2018-08-01",
+        "semantic_scholar_id": "4bd23d951846832bdf550df574cdec07bc08dec1"
+    },
+    "1712-00580": {
+        "paper_title": "Fruit recognition from images using deep learning",
+        "authors": [
+            "H. Muresan",
+            "Mihai Oltean"
+        ],
+        "submission_date": "2017-12-02",
+        "semantic_scholar_id": "7856b3a1ad066b81a67c22c6d739e34c55cf6d89"
+    },
+    "1711-11294": {
+        "paper_title": "Towards Accurate Binary Convolutional Neural Network",
+        "authors": [
+            "Xiaofan Lin",
+            "Cong Zhao",
+            "Wei Pan"
+        ],
+        "submission_date": "2017-11-30",
+        "semantic_scholar_id": "8eecf4cf29de06c754f282cf0cb603aa369e6ba1"
+    },
+    "1710-05381": {
+        "paper_title": "A systematic study of the class imbalance problem in convolutional neural networks",
+        "authors": [
+            "Mateusz Buda",
+            "A. Maki",
+            "M. Mazurowski"
+        ],
+        "submission_date": "2017-10-15",
+        "semantic_scholar_id": "9757ef31095227cb289af22b0a4010eda754d100"
+    },
+    "1603-05279": {
+        "paper_title": "XNOR-Net: ImageNet Classification Using Binary Convolutional Neural Networks",
+        "authors": [
+            "Mohammad Rastegari",
+            "Vicente Ordonez",
+            "Joseph Redmon",
+            "Ali Farhadi"
+        ],
+        "submission_date": "2016-03-16",
+        "semantic_scholar_id": "b649a98ce77ece8cd7638bb74ab77d22d9be77e7"
+    },
+    "1512-05830": {
+        "paper_title": "Relay Backpropagation for Effective Learning of Deep Convolutional Neural Networks",
+        "authors": [
+            "Li Shen",
+            "Zhouchen Lin",
+            "Qingming Huang"
+        ],
+        "submission_date": "2015-12-18",
+        "semantic_scholar_id": "1f0bafe95728885034f5371420db2790e990971d"
+    },
+    "1512-03385": {
+        "paper_title": "Deep Residual Learning for Image Recognition",
+        "authors": [
+            "Kaiming He",
+            "X. Zhang",
+            "Shaoqing Ren",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-12-10",
+        "semantic_scholar_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d"
+    },
+    "1511-00363": {
+        "paper_title": "BinaryConnect: Training Deep Neural Networks with binary weights during propagations",
+        "authors": [
+            "Matthieu Courbariaux",
+            "Yoshua Bengio",
+            "J. David"
+        ],
+        "submission_date": "2015-11-02",
+        "semantic_scholar_id": "a5733ff08daff727af834345b9cfff1d0aa109ec"
+    },
+    "1412-6550": {
+        "paper_title": "FitNets: Hints for Thin Deep Nets",
+        "authors": [
+            "Adriana Romero",
+            "Nicolas Ballas",
+            "Samira Ebrahimi Kahou",
+            "Antoine Chassang",
+            "C. Gatta",
+            "Yoshua Bengio"
+        ],
+        "submission_date": "2014-12-19",
+        "semantic_scholar_id": "8604f376633af8b347e31d84c6150a93b11e34c2"
+    },
+    "1311-3618": {
+        "paper_title": "Describing Textures in the Wild",
+        "authors": [
+            "Mircea Cimpoi",
+            "Subhransu Maji",
+            "Iasonas Kokkinos",
+            "S. Mohamed",
+            "A. Vedaldi"
+        ],
+        "submission_date": "2013-11-14",
+        "semantic_scholar_id": "18c125ce0f64e85577f7d30132cf0e92ec664bf4"
+    },
+    "1306-5151": {
+        "paper_title": "Fine-Grained Visual Classification of Aircraft",
+        "authors": [
+            "Subhransu Maji",
+            "Esa Rahtu",
+            "Juho Kannala",
+            "Matthew B. Blaschko",
+            "A. Vedaldi"
+        ],
+        "submission_date": "2013-06-21",
+        "semantic_scholar_id": "522d65a3db7431015aeaa201a7fc4450a57e40c3"
+    }
+}

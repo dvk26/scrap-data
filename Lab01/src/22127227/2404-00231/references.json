@@ -1,0 +1,206 @@
+{
+    "2401-09627": {
+        "paper_title": "SymTC: A Symbiotic Transformer-CNN Net for Instance Segmentation of Lumbar Spine MRI",
+        "authors": [
+            "Jiasong Chen",
+            "Linchen Qian",
+            "Linhai Ma",
+            "Timur Urakov",
+            "Weiyong Gu",
+            "Liang Liang"
+        ],
+        "submission_date": "2024-01-17",
+        "semantic_scholar_id": "06254fd777f4cd086192eac18ff441a985dc2486"
+    },
+    "2201-09873": {
+        "paper_title": "Transformers in Medical Imaging: A Survey",
+        "authors": [
+            "Fahad Shamshad",
+            "Salman Hameed Khan",
+            "Syed Waqas Zamir",
+            "Muhammad Haris Khan",
+            "Munawar Hayat",
+            "F. Khan",
+            "H. Fu"
+        ],
+        "submission_date": "2022-01-24",
+        "semantic_scholar_id": "24aa57dae649b6683d8f5bc8deaf2ff549cdacc4"
+    },
+    "2105-05537": {
+        "paper_title": "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation",
+        "authors": [
+            "Hu Cao",
+            "Yueyue Wang",
+            "Jieneng Chen",
+            "Dongsheng Jiang",
+            "Xiaopeng Zhang",
+            "Qi Tian",
+            "Manning Wang"
+        ],
+        "submission_date": "2021-05-12",
+        "semantic_scholar_id": "ea7cfe7f2340584cbe653da6077ee7c213e49b92"
+    },
+    "2102-04306": {
+        "paper_title": "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation",
+        "authors": [
+            "Jieneng Chen",
+            "Yongyi Lu",
+            "Qihang Yu",
+            "Xiangde Luo",
+            "E. Adeli",
+            "Yan Wang",
+            "Le Lu",
+            "A. Yuille",
+            "Yuyin Zhou"
+        ],
+        "submission_date": "2021-02-08",
+        "semantic_scholar_id": "24b8a0b02bcb7934967757fc59d273a71ba67e30"
+    },
+    "2012-12556": {
+        "paper_title": "A Survey on Vision Transformer",
+        "authors": [
+            "Kai Han",
+            "Yunhe Wang",
+            "Hanting Chen",
+            "Xinghao Chen",
+            "Jianyuan Guo",
+            "Zhenhua Liu",
+            "Yehui Tang",
+            "An Xiao",
+            "Chunjing Xu",
+            "Yixing Xu",
+            "Zhaohui Yang",
+            "Yiman Zhang",
+            "D. Tao"
+        ],
+        "submission_date": "2020-12-23",
+        "semantic_scholar_id": "d40c77c010c8dbef6142903a02f2a73a85012d5d"
+    },
+    "2010-11929": {
+        "paper_title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+        "authors": [
+            "Alexey Dosovitskiy",
+            "Lucas Beyer",
+            "Alexander Kolesnikov",
+            "Dirk Weissenborn",
+            "Xiaohua Zhai",
+            "Thomas Unterthiner",
+            "Mostafa Dehghani",
+            "M. Minderer",
+            "G. Heigold",
+            "S. Gelly",
+            "Jakob Uszkoreit",
+            "N. Houlsby"
+        ],
+        "submission_date": "2020-10-22",
+        "semantic_scholar_id": "268d347e8a55b5eb82fb5e7d2f800e33c75ab18a"
+    },
+    "1912-03681": {
+        "paper_title": "Voxel2Mesh: 3D Mesh Model Generation from Volumetric Data",
+        "authors": [
+            "Udaranga Wickramasinghe",
+            "Edoardo Remelli",
+            "G. Knott",
+            "P. Fua"
+        ],
+        "submission_date": "2019-12-08",
+        "semantic_scholar_id": "61538737a039371336563afdcaa64a3e871bfd83"
+    },
+    "1912-01703": {
+        "paper_title": "PyTorch: An Imperative Style, High-Performance Deep Learning Library",
+        "authors": [
+            "Adam Paszke",
+            "Sam Gross",
+            "Francisco Massa",
+            "Adam Lerer",
+            "James Bradbury",
+            "Gregory Chanan",
+            "Trevor Killeen",
+            "Zeming Lin",
+            "N. Gimelshein",
+            "L. Antiga",
+            "Alban Desmaison",
+            "Andreas Köpf",
+            "E. Yang",
+            "Zachary DeVito",
+            "Martin Raison",
+            "Alykhan Tejani",
+            "Sasank Chilamkurthy",
+            "Benoit Steiner",
+            "Lu Fang",
+            "Junjie Bai",
+            "Soumith Chintala"
+        ],
+        "submission_date": "2019-12-03",
+        "semantic_scholar_id": "3c8a456509e6c0805354bd40a35e3f2dbf8069b1"
+    },
+    "1903-03545": {
+        "paper_title": "Unsupervised Learning of Probabilistic Diffeomorphic Registration for Images and Surfaces",
+        "authors": [
+            "Adrian V. Dalca",
+            "Guha Balakrishnan",
+            "J. Guttag",
+            "M. Sabuncu"
+        ],
+        "submission_date": "2019-03-08",
+        "semantic_scholar_id": "365fdc209926cb4d7bb2cf1176c2bf1b5c559753"
+    },
+    "1903-02428": {
+        "paper_title": "Fast Graph Representation Learning with PyTorch Geometric",
+        "authors": [
+            "Matthias Fey",
+            "J. E. Lenssen"
+        ],
+        "submission_date": "2019-03-06",
+        "semantic_scholar_id": "63a513832f56addb67be81a2fa399b233f3030fc"
+    },
+    "1807-10165": {
+        "paper_title": "UNet++: A Nested U-Net Architecture for Medical Image Segmentation",
+        "authors": [
+            "Zongwei Zhou",
+            "M. R. Siddiquee",
+            "Nima Tajbakhsh",
+            "Jianming Liang"
+        ],
+        "submission_date": "2018-07-18",
+        "semantic_scholar_id": "a6876ea89e677a7cc42dd43f27165ff6fd414de5"
+    },
+    "1711-07553": {
+        "paper_title": "Residual Gated Graph ConvNets",
+        "authors": [
+            "X. Bresson",
+            "T. Laurent"
+        ],
+        "submission_date": "2017-11-20",
+        "semantic_scholar_id": "a5fe578a6b9f51ce19263676e6395421fedc6d2d"
+    },
+    "1702-05747": {
+        "paper_title": "A survey on deep learning in medical image analysis",
+        "authors": [
+            "G. Litjens",
+            "Thijs Kooi",
+            "B. Bejnordi",
+            "A. Setio",
+            "F. Ciompi",
+            "Mohsen Ghafoorian",
+            "J. Laak",
+            "B. Ginneken",
+            "C. I. Sánchez"
+        ],
+        "submission_date": "2017-02-19",
+        "semantic_scholar_id": "6ff909c6fe089fc8ebfc64eca0f0c3cc34ba277f"
+    },
+    "1901-00596": {
+        "paper_title": "A Comprehensive Survey on Graph Neural Networks",
+        "authors": [
+            "Zonghan Wu",
+            "Shirui Pan",
+            "Fengwen Chen",
+            "Guodong Long",
+            "Chengqi Zhang",
+            "Philip S. Yu"
+        ],
+        "submission_date": "2019-01-03",
+        "semantic_scholar_id": "81a4fd3004df0eb05d6c1cef96ad33d5407820df"
+    }
+}

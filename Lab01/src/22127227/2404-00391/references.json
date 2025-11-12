@@ -1,0 +1,143 @@
+{
+    "2307-16174": {
+        "paper_title": "Analytical and numerical insights into wildfire dynamics: Exploring the advection-diffusion-reaction model",
+        "authors": [
+            "C. Reisch",
+            "A. Navas-Montilla",
+            "Ilhan Özgen‐Xian"
+        ],
+        "submission_date": "2023-07-30",
+        "semantic_scholar_id": "bbdb2c71c041dad5a5fa62c2e49c612b1a919691"
+    },
+    "2304-00175": {
+        "paper_title": "Well-posedness and qualitative properties of quasilinear degenerate evolution systems",
+        "authors": [
+            "K. Mitra",
+            "S. Sonner"
+        ],
+        "submission_date": "2023-03-31",
+        "semantic_scholar_id": "b24d12c73db682e5c8758a9247eb35ccd3171a2f"
+    },
+    "2301-02055": {
+        "paper_title": "An adaptive solution strategy for Richards' equation",
+        "authors": [
+            "Jakob S. Stokke",
+            "K. Mitra",
+            "Erlend Storvik",
+            "J. Both",
+            "F. Radu"
+        ],
+        "submission_date": "2023-01-05",
+        "semantic_scholar_id": "c630becdb920d099160a0070b9c1079e82cb8b19"
+    },
+    "2206-12307": {
+        "paper_title": "Interior H\\\"older continuity for singular-degenerate porous medium type equations with an application to a biofilm model",
+        "authors": [
+            "V. Muller"
+        ],
+        "submission_date": "2022-06-24",
+        "semantic_scholar_id": "2a7e76653f46f38b19ba30adb2870c0d960a4511"
+    },
+    "2111-13148": {
+        "paper_title": "Well-posedness of singular-degenerate porous medium type equations and application to biofilm models",
+        "authors": [
+            "Victor Hissink Muller",
+            "S. Sonner"
+        ],
+        "submission_date": "2021-11-25",
+        "semantic_scholar_id": "a447a171d3ef5014b1c5c634b12780c38414b7d3"
+    },
+    "2110-14933": {
+        "paper_title": "Analysis of a finite-volume scheme for a single-species biofilm model",
+        "authors": [
+            "Christoph Helmer",
+            "A. Jüngel",
+            "A. Zurek"
+        ],
+        "submission_date": "2021-10-28",
+        "semantic_scholar_id": "4480eeada1021d265fefacf8039fab91d1e27df6"
+    },
+    "2102-11901": {
+        "paper_title": "Construction of Arbitrary Order Finite Element Degree-of-Freedom Maps on Polygonal and Polyhedral Cell Meshes",
+        "authors": [
+            "Matthew W. Scroggs",
+            "Jørgen S. Dokken",
+            "C. Richardson",
+            "G. N. Wells"
+        ],
+        "submission_date": "2021-02-23",
+        "semantic_scholar_id": "28e5fa824d76fcd031e795e88e9dea4a672c9979"
+    },
+    "2009-03209": {
+        "paper_title": "Existence and properties of solutions of the extended play-type hysteresis model",
+        "authors": [
+            "K. Mitra"
+        ],
+        "submission_date": "2020-09-07",
+        "semantic_scholar_id": "0ff84b2f8859c2498a843b35ed3b0384a6869fdd"
+    },
+    "1811-06242": {
+        "paper_title": "On the optimization of the fixed‐stress splitting for Biot's equations",
+        "authors": [
+            "Erlend Storvik",
+            "J. Both",
+            "Kundan Kumar",
+            "J. Nordbotten",
+            "F. Radu"
+        ],
+        "submission_date": "2018-11-15",
+        "semantic_scholar_id": "cc9fd454caca3faf0c3757ff311b23192e3222dd"
+    },
+    "1805-02106": {
+        "paper_title": "Analysis of a Degenerate and Singular Volume-Filling Cross-Diffusion System Modeling Biofilm Growth",
+        "authors": [
+            "Esther S. Daus",
+            "Josipa-Pina Milǐsić",
+            "Nicola Zamponi"
+        ],
+        "submission_date": "2018-05-05",
+        "semantic_scholar_id": "9a14f91705c865368853a709f8099e9a99f7f966"
+    },
+    "1708-03224": {
+        "paper_title": "A linear domain decomposition method for partially saturated flow in porous media",
+        "authors": [
+            "David Seus",
+            "K. Mitra",
+            "I. Pop",
+            "F. Radu",
+            "C. Rohde"
+        ],
+        "submission_date": "2017-08-10",
+        "semantic_scholar_id": "58b21f00faa8319d189c1a467fd8013bd4c3017f"
+    },
+    "1607-01508": {
+        "paper_title": "Improving Newton's Method Performance by Parametrization: The Case of the Richards Equation",
+        "authors": [
+            "K. Brenner",
+            "C. Cancès"
+        ],
+        "submission_date": "2016-07-06",
+        "semantic_scholar_id": "32eaf30fac459e7c9f7faea1a4907f4cc085c29c"
+    },
+    "1507-07837": {
+        "paper_title": "A study on iterative methods for solving Richards’ equation",
+        "authors": [
+            "F. List",
+            "F. Radu"
+        ],
+        "submission_date": "2015-07-28",
+        "semantic_scholar_id": "e600921ea60367b624da077a0cf04da698d9443d"
+    },
+    "1211-4047": {
+        "paper_title": "Unified form language: A domain-specific language for weak formulations of partial differential equations",
+        "authors": [
+            "M. Alnæs",
+            "A. Logg",
+            "Kristian B. Ølgaard",
+            "M. Rognes",
+            "G. N. Wells"
+        ],
+        "submission_date": "2012-11-16",
+        "semantic_scholar_id": "8e7ab565d5ef36cdaf686b1866cc8db39510473f"
+    }
+}

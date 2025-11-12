@@ -1,0 +1,16 @@
+{
+    "paper_title": "Language Models are Spacecraft Operators",
+    "authors": [
+        "Victor Rodriguez-Fernandez",
+        "Alejandro Carrasco",
+        "Jason Cheng",
+        "Eli Scharf",
+        "Peng Mun Siew",
+        "Richard Linares"
+    ],
+    "publication_venue": "Source code available on Github at: https://github.com/ARCLab-MIT/kspdg",
+    "submission_date": "2024-03-30",
+    "revised_dates": [
+        "2024-03-30"
+    ]
+}

@@ -1,0 +1,78 @@
+{
+    "2405-00671": {
+        "paper_title": "The scalar product formula for parahoric Deligne--Lusztig induction",
+        "authors": [
+            "Charlotte Chan"
+        ],
+        "submission_date": "2024-05-01",
+        "semantic_scholar_id": "f0a90e482e797e8cfcdb279257852809c40f6299"
+    },
+    "2311-05354": {
+        "paper_title": "The algebraisation of higher level Deligne--Lusztig representations II: odd levels",
+        "authors": [
+            "Zhe Chen",
+            "A. Stasinski"
+        ],
+        "submission_date": "2023-11-09",
+        "semantic_scholar_id": "ce71f30c8aa5ecde10a5c64657006176f005a742"
+    },
+    "2010-15489": {
+        "paper_title": "Orthogonality relations for deep level Deligne–Lusztig schemes of Coxeter type",
+        "authors": [
+            "Olivier Dudas",
+            "A. Ivanov"
+        ],
+        "submission_date": "2020-10-29",
+        "semantic_scholar_id": "1d837126d8bbd1158d7c8f1ae55fd6666dc5857f"
+    },
+    "1904-00769": {
+        "paper_title": "Flags and orbits of connected reductive groups over local rings",
+        "authors": [
+            "Zhe Chen"
+        ],
+        "submission_date": "2019-04-01",
+        "semantic_scholar_id": "aa61b88f3ceca5f84ad5e2b6d545e13d17e78ece"
+    },
+    "1903-06153": {
+        "paper_title": "Cohomological representations of parahoric subgroups",
+        "authors": [
+            "C. Chan",
+            "A. Ivanov"
+        ],
+        "submission_date": "2019-03-14",
+        "semantic_scholar_id": "24380f54d6f51a5680cbb01f6fe520df25c865d9"
+    },
+    "1807-02912": {
+        "paper_title": "Green Functions and Higher Deligne-Lusztig Characters",
+        "authors": [
+            "Zhe Chen"
+        ],
+        "submission_date": "2018-07-09",
+        "semantic_scholar_id": "515c2a9a5e950bf111a8004254b56ae007e95ad5"
+    },
+    "1604-01615": {
+        "paper_title": "The algebraisation of higher Deligne–Lusztig representations",
+        "authors": [
+            "Zhe Chen",
+            "A. Stasinski"
+        ],
+        "submission_date": "2016-04-06",
+        "semantic_scholar_id": "5a74db67cc78041e5e2d43f97d11baa3135429e5"
+    },
+    "0911-4593": {
+        "paper_title": "Extended Deligne–Lusztig varieties for general and special linear groups.",
+        "authors": [
+            "A. Stasinski"
+        ],
+        "submission_date": "2009-11-24",
+        "semantic_scholar_id": "23ecaeb80e19c697765940a040712bdd8a7a6c1c"
+    },
+    "math/0208037": {
+        "paper_title": "Representations of reductive groups over finite rings",
+        "authors": [
+            "G. Lusztig"
+        ],
+        "submission_date": "2002-08-05",
+        "semantic_scholar_id": "cfcc025b3d081422672c6097681d469979f852da"
+    }
+}

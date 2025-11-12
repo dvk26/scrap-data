@@ -1,0 +1,459 @@
+{
+    "2311-09346": {
+        "paper_title": "Nothing Stands Still: A Spatiotemporal Benchmark on 3D Point Cloud Registration Under Large Geometric and Temporal Change",
+        "authors": [
+            "Tao Sun",
+            "Yan Hao",
+            "Shengyu Huang",
+            "Silvio Savarese",
+            "Konrad Schindler",
+            "M. Pollefeys",
+            "Iro Armeni"
+        ],
+        "submission_date": "2023-11-15",
+        "semantic_scholar_id": "07713ff0e108a0f6c9b169032028e0a703c56fa9"
+    },
+    "2309-16023": {
+        "paper_title": "Q-REG: End-to-End Trainable Point Cloud Registration with Surface Curvature",
+        "authors": [
+            "Shengze Jin",
+            "D. Baráth",
+            "M. Pollefeys",
+            "Iro Armeni"
+        ],
+        "submission_date": "2023-09-27",
+        "semantic_scholar_id": "16f53e4ae0fa6405f2177fe054312ee6a3515dbc"
+    },
+    "2306-15667": {
+        "paper_title": "PoseDiffusion: Solving Pose Estimation via Diffusion-aided Bundle Adjustment",
+        "authors": [
+            "Jianyuan Wang",
+            "C. Rupprecht",
+            "David Novotný"
+        ],
+        "submission_date": "2023-06-27",
+        "semantic_scholar_id": "067b4b4931873e6f2c5f7035de61ee9d93067f61"
+    },
+    "2306-13631": {
+        "paper_title": "OpenMask3D: Open-Vocabulary 3D Instance Segmentation",
+        "authors": [
+            "Ayca Takmaz",
+            "Elisabetta Fedele",
+            "R. Sumner",
+            "M. Pollefeys",
+            "F. Tombari",
+            "Francis Engelmann"
+        ],
+        "submission_date": "2023-06-23",
+        "semantic_scholar_id": "1a262a8eaf86f850b1b268dd40ce089ed88f339d"
+    },
+    "2305-05268": {
+        "paper_title": "Rotation Synchronization via Deep Matrix Factorization",
+        "authors": [
+            "Gk Tejus",
+            "Giacomo Zara",
+            "Paolo Rota",
+            "Andrea Fusiello",
+            "Elisa Ricci",
+            "F. Arrigoni"
+        ],
+        "submission_date": "2023-05-09",
+        "semantic_scholar_id": "6db6995e8261b6bda1be4671c7a07f6c4a55f7ec"
+    },
+    "2304-00467": {
+        "paper_title": "Robust Multiview Point Cloud Registration with Reliable Pose Graph Initialization and History Reweighting",
+        "authors": [
+            "Haiping Wang",
+            "Yuan Liu",
+            "Zhen Dong",
+            "Yulan Guo",
+            "Yu-Shen Liu",
+            "Wenping Wang",
+            "Bisheng Yang"
+        ],
+        "submission_date": "2023-04-02",
+        "semantic_scholar_id": "5d294c57704ff864b279a8566c29d90456827f0a"
+    },
+    "2308-03768": {
+        "paper_title": "GeoTransformer: Fast and Robust Point Cloud Registration With Geometric Transformer",
+        "authors": [
+            "Zheng Qin",
+            "Hao Yu",
+            "Changjian Wang",
+            "Yulan Guo",
+            "Yuxing Peng",
+            "Slobodan Ilic",
+            "Dewen Hu",
+            "Kai Xu"
+        ],
+        "submission_date": "2023-07-25",
+        "semantic_scholar_id": "33048d0d83920bb0592a387957aedbbc09693531"
+    },
+    "2302-07241": {
+        "paper_title": "ConceptFusion: Open-set Multimodal 3D Mapping",
+        "authors": [
+            "Krishna Murthy Jatavallabhula",
+            "Ali Kuwajerwala",
+            "Qiao Gu",
+            "Mohd. Omama",
+            "Tao Chen",
+            "Shuang Li",
+            "Ganesh Iyer",
+            "Soroush Saryazdi",
+            "Nikhil Varma Keetha",
+            "A. Tewari",
+            "J. Tenenbaum",
+            "Celso M. de Melo",
+            "M. Krishna",
+            "L. Paull",
+            "F. Shkurti",
+            "A. Torralba"
+        ],
+        "submission_date": "2023-02-14",
+        "semantic_scholar_id": "5e2bceb56f116e98baf7e418208057bc0e1c1861"
+    },
+    "2212-06331": {
+        "paper_title": "DeepMapping2: Self-Supervised Large-Scale LiDAR Map Optimization",
+        "authors": [
+            "Chao Chen",
+            "Xinhao Liu",
+            "Yiming Li",
+            "Li Ding",
+            "Chen Feng"
+        ],
+        "submission_date": "2022-12-13",
+        "semantic_scholar_id": "59ce27c8cb3e073da2e42fa59d9b2d2f677290e0"
+    },
+    "2210-10770": {
+        "paper_title": "LaMAR: Benchmarking Localization and Mapping for Augmented Reality",
+        "authors": [
+            "Paul-Edouard Sarlin",
+            "Mihai Dusmanu",
+            "Johannes L. Schönberger",
+            "Pablo Speciale",
+            "Lukas Gruber",
+            "Viktor Larsson",
+            "O. Mikšík",
+            "M. Pollefeys"
+        ],
+        "submission_date": "2022-10-19",
+        "semantic_scholar_id": "b99d20d10ea79427f972289beb8b5e43964cc8f6"
+    },
+    "2203-14517": {
+        "paper_title": "REGTR: End-to-end Point Cloud Correspondences with Transformers",
+        "authors": [
+            "Zi Jian Yew",
+            "Gim Hee Lee"
+        ],
+        "submission_date": "2022-03-28",
+        "semantic_scholar_id": "87a4a4e9af65786436cfb1dd6bce4a4481736ce2"
+    },
+    "2202-06688": {
+        "paper_title": "Geometric Transformer for Fast and Robust Point Cloud Registration",
+        "authors": [
+            "Zheng Qin",
+            "Hao Yu",
+            "Changjian Wang",
+            "Yulan Guo",
+            "Yuxing Peng",
+            "Kaiping Xu"
+        ],
+        "submission_date": "2022-02-14",
+        "semantic_scholar_id": "e2b3bd0f47a5faccc682dc07f0e94ba4a3438a23"
+    },
+    "2111-15640": {
+        "paper_title": "Diffusion Autoencoders: Toward a Meaningful and Decodable Representation",
+        "authors": [
+            "Konpat Preechakul",
+            "Nattanat Chatthee",
+            "Suttisak Wizadwongsa",
+            "Supasorn Suwajanakorn"
+        ],
+        "submission_date": "2021-11-30",
+        "semantic_scholar_id": "b582edb16f5425642767cb6c26839111f867f4dc"
+    },
+    "2111-00728": {
+        "paper_title": "Learning Iterative Robust Transformation Synchronization",
+        "authors": [
+            "Zi Jian Yew",
+            "G. Lee"
+        ],
+        "submission_date": "2021-11-01",
+        "semantic_scholar_id": "ef26cd33552cf6953bdf5095fe74b71a897b1418"
+    },
+    "2105-05233": {
+        "paper_title": "Diffusion Models Beat GANs on Image Synthesis",
+        "authors": [
+            "Prafulla Dhariwal",
+            "Alex Nichol"
+        ],
+        "submission_date": "2021-05-11",
+        "semantic_scholar_id": "64ea8f180d0682e6c18d1eb688afdb2027c02794"
+    },
+    "2012-14447": {
+        "paper_title": "LOCUS: A Multi-Sensor Lidar-Centric Solution for High-Precision Odometry and 3D Mapping in Real-Time",
+        "authors": [
+            "M. Palieri",
+            "B. Morrell",
+            "A. Thakur",
+            "K. Ebadi",
+            "J. Nash",
+            "Arghya Chatterjee",
+            "C. Kanellakis",
+            "L. Carlone",
+            "C. Guaragnella",
+            "Ali-akbar Agha-mohammadi"
+        ],
+        "submission_date": "2020-12-28",
+        "semantic_scholar_id": "8fcb74ec521e78ac1455f2684380055094b6feb3"
+    },
+    "2011-13005": {
+        "paper_title": "PREDATOR: Registration of 3D Point Clouds with Low Overlap",
+        "authors": [
+            "Shengyu Huang",
+            "Zan Gojcic",
+            "Mikhail (Misha) Usvyatsov",
+            "A. Wieser",
+            "K. Schindler"
+        ],
+        "submission_date": "2020-11-25",
+        "semantic_scholar_id": "06d0515d11386bb1572187f81af5abda655c941e"
+    },
+    "2003-03164": {
+        "paper_title": "D3Feat: Joint Learning of Dense Detection and Description of 3D Local Features",
+        "authors": [
+            "Xuyang Bai",
+            "Zixin Luo",
+            "Lei Zhou",
+            "Hongbo Fu",
+            "Long Quan",
+            "Chiew-Lan Tai"
+        ],
+        "submission_date": "2020-03-06",
+        "semantic_scholar_id": "231afc2fe804739c118a8d6dfaf16d27527493d8"
+    },
+    "2001-05119": {
+        "paper_title": "Learning Multiview 3D Point Cloud Registration",
+        "authors": [
+            "Zan Gojcic",
+            "Caifa Zhou",
+            "J. D. Wegner",
+            "L. Guibas",
+            "Tolga Birdal"
+        ],
+        "submission_date": "2020-01-15",
+        "semantic_scholar_id": "b25f61a2cd27dd78e0943f3632580fa4b407ee1f"
+    },
+    "1912-04485": {
+        "paper_title": "NeuRoRA: Neural Robust Rotation Averaging",
+        "authors": [
+            "Pulak Purkait",
+            "Tat-Jun Chin",
+            "I. Reid"
+        ],
+        "submission_date": "2019-12-10",
+        "semantic_scholar_id": "5d3111d030f209346d268759cf08763484fee7fb"
+    },
+    "1905-04153": {
+        "paper_title": "DeepVCP: An End-to-End Deep Neural Network for Point Cloud Registration",
+        "authors": [
+            "Weixin Lu",
+            "Guowei Wan",
+            "Yao Zhou",
+            "Xiangyu Fu",
+            "P. Yuan",
+            "Shiyu Song"
+        ],
+        "submission_date": "2019-05-10",
+        "semantic_scholar_id": "514d99b241c76779ca5c78eaf8eaf74ec3672684"
+    },
+    "1905-03304": {
+        "paper_title": "Deep Closest Point: Learning Representations for Point Cloud Registration",
+        "authors": [
+            "Yue Wang",
+            "J. Solomon"
+        ],
+        "submission_date": "2019-05-08",
+        "semantic_scholar_id": "d4c1cfc0cce2140fb8cf5c175c0a34b467298ee9"
+    },
+    "1904-08889": {
+        "paper_title": "KPConv: Flexible and Deformable Convolution for Point Clouds",
+        "authors": [
+            "Hugues Thomas",
+            "C. Qi",
+            "Jean-Emmanuel Deschaud",
+            "B. Marcotegui",
+            "F. Goulette",
+            "L. Guibas"
+        ],
+        "submission_date": "2019-04-18",
+        "semantic_scholar_id": "9218b3e7e447048a070e565b9add26e41d861964"
+    },
+    "1904-05814": {
+        "paper_title": "Probabilistic Permutation Synchronization Using the Riemannian Structure of the Birkhoff Polytope",
+        "authors": [
+            "Tolga Birdal",
+            "Umut Simsekli"
+        ],
+        "submission_date": "2019-04-11",
+        "semantic_scholar_id": "0204d7bdfeb131788f6da6202296124aea2f0c65"
+    },
+    "1904-05519": {
+        "paper_title": "Efficient and Robust Registration on the 3D Special Euclidean Group",
+        "authors": [
+            "Uttaran Bhattacharya",
+            "V. Govindu"
+        ],
+        "submission_date": "2019-04-11",
+        "semantic_scholar_id": "16f83543af141d793c310612280d621aaba3aa0b"
+    },
+    "1901-09458": {
+        "paper_title": "Learning Transformation Synchronization",
+        "authors": [
+            "Xiangru Huang",
+            "Zhenxiao Liang",
+            "Xiaowei Zhou",
+            "Yao Xie",
+            "L. Guibas",
+            "Qi-Xing Huang"
+        ],
+        "submission_date": "2019-01-27",
+        "semantic_scholar_id": "7cafe4b5321d432e03085dbbb466badcedb56a1c"
+    },
+    "1811-06879": {
+        "paper_title": "The Perfect Match: 3D Point Cloud Matching With Smoothed Densities",
+        "authors": [
+            "Zan Gojcic",
+            "Caifa Zhou",
+            "J. D. Wegner",
+            "A. Wieser"
+        ],
+        "submission_date": "2018-11-16",
+        "semantic_scholar_id": "7d2da48f8004f94ec80cea005c3713f514394f60"
+    },
+    "1808-10322": {
+        "paper_title": "PPF-FoldNet: Unsupervised Learning of Rotation Invariant 3D Local Descriptors",
+        "authors": [
+            "Haowen Deng",
+            "Tolga Birdal",
+            "Slobodan Ilic"
+        ],
+        "submission_date": "2018-08-30",
+        "semantic_scholar_id": "9ccef6c69e5c16ac2ce9da4f1411415e402dd59c"
+    },
+    "1807-09413": {
+        "paper_title": "3DFeat-Net: Weakly Supervised Local 3D Features for Point Cloud Registration",
+        "authors": [
+            "Zi Jian Yew",
+            "Gim Hee Lee"
+        ],
+        "submission_date": "2018-07-25",
+        "semantic_scholar_id": "8c1a17cd1827b00f40517b3c2e73e6b925e53faa"
+    },
+    "1805-12279": {
+        "paper_title": "Bayesian Pose Graph Optimization via Bingham Distributions and Tempered Geodesic MCMC",
+        "authors": [
+            "Tolga Birdal",
+            "Umut Simsekli",
+            "M. Eken",
+            "Slobodan Ilic"
+        ],
+        "submission_date": "2018-05-31",
+        "semantic_scholar_id": "d8f4af9486af1a565d8bc44c2620f7ec8143b421"
+    },
+    "1802-02669": {
+        "paper_title": "PPFNet: Global Context Aware Local Features for Robust 3D Point Matching",
+        "authors": [
+            "Haowen Deng",
+            "Tolga Birdal",
+            "Slobodan Ilic"
+        ],
+        "submission_date": "2018-02-07",
+        "semantic_scholar_id": "04258f92294d5dea89adb3e8607ae22eadb5332d"
+    },
+    "1711-10209": {
+        "paper_title": "Guaranteed Outlier Removal for Point Cloud Registration with Correspondences",
+        "authors": [
+            "Álvaro Parra",
+            "Tat-Jun Chin"
+        ],
+        "submission_date": "2017-11-28",
+        "semantic_scholar_id": "2b757e10cf768d2599f30b6b90a71e59ee2ef91d"
+    },
+    "1709-05056": {
+        "paper_title": "Learning Compact Geometric Features",
+        "authors": [
+            "Marc Khoury",
+            "Qian-Yi Zhou",
+            "V. Koltun"
+        ],
+        "submission_date": "2017-09-15",
+        "semantic_scholar_id": "9081956c8f81b086c9f6e2f55dfc5fce4470eda8"
+    },
+    "1706-00984": {
+        "paper_title": "Graph-Cut RANSAC",
+        "authors": [
+            "D. Baráth",
+            "Jiri Matas"
+        ],
+        "submission_date": "2017-06-03",
+        "semantic_scholar_id": "6c0f45f3f05265f72ccce3448530a84fbc7816a7"
+    },
+    "1705-03111": {
+        "paper_title": "CAD Priors for Accurate and Flexible Instance Reconstruction",
+        "authors": [
+            "Tolga Birdal",
+            "Slobodan Ilic"
+        ],
+        "submission_date": "2017-05-08",
+        "semantic_scholar_id": "80a8c2002f34d303d016a80cc57c6ee15d34d8e9"
+    },
+    "1711-04061": {
+        "paper_title": "Going Further with Point Pair Features",
+        "authors": [
+            "Stefan Hinterstoißer",
+            "V. Lepetit",
+            "N. Rajkumar",
+            "K. Konolige"
+        ],
+        "submission_date": "2017-11-11",
+        "semantic_scholar_id": "dcbd3ff1878722eea0cfe848a448c939cb5b8d14"
+    },
+    "1605-03344": {
+        "paper_title": "Go-ICP: A Globally Optimal Solution to 3D ICP Point-Set Registration",
+        "authors": [
+            "Jiaolong Yang",
+            "Hongdong Li",
+            "Dylan Campbell",
+            "Yunde Jia"
+        ],
+        "submission_date": "2016-05-11",
+        "semantic_scholar_id": "9956619795b48410283be50fae12c15fa3695161"
+    },
+    "1603-08182": {
+        "paper_title": "3DMatch: Learning Local Geometric Descriptors from RGB-D Reconstructions",
+        "authors": [
+            "Andy Zeng",
+            "Shuran Song",
+            "M. Nießner",
+            "Matthew Fisher",
+            "Jianxiong Xiao",
+            "T. Funkhouser"
+        ],
+        "submission_date": "2016-03-27",
+        "semantic_scholar_id": "5b589d7564dbef07ec98b3248f58a481b4ca1395"
+    },
+    "1410-8546": {
+        "paper_title": "A solution for multi-alignment by transformation synchronisation",
+        "authors": [
+            "Florian Bernard",
+            "J. Thunberg",
+            "P. Gemmar",
+            "F. Hertel",
+            "A. Husch",
+            "Jorge M. Gonçalves"
+        ],
+        "submission_date": "2014-10-30",
+        "semantic_scholar_id": "3d0d3d3a101b46046dcfa7a350e97a0a16650eef"
+    }
+}

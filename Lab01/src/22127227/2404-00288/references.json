@@ -1,0 +1,690 @@
+{
+    "2401-13627": {
+        "paper_title": "Scaling Up to Excellence: Practicing Model Scaling for Photo-Realistic Image Restoration In the Wild",
+        "authors": [
+            "Fanghua Yu",
+            "Jinjin Gu",
+            "Zheyuan Li",
+            "Jinfan Hu",
+            "Xiangtao Kong",
+            "Xintao Wang",
+            "Jingwen He",
+            "Yu Qiao",
+            "Chao Dong"
+        ],
+        "submission_date": "2024-01-24",
+        "semantic_scholar_id": "3a63ae4086248e4ba4bd106839a26a08256909c4"
+    },
+    "2312-05038": {
+        "paper_title": "Prompt-In-Prompt Learning for Universal Image Restoration",
+        "authors": [
+            "Zilong Li",
+            "Yiming Lei",
+            "Chenglong Ma",
+            "Junping Zhang",
+            "Hongming Shan"
+        ],
+        "submission_date": "2023-12-08",
+        "semantic_scholar_id": "38496bf5e8fd6f16ddf36578586b08a8225a4aa2"
+    },
+    "2311-16518": {
+        "paper_title": "SeeSR: Towards Semantics-Aware Real-World Image Super-Resolution",
+        "authors": [
+            "Rongyuan Wu",
+            "Tao Yang",
+            "Lingchen Sun",
+            "Zhengqiang Zhang",
+            "Shuai Li",
+            "Lei Zhang"
+        ],
+        "submission_date": "2023-11-27",
+        "semantic_scholar_id": "df2bbeb3a2dba8e6b3e9703637c2a0d09e29654b"
+    },
+    "2308-03867": {
+        "paper_title": "From Sky to the Ground: A Large-scale Benchmark and Simple Baseline Towards Real Rain Removal",
+        "authors": [
+            "Yun Guo",
+            "Xu Xiao",
+            "Yi Chang",
+            "Shumin Deng",
+            "Luxin Yan"
+        ],
+        "submission_date": "2023-08-07",
+        "semantic_scholar_id": "4785f6e385b769aee4a60309c0e3d84534e13d8b"
+    },
+    "2306-13653": {
+        "paper_title": "ProRes: Exploring Degradation-aware Visual Prompt for Universal Image Restoration",
+        "authors": [
+            "Jiaqi Ma",
+            "Tianheng Cheng",
+            "Guoli Wang",
+            "Qian Zhang",
+            "Xinggang Wang",
+            "L. Zhang"
+        ],
+        "submission_date": "2023-06-23",
+        "semantic_scholar_id": "fe94fa22e2ffc22d61cff41a96cc2f012ebde3c1"
+    },
+    "2306-13090": {
+        "paper_title": "PromptIR: Prompting for All-in-One Blind Image Restoration",
+        "authors": [
+            "Vaishnav Potlapalli",
+            "Syed Waqas Zamir",
+            "Salman Siddique Khan",
+            "F. Khan"
+        ],
+        "submission_date": "2023-06-22",
+        "semantic_scholar_id": "c17f50017272c908cebdf2181675b7c6406b7218"
+    },
+    "2303-11950": {
+        "paper_title": "Learning A Sparse Transformer Network for Effective Image Deraining",
+        "authors": [
+            "Xiang Chen",
+            "Hao‐Ran Li",
+            "Mingqiang Li",
+            "Jin-shan Pan"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "f647aa3a9e035dc218aa198769660fa696cdf969"
+    },
+    "2303-07033": {
+        "paper_title": "SelfPromer: Self-Prompt Dehazing Transformers with Depth-Consistency",
+        "authors": [
+            "Cong Wang",
+            "Jin-shan Pan",
+            "Wanyu Lin",
+            "Jiangxin Dong",
+            "Xiaomei Wu"
+        ],
+        "submission_date": "2023-03-13",
+        "semantic_scholar_id": "026553eae8d0abc2b9c6c089e24137fb077de65d"
+    },
+    "2212-04145": {
+        "paper_title": "Decorate the Newcomers: Visual Domain Prompt for Continual Test Time Adaptation",
+        "authors": [
+            "Yulu Gan",
+            "Xianzheng Ma",
+            "Yihang Lou",
+            "Yan Bai",
+            "Renrui Zhang",
+            "Nian Shi",
+            "Lin Luo"
+        ],
+        "submission_date": "2022-12-08",
+        "semantic_scholar_id": "165503c48e553a5559190ce74cda823f4e166b54"
+    },
+    "2211-13654": {
+        "paper_title": "Cross Aggregation Transformer for Image Restoration",
+        "authors": [
+            "Zheng Chen",
+            "Yulun Zhang",
+            "Jinjin Gu",
+            "Yongbing Zhang",
+            "L. Kong",
+            "Xin Yuan"
+        ],
+        "submission_date": "2022-11-24",
+        "semantic_scholar_id": "1c49e58a935c80c8ec8307e937fc61c8f1f80433"
+    },
+    "2210-03117": {
+        "paper_title": "MaPLe: Multi-modal Prompt Learning",
+        "authors": [
+            "Muhammad Uzair Khattak",
+            "H. Rasheed",
+            "Muhammad Maaz",
+            "Salman H. Khan",
+            "F. Khan"
+        ],
+        "submission_date": "2022-10-06",
+        "semantic_scholar_id": "0d0dbfb1b315a43216020abaf74d289456198219"
+    },
+    "2207-14626": {
+        "paper_title": "Restoring Vision in Adverse Weather Conditions With Patch-Based Denoising Diffusion Models",
+        "authors": [
+            "Ozan Özdenizci",
+            "R. Legenstein"
+        ],
+        "submission_date": "2022-07-29",
+        "semantic_scholar_id": "69beb616ffdc42afe86b7487c5db82b6d88638b8"
+    },
+    "2203-12119": {
+        "paper_title": "Visual Prompt Tuning",
+        "authors": [
+            "Menglin Jia",
+            "Luming Tang",
+            "Bor-Chun Chen",
+            "Claire Cardie",
+            "Serge J. Belongie",
+            "Bharath Hariharan",
+            "S. Lim"
+        ],
+        "submission_date": "2022-03-23",
+        "semantic_scholar_id": "adb272fbdea3631059cf88ab764bb6c2ce29f965"
+    },
+    "2203-06074": {
+        "paper_title": "TAPE: Task-Agnostic Prior Embedding for Image Restoration",
+        "authors": [
+            "Lin Liu",
+            "Lingxi Xie",
+            "Xiaopeng Zhang",
+            "Shanxin Yuan",
+            "Xiangyu Chen",
+            "Wen-gang Zhou",
+            "Houqiang Li",
+            "Qi Tian"
+        ],
+        "submission_date": "2022-03-11",
+        "semantic_scholar_id": "03244185e343d6cc2397269c510f33433a7df502"
+    },
+    "2202-06709": {
+        "paper_title": "How Do Vision Transformers Work?",
+        "authors": [
+            "Namuk Park",
+            "Songkuk Kim"
+        ],
+        "submission_date": "2022-02-14",
+        "semantic_scholar_id": "430bab3890e1e52c4c1f74900b0e408e47a1cb8f"
+    },
+    "2111-14813": {
+        "paper_title": "TransWeather: Transformer-based Restoration of Images Degraded by Adverse Weather Conditions",
+        "authors": [
+            "Jeya Maria Jose Valanarasu",
+            "R. Yasarla",
+            "Vishal M. Patel"
+        ],
+        "submission_date": "2021-11-29",
+        "semantic_scholar_id": "b27d3be4264dcd06f990b44968f4382526f24f1e"
+    },
+    "2111-09881": {
+        "paper_title": "Restormer: Efficient Transformer for High-Resolution Image Restoration",
+        "authors": [
+            "Syed Waqas Zamir",
+            "Aditya Arora",
+            "Salman Hameed Khan",
+            "Munawar Hayat",
+            "F. Khan",
+            "Ming-Hsuan Yang"
+        ],
+        "submission_date": "2021-11-18",
+        "semantic_scholar_id": "1e88d5afe19aea324d33541f60a90b7036894c32"
+    },
+    "2108-10257": {
+        "paper_title": "SwinIR: Image Restoration Using Swin Transformer",
+        "authors": [
+            "Jingyun Liang",
+            "Jie Cao",
+            "Guolei Sun",
+            "K. Zhang",
+            "L. Gool",
+            "R. Timofte"
+        ],
+        "submission_date": "2021-08-23",
+        "semantic_scholar_id": "7a9a708ca61c14886aa0dcd6d13dac7879713f5f"
+    },
+    "2108-08617": {
+        "paper_title": "Spatially-Adaptive Image Restoration using Distortion-Guided Networks",
+        "authors": [
+            "Kuldeep Purohit",
+            "Maitreya Suin",
+            "A. Rajagopalan",
+            "Vishnu Naresh Boddeti"
+        ],
+        "submission_date": "2021-08-19",
+        "semantic_scholar_id": "992e98e919ccbc960ea5cfa836cf718aeae895b6"
+    },
+    "2108-05054": {
+        "paper_title": "Rethinking Coarse-to-Fine Approach in Single Image Deblurring",
+        "authors": [
+            "Sung-Jin Cho",
+            "Seoyoun Ji",
+            "Jun-Pyo Hong",
+            "Seung‐Won Jung",
+            "Sung-Jea Ko"
+        ],
+        "submission_date": "2021-08-11",
+        "semantic_scholar_id": "ce5bf4084f63db37780dd7ccc769b352f9a3c6f7"
+    },
+    "2106-14881": {
+        "paper_title": "Early Convolutions Help Transformers See Better",
+        "authors": [
+            "Tete Xiao",
+            "Mannat Singh",
+            "Eric Mintun",
+            "Trevor Darrell",
+            "Piotr Dollár",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2021-06-28",
+        "semantic_scholar_id": "7b664a306b7d2f68dd816ea1d6586cf3472d75c1"
+    },
+    "2106-03106": {
+        "paper_title": "Uformer: A General U-Shaped Transformer for Image Restoration",
+        "authors": [
+            "Zhendong Wang",
+            "Xiaodong Cun",
+            "Jianmin Bao",
+            "Jianzhuang Liu"
+        ],
+        "submission_date": "2021-06-06",
+        "semantic_scholar_id": "2835951fabf12804e17d5a525b2be2bee70e7910"
+    },
+    "2103-10697": {
+        "paper_title": "ConViT: improving vision transformers with soft convolutional inductive biases",
+        "authors": [
+            "Stéphane d'Ascoli",
+            "Hugo Touvron",
+            "Matthew L. Leavitt",
+            "Ari S. Morcos",
+            "G. Biroli",
+            "Levent Sagun"
+        ],
+        "submission_date": "2021-03-19",
+        "semantic_scholar_id": "610b302950a19acef1c45456111dcd495f638c18"
+    },
+    "2102-12122": {
+        "paper_title": "Pyramid Vision Transformer: A Versatile Backbone for Dense Prediction without Convolutions",
+        "authors": [
+            "Wenhai Wang",
+            "Enze Xie",
+            "Xiang Li",
+            "Deng-Ping Fan",
+            "Kaitao Song",
+            "Ding Liang",
+            "Tong Lu",
+            "P. Luo",
+            "Ling Shao"
+        ],
+        "submission_date": "2021-02-24",
+        "semantic_scholar_id": "3e398bad2d8636491a1034cc938a5e024c7aa881"
+    },
+    "2102-02808": {
+        "paper_title": "Multi-Stage Progressive Image Restoration",
+        "authors": [
+            "Syed Waqas Zamir",
+            "Aditya Arora",
+            "Salman Hameed Khan",
+            "Munawar Hayat",
+            "F. Khan",
+            "Ming-Hsuan Yang",
+            "Ling Shao"
+        ],
+        "submission_date": "2021-02-04",
+        "semantic_scholar_id": "92d50602db5746f03b91562e2cc8a98bec584e9b"
+    },
+    "2012-12821": {
+        "paper_title": "Focal Frequency Loss for Image Reconstruction and Synthesis",
+        "authors": [
+            "Liming Jiang",
+            "Bo Dai",
+            "Wayne Wu",
+            "Chen Change Loy"
+        ],
+        "submission_date": "2020-12-23",
+        "semantic_scholar_id": "05afe403fd398f774aed4e9872a0eca1dfa21d36"
+    },
+    "2012-00364": {
+        "paper_title": "Pre-Trained Image Processing Transformer",
+        "authors": [
+            "Hanting Chen",
+            "Yunhe Wang",
+            "Tianyu Guo",
+            "Chang Xu",
+            "Yiping Deng",
+            "Zhenhua Liu",
+            "Siwei Ma",
+            "Chunjing Xu",
+            "Chao Xu",
+            "Wen Gao"
+        ],
+        "submission_date": "2020-12-01",
+        "semantic_scholar_id": "6f6f73e69ee0d9d5d7d088bb882db1851d98175a"
+    },
+    "2010-11929": {
+        "paper_title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+        "authors": [
+            "Alexey Dosovitskiy",
+            "Lucas Beyer",
+            "Alexander Kolesnikov",
+            "Dirk Weissenborn",
+            "Xiaohua Zhai",
+            "Thomas Unterthiner",
+            "Mostafa Dehghani",
+            "M. Minderer",
+            "G. Heigold",
+            "S. Gelly",
+            "Jakob Uszkoreit",
+            "N. Houlsby"
+        ],
+        "submission_date": "2020-10-22",
+        "semantic_scholar_id": "268d347e8a55b5eb82fb5e7d2f800e33c75ab18a"
+    },
+    "2008-13751": {
+        "paper_title": "Plug-and-Play Image Restoration With Deep Denoiser Prior",
+        "authors": [
+            "K. Zhang",
+            "Yawei Li",
+            "W. Zuo",
+            "Lei Zhang",
+            "L. Gool",
+            "R. Timofte"
+        ],
+        "submission_date": "2020-08-31",
+        "semantic_scholar_id": "d467d747dde65862d9640fe49f69d6b6d46d69ea"
+    },
+    "2008-09604": {
+        "paper_title": "Delving Deeper into Anti-Aliasing in ConvNets",
+        "authors": [
+            "Xueyan Zou",
+            "Fanyi Xiao",
+            "Zhiding Yu",
+            "Yong Jae Lee"
+        ],
+        "submission_date": "2020-08-21",
+        "semantic_scholar_id": "e0894191d8cca52d5adf13544f75f7b6e012eb3a"
+    },
+    "2008-08767": {
+        "paper_title": "Correction to: Single Image Super-Resolution via a Holistic Attention Network",
+        "authors": [
+            "Ben Niu",
+            "Weilei Wen",
+            "Wenqi Ren",
+            "Xiangde Zhang",
+            "Lianping Yang",
+            "Shuzhen Wang",
+            "Kaihao Zhang",
+            "Xiaochun Cao",
+            "Haifeng Shen"
+        ],
+        "submission_date": "2020-08-20",
+        "semantic_scholar_id": "737e2998f1db3b2ad8aaa0390ac439402ce1fb23"
+    },
+    "2007-07173": {
+        "paper_title": "Wavelet-Based Dual-Branch Network for Image Demoireing",
+        "authors": [
+            "Lin Liu",
+            "Jianzhuang Liu",
+            "Shanxin Yuan",
+            "G. Slabaugh",
+            "A. Leonardis",
+            "Wen-gang Zhou",
+            "Qi Tian"
+        ],
+        "submission_date": "2020-07-14",
+        "semantic_scholar_id": "163fa475f5ade928d0692aaa944d7ea8dd1c37fb"
+    },
+    "2005-14165": {
+        "paper_title": "Language Models are Few-Shot Learners",
+        "authors": [
+            "Tom B. Brown",
+            "Benjamin Mann",
+            "Nick Ryder",
+            "Melanie Subbiah",
+            "J. Kaplan",
+            "Prafulla Dhariwal",
+            "Arvind Neelakantan",
+            "Pranav Shyam",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Sandhini Agarwal",
+            "Ariel Herbert-Voss",
+            "Gretchen Krueger",
+            "T. Henighan",
+            "R. Child",
+            "A. Ramesh",
+            "Daniel M. Ziegler",
+            "Jeff Wu",
+            "Clemens Winter",
+            "Christopher Hesse",
+            "Mark Chen",
+            "Eric Sigler",
+            "Ma-teusz Litwin",
+            "Scott Gray",
+            "Benjamin Chess",
+            "Jack Clark",
+            "Christopher Berner",
+            "Sam McCandlish",
+            "Alec Radford",
+            "I. Sutskever",
+            "Dario Amodei"
+        ],
+        "submission_date": "2020-05-28",
+        "semantic_scholar_id": "90abbc2cf38462b954ae1b772fac9532e2ccd8b0"
+    },
+    "2005-01333": {
+        "paper_title": "A Model-Driven Deep Neural Network for Single Image Rain Removal",
+        "authors": [
+            "Hong Wang",
+            "Qi Xie",
+            "Qian Zhao",
+            "Deyu Meng"
+        ],
+        "submission_date": "2020-05-04",
+        "semantic_scholar_id": "e789c737d2c374a0c4c372ff5e218ed2e86ca0ee"
+    },
+    "2004-00406": {
+        "paper_title": "Image Demoireing with Learnable Bandpass Filters",
+        "authors": [
+            "Bolun Zheng",
+            "Shanxin Yuan",
+            "G. Slabaugh",
+            "A. Leonardis"
+        ],
+        "submission_date": "2020-04-01",
+        "semantic_scholar_id": "63993a556ac0d479bd86bb1035849470536c295d"
+    },
+    "2003-13659": {
+        "paper_title": "Exploiting Deep Generative Prior for Versatile Image Restoration and Manipulation",
+        "authors": [
+            "Xingang Pan",
+            "Xiaohang Zhan",
+            "Bo Dai",
+            "Dahua Lin",
+            "Chen Change Loy",
+            "P. Luo"
+        ],
+        "submission_date": "2020-03-30",
+        "semantic_scholar_id": "7101bc1c316740d99cd87185586829291a983a1d"
+    },
+    "2003-06792": {
+        "paper_title": "Learning Enriched Features for Real Image Restoration and Enhancement",
+        "authors": [
+            "Syed Waqas Zamir",
+            "Aditya Arora",
+            "Salman H. Khan",
+            "Munawar Hayat",
+            "Fahad Shahbaz Khan",
+            "Ming-Hsuan Yang",
+            "Ling Shao"
+        ],
+        "submission_date": "2020-03-15",
+        "semantic_scholar_id": "26f27bd5892e869b54c69d140b20c33638f26c57"
+    },
+    "1912-03458": {
+        "paper_title": "Dynamic Convolution: Attention Over Convolution Kernels",
+        "authors": [
+            "Yinpeng Chen",
+            "Xiyang Dai",
+            "Mengchen Liu",
+            "Dongdong Chen",
+            "Lu Yuan",
+            "Zicheng Liu"
+        ],
+        "submission_date": "2019-12-07",
+        "semantic_scholar_id": "fb7972f30812c7dd056d7943c3e3f00af022d607"
+    },
+    "1910-04066": {
+        "paper_title": "Deep Convolutional Neural Network for Multi-Modal Image Restoration and Fusion",
+        "authors": [
+            "Xin Deng",
+            "P. Dragotti"
+        ],
+        "submission_date": "2019-10-09",
+        "semantic_scholar_id": "9509b8066b76ccdb71df4f5d87d56c178c9c7cd9"
+    },
+    "1904-10343": {
+        "paper_title": "Path-Restore: Learning Network Path Selection for Image Restoration",
+        "authors": [
+            "K. Yu",
+            "Xintao Wang",
+            "Chao Dong",
+            "Xiaoou Tang",
+            "Chen Change Loy"
+        ],
+        "submission_date": "2019-04-23",
+        "semantic_scholar_id": "514ca1d4abc485d983f0d461fc4768a9c2acd286"
+    },
+    "1904-01538": {
+        "paper_title": "Spatial Attentive Single-Image Deraining With a High Quality Real Rain Dataset",
+        "authors": [
+            "Tianyu Wang",
+            "Xin Yang",
+            "Ke Xu",
+            "Shaozhe Chen",
+            "Qiang Zhang",
+            "Rynson W. H. Lau"
+        ],
+        "submission_date": "2019-04-02",
+        "semantic_scholar_id": "d3fa312b1f12ee60391705d3cac34cbcad42db14"
+    },
+    "1903-08817": {
+        "paper_title": "Dual Residual Networks Leveraging the Potential of Paired Operations for Image Restoration",
+        "authors": [
+            "Xing Liu",
+            "M. Suganuma",
+            "Zhun Sun",
+            "Takayuki Okatani"
+        ],
+        "submission_date": "2019-03-21",
+        "semantic_scholar_id": "646736bca08f11140f0a3e77a2273533acefa6a6"
+    },
+    "1901-09221": {
+        "paper_title": "Progressive Image Deraining Networks: A Better and Simpler Baseline",
+        "authors": [
+            "Dongwei Ren",
+            "W. Zuo",
+            "Q. Hu",
+            "Peng Fei Zhu",
+            "Deyu Meng"
+        ],
+        "submission_date": "2019-01-26",
+        "semantic_scholar_id": "6d411f15a0d17aba58006aa7d2eaebc66a0ca8c8"
+    },
+    "1806-02919": {
+        "paper_title": "Non-Local Recurrent Network for Image Restoration",
+        "authors": [
+            "Ding Liu",
+            "B. Wen",
+            "Yuchen Fan",
+            "Chen Change Loy",
+            "Thomas S. Huang"
+        ],
+        "submission_date": "2018-06-07",
+        "semantic_scholar_id": "cbd65255f6266f798326acc8e0654e40ea0918cf"
+    },
+    "1805-02996": {
+        "paper_title": "Moiré Photo Restoration Using Multiresolution Convolutional Neural Networks",
+        "authors": [
+            "Yujing Sun",
+            "Yizhou Yu",
+            "Wenping Wang"
+        ],
+        "submission_date": "2018-05-08",
+        "semantic_scholar_id": "77a8ba2b920f0a13ce08bcb1c0b8191756c4b15c"
+    },
+    "1712-04143": {
+        "paper_title": "Benchmarking Single-Image Dehazing and Beyond",
+        "authors": [
+            "Boyi Li",
+            "Wenqi Ren",
+            "Dengpan Fu",
+            "D. Tao",
+            "Dan Feng",
+            "Wenjun Zeng",
+            "Zhangyang Wang"
+        ],
+        "submission_date": "2017-12-12",
+        "semantic_scholar_id": "abf75b81b96ff2cd262086675deba55f907108db"
+    },
+    "1711-10098": {
+        "paper_title": "Attentive Generative Adversarial Network for Raindrop Removal from A Single Image",
+        "authors": [
+            "Rui Qian",
+            "R. Tan",
+            "Wenhan Yang",
+            "Jiajun Su",
+            "Jiaying Liu"
+        ],
+        "submission_date": "2017-11-28",
+        "semantic_scholar_id": "34e38559df559bfedfc3e1edc2b120ab2b5d444e"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1612-02177": {
+        "paper_title": "Deep Multi-scale Convolutional Neural Network for Dynamic Scene Deblurring",
+        "authors": [
+            "Seungjun Nah",
+            "Tae Hyun Kim",
+            "Kyoung Mu Lee"
+        ],
+        "submission_date": "2016-12-07",
+        "semantic_scholar_id": "65b16da51891a6b98140d425804c8a0fd0299219"
+    },
+    "1611-07004": {
+        "paper_title": "Image-to-Image Translation with Conditional Adversarial Networks",
+        "authors": [
+            "Phillip Isola",
+            "Jun-Yan Zhu",
+            "Tinghui Zhou",
+            "Alexei A. Efros"
+        ],
+        "submission_date": "2016-11-21",
+        "semantic_scholar_id": "8acbe90d5b852dadea7810345451a99608ee54c7"
+    },
+    "1606-08415": {
+        "paper_title": "Gaussian Error Linear Units (GELUs)",
+        "authors": [
+            "Dan Hendrycks",
+            "Kevin Gimpel"
+        ],
+        "submission_date": "2016-06-27",
+        "semantic_scholar_id": "de5e7320729f5d3cbb6709eb6329ec41ace8c95d"
+    },
+    "1505-04597": {
+        "paper_title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+        "authors": [
+            "O. Ronneberger",
+            "P. Fischer",
+            "T. Brox"
+        ],
+        "submission_date": "2015-05-18",
+        "semantic_scholar_id": "6364fdaa0a0eccd823a779fcdd489173f938e91a"
+    },
+    "2103-14030": {
+        "paper_title": "Swin Transformer: Hierarchical Vision Transformer using Shifted Windows",
+        "authors": [
+            "Ze Liu",
+            "Yutong Lin",
+            "Yue Cao",
+            "Han Hu",
+            "Yixuan Wei",
+            "Zheng Zhang",
+            "Stephen Lin",
+            "B. Guo"
+        ],
+        "submission_date": "2021-03-25",
+        "semantic_scholar_id": "c8b25fab5608c3e033d34b4483ec47e68ba109b7"
+    }
+}

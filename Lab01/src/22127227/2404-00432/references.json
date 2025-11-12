@@ -1,0 +1,269 @@
+{
+    "2302-08899": {
+        "paper_title": "QARV: Quantization-Aware ResNet VAE for Lossy Image Compression",
+        "authors": [
+            "Zhihao Duan",
+            "Ming-Tse Lu",
+            "Jackie Ma",
+            "Zhan Ma",
+            "F. Zhu"
+        ],
+        "submission_date": "2023-02-16",
+        "semantic_scholar_id": "4571546c776b6db0f9aad97bf4aa3eaa15cef78d"
+    },
+    "2211-09897": {
+        "paper_title": "Efficient Feature Compression for Edge-Cloud Systems",
+        "authors": [
+            "Zhihao Duan",
+            "F. Zhu"
+        ],
+        "submission_date": "2022-11-17",
+        "semantic_scholar_id": "69d18ea5f87eaa83bb36d6fcdf40da66d9503f9c"
+    },
+    "2208-11596": {
+        "paper_title": "A Low-Complexity Approach to Rate-Distortion Optimized Variable Bit-Rate Compression for Split DNN Computing",
+        "authors": [
+            "Parual Datta",
+            "Nilesh A. Ahuja",
+            "V. Somayazulu",
+            "Omesh Tickoo"
+        ],
+        "submission_date": "2022-08-24",
+        "semantic_scholar_id": "c71295444d7ddb194dab0dfbc28d9635e2d432d0"
+    },
+    "2201-03545": {
+        "paper_title": "A ConvNet for the 2020s",
+        "authors": [
+            "Zhuang Liu",
+            "Hanzi Mao",
+            "Chaozheng Wu",
+            "Christoph Feichtenhofer",
+            "Trevor Darrell",
+            "Saining Xie"
+        ],
+        "submission_date": "2022-01-10",
+        "semantic_scholar_id": "177e957f5cd93229c9794ea652c646d2557b4a69"
+    },
+    "2108-11898": {
+        "paper_title": "Supervised Compression for Resource-Constrained Edge Computing Systems",
+        "authors": [
+            "Yoshitomo Matsubara",
+            "Ruihan Yang",
+            "M. Levorato",
+            "S. Mandt"
+        ],
+        "submission_date": "2021-08-21",
+        "semantic_scholar_id": "0ffa39275a7680f86586d053bed326d8bcf27ec3"
+    },
+    "2107-08373": {
+        "paper_title": "Scalable Image Coding for Humans and Machines",
+        "authors": [
+            "Hyomin Choi",
+            "I. Bajić"
+        ],
+        "submission_date": "2021-07-18",
+        "semantic_scholar_id": "a494a267aa353b38112994721f05b30590716e25"
+    },
+    "2105-07102": {
+        "paper_title": "Lightweight Compression of Intermediate Neural Network Features for Collaborative Intelligence",
+        "authors": [
+            "R. Cohen",
+            "Hyomin Choi",
+            "I. Bajić"
+        ],
+        "submission_date": "2021-05-15",
+        "semantic_scholar_id": "ed940380a43747323288c9280159792acfcde239"
+    },
+    "2007-11797": {
+        "paper_title": "End-to-End Learning of Compressible Features",
+        "authors": [
+            "Saurabh Singh",
+            "Sami Abu-El-Haija",
+            "Nick Johnston",
+            "Johannes Ball'e",
+            "Abhinav Shrivastava",
+            "G. Toderici"
+        ],
+        "submission_date": "2020-07-23",
+        "semantic_scholar_id": "c478292630a13fdad84bde849680671b79d60ab7"
+    },
+    "2105-06002": {
+        "paper_title": "Lightweight Compression Of Neural Network Feature Tensors For Collaborative Intelligence",
+        "authors": [
+            "R. Cohen",
+            "Hyomin Choi",
+            "I. Bajić"
+        ],
+        "submission_date": "2021-05-12",
+        "semantic_scholar_id": "070f7d56bdec6bd31f87dfb28a6a3bc557a5a082"
+    },
+    "2002-10689": {
+        "paper_title": "A Theory of Usable Information Under Computational Constraints",
+        "authors": [
+            "Yilun Xu",
+            "Shengjia Zhao",
+            "Jiaming Song",
+            "Russell Stewart",
+            "Stefano Ermon"
+        ],
+        "submission_date": "2020-02-25",
+        "semantic_scholar_id": "0e4f7290f9cce44284665ddb399abeea0d72c557"
+    },
+    "1909-04802": {
+        "paper_title": "Variable Rate Deep Image Compression With a Conditional Autoencoder",
+        "authors": [
+            "Yoojin Choi",
+            "Mostafa El-Khamy",
+            "Jungwon Lee"
+        ],
+        "submission_date": "2019-09-11",
+        "semantic_scholar_id": "252060c357d1004e724dcccd39fd72896b427439"
+    },
+    "1905-02244": {
+        "paper_title": "Searching for MobileNetV3",
+        "authors": [
+            "Andrew G. Howard",
+            "M. Sandler",
+            "Grace Chu",
+            "Liang-Chieh Chen",
+            "Bo Chen",
+            "Mingxing Tan",
+            "Weijun Wang",
+            "Yukun Zhu",
+            "Ruoming Pang",
+            "Vijay Vasudevan",
+            "Quoc V. Le",
+            "Hartwig Adam"
+        ],
+        "submission_date": "2019-05-06",
+        "semantic_scholar_id": "5e19eba1e6644f7c83f607383d256deea71f87ae"
+    },
+    "1811-02840": {
+        "paper_title": "Neural Image Compression for Gigapixel Histopathology Image Analysis",
+        "authors": [
+            "David Tellez",
+            "G. Litjens",
+            "J. A. van der Laak",
+            "F. Ciompi"
+        ],
+        "submission_date": "2018-11-07",
+        "semantic_scholar_id": "fed7c0d369d8991f6b76a661dedd0d1768a402d2"
+    },
+    "1809-10452": {
+        "paper_title": "Context-adaptive Entropy Model for End-to-end Optimized Image Compression",
+        "authors": [
+            "Jooyoung Lee",
+            "Seunghyun Cho",
+            "Seunghwa Beack"
+        ],
+        "submission_date": "2018-09-27",
+        "semantic_scholar_id": "3b2409b9cc59b8f9b2d7baa200c1ac9e98b397da"
+    },
+    "1802-01436": {
+        "paper_title": "Variational image compression with a scale hyperprior",
+        "authors": [
+            "J. Ballé",
+            "David C. Minnen",
+            "Saurabh Singh",
+            "S. Hwang",
+            "Nick Johnston"
+        ],
+        "submission_date": "2018-02-01",
+        "semantic_scholar_id": "678c5b1771e7c15e86b454662dec8cd45d3d30bf"
+    },
+    "1801-04381": {
+        "paper_title": "MobileNetV2: Inverted Residuals and Linear Bottlenecks",
+        "authors": [
+            "M. Sandler",
+            "Andrew G. Howard",
+            "Menglong Zhu",
+            "A. Zhmoginov",
+            "Liang-Chieh Chen"
+        ],
+        "submission_date": "2018-01-13",
+        "semantic_scholar_id": "dd9cfe7124c734f5a6fc90227d541d3dbcd72ba4"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1704-00648": {
+        "paper_title": "Soft-to-Hard Vector Quantization for End-to-End Learning Compressible Representations",
+        "authors": [
+            "E. Agustsson",
+            "Fabian Mentzer",
+            "Michael Tschannen",
+            "Lukas Cavigelli",
+            "R. Timofte",
+            "L. Benini",
+            "L. Gool"
+        ],
+        "submission_date": "2017-04-03",
+        "semantic_scholar_id": "90ab469425b772008f7c409972aa520f92dc7a77"
+    },
+    "1611-01704": {
+        "paper_title": "End-to-end Optimized Image Compression",
+        "authors": [
+            "J. Ballé",
+            "Valero Laparra",
+            "Eero P. Simoncelli"
+        ],
+        "submission_date": "2016-11-05",
+        "semantic_scholar_id": "232148b97bd0543613ffd98fb4edcff79434ce1a"
+    },
+    "1606-05328": {
+        "paper_title": "Conditional Image Generation with PixelCNN Decoders",
+        "authors": [
+            "Aäron van den Oord",
+            "Nal Kalchbrenner",
+            "L. Espeholt",
+            "K. Kavukcuoglu",
+            "O. Vinyals",
+            "Alex Graves"
+        ],
+        "submission_date": "2016-06-16",
+        "semantic_scholar_id": "0936352b78a52bc5d2b5e3f04233efc56664af51"
+    },
+    "1512-03385": {
+        "paper_title": "Deep Residual Learning for Image Recognition",
+        "authors": [
+            "Kaiming He",
+            "X. Zhang",
+            "Shaoqing Ren",
+            "Jian Sun"
+        ],
+        "submission_date": "2015-12-10",
+        "semantic_scholar_id": "2c03df8b48bf3fa39054345bafabfeff15bfd11d"
+    },
+    "1512-00567": {
+        "paper_title": "Rethinking the Inception Architecture for Computer Vision",
+        "authors": [
+            "Christian Szegedy",
+            "Vincent Vanhoucke",
+            "Sergey Ioffe",
+            "Jonathon Shlens",
+            "Z. Wojna"
+        ],
+        "submission_date": "2015-12-02",
+        "semantic_scholar_id": "23ffaa0fe06eae05817f527a47ac3291077f9e58"
+    },
+    "1311-2540": {
+        "paper_title": "Asymmetric numeral systems: entropy coding combining speed of Huffman coding with compression rate of arithmetic coding",
+        "authors": [
+            "J. Duda"
+        ],
+        "submission_date": "2013-11-11",
+        "semantic_scholar_id": "bbcdbd5711d2f02e5fe07316669264334d193e88"
+    }
+}

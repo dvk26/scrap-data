@@ -1,0 +1,111 @@
+{
+    "2308-09787": {
+        "paper_title": "Dynamic hysteresis at a noisy saddle node shows power-law scaling but nonuniversal exponent.",
+        "authors": [
+            "Satyaki Kundu",
+            "R. Patel",
+            "S. Middey",
+            "B. Bansal"
+        ],
+        "submission_date": "2023-08-18",
+        "semantic_scholar_id": "b5d88d81064703d49372fe845905e0bc64c6023e"
+    },
+    "2001-10210": {
+        "paper_title": "Observation of generalized Kibble-Zurek mechanism across a first-order quantum phase transition in a spinor condensate",
+        "authors": [
+            "L.-Y. Qiu",
+            "H-Y Liang",
+            "Y-B Yang",
+            "H.-X. Yang",
+            "T. Tian",
+            "Y. Xu",
+            "L. Duan"
+        ],
+        "submission_date": "2020-01-28",
+        "semantic_scholar_id": "1a8a91962c684957c63ce254fc0075090cde40a4"
+    },
+    "1808-00693": {
+        "paper_title": "Kinetic Spinodal Instabilities in the Mott Transition in V_{2}O_{3}: Evidence from Hysteresis Scaling and Dissipative Phase Ordering.",
+        "authors": [
+            "T. Bar",
+            "S. Choudhary",
+            "M. Ashraf",
+            "K. Sujith",
+            "S. Puri",
+            "S. Raj",
+            "B. Bansal"
+        ],
+        "submission_date": "2018-08-02",
+        "semantic_scholar_id": "72b76d28bce3bc3ae86e56468ea442654c841e74"
+    },
+    "1801-02786": {
+        "paper_title": "Detecting Signals of Weakly First-order Phase Transitions in Two-dimensional Potts Models",
+        "authors": [
+            "Shumpei Iino",
+            "Satoshi Morita",
+            "N. Kawashima",
+            "A. Sandvik"
+        ],
+        "submission_date": "2018-01-09",
+        "semantic_scholar_id": "eabf85296be385bb6560c6c46a01bacd941c478f"
+    },
+    "1610-07861": {
+        "paper_title": "Renormalization-group theory for cooling first-order phase transitions in Potts models.",
+        "authors": [
+            "Ning Liang",
+            "F. Zhong"
+        ],
+        "submission_date": "2016-10-25",
+        "semantic_scholar_id": "366fa231e5d28f08ce30f54e49bb64a4c330c892"
+    },
+    "1511-08258": {
+        "paper_title": "Renormalization group theory for temperature-driven first-order phase transitions in scalar models",
+        "authors": [
+            "Ning Liang",
+            "F. Zhong"
+        ],
+        "submission_date": "2015-11-26",
+        "semantic_scholar_id": "4508c21580207a58149de129475d7deb5381b6da"
+    },
+    "1407-6612": {
+        "paper_title": "Kibble-Zurek mechanism and finite-time scaling",
+        "authors": [
+            "Yingyi Huang",
+            "Shuai Yin",
+            "B. Feng",
+            "F. Zhong"
+        ],
+        "submission_date": "2014-07-24",
+        "semantic_scholar_id": "d38787b93430b2d2ec174ef9826bdbb4872f1335"
+    },
+    "cond-mat/0003161": {
+        "paper_title": "Dynamic approach to weak first-order phase transitions",
+        "authors": [
+            "L. Schülke",
+            "B. Z. U. Siegen",
+            "Germany",
+            "Universitaet Halle",
+            "Germany Department of Materials Science",
+            "P. R. China"
+        ],
+        "submission_date": "2000-03-09",
+        "semantic_scholar_id": "92cb559269a716557ed2fa8ad82611bb0eebd498"
+    },
+    "cond-mat/9811086": {
+        "paper_title": "Dynamic transitions and hysteresis",
+        "authors": [
+            "B. Chakrabarti",
+            "Muktish Acharyya"
+        ],
+        "submission_date": "1998-11-06",
+        "semantic_scholar_id": "3cd8e80b9c3d50b7d5e550dbf19addadad1544df"
+    },
+    "cond-mat/9501089": {
+        "paper_title": "Theory of phase-ordering kinetics",
+        "authors": [
+            "A. Bray"
+        ],
+        "submission_date": "1995-01-19",
+        "semantic_scholar_id": "c07c46b2a28b17e8d3bd6a4831cfd2c44887f421"
+    }
+}

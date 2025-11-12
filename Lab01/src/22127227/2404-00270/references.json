@@ -1,0 +1,51 @@
+{
+    "2212-01473": {
+        "paper_title": "Parallelizing Maximal Clique Enumeration on GPUs",
+        "authors": [
+            "M. Almasri",
+            "Y. Chang",
+            "I. E. Hajj",
+            "R. Nagi",
+            "Jinjun Xiong",
+            "Wen-mei W. Hwu"
+        ],
+        "submission_date": "2022-12-02",
+        "semantic_scholar_id": "4f009525497c4fd6e14643298e583376de201005"
+    },
+    "2006-06608": {
+        "paper_title": "GNNAdvisor: An Adaptive and Efficient Runtime System for GNN Acceleration on GPUs",
+        "authors": [
+            "Yuke Wang",
+            "Boyuan Feng",
+            "Gushu Li",
+            "Shuangchen Li",
+            "Lei Deng",
+            "Yuan Xie",
+            "Yufei Ding"
+        ],
+        "submission_date": "2020-06-11",
+        "semantic_scholar_id": "a72bbf818135b30ab24835e663bc8dcb7b8274ff"
+    },
+    "1812-04070": {
+        "paper_title": "SIMD-X: Programming and Processing of Graph Algorithms on GPUs",
+        "authors": [
+            "Hang Liu",
+            "Howie Huang"
+        ],
+        "submission_date": "2018-12-10",
+        "semantic_scholar_id": "61946177ea5d44ad18ff09de7929556d7b34cd8b"
+    },
+    "1501-05387": {
+        "paper_title": "Gunrock: a high-performance graph processing library on the GPU",
+        "authors": [
+            "Yangzihao Wang",
+            "Andrew A. Davidson",
+            "Yuechao Pan",
+            "Yuduo Wu",
+            "Andy T. Riffel",
+            "John Douglas Owens"
+        ],
+        "submission_date": "2015-01-22",
+        "semantic_scholar_id": "923da3bc69c6ed6a2b0b155b6cd759ede373d933"
+    }
+}

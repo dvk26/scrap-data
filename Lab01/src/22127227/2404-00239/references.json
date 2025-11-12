@@ -1,0 +1,92 @@
+{
+    "2408-11521": {
+        "paper_title": "Dickman type stochastic processes with short- and long- range dependence",
+        "authors": [
+            "D. Grahovac",
+            "Anastasiia Kovtun",
+            "N. Leonenko",
+            "Andrey Pepelyshev"
+        ],
+        "submission_date": "2024-08-21",
+        "semantic_scholar_id": "6c55247fb0ba58efe58545c77b4bc1efcb9fb0aa"
+    },
+    "2305-18634": {
+        "paper_title": "Representation and simulation of multivariate Dickman distributions and Vervaat perpetuities",
+        "authors": [
+            "M. Grabchak",
+            "Xingnan Zhang"
+        ],
+        "submission_date": "2023-05-29",
+        "semantic_scholar_id": "9b41d38d42050e6c32f4199a31078a9043cf9b0c"
+    },
+    "2103-03200": {
+        "paper_title": "Estimation of multivariate generalized gamma convolutions through Laguerre expansions.",
+        "authors": [
+            "Oskar Laverny",
+            "Esterina Masiello",
+            "V. Maume-Deschamps",
+            "D. Rullière"
+        ],
+        "submission_date": "2021-03-04",
+        "semantic_scholar_id": "f53f59286f2d7855c6aa532880e0a695823949e7"
+    },
+    "2004-06786": {
+        "paper_title": "Exact Simulation of Variance Gamma-Related OU Processes: Application to the Pricing of Energy Derivatives",
+        "authors": [
+            "P. Sabino"
+        ],
+        "submission_date": "2020-04-14",
+        "semantic_scholar_id": "19145c1ceb5380bd91666664ed379727b0d8dc17"
+    },
+    "1911-06229": {
+        "paper_title": "Convergence to scale-invariant Poisson processes and applications in Dickman approximation",
+        "authors": [
+            "C. Bhattacharjee",
+            "I. Molchanov"
+        ],
+        "submission_date": "2019-11-14",
+        "semantic_scholar_id": "620e8b688ede6d36c91f6fa1ab7d7e5f799b9422"
+    },
+    "1904-06791": {
+        "paper_title": "On the simulation of general tempered stable Ornstein–Uhlenbeck processes",
+        "authors": [
+            "M. Grabchak"
+        ],
+        "submission_date": "2019-04-15",
+        "semantic_scholar_id": "8b10f3fccc8bbe203bf541e5fa9598a561e92ec2"
+    },
+    "1207-4381": {
+        "paper_title": "Inversions of Lévy Measures and the Relation Between Long and Short Time Behavior of Lévy Processes",
+        "authors": [
+            "M. Grabchak"
+        ],
+        "submission_date": "2012-07-18",
+        "semantic_scholar_id": "5b46c94601a2110751d1c9dde18c776474781d73"
+    },
+    "1109-1028": {
+        "paper_title": "On a new Class of Tempered Stable Distributions: Moments and Regular Variation",
+        "authors": [
+            "M. Grabchak"
+        ],
+        "submission_date": "2011-09-05",
+        "semantic_scholar_id": "024dd8fc6c13240cd2b7e1be50adea97bde672b8"
+    },
+    "1907-09857": {
+        "paper_title": "Bilateral gamma distributions and processes in financial mathematics",
+        "authors": [
+            "Uwe Kuchler",
+            "Stefan Tappe"
+        ],
+        "submission_date": "2019-07-23",
+        "semantic_scholar_id": "f9661614f2db76143b3124f19b2a71a9e50d54f1"
+    },
+    "math/0604491": {
+        "paper_title": "Portmanteau theorem for unbounded measures",
+        "authors": [
+            "M. Barczy",
+            "G. Pap"
+        ],
+        "submission_date": "2006-04-23",
+        "semantic_scholar_id": "bfd794db10bffa528410a451084e62d5ea09bc35"
+    }
+}

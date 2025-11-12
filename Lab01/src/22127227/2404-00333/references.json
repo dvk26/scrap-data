@@ -1,0 +1,49 @@
+{
+    "2102-01770": {
+        "paper_title": "A privacy-preserving approach to streaming eye-tracking data",
+        "authors": [
+            "Brendan David-John",
+            "D. Hosfelt",
+            "Kevin R. B. Butler",
+            "Eakta Jain"
+        ],
+        "submission_date": "2021-02-02",
+        "semantic_scholar_id": "194a82df379e1182ddd88b94a30d147d920f2fab"
+    },
+    "2101-09576": {
+        "paper_title": "Digital Transformations of Classrooms in Virtual Reality",
+        "authors": [
+            "Hong Gao",
+            "Efe Bozkir",
+            "Lisa Hasenbein",
+            "J. Hahn",
+            "Richard Göllner",
+            "Enkelejda Kasneci"
+        ],
+        "submission_date": "2021-01-23",
+        "semantic_scholar_id": "c3887957f64316f973a17ae179d3cb0ac4a4b62c"
+    },
+    "2002-08972": {
+        "paper_title": "Differential privacy for eye tracking with temporal correlations",
+        "authors": [
+            "Efe Bozkir",
+            "O. Günlü",
+            "Wolfgang Fuhl",
+            "Rafael F. Schaefer",
+            "Enkelejda Kasneci"
+        ],
+        "submission_date": "2020-02-20",
+        "semantic_scholar_id": "9431185026ea605543f9db8160db28e6b609f7c9"
+    },
+    "2001-05080": {
+        "paper_title": "Automated Anonymisation of Visual and Audio Data in Classroom Studies",
+        "authors": [
+            "Ömer Sümer",
+            "Peter Gerjets",
+            "U. Trautwein",
+            "Enkelejda Kasneci"
+        ],
+        "submission_date": "2020-01-14",
+        "semantic_scholar_id": "d3ad73cca9abfbbea9c09035759a074e13903f31"
+    }
+}

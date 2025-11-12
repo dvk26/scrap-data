@@ -1,0 +1,272 @@
+{
+    "2208-13453": {
+        "paper_title": "Understanding Diversity in Session-based Recommendation",
+        "authors": [
+            "Qing Yin",
+            "Hui Fang",
+            "Zhu Sun",
+            "Y. Ong"
+        ],
+        "submission_date": "2022-08-29",
+        "semantic_scholar_id": "888e37c2516529f9d6c13080b103f42d4cb219fe"
+    },
+    "2208-06265": {
+        "paper_title": "Trustworthy Recommender Systems",
+        "authors": [
+            "Shoujin Wang",
+            "Xiuzhen Zhang",
+            "Yan Wang",
+            "Huan Liu",
+            "Francesco Ricci"
+        ],
+        "submission_date": "2022-08-10",
+        "semantic_scholar_id": "9c1144b4cde1993bb54ab40a3fd813e1c2bcd39a"
+    },
+    "2207-12515": {
+        "paper_title": "A Survey on Trustworthy Recommender Systems",
+        "authors": [
+            "Yingqiang Ge",
+            "Shuchang Liu",
+            "Zuohui Fu",
+            "Juntao Tan",
+            "Zelong Li",
+            "Shuyuan Xu",
+            "Yunqi Li",
+            "Yikun Xian",
+            "Yongfeng Zhang"
+        ],
+        "submission_date": "2022-07-25",
+        "semantic_scholar_id": "b20c87e2925a81f57d9c913423e9e74c14de5341"
+    },
+    "2108-06952": {
+        "paper_title": "DGCN: Diversified Recommendation with Graph Convolutional Networks",
+        "authors": [
+            "Y. Zheng",
+            "Chen Gao",
+            "Liang Chen",
+            "Depeng Jin",
+            "Yong Li"
+        ],
+        "submission_date": "2021-08-16",
+        "semantic_scholar_id": "ac5c11cfa59f76e0108d90b038bf892d1383a3de"
+    },
+    "2103-03578": {
+        "paper_title": "Non-invasive Self-attention for Side Information Fusion in Sequential Recommendation",
+        "authors": [
+            "Chang Liu",
+            "Xiaoguang Li",
+            "Guohao Cai",
+            "Zhenhua Dong",
+            "Hong Zhu",
+            "Lifeng Shang"
+        ],
+        "submission_date": "2021-03-05",
+        "semantic_scholar_id": "93cef0465c9632c0f8de1a48c7014b4d20813b85"
+    },
+    "2101-00781": {
+        "paper_title": "Enhancing Domain-Level and User-Level Adaptivity in Diversified Recommendation",
+        "authors": [
+            "Yile Liang",
+            "T. Qian",
+            "Qing Li",
+            "Hongzhi Yin"
+        ],
+        "submission_date": "2021-01-04",
+        "semantic_scholar_id": "98388bf42e64f89cfb58167b2f671a3bad37b2e7"
+    },
+    "2008-13526": {
+        "paper_title": "Theoretical Modeling of the Iterative Properties of User Discovery in a Collaborative Filtering Recommender System",
+        "authors": [
+            "Sami Khenissi",
+            "Mariem Boujelbene",
+            "O. Nasraoui"
+        ],
+        "submission_date": "2020-08-21",
+        "semantic_scholar_id": "b702a775072088cff554c28c0854ff8f22fe02f0"
+    },
+    "2106-05081": {
+        "paper_title": "Global Context Enhanced Graph Neural Networks for Session-based Recommendation",
+        "authors": [
+            "Ziyang Wang",
+            "Wei Wei",
+            "G. Cong",
+            "Xiaoli Li",
+            "Xian-Ling Mao",
+            "Minghui Qiu"
+        ],
+        "submission_date": "2021-06-09",
+        "semantic_scholar_id": "b05a5424d0fce45896b6b8a847cf540a38f556bc"
+    },
+    "2005-09347": {
+        "paper_title": "Controllable Multi-Interest Framework for Recommendation",
+        "authors": [
+            "Yukuo Cen",
+            "Jianwei Zhang",
+            "Xu Zou",
+            "Chang Zhou",
+            "Hongxia Yang",
+            "Jie Tang"
+        ],
+        "submission_date": "2020-05-19",
+        "semantic_scholar_id": "054c5e48d41fcadfd4dbc19a48089d87c9814a4f"
+    },
+    "2005-02844": {
+        "paper_title": "TAGNN: Target Attentive Graph Neural Networks for Session-based Recommendation",
+        "authors": [
+            "Feng Yu",
+            "Yanqiao Zhu",
+            "Q. Liu",
+            "Shu Wu",
+            "Liang Wang",
+            "T. Tan"
+        ],
+        "submission_date": "2020-05-06",
+        "semantic_scholar_id": "aac77c36a9a5c24aa135538c32950096e59ba442"
+    },
+    "1911-11942": {
+        "paper_title": "Rethinking the Item Order in Session-based Recommendation with Graph Neural Networks",
+        "authors": [
+            "Ruihong Qiu",
+            "Jingjing Li",
+            "Zi Huang",
+            "Hongzhi Yin"
+        ],
+        "submission_date": "2019-11-27",
+        "semantic_scholar_id": "b0d941cfa0a3c43703e5222221addb1ad0f9e68d"
+    },
+    "1909-12807": {
+        "paper_title": "Research Commentary on Recommendations with Side Information: A Survey and Research Directions",
+        "authors": [
+            "Zhu Sun",
+            "Q. Guo",
+            "Jie Yang",
+            "Hui Fang",
+            "G. Guo",
+            "Jie Zhang",
+            "R. Burke"
+        ],
+        "submission_date": "2019-09-19",
+        "semantic_scholar_id": "6379b61299f6e69ecfd9bf64a706dce9c756016a"
+    },
+    "1908-10171": {
+        "paper_title": "Improving End-to-End Sequential Recommendations with Intent-aware Diversification",
+        "authors": [
+            "Wanyu Chen",
+            "Pengjie Ren",
+            "Fei Cai",
+            "Fei Sun",
+            "M. de Rijke"
+        ],
+        "submission_date": "2019-08-27",
+        "semantic_scholar_id": "16b4a74c4110e3eb50a72e7a0a5e6b893a170d02"
+    },
+    "1902-04864": {
+        "paper_title": "A Survey on Session-based Recommender Systems",
+        "authors": [
+            "Shoujin Wang",
+            "Longbing Cao",
+            "Yan Wang",
+            "Quan Z. Sheng"
+        ],
+        "submission_date": "2019-02-13",
+        "semantic_scholar_id": "56107ce1a3f5d6c0fdd32fa7ab95329ec207ba9c"
+    },
+    "1812-02646": {
+        "paper_title": "RepeatNet: A Repeat Aware Neural Recommendation Machine for Session-based Recommendation",
+        "authors": [
+            "Pengjie Ren",
+            "Zhumin Chen",
+            "Jing Li",
+            "Z. Ren",
+            "Jun Ma",
+            "M. de Rijke"
+        ],
+        "submission_date": "2018-12-06",
+        "semantic_scholar_id": "d7f70396746bc0f2500630bdab99a2fd43e50725"
+    },
+    "1811-00855": {
+        "paper_title": "Session-based Recommendation with Graph Neural Networks",
+        "authors": [
+            "Shu Wu",
+            "Yuyuan Tang",
+            "Yanqiao Zhu",
+            "Liang Wang",
+            "Xing Xie",
+            "T. Tan"
+        ],
+        "submission_date": "2018-11-01",
+        "semantic_scholar_id": "0c7e1338a9c7914a3b9a5bdc42b457b3f272160e"
+    },
+    "1803-09587": {
+        "paper_title": "Evaluation of session-based recommendation algorithms",
+        "authors": [
+            "Malte Ludewig",
+            "D. Jannach"
+        ],
+        "submission_date": "2018-03-26",
+        "semantic_scholar_id": "7ea0c238d160a6a64611db97429e2b022b552983"
+    },
+    "1711-04725": {
+        "paper_title": "Neural Attentive Session-based Recommendation",
+        "authors": [
+            "Jing Li",
+            "Pengjie Ren",
+            "Zhumin Chen",
+            "Z. Ren",
+            "Tao Lian",
+            "Jun Ma"
+        ],
+        "submission_date": "2017-11-13",
+        "semantic_scholar_id": "97de32d8ca162944e5f7e83071c596d13d168109"
+    },
+    "1706-03847": {
+        "paper_title": "Recurrent Neural Networks with Top-k Gains for Session-based Recommendations",
+        "authors": [
+            "Balázs Hidasi",
+            "Alexandros Karatzoglou"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "1dd7038128e3a1ba49f0224ac711166c8dc36d3d"
+    },
+    "1606-08117": {
+        "paper_title": "Improved Recurrent Neural Networks for Session-based Recommendations",
+        "authors": [
+            "Yong Kiam Tan",
+            "Xinxing Xu",
+            "Yong Liu"
+        ],
+        "submission_date": "2016-06-27",
+        "semantic_scholar_id": "908e33baf3eacc2e50c7dede52af96cf9cf5ac59"
+    },
+    "1511-06939": {
+        "paper_title": "Session-based Recommendations with Recurrent Neural Networks",
+        "authors": [
+            "Balázs Hidasi",
+            "Alexandros Karatzoglou",
+            "L. Baltrunas",
+            "D. Tikk"
+        ],
+        "submission_date": "2015-11-21",
+        "semantic_scholar_id": "e0021d61c2ab1334bc725852edd44597f4c65dff"
+    },
+    "1207-6083": {
+        "paper_title": "Determinantal Point Processes for Machine Learning",
+        "authors": [
+            "Alex Kulesza",
+            "B. Taskar"
+        ],
+        "submission_date": "2012-07-25",
+        "semantic_scholar_id": "48a17d25d76f9bdf90fdd86d2b3e2739e5bb8016"
+    },
+    "1205-2618": {
+        "paper_title": "BPR: Bayesian Personalized Ranking from Implicit Feedback",
+        "authors": [
+            "Steffen Rendle",
+            "Christoph Freudenthaler",
+            "Zeno Gantner",
+            "L. Schmidt-Thieme"
+        ],
+        "submission_date": "2012-05-09",
+        "semantic_scholar_id": "db16e908246f32b60a6e0a8e27093aa145fbb1ed"
+    }
+}
