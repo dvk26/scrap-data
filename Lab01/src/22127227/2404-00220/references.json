@@ -66,6 +66,16 @@
         "submission_date": "2015-06-29",
         "semantic_scholar_id": "38da26141e3de843a8c907136fd7e22867c9c5e8"
     },
+    "1505-06770": {
+        "paper_title": "Sketching for sequential change-point detection",
+        "authors": [
+            "Yao Xie",
+            "M. Wang",
+            "Andrew Thompson"
+        ],
+        "submission_date": "2015-05-25",
+        "semantic_scholar_id": "2cc342f9284589407a1e29e7fd1e3313baeddbf3"
+    },
     "1407-5978": {
         "paper_title": "Sequential Changepoint Approach for Online Community Detection",
         "authors": [
