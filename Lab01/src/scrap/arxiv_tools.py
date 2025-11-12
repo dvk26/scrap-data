@@ -114,42 +114,63 @@ def is_tar_ok(path: str) -> bool:
 #             try: os.remove(tgz_path)
 #             except: pass
 #         return False
-
-UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0; +https://example.org)"
+UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0)"
 TIMEOUT = 30
 
 def _download_via_eprint(arxiv_id_with_ver: str, out_path: str) -> tuple[bool, str]:
     """
     Tải trực tiếp từ e-print endpoint: https://arxiv.org/e-print/{idv}
-    Trả (ok, reason)
+    - Không dùng seek trên stream
+    - Buffer vài trăm byte đầu để phát hiện HTML
     """
     url = f"https://arxiv.org/e-print/{arxiv_id_with_ver}"
     try:
         with requests.get(url, stream=True, timeout=TIMEOUT, headers={"User-Agent": UA}) as r:
-            ctype = r.headers.get("Content-Type", "")
-            dispo = r.headers.get("Content-Disposition", "")
+            status = r.status_code
+            ctype  = r.headers.get("Content-Type", "")
+            dispo  = r.headers.get("Content-Disposition", "")
 
-            if r.status_code != 200:
-                return False, f"HTTP {r.status_code} from {url}"
+            if status != 200:
+                return False, f"HTTP {status} from {url}"
 
-            # Một số trường hợp trả HTML 200 (trang báo lỗi)
-            peek = r.raw.read(256, decode_content=True)
-            r.raw.seek(0)
-            if b"<html" in peek.lower() or b"<!doctype html" in peek.lower():
-                body_preview = r.text[:300]
-                return False, f"HTML instead of tar. Content-Type={ctype}; Body[:300]={body_preview!r}"
-
-            # Heuristic xác định tar hợp lệ: content-type và/hoặc tên file
-            looks_like_tar = ("tar" in ctype) or (".tar" in dispo) or (".gz" in dispo)
-            if not looks_like_tar:
-                # Vẫn ghi file để kiểm tra bằng is_tar_ok
-                pass
-
+            # đọc stream theo chunk, vừa ghi file vừa giữ 1 buffer đầu
+            first_bytes = b""
+            wrote_any = False
             with open(out_path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1<<20):
-                    if chunk: f.write(chunk)
-        return True, "OK"
+                for chunk in r.iter_content(chunk_size=1 << 20):
+                    if not chunk:
+                        continue
+                    if not wrote_any:
+                        # lấy ~1KB đầu để check HTML
+                        take = min(len(chunk), 1024)
+                        first_bytes = chunk[:take]
+                        wrote_any = True
+                    f.write(chunk)
+
+            # nếu không ghi được gì → coi như fail
+            if not wrote_any:
+                if os.path.exists(out_path):
+                    try: os.remove(out_path)
+                    except: pass
+                return False, "Empty body"
+
+            # phát hiện trả về HTML (trang báo lỗi 200)
+            fb_lc = first_bytes.lower()
+            if (b"<html" in fb_lc) or (b"<!doctype html" in fb_lc):
+                # đọc ít nội dung text để log
+                # (không reopen file lớn; chỉ log dựa trên header & content-type)
+                if os.path.exists(out_path):
+                    try: os.remove(out_path)
+                    except: pass
+                return False, f"HTML instead of tar. Content-Type={ctype}; Disposition={dispo}"
+
+            # heuristic nhanh: nếu header nói tar/gzip thì OK, còn lại để is_tar_ok kiểm tra
+            looks_like_tar = ("tar" in ctype) or ("gzip" in ctype) or (".tar" in dispo) or (".gz" in dispo)
+            # không bắt buộc phải true ở đây; cứ trả OK để bước sau is_tar_ok quyết định
+            return True, "OK"
+
     except Exception as e:
+        # không còn seek nên sẽ không dính UnsupportedOperation nữa
         return False, f"EXC {type(e).__name__}: {e}"
 
 def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
