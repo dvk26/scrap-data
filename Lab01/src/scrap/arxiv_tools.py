@@ -16,21 +16,36 @@ import os, requests, traceback
 from arxiv import HTTPError
 
 # reuse a single arXiv client to reduce creation overhead
-ARXIV_CLIENT = arxiv.Client(num_retries=5)  # tăng retry
+ARXIV_CLIENT = arxiv.Client(page_size=1, delay_seconds=4, num_retries=6)
 _ARXIV_GATE = threading.Semaphore(1)
 ARXIV_DELAY_SEC = 1.5  # 1.5–3.0s là an toàn
 
+def _sleep_backoff(try_idx):
+    # exponential backoff có jitter: 1, 2, 4, 8, 16... (giới hạn 20s)
+    base = min(20, 2 ** try_idx)
+    time.sleep(base + 0.2)
 @functools.lru_cache(maxsize=4096)
 def get_result_by_id(arxiv_id: str) -> arxiv.Result:
-    with _ARXIV_GATE:
-        time.sleep(ARXIV_DELAY_SEC)
-        search = arxiv.Search(id_list=[arxiv_id])
-        return next(ARXIV_CLIENT.results(search))
+    tries = 0
+    while True:
+        with _ARXIV_GATE:  # chặn song song
+            try:
+                search = arxiv.Search(id_list=[arxiv_id], max_results=1)
+                return next(ARXIV_CLIENT.results(search))
+            except arxiv.HTTPError as e:
+                # 429/503 -> backoff rồi thử lại vài lần
+                if getattr(e, "status", None) in (429, 503) or "429" in str(e) or "503" in str(e):
+                    if tries < 6:
+                        _sleep_backoff(tries)
+                        tries += 1
+                        continue
+                # các lỗi khác: ném ra để caller xử lý
+                raise
 
-@functools.lru_cache(maxsize=4096)
-def get_result_by_id(arxiv_id: str) -> arxiv.Result:
-    search = arxiv.Search(id_list=[arxiv_id])
-    return next(ARXIV_CLIENT.results(search))
+# @functools.lru_cache(maxsize=4096)
+# def get_result_by_id(arxiv_id: str) -> arxiv.Result:
+#     search = arxiv.Search(id_list=[arxiv_id])
+#     return next(ARXIV_CLIENT.results(search))
 
 def list_all_versions(base_id: str, v1_only: bool=False) -> List[int]:
     if v1_only:
@@ -114,6 +129,8 @@ def is_tar_ok(path: str) -> bool:
 #             try: os.remove(tgz_path)
 #             except: pass
 #         return False
+
+
 UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0)"
 TIMEOUT = 30
 
@@ -173,6 +190,42 @@ def _download_via_eprint(arxiv_id_with_ver: str, out_path: str) -> tuple[bool, s
         # không còn seek nên sẽ không dính UnsupportedOperation nữa
         return False, f"EXC {type(e).__name__}: {e}"
 
+def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
+    tgz_path = os.path.join(save_dir, filename)
+    os.makedirs(save_dir, exist_ok=True)
+
+    # 1) ƯU TIÊN E-PRINT
+    ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
+    if ok and is_tar_ok(tgz_path):
+        return True
+    if not ok:
+        print(f"[WARN] {arxiv_id_with_ver} e-print failed: {why}")
+    else:
+        print(f"[WARN] {arxiv_id_with_ver} e-print invalid tar; removing")
+        try: os.remove(tgz_path)
+        except: pass
+
+    # 2) FALLBACK: LIB ARXIV (đi qua gate + backoff)
+    try:
+        res = get_result_by_id(arxiv_id_with_ver)
+        res.download_source(dirpath=save_dir, filename=filename)
+        if not is_tar_ok(tgz_path):
+            try:
+                with open(tgz_path, "rb") as f:
+                    head = f.read(128)
+                print(f"[WARN] {arxiv_id_with_ver} invalid tar via API (head={head!r}); deleting.")
+                os.remove(tgz_path)
+            except Exception:
+                pass
+            return False
+        return True
+    except Exception as e:
+        print(f"[EXCEPTION] {arxiv_id_with_ver}: {type(e).__name__}: {e}")
+        print(traceback.format_exc())
+        if os.path.exists(tgz_path):
+            try: os.remove(tgz_path)
+            except: pass
+        return False
 def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
     """
     Download .tar(.gz) của 1 version.

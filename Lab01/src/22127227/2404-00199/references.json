@@ -1,1 +1,22 @@
-{}
+{
+    "1004-3040": {
+        "paper_title": "Online Sparse System Identification and Signal Reconstruction Using Projections Onto Weighted  $\\ell_{1}$ Balls",
+        "authors": [
+            "Y. Kopsinis",
+            "K. Slavakis",
+            "S. Theodoridis"
+        ],
+        "submission_date": "2010-04-18",
+        "semantic_scholar_id": "71c44243a88598ac76f9cd192a68b29bbf42a387"
+    },
+    "1303-2261": {
+        "paper_title": "$l_{0}$  Norm Constraint LMS Algorithm for Sparse System Identification",
+        "authors": [
+            "Yuantao Gu",
+            "Jian Jin",
+            "Shunliang Mei"
+        ],
+        "submission_date": "2013-03-09",
+        "semantic_scholar_id": "3498dce1e7a0c7d01ae2270b6aed21f9af2c7f4b"
+    }
+}

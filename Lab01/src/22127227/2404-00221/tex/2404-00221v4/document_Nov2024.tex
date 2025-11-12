@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathabx}
+\usepackage{ascmac}
+\usepackage{arydshln}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{breakcites}
+\usepackage{latexsym}
+\usepackage{cases}
+\usepackage{url}
+\usepackage{pifont}
+\usepackage{multirow}
+\usepackage{setspace}
+\usepackage{arydshln}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns.meta}
+\usepackage{here}
+\usepackage{natbib}
+\usepackage[english]{babel}
+\usepackage{threeparttable}
+\usepackage[a4paper]{geometry}
+%\geometry{verbose,tmargin=28mm,bmargin=28mm,lmargin=25mm,rmargin=25mm}
+\geometry{verbose,tmargin=28mm,bmargin=28mm,lmargin=25mm,rmargin=25mm}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\hypersetup{
+bookmarkstype=none,
+colorlinks,
+linkcolor=blue,
+citecolor=blue}
+\usepackage{prettyref}
+\usepackage{natbib}
+\usepackage{threeparttable}
+\allowdisplaybreaks[1]
+
+
+\tikzstyle{rednode} = [shape=rectangle, fill=red!50, line width=3]
+\tikzstyle{bluenode} = [shape=rectangle, fill=blue!50, line width=3]
+\tikzstyle{yellownode} = [shape=rectangle, fill=yellow!50, line width=3]
+%\tikzstyle{dotnode} = [dashed, pattern=north west lines, pattern color=gray!150]
+\tikzstyle{dotnode} = [dashed, pattern={Lines[angle=90,distance=3pt]}, pattern color=gray!150]
+\tikzstyle{backslashnode} = [dashed, pattern={Lines[angle=45,distance=3pt]}, pattern color=gray!150]
+\tikzstyle{slashnode} = [dashed, pattern={Lines[angle=-45,distance=3pt]}, pattern color=gray!150]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeS commands.
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+
+\floatname{algorithm}{Procedure 1}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand\thealgorithm{}
+
+\newcommand{\MF}{\mathcal{F}}
+\newcommand{\MS}{\mathcal{S}}
+\newcommand{\MA}{\mathcal{A}}
+\newcommand{\MG}{\mathcal{G}}
+\newcommand{\MZ}{\mathcal{Z}}
+\newcommand{\MY}{\{-1,1\}}
+\newcommand{\MP}{\mathcal{P}}
+\newcommand{\MR}{\mathcal{R}}
+\newcommand{\MH}{\mathcal{H}}
+\newcommand{\MB}{\mathcal{B}}
+\newcommand{\Bk}{\mathbf{k}}
+\newcommand{\Bz}{\mathbf{z}}
+\newcommand{\Bb}{\mathbf{b}}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Natural}{\mathbb{N}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits}
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits}
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\setstretch{1.7}
+
+\makeatother
+
+\begin{document}
+
+\input{mai_text}
+\input{appendix}
+
+\bigskip
+\subsection*{Acknowledgements}
+I thank Toru Kitagawa, Aureo de Paula, Takahide Yanagi, and participants at various seminars and conferences for their comments and suggestions. I gratefully acknowledge financial support from JSPS KAKENHI Grant (number 22K20155) and ERC Grant (number 715940).
+
+\medskip
+
+\bibliographystyle{ecta}
+\bibliography{ref_DTR,ref_surrogate_loss}
+
+
+\end{document}

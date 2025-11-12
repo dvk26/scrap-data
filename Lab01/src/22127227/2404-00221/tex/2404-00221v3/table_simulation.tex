@@ -1,0 +1,57 @@
+
+
+\begin{comment}
+\begin{table}[ht]
+\centering \caption{Monte Carlo simulation results}
+\label{table:simulatin_results}
+\medskip
+\scalebox{0.9}{
+\begin{tabular}{ccccccccccc}
+\hline \hline
+& \multicolumn{5}{c}{DGP1 \& Size($n$)} & \multicolumn{5}{c}{DGP2 \& Size($n$)} \\ \cmidrule(l{3pt}r{3pt}){2-6} \cmidrule(l{3pt}r{3pt}){7-11}
+Method  & 250 & 500 & 1000 & 2000 & 4000 & 250 & 500 & 1000 & 2000 & 4000 \\ 
+  \hline
+\multirow{2}{*}{Q-learn} & 0.2 & 0.31 & 0.44 & 0.58 & 0.69 & 1.29 & 1.7 & 1.78 & 1.84 & 1.89 \\ 
+ & (0.11) & (0.11) & (0.1) & (0.07) & (0.03) & (0.36) & (0.13) & (0.07) & (0.05) & (0.03) \\ \hdashline
+\multirow{2}{*}{Q-search}& 0.17 & 0.29 & 0.41 & 0.54 & 0.65 & 1.28 & 1.6 & 1.54 & 1.52 & 1.53 \\ 
+ & (0.19) & (0.22) & (0.21) & (0.16) & (0.11) & (0.45) & (0.21) & (0.1) & (0.06) & (0.09) \\ \hdashline
+\multirow{2}{*}{IPW} & 0.23 & 0.3 & 0.37 & 0.47 & 0.55 & 1.33 & 1.41 & 1.53 & 1.67 & 1.82 \\ 
+ & (0.13) & (0.15) & (0.16) & (0.15) & (0.12) & (0.2) & (0.19) & (0.19) & (0.22) & (0.19) \\ \hdashline
+\multirow{2}{*}{DR} & 0.28 & 0.44 & 0.62 & 0.71 & 0.73 & 1.51 & 1.77 & 1.95 & 2.01 & 2.04 \\ 
+ & (0.18) & (0.17) & (0.11) & (0.04) & (0.02) & (0.27) & (0.24) & (0.14) & (0.07) & (0.03) \\  
+\hline \hline
+\end{tabular}
+}
+\begin{tablenotes} \footnotesize
+\item Notes: Each cell shows the mean welfare, with the standard deviation in parentheses, for each method, DGP, and sample size. These values are based on 500 simulations using a test sample of 20,000 observations randomly drawn from the same DGP. Columns 2-6 and 7-11 show the results for DGP1 and DGP2, respectively, across sample sizes of 250, 500, 1000, 2000, and 4000.
+\end{tablenotes} 
+\end{table}
+\end{comment}
+
+%\begin{comment}
+\begin{table}[ht]
+\centering \caption{Monte Carlo simulation results}
+\label{table:simulatin_results}
+\medskip
+\scalebox{0.9}{
+\begin{tabular}{ccccccccccc}
+\hline \hline
+& \multicolumn{5}{c}{DGP1 \& Size($n$)} & \multicolumn{5}{c}{DGP2 \& Size($n$)} \\ \cmidrule(l{3pt}r{3pt}){2-6} \cmidrule(l{3pt}r{3pt}){7-11}
+Method  & 250 & 500 & 1000 & 2000 & 4000 & 250 & 500 & 1000 & 2000 & 4000 \\ 
+  \hline
+\multirow{2}{*}{Q-learn} & 0.20 & 0.31 & 0.44 & 0.58 & 0.69 & 1.29 & 1.69 & 1.77 & 1.82 & 1.87 \\ 
+   & (0.11) & (0.11) & (0.10) & (0.07) & (0.03) & (0.36) & (0.13) & (0.07) & (0.05) & (0.03) \\ \hdashline
+\multirow{2}{*}{Q-search} & 0.17 & 0.29 & 0.41 & 0.54 & 0.65 & 1.27 & 1.60 & 1.53 & 1.51 & 1.53 \\ 
+   & (0.19) & (0.22) & (0.21) & (0.16) & (0.10) & (0.45) & (0.21) & (0.10) & (0.06) & (0.09) \\ \hdashline
+\multirow{2}{*}{IPW} & 0.23 & 0.30 & 0.37 & 0.46 & 0.55 & 1.32 & 1.41 & 1.52 & 1.66 & 1.80 \\ 
+ & (0.13) & (0.15) & (0.16) & (0.15) & (0.12) & (0.2) & (0.18) & (0.19) & (0.21) & (0.19) \\ \hdashline
+\multirow{2}{*}{DR} & 0.28 & 0.43 & 0.62 & 0.70 & 0.73 & 1.50 & 1.76 & 1.93 & 1.99 & 2.02 \\ 
+   & (0.18) & (0.17) & (0.11) & (0.04) & (0.02) & (0.26) & (0.24) & (0.14) & (0.07) & (0.03) \\
+\hline \hline
+\end{tabular}
+}
+\begin{tablenotes} \footnotesize
+\item Notes: Each cell shows the mean welfare, with the standard deviation in parentheses, for each method, DGP, and sample size. These values are calculated based on 500 simulations using a test sample of 50,000 observations randomly drawn from the same DGP. Columns 2-6 and 7-11 show the results for DGP1 and DGP2, respectively, across sample sizes of 250, 500, 1000, 2000, and 4000.
+\end{tablenotes} 
+\end{table}
+%\end{comment}

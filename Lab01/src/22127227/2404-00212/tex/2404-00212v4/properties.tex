@@ -1,0 +1,123 @@
+\section{Properties of predomains}\label{sec:properties}
+
+We now establish the expected characterizations of the intrinsic preorder (\cref{subsec:intrinsic}) on predomains:
+\begin{enumerate}
+  \item The intrinsic preorder is pointwise on products, functions, and liftings of predomains. 
+  \item The intrinsic preorder on a predomain is a \emph{synthetic $\omega$-complete partial order}. 
+  \item The synthetic $\omega$-complete partial order structure of predomains is defined componentwise for products and functions between predomains. 
+\end{enumerate} 
+
+The general properties of the intrinsic preorder and link relation in SDT have been investigated in several prior works~\cite{phoa:1991,reus:1995,longley-simpson:1997}. Here we recall just a few important properties that we will need.
+
+\begin{restatable}{proposition}{PropPredomainProperties}\label[prop]{prop:predomain-properties}
+  Any predomain $A$ enjoys the following properties:
+  \begin{enumerate}
+    \item{\emph{Completeness}: \(A\) is orthogonal to \(\omega   \hookrightarrow   \overline{\omega}\).}  
+    \item{\emph{Anti-symmetry}: the intrinsic preorder on \(A\) is a partial order.}  
+    \item{\emph{Boundary separation}: maps \(\Sigma   \to  A\) with equal boundary are equal.}  
+    \item{\emph{Linkedness}: the intrinsic preorder and the link relation on \(A\) coincide.}
+  \end{enumerate}    
+\end{restatable}
+
+In addition, because predomains are defined in terms of orthogonality conditions, they are closed under (internal) limits and have all colimits, \ie{} limits of predomains are computed in the same way as limits of general types. The rest of the section is dedicated to proving the desired properties on the intrinsic order on predomains. Because the intrinsic order $\specle$ and $\pathle$ are the same for predomains, we may speak of the \emph{synthetic order} of predomains and write $\le$ for this relation in the rest of the paper. 
+
+\subsection{Discrete predomains}\label{subsec:disc-predom}
+
+We shall assume that the cost structure of \pcfc{} is given as a discrete type in the following sense: 
+\begin{definition}\label[defn]{def:discrete}
+A type \(A\) is called \emph{flat} or \emph{discrete} when \(x  \le^\circ  y\) implies \(x = y\).
+\end{definition}
+
+\begin{definition}
+  A type \emph{has \(\Sigma\)-equality} when its equality relation is valued in \(\Sigma\)-propositions.
+\end{definition}
+
+\begin{proposition}\label[prop]{prop:sigma-dec-disc}
+  Any type with $\Sigma$-equality is discrete. 
+\end{proposition}
+
+\begin{proof}
+  Let \(f : A  \to   \Sigma\) be the characteristic map that sends \(a\) to \(a = x\), which by assumption is a \(\Sigma\)-proposition. Since \(x  \sqsubseteq _A y\) on the specialization order and \(f(x)\) holds, we have that \(f(y)\) holds as well. 
+\end{proof}
+
+The category of predomains possesses a natural numbers type $\NatP$ with $\Sigma$-equality, which means it is also discrete. Note that it is not necessarily the same as the ambient natural numbers type $\Nat$, and we will not assume that it is the case in our constructions. From a logical perspective, this difference means that $\NatP$ has a universal mapping-out property whose motive is valued in predomains rather than arbitrary types. 
+
+In \cref{sec:den-sem} we will require the cost structure of \pcfc{} to be both discrete and purely intensional in the sense of \cref{subsubsec:phase-distinction}; here we show that these are compatible requirements by giving sufficient conditions to obtain a purely intensional discrete type (for instance, $\P \vee \Nat$ will be discrete).  
+
+\begin{restatable}{proposition}{PropSealingSigDecidable}\label[prop]{prop:sealing-sig-decidable}
+  If $A$ has $\Sigma$-equality, then so does $\P \vee A$. 
+\end{restatable}
+
+
+\subsection{Characterization of the synthetic order} 
+
+As mentioned at the beginning of this section, one of the primary motives of using replete types as predomains is to give a compositional characterization of the synthetic order. Roughly this means that the order relation on composite predomains can be defined in terms of the order on the constituent predomains.
+
+\begin{restatable}{proposition}{PropFuncPointwise}
+  When $A$ and $B$ are predomains, the synthetic orders on \(A  \times  B\) and \(A \to  B\) are pointwise.
+\end{restatable}
+
+We may also give a similar characterization of the order relation on lifted predomains: 
+
+\begin{restatable}{proposition}{PropLiftPointwise}\label{prop:lift-order}
+  Given a predomain \(A\), we have that \(x  \sqsubseteq _{ \mathsf{L} A } y\) if and only if \(x{ \downarrow }\) implies \(y{ \downarrow }\) and whenever \(x{ \downarrow }\), we have \(x  \sqsubseteq _A y\). 
+\end{restatable}
+
+
+
+\subsection{The synthetic \texorpdfstring{$\omega$}{omega}-complete partial order structure}\label{subsec:synth-omega-cpo}
+
+Every predomain $A$ contains the least upper bound of a synthetic $\omega$-chain; we will use this fact to interpret fixed points of \pcfc{} in \cref{sec:den-sem}. 
+
+\begin{restatable}{proposition}{PropLub}\label[prop]{prop:lub}
+  For every map \(f: \omega   \to  A\) into a complete type \(A\), there exists an element \(a_ \infty  : A\) such that \(a_ \infty\) is a least upper bound of \(f\) with respect to the intrinsic preorder. 
+\end{restatable}
+
+Because the intrinsic preorder on a predomain is a partial order by \cref{prop:predomain-properties}, we write $\sup f$ for the (necessarily unique) element defined in \cref{prop:lub}. We note that suprema of synthetic $\omega$-chains in function spaces are computed pointwise.
+
+
+\subsection{Domains and admissibility}
+
+Semantically, recursive functions may be interpreted as the fixed points of endomaps of domains: 
+
+\begin{definition}
+  A \emph{domain} is a predomain equipped with a \(\mathsf{L}\)-algebra structure. Every domain \(D\) contains a least element given by postcomposing the algebra map with the unique undefined element \(( \bot , !) : 1  \to   \mathsf{L} D\). We write \(\bot _D : D\) for the least element of \(D\). 
+\end{definition}
+
+\begin{proposition}
+Given a map of domains $f : D \to D$, there is an element $\kw{fix}(f) : D$ such that $\kw{fix}(f)$ is the least fixed-point of $f$. 
+\end{proposition}
+
+Similar to classical domains, we may introduce a notion of ``good subsets'' of domains for which fixed-point induction is valid.
+
+\begin{definition}\label[defn]{def:admissible}
+  A subset of a domain \(D\) is \emph{admissible} when it is complete and contains \(\bot _D\). 
+\end{definition}
+
+\begin{remark}
+  It might be tempting to define admissible subsets as subsets of domains that are closed under the least element and synthetic $\omega$-joins, but it is unclear that this definition actually supports fixed-point induction in general. However this intuitive definition does suffice for all instances of fixed-point induction used in this paper. 
+\end{remark}
+
+\begin{restatable}{proposition}{BugAdmissible}\label[prop]{prop:bug-admissible}
+  A \emph{lower} subset of a complete type is complete when it is closed under synthetic $\omega$-joins. 
+\end{restatable}
+
+\begin{corollary}\label[cor]{cor:admissible}
+  A lower subset of a domain is admissible when it is closed under the least element and synthetic $\omega$-joins.
+\end{corollary}
+
+\begin{proposition}[Fixed-point induction]
+  Given an admissible subset $A \subseteq D$ of a domain $D$ and $f : D \to D$, to show that $\kw{fix}(f) \in A$ it suffices to show that $x \in A$ implies $f~x \in A$. 
+\end{proposition}
+
+\subsection{Monotonicity and continuity}
+
+As we discussed in \cref{subsubsec:SDT}, one of the main benefits of working in a synthetic domain theory is that maps are automatically compatible with the derived order structure: 
+
+\begin{restatable}{proposition}{PropMonotone}\label[prop]{prop:monotone}
+  Every map $f : A \to B$ between predomains is monotone in the synthetic order. 
+\end{restatable}
+
+\begin{restatable}{proposition}{PropCont}\label[prop]{prop:cont}
+  Every map $f : A \to B$ between predomains is continuous in the sense that $f(\sup d) = \sup(f \circ d)$ for every synthetic $\omega$-chain $d : \omega \to A$. 
+\end{restatable}

@@ -1,0 +1,166 @@
+ \synctex=1
+\pdfoutput=1
+\documentclass[final,twoside,11pt]{entics}
+\usepackage[final]{microtype}
+\usepackage{amsmath}
+\usepackage[capitalise]{cleveref}
+\usepackage{graphicx}
+\usepackage[all]{xy}
+\usepackage{names}
+\usepackage{diagram}
+\usepackage{xparse}
+\usepackage{expl3}
+\usepackage{preamble}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage{mathpartir}
+\usepackage{enticsmacro}
+\newtheorem{nota}[thm]{Notation}
+\Crefname{lem}{Lemma}{Lemmas}
+\Crefname{thm}{Theorem}{Theorems}
+\Crefname{defn}{Definition}{Definitions}
+\Crefname{cor}{Corollary}{Corollaries}
+\Crefname{prop}{Proposition}{Propositions}
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+
+\sloppy
+
+\def\conf{MFPS 2024}
+\def\myconf{mfps40} 	%%Fill in the acronym for your conference (with year)
+\volume{4}			%Fill in the ENTICS volume number here
+\def\volu{4}			% and here
+\def\papno{18}			%Fill in your paper number here
+\def\mydoi{14732}%
+\def\lastname{Niu, Sterling, and Harper}
+\def\runtitle{Cost-sensitive computational adequacy of higher-order recursion in synthetic domain theory}
+\def\copynames{Y. Niu, J. Sterling, R. Harper}
+\def\copyname{}
+\def\CCB{CC@symbol}
+\begin{document}
+\begin{frontmatter}
+  \title{Cost-sensitive Computational Adequacy of Higher-order\\[1ex] Recursion in Synthetic Domain Theory}
+  \author{Yue Niu\thanksref{a}\thanksref{yue}}
+   \author{Jonathan Sterling\thanksref{b}\thanksref{jon}}
+  \author{Robert Harper\thanksref{a}\thanksref{bob}}
+   \address[a]{National Institute of Informatics\\  Tokyo, Japan}
+   \thanks[yue]{Email: \href{mailto:yue\_niu@nii.ac.jp} {\texttt{\normalshape yue\_niu@nii.ac.jp}}}
+  \address[b]{Department of Computer Science and Technology\\University of Cambridge\\ Cambridge, United Kingdom}
+  \thanks[jon]{Email:  \href{mailto:js2878@cl.cam.ac.uk} {\texttt{\normalshape js2878@cl.cam.ac.uk}}}
+   \address[c]{Computer Science Department\\ Carnegie Mellon University\\  Pittsburgh, USA}
+  \thanks[bob]{Email:  \href{mailto:rwh@cs.cmu.edu} {\texttt{\normalshape rwh@cs.cmu.edu}}}
+\begin{abstract}
+  We study a cost-aware programming language for higher-order recursion dubbed \pcfc{} in the setting of \emph{synthetic domain theory} (SDT). Our main contribution relates the denotational cost semantics of \pcfc{} to its \emph{computational cost semantics}, a new kind of dynamic semantics for program execution that serves as a mathematically natural alternative to operational semantics in SDT. In particular we prove an internal, cost-sensitive version of Plotkin's computational adequacy theorem, giving a precise correspondence between the denotational and computational semantics for complete programs at base type. The constructions and proofs of this paper take place in the internal dependent type theory of an SDT topos extended by a \emph{phase distinction} in the sense of Sterling and Harper. By controlling the interpretation of cost structure via the phase distinction in the denotational semantics, we show that \pcfc{} programs also evince a noninterference property of cost and behavior. We verify the axioms of the type theory by means of a model construction based on relative sheaf models of SDT.
+\end{abstract}
+\begin{keyword}
+  compositional cost analysis, domain theory, synthetic domain theory, type theory, PCF
+\end{keyword}
+\end{frontmatter}
+
+\section{Introduction}\label{intro}
+
+In 1977 Plotkin~\cite{plotkin:1977} introduced a programming language for higher-order recursion, \textbf{PCF}, and defined \emph{computational adequacy}, a fundamental notion relating the denotational and operational semantics of a programming language in terms of the computational behavior of closed programs of ground type. Since Plotkin's seminal work, computational adequacy has been developed and refined to tailor various programming features and is an important property in the context of denotational approaches to program verification, enabling one to bring familiar mathematical structures and equational reasoning to bear on problems regarding program behavior. One refinement takes place in both the arrangement and metatheory of the semantics. In one direction, when the ambient category in which the model is defined has sufficient logical structure, one may view the object programming language from an internal perspective, a situation that was first thoroughly developed in the context of \emph{synthetic domain theory}~\cite{hyland:1991,phoa:1991}. In the other direction, one may move to a constructive metatheory such as the internal languages of generic elementary topoi or guarded type theory. The transition to these constructive, internal versions of computational adequacy has several benefits. First, by working inside topoi or type theories, one is automatically equipped with a powerful logical language to reason directly about domains and the denotational semantics, which was one of the original motivations for the development of synthetic domain theory. Second, the constructive nature of the metatheory means that one can argue that computationally adequate denotational semantics can be directly executed, as observed by De Jong~\cite{dejong:2023:thesis} in his work on constructive domain theory.
+
+\emph{Computational adequacy in cost analysis}. More recently, Niu and Harper~\cite{niu-harper:2023} identified another application of internal adequacy in the context of cost analysis in \textbf{calf}~\cite{niu-sterling-grodin-harper:2022}, a type theory in which cost is reified as a computational effect and cost analysis takes the form of equational reasoning. A natural question in this setting is the relationship between the abstract cost bounds specified and proved in \textbf{calf} and the concrete bounds derived with respect to traditional operationally-based cost models. Viewing \calf{} as a semantic universe for \emph{internal denotational semantics}, Niu and Harper~\cite{niu-harper:2023} determined a criterion justifying the adequacy of an abstract \textbf{calf} cost model with respect to operational semantics by means of a cost-sensitive refinement of computational adequacy, which they instantiate using a variant of the Algol programming language, which featured higher-order (total) functions, first-order store and while loops.
+
+\subsection{Motivations}
+
+The aim of the present work is to extend the results of Niu and Harper~\cite{niu-harper:2023} to \emph{full higher-order recursion} by combining their ideas with \emph{synthetic domain theory}, culminating in a type theory for computing with \emph{generalized spaces} that support cost instrumentation alongside an information order for recursion. %
+
+\subsubsection{Types as generalized spaces}\label{subsubsec:spaces}
+
+The type theoretic philosophy is to study a real phenomenon in terms of \emph{abstract interfaces} rendered as types; type theoretic terms, then, correspond precisely to constructions in this discourse that preserve the geometrical and topological structure at play. For example, in synthetic domain theory (SDT), types have an intrinsic topology with respect to which all functions are continuous. By adhering to an abstract interface, the type-theoretic viewpoint brings to the fore the essential logical/geometric structure of underlying objects of interest and suppresses ill-defined objects and transformations, which makes it possible to define and reason about the domain of discourse in a conceptually simple manner that is completely rigorous.
+
+Orthogonal to the topological and order-theoretic aspects of types as spaces in synthetic domain theory, we shall impose a different kind of geometric structure called a \emph{phase distinction}. Originating in the theory of program modules and logical relations~\cite{harper-mitchell-moggi:1990,sterling-harper:2021}, a phase distinction can generally refer to any situation in which types represent \emph{indexed} structures. For example, a program module can be represented as a family of dynamic runtime components whose ``shape'' is determined/indexed by a static module signature; similarly, a logical relation of a type theory can be represented as a family of computability data indexed in a syntactic type.
+In this work, we are concerned with a similar kind of phase distinction called the \emph{intension-extension} phase distinction, introduced by Niu~\etal~\cite{niu-sterling-grodin-harper:2022} to enable simultaneous reasoning about both the cost and extensional behavior of programs.
+
+
+The geometric aspect of phase distinctions emerges through two operations, \emph{restriction} and \emph{sealing}, that manipulate types to either trivialize the fibers or the base of the indexed structure represented by a given type. In the present case, these two operations are used to implement a form of cost profiling semantics for programs that can be easily ``stripped away'' via restriction, enabling one to simultaneously and faithfully carry out cost analysis in one framework; we shall describe this in mathematical terms in \cref{subsubsec:phase-distinction}.
+
+In this paper we combine the intension-extension phase distinction of Niu~\etal~\cite{niu-sterling-grodin-harper:2022} with the domain-theoretic structure of SDT to obtain an intrinsically cost-sensitive theory of higher-order recursion in type theory. There are two main motivations for this combination. First, building on the work of Niu~\etal~\cite{niu-sterling-grodin-harper:2022,niu-harper:2023} we obtain an account of cost analysis in type theory that is compatible with general recursive programs, which we anticipate will enable more natural programming and verification techniques. Second, we will use the resulting type theory to define and study the \emph{internal denotational semantics} of \pcfc{}, a cost-aware version of \pcf{}, and prove a cost-sensitive internal computational adequacy theorem in the sense of \opcit. We explain what this entails in the following section.
+
+\subsubsection{Internal denotational semantics}\label{subsubsec:internal}
+
+By \emph{internal} denotational semantics, we mean to specify the syntax and semantics of a given programming language $\mathcal{L}$ called the \emph{object language} as constructions internal to type theory. Typically, one may define the syntax of the object language by means of a first-order encoding in terms of (indexed) inductive data types in which we have a type $\kw{tp} : \mathcal{U}$ of object-level types and a type family $\kw{tm} : \kw{tp} \to \mathcal{U}$ of object-level terms. A denotational model of $\mathcal{L}$ is given by a pair of maps $\sem{-}_0 : \kw{tp} \to \mathcal{U}$ and $\sem{-}_1 : (A : \kw{tp}) \to \kw{tm}(A) \to \sem{A}$ sending types to semantic domains and terms to elements of semantic domains. Usually we will use $\sem{-}$ to refer to either map when the context is unambiguous. Similarly, one may define an internal operational semantics of $\mathcal{L}$ as a type family ${\Downarrow} : (A : \kw{tp}) \to \kw{tm}(A) \to \kw{tm}(A) \to \mathcal{U}$ such that the type $e \Downarrow v$ (viewed as a proposition) holds just when $e$ evaluates to $v$.
+
+Computational adequacy, first introduced in Plotkin~\cite{plotkin:1977}, is a statement that relates the operational and denotational semantics of $\mathcal{L}$ at the type of booleans (or any other observable type): a denotational semantics is \emph{computationally adequate} when $\sem{e} = b$ just when $e \Downarrow \overline{b}$, where $\overline{b}$ is the object-level boolean denoted a semantic boolean $b$. In the context of program verification, computational adequacy is a desirable property because the agreement of both semantics at observable types can be used to justify semantic reasoning with respect to operational behavior. In the context of cost analysis, the significance of this property is made explicit in the work of Niu and Harper~\cite{niu-harper:2023}, where the authors illustrate how a cost-sensitive refinement of internal computational adequacy can serve as the basis for validating user-defined cost models and program cost instrumentations. At a high level, results of this kind serve to ground the abstract reasoning supported by type theory to ``reality'' as given by operational semantics; we defer to \emph{op.~cit.} for a deeper discussion.
+
+In this paper we will generalize the result of Niu and Harper~\cite{niu-harper:2023} to higher-order recursion. In contrast to \opcit{}, in this paper we prefer to work with a version of \pcfc{} whose execution model is given by a \emph{computational semantics} (see \cref{sec:comp-sem}). We will elaborate on the relationship between this new kind of dynamic semantics and traditional operational semantics in \cref{sec:discussion}.
+
+\subsection{Mathematical techniques}
+
+In constructing a model for the type theory supporting both a phase distinction and recursion, we employ mathematical tools that deserve some explication, which we summarise below.
+
+\subsubsection{Cost as a phase distinction}\label{subsubsec:phase-distinction}
+
+The writer monad on a monoid is a well-established way to express the computational effect of incurring and accumulating the cost of program execution. However, as pointed out by Niu~\etal~\cite{niu-sterling-grodin-harper:2022}, this arrangement does not faithfully model the semantics of cost profiling because it allows functions to branch on the cost component of their inputs. Thus, semantic functions lack a coherent \emph{underlying} behavior independent of the profiling, which is indispensable for stating behavioral or correctness specifications of algorithms.
+
+In the \calf{} type theory of Niu~\etal~\cite{niu-sterling-grodin-harper:2022} this problem is resolved by means of the \emph{intension-extension phase distinction}, as discussed in \cref{subsubsec:spaces}. Mathematically, a type-theoretic \emph{phase} is simply a distinguished proposition \(\P\) whose associated \emph{open} and \emph{closed} modalities~\cite{rijke-shulman-spitters:2020} generate subuniverses for classifying purely extensional and purely intensional types, respectively. A \emph{purely extensional} type $A$ does not detect the presence of the phase proposition in the sense that the map $A \to (\P \to A)$ sending $a$ to the constant map $\P \to A$ determined by $a$ is an isomorphism; in other words a purely extensional type classifies only the behavior of programs. By contrast, a \emph{purely intensional} type $A$ ``collapses'' extensionally in the sense that $(\P \to A) \cong 1$. Given any type $A$, one may extract from $A$ the purely extensional and purely intensional part of $A$ by means of \emph{idempotent monadic} modalities. The \emph{extensional}/\emph{restriction} modality is simply defined as the function space out of the proposition: \(\P   \to  A\) (\ie the reader monad on $\P$). The \emph{intensional}/\emph{sealing} modality $\P \vee -$ is defined as the following pushout/quotient inductive type (QIT)~\cite{fiore-pitts-steenkamp:2021}: 
+\begin{minipage}{0.5\textwidth}
+  \DiagramSquare{
+    nw = A \times \P,
+    sw = A, 
+    ne = \P, 
+    se = \P \vee A,
+    se/style = pushout,
+    north = \pi_2,
+    west = \pi_1,
+  } 
+\end{minipage}%
+\begin{minipage}{0.5\textwidth}
+  \iblock{
+    \mhang{\textbf{inductive}~\P \vee A : \kw{Set}~\textbf{where}}{
+      \mrow{\eta_{\P \vee -} : A \to \P \vee A}
+      \mrow{\ast : \P \to \P \vee A}
+      \mrow{\_ : (a : A) \to (u : \P) \to \eta_{\P \vee -}(a) = \ast(u)}
+    }
+  }      
+\end{minipage}
+The universal property of the sealing monad can be phrased in terms of a unique extension property: for any map $A \to B$ into a purely intensional type $B$, there is a unique extension $\P \vee A \to B$ along the unit of the sealing monad $\eta_{\phase \vee -} : A \to \P \vee A$. 
+One can use the phase proposition $\P$ to exhibit a form of noninterference in the sense of information flow: any map \(A  \to  ( \P  \to  B)\) from a purely intensional type \(A\) to the extensional part of \(B\) must be constant. Therefore in \textbf{calf} one achieves a semantically faithful instrumentation of cost by programming against the writer monad on a \emph{purely intensional} cost monoid.
+
+From an external point of view, \textbf{calf}'s types can be modeled as presheaves on the interval \( \I = { \left \{ \mathsf{ext}   \le   \mathsf{int} \right \} }\); in the terminology of Sterling and Harper~\cite{sterling-harper:2022}, such a presheaf encodes a set varying in the intension-extension ``security poset'' $\I$ whose presheaf restriction action \emph{redacts} intensional cost structure. The phase proposition $\P$ is given by the ``intermediate'' proposition $0 \to 1$ corresponding to the representable $\y{\I}(\kw{ext})$. 
+
+\subsubsection{Synthetic domain theory}\label{subsubsec:SDT}
+
+Synthetic domain theory (SDT) as a field started when Dana Scott conjectured that one ought to be able to reason about domains as if they were just sets \emph{provided} that one employs a constructive ambient metalanguage. In technical terms, this metalanguage can be construed as the internal languages of a topos, \ie an extensional dependent type theory. In general it is difficult to reconcile the domain-theoretic structure with the rich logical structure of dependent type theory, so the quest for SDT was in essence about constructing full subcategories of topoi that supported domain-theoretic constructions. Fullness is a critical property --- it means that \emph{every} map definable in type-theoretic language is a domain morphism, which absolves one from checking onerous side conditions when working internally. There are two well-known ways to obtain models of synthetic domain theory: one based on realizability (Hyland~\cite{hyland:1991}, Phoa~\cite{phoa:1991}, Reus~\cite{reus:1995}) and one based on sheaf topoi (Rosolini~\cite{rosolini:1986}, Fiore and Rosolini~\cite{fiore-rosolini:1997}, Fiore and Plotkin~\cite{fiore-plotkin:1996}, Matache \etal~\cite{matache-moss-staton:2021}). In this paper we will construct a sheaf model of SDT, so we take a moment to recall the basic ideas, mainly drawing from the work of Fiore and Plotkin~\cite{fiore-plotkin:1996}. 
+
+\emph{Sheaf models of SDT.} The intuition behind (pre)sheaf models of synthetic domain theory is to use the Yoneda embedding to embed a category of predomains as a full subcategory of an ambient category whose internal language is dependent type theory. Thus given a (small\footnote{The fact that natural categories of predomains are rarely small can be overcome by means of Grothendieck universes or a small dense subcategory (\eg $\{\omega\} \xhookrightarrow{\text{full}} \OCPO{}$).}) category of predomains $G$, the category of presheaves on $G$ presents the original category of predomains as a full subcategory, which constitutes a simple model of SDT. However there are some strange properties of this model from an internal perspective. For example, because the $\emptyset$ is the initial object in $G$, it is a sub-predomain of every other predomain. But because the embedding does not preserve colimits, the subcategory of predomains does not contain an initial object from the perspective of \PSH{G}; in other words, this means that while the empty set is a subset of every predomain, it is not a sub-predomain, which obstructs the use of the ambient logic to reason about (pre)domains. We may repair the model by imposing a nontrivial Grothendieck topology on $G$ that ensures that the empty predomain is preserved by the embedding into the category of sheaves on $G$. In practice one may choose to preserve additional colimits as the application demands --- for instance in \cref{sec:model} we will construct a model of SDT in which discrete finite predomains are preserved. 
+
+
+\subsubsection{Predomains and the intrinsic order}\label{subsubsec:intrinsic-preorder}
+
+Contrary to classical domain theory, ordering on predomains is a derived notion in synthetic domain theory. Nonetheless one may equip a synthetic predomain with an \emph{intrinsic preorder} that is analogous to the information order of ordinary predomains. By default the intrinsic/synthetic preorder is not very well-behaved: it is not pointwise on limits of predomains, and it is not even a partial order in general. In this paper we shall define and base our constructions on a notion of synthetic predomains for which the intrinsic preorder is extremely well-behaved: it is pointwise, partially ordered, and closed under \emph{synthetic} $\omega$-chains, which is the counterpart to closure under $\Nat$-chains for classic $\omega$-cpos.
+
+Aside from intrinsic interest, we are motivated by two practical incentives for considering and developing the theory of the synthetic preorder. First, we would like to connect our work to the type theory for cost analysis developed by Grodin~\etal~\cite{grodin-niu-sterling-harper:2024}. In that setting one works with a \emph{cost ordering} on programs in which $e \le e'$ represents a proof of the fact that $e'$ is an upper bound of $e$ with respect to computational cost. We expect that one may extend the work of \emph{op. cit.} to account for recursive programs by the methods we develop in this paper, and the information/intrinsic preorder appears to be the correct theoretical framework for describing the interaction of cost and partiality~\cite[Section 8]{kavvos-morehouse-licata-danner:2019}. Second, the advantages of the synthetic point of view outlined \cref{subsubsec:SDT} do not detract from the benefits of the \emph{language} of classical domain theory. The intrinsic preorder integrates the advantages of both the synthetic and classical perspective by providing an intuitively appealing language for reasoning about domains that automatically complies with well-definedness conditions such as monotonicity and continuity.
+
+\subsubsection{Synthetic predomains from orthogonality}\label{subsubsec:orthogonality}
+
+  From an internal perspective, predomains in a model of SDT~\cite{fiore-plotkin:1996,reus-streicher:1999,sterling-harper:2022} are often defined in terms of (internal) orthogonality conditions. Intuitively, an orthogonality condition can be thought of as a way of specifying a closure property with respect to a given \emph{figure shape} $X \to Y$. A type \(A\) is \emph{orthogonal} to a map \(f : X  \to  Y\) when \(A^f : A^Y  \to  A^X\) is invertible. In other words \(A\) is orthogonal to \(f\) when \(A\) ``thinks'' \(f\) is an isomorphism. For instance, an $\omega$-cpo is a poset $P$ that is orthogonal to the figure shape $\{0 \le 1 \le \dots\} \hookrightarrow \{0 \le 1 \le \dots \le \infty\} $, \ie when $P$ is closed under joins of $\Nat$-chains. In \cref{sec:predomains} we define predomains by means of multiple such orthogonality conditions. The benefit of this general approach to synthetic domain theory is that subcategories defined by (internal) orthogonality conditions are automatically (internally) reflective --- this closes the predomains under structures necessary for day-to-day denotational semantics such as product and function types. Moreover, \emph{limits} of predomains are preserved by the inclusion into the ambient SDT topos, which allows one to reason about the denotational semantics in a straightforward way using the internal language. Note that colimits of predomains always exist by virtue of the reflection, but they are usually not preserved by inclusion; in some situations this may be calibrated by ensuring a precise correspondence between the original domain-theoretic site and the subcategory of predomains (\eg the internal characterization of $\omega$-cpos of Fiore and Rosolini~\cite{fiore-rosolini:1997:cpos}).
+
+\subsection{Contributions}
+The contribution of our work is summarized as follows:
+\begin{enumerate}
+  \item An axiomatization of a type theory based on SDT that incorporates both a phase distinction and a subuniverse of predomains whose intrinsic order structure is well-behaved (\cref{sec:type-theory}).
+  \item A denotational semantics for \pcfc{} exhibiting noninterference between cost and behavior (\cref{sec:den-sem}).
+  \item A dynamic semantics for \pcfc{} in which execution is modeled directly as computation (\cref{sec:comp-sem}).
+  \item An internal cost-sensitive adequacy theorem identifying the two semantics at base type (\cref{sec:adequacy}).
+  \item A relative sheaf model of SDT justifying the axioms of the type theory (\cref{sec:model}).
+\end{enumerate}
+\input{type-theory}
+\input{predomains}
+\input{properties}
+\input{pcfc}
+\input{den-sem}
+\input{comp-sem}
+\input{adequacy}
+\input{model}
+\input{discussion}
+\input{conclusion}
+
+\bibliographystyle{entics}
+\bibliography{bibtex-references/refs-bibtex,bib}
+
+\clearpage
+\appendix
+\input{appendix}
+\end{document}

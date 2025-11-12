@@ -1,0 +1,216 @@
+\section{Basic Concept of Contrastive Learning}
+% \hh{1. shall we call these content (before sec2.1) as sth like 'basic concept of contrastive learning'? 2. consider to add a notation table to list main symbols and their meanings used in this paper. this helps the readability.} \lc{I have added a table to summarize the main symbols.}
+% % \by{A full CL strategy is comprised of (1) data augmentation; (2) embedding augmentation; (3) contrastive pair construction; (4) loss functions. We may also briefly consider to mention them here. After pre-training, (5) the quality of CL strategies is usually evaluated by downstream tasks.}\lc{I have added these information as the basic concept of CL.}
+% \by{We need to connect the concepts introduced here with the sections in the survey. maybe we need to modify the components of CL a little bit.}
+% \lc{Updated.}
+
+Contrastive learning (CL) aims at learning the compact representation by contrasting the embeddings with one negative sample, following the idea of Noise Contrastive Estimation (NCE) \cite{DBLP:journals/jmlr/GutmannH10}. Its pipeline is comprised of three stages, including augmentation, contrastive pair construction, and loss function formulation. In the first stage, many existing works either augment the raw data (\ie, data augmentation) or the embedding (\ie, embedding augmentation) to get an augmented sample and enrich the negative sets. In the second stage, researchers design how to construct the positive and negative pairs based on the different purposes or different settings (\eg, unsupervised contrastive loss~\cite{chen2020simple} vs supervised contrastive loss~\cite{abs-2004-11362}). The most commonly used contrastive pair construction considers that two samples augmented from the same raw data can form a positive pair and the rest of the samples are treated as negative samples. In the third stage, various types of contrastive learning losses are formulated based on different contrastive pair constructions, \eg, instance-level contrastive loss~\cite{DBLP:conf/nips/ZhangR22, DBLP:conf/iclr/Xiao0ED21}, cluster-level contrastive loss~\cite{DBLP:conf/aaai/Li0LPZ021, DBLP:conf/mm/WangFLG23}, contrastive alignment~\cite{DBLP:conf/cvpr/TrostenLJK23, DBLP:conf/cvpr/TrostenLJK21}, inter-view contrastive loss~\cite{DBLP:conf/cvpr/XuT0P0022, DBLP:conf/cvpr/0001GLL0021}, etc. A detailed discussion of the various types of loss formulation is shown in the next several subsections. 
+
+
+In addition to these stages, many existing works~\cite{perozzi2014deepwalk, DBLP:conf/icml/RadfordKHRGASAM21, yang2022unified} design a variety of CL strategies for pre-training tasks and downstream tasks. During pre-training, various characteristics of the data are injected into the models by pre-training tasks, including pretext tasks \cite{DBLP:conf/iclr/HjelmFLGBTB19, chen2020simple, franceschi2019unsupervised}, supervised tasks~\cite{abs-2004-11362, park2022fair}, preference tasks \cite{DBLP:journals/corr/abs-2310-13639, dennler2024using} and auxiliary tasks~ \cite{pan2022contrastive,yang2022knowledge}.
+After pre-training, the models are fine-tuned to learn task-specific patterns of the downstream tasks, including automated machine learning~\cite{jin2021automated, suresh2021adversarial,reed2021selfaugment}, prompt learning~\cite{DBLP:conf/wsdm/Xu0QLXHH23, DBLP:conf/acl/AbaskohiRY23, DBLP:conf/acl/WangCZY23}, multi-task learning~\cite{DBLP:conf/acl/PanWWL20, yu2022graph}, task reformulation~\cite{DBLP:conf/icml/RadfordKHRGASAM21, qiu2021neural, DBLP:conf/aaai/Li0LPZ021}, etc.
+
+% CL aims at learning the compact representation by comparing the embeddings with a Noise Contrastive Estimation (NCE) \cite{DBLP:journals/jmlr/GutmannH10} function defined by:
+% \begin{equation}
+%     \begin{split}
+%          \mathcal{L} = -\log \frac{\exp(sim(\bm{z}, \bm{z^+}))}{\exp(sim(\bm{z}, \bm{z}^+)) + \exp(sim(\bm{z}, \bm{z}^-))}
+%     \end{split}
+% \end{equation}
+% where $\bm{z}$ is the learned representation of a input sample $\bm{x}$, $\bm{z}^+$ is the representation of a positive sample similar to $\bm{x}$ and $\bm{z}^-$ is the representation of a negative sample dissimilar to $\bm{x}$. 
+
+
+\begin{table}[t]
+\caption{Main symbols and notation}
+\vspace{-2mm}
+\label{notation_table}
+\begin{center}
+\scalebox{0.95}{
+\begin{tabular}{|c|c|}
+\hline
+$\mathcal{D}$ & The training dataset \\ \hline
+$\bm{x}$  &  The input feature \\  \hline
+% $v$  &  The total number of views \\  \hline
+% $\bm{z}_i^j$  &  The representation of the $j$-th view of the $i$-th sample\\  \hline
+$\bm{z}_i^+$ ($\bm{z}_i^-$)  &  A positive (negative) sample for $\bm{z}_i$\\  \hline
+$sim(\cdot)$  &  The similarity measurement function \\  \hline
+$\tau$  &  The temperature to scale the similarity measurement \\  \hline
+% \multirow{2}{*}   &  The representation of the image (text) view \\
+%  $\bm{z}_i^I$ ($\bm{z}_i^T$)   & for the $i$-th sample\\ \hline
+% $\bm{z}_i^I$ ($\bm{z}_i^T$)  &  Image (text) view representation of sample $i$ \\  \hline
+\end{tabular}
+}
+\end{center}
+\vspace{-3mm}
+\end{table}
+
+Formally, CL loss follows the idea of NCE loss~\cite{DBLP:journals/jmlr/GutmannH10} by including more negative samples as follows:
+\begin{equation}
+    \begin{split}
+         \mathcal{L} = -\E_{x_i\in \mathcal{D}} \log \frac{\exp(sim(\bm{z}_i, \bm{z}_i^+))}{\exp(sim(\bm{z}_i, \bm{z}_i^+)) + \sum_{k\neq i} \exp(sim(\bm{z}_i, \bm{z}_k^-))}
+    \end{split}
+\end{equation}
+where $\bm{z}_i$ is the learned representation of a input sample $\bm{x}_i$ from the dataset $\mathcal{D}$, $\bm{z}_i^+$ is the representation of a positive sample similar to $\bm{x}_i$ and $\bm{z}_k^-$ is the representation of a negative sample dissimilar to $\bm{x}_i$. $sim(\cdot)$ denotes the similarity measurement functions, (\eg, $sim(\bm{a}, \bm{b})={(\bm{a})}^T \bm{b}/\tau$, where $\tau$ is the temperature). It first constructs a dataset $\mathcal{D}$ with $n$ samples containing $1$ positive samples and $n-1$ negative samples and then maximizes the similarities between $\bm{z}_i$ and $\bm{z}_i^+$.  Table~\ref{notation_table} summarizes the symbols and their meanings.
+
+
+% \hh{which two types?}\lc{updated.}
+% \by{in addition to NCE and InfoNCE, there are many other types of losses: including InfoMax based loss, triplet loss, negative sampling loss etc., we should briefly mention them here.}
+There are many other types of losses similar to CL loss, including InfoMax Based loss~\cite{DBLP:conf/iclr/HjelmFLGBTB19}, triplet loss~\cite{DBLP:conf/cvpr/SchroffKP15}, etc. Specifically, ~\cite{DBLP:conf/iclr/HjelmFLGBTB19} proposes to maximize the mutual information between the input feature $\bm{x}$ and the output of the encoder $\bm{z}$ (\ie, $\max \mathcal{I}(\bm{x}_i, \bm{z}_i)$); ~\cite{DBLP:conf/cvpr/SchroffKP15} introduces the triplet loss to compare the representation of the anchor sample $\bm{x}_i$ with the positive and negative samples as follows:
+\vspace{-1mm}
+\begin{equation}
+    \begin{split}
+        \mathcal{L} = \sum_i||\bm{z}_i - \bm{z}^+_i||_2^2 - ||\bm{z}_i - \bm{z}^-_i||_2^2 + \alpha
+    \end{split}
+\end{equation}
+\vspace{-3mm}
+where $\alpha$ is a margin enforced between positive and negative pairs.
+
+
+
+
+
+% \hh{my general impression of sections 2 and 3: they read a bit plain. we can consider to add a figure/table (e.g., to compare or summarize key features of different methods) to each section or subsection, and/or a summary paragraph (to summarize pros and cons). This will bring some structure to each (sub-)section, and makes the content less like a laundry list (a common issue with survey paper)} \lc{I plan to summarize each subsection in Figure~\ref{taxonomy}.}
+
+
+
+\section{Contrastive Learning For View Heterogeneity}
+% In this section, we first provide the audience with the traditional multi-view CL model as the basis and then introduce the multi-view CL for large foundation models. 
+In this section, we first present the basis of CL for view heterogeneity and then introduce traditional multi-view CL methods in different domains, including computer vision~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23, DBLP:journals/corr/abs-2105-09401, DBLP:conf/cvpr/XuT0P0022, DBLP:conf/cvpr/0001GLL0021, DBLP:conf/nips/LiangDMZMS23}, natural language processing~\cite{DBLP:conf/emnlp/Lin022, DBLP:conf/acl/ZhangXZMA22, DBLP:conf/emnlp/Zhang0MCTN022, DBLP:conf/acl/OuyangY023, DBLP:journals/corr/abs-2309-08929, DBLP:conf/naacl/ZhangMAHK22}, etc. Based on these traditional CL methods for view heterogeneity, we show how the researchers apply contrastive self-supervised learning to train the multi-view foundation models.
+
+\subsection{Basis of Contrastive Learning for View Heterogeneity}
+View heterogeneity refers to situations where data from different sources are available for training a model~\cite{DBLP:conf/www/ZhengCYCH21, DBLP:conf/sdm/ZhengCH19, DBLP:conf/www/ZhouZZLH20}. In CL, view heterogeneity can be categorized into two scenarios. In the first scenario, the raw data is unimodal or single-view (\eg, single-view image, text, or graph data), while in the second scenario, the raw data are collected from multiple data sources and the dataset naturally consists of multiple views (\eg, images with text descriptions in the social media). Different from InfoNCE~\cite{oord2018representation} maximizing the input data $\bm{x}$ and its contextual information, CL for view heterogeneity aims to maximize the mutual information of multiple views of the same sample to extract the shared representations~\cite{tian2020contrastive}. At the early stage, most CL methods tend to first use data augmentation methods to generate the augmented view and then apply CL~\cite{DBLP:conf/nips/ZhangR22, DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, DBLP:conf/ijcai/LinBB0ZX22, DBLP:conf/nips/PanK21, DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21, DBLP:conf/icml/HassaniA20}. Different from these methods, CMC~\cite{tian2020contrastive} formally applies the idea of CL to handle the raw data with multiple views. Following CMC, various types of CL losses are proposed to model the multi-modal data, including inter-modality contrastive loss~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23, DBLP:conf/cvpr/DongZWWKWLWL22, zheng2024multi, zheng2023fairness, DBLP:journals/corr/abs-2105-09401, DBLP:conf/kdd/ZhengXZH22, DBLP:conf/cvpr/XuT0P0022, DBLP:conf/cvpr/0001GLL0021, DBLP:conf/nips/LiangDMZMS23, DBLP:conf/ijcai/LinBB0ZX22, DBLP:conf/mm/WangFLG23, DBLP:conf/emnlp/Lin022, DBLP:conf/naacl/ZhangMAHK22, DBLP:journals/corr/abs-2309-08929, DBLP:conf/naacl/ZhangMAHK22, DBLP:conf/emnlp/LiWFO23}, intra-modality contrastive loss~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23,  DBLP:journals/corr/abs-2105-09401, DBLP:conf/kdd/ZhengXZH22}, contrastive alignment~\cite{DBLP:conf/cvpr/TrostenLJK23, DBLP:conf/cvpr/TrostenLJK21, DBLP:conf/acl/OuyangY023}. 
+
+
+% Specifically, in natural language processing domain, CL is applied to model instance-level representations~\cite{DBLP:conf/emnlp/Lin022}, sentence-level or paragraph-level representations~\cite{DBLP:conf/emnlp/Zhang0MCTN022, DBLP:journals/corr/abs-2309-08929, DBLP:conf/naacl/ZhangMAHK22}; 
+% and further extends CL in the two-view setting to include the multiple-view setting. The objective function of CMC is formulated as follows:
+% \begin{equation}
+%     \label{CMC_core_view}
+%     \begin{split}
+%         \mathcal{L} &= -\sum_{1\leq j \leq l \leq v} \E_{x_i\in \mathcal{D}}[ \log \frac{\exp(sim(\bm{z}_i^j, \bm{z}_i^l))}{\sum_{k} \exp(sim(\bm{z}_i^j, \bm{z}_k^l))}] 
+%     \end{split}
+% \end{equation}
+% % where $sim(\cdot)$ denotes the similarity measurement functions, (\eg, $sim(\bm{Z_i^1}, \bm{Z_i^2})=\frac{(\bm{Z_i^1)}^T \bm{Z_i^2}}{\tau}$ and $\tau$ is the temperature).
+% where $\bm{z}_i^j$ denotes the representation of the $j$-th view of the $i$-th sample and $v$ is the number of views. Notice that CMC scales to any number of views and the authors show that the contrastive loss performs the task of cross-view prediction and the more views are involved in the learning task, the better representation it learns to capture underlying scene semantics. 
+% \lc{For augmented view, ... for raw dataset with multiple views,....}
+
+% \by{maybe this paragraph should emphasize "views" rather than "losses".}
+% \lc{ (1) two augmented views, (2). global view vs local view, (3) }
+
+
+
+Unlike multi-modal data which naturally consists of various types of data, when handling single-view data such as images, text, and graphs, researchers often rely on data augmentation techniques to generate one or more augmented views for CL \cite{DBLP:conf/nips/ZhangR22, DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, DBLP:conf/ijcai/LinBB0ZX22, DBLP:conf/nips/PanK21, DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21, DBLP:conf/icml/HassaniA20}. Here, we characterize these view construction methods into two main categories: global and local. Global view construction involves augmenting samples globally, creating synthetic data akin to the original, commonly done through methods like random rotation and color jittering in computer vision~\cite{DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, tian2020contrastive}, or graph-level augmentation in graph mining ~\cite{DBLP:conf/icml/HassaniA20, DBLP:conf/www/0001XYLWW21, DBLP:conf/ijcai/JinZL00P21}, jitter-and-scale and permutation-and-jitter strategies for time-series data~\cite{DBLP:conf/ijcai/Eldele0C000G21}. Conversely, local view construction focuses on augmenting samples locally or partially, often with specific purposes, such as image cropping in computer vision~\cite{DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, tian2020contrastive} or node-level augmentations and edge-level augmentations in graph mining~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21}, sentence-level augmentation in NLP~\cite{DBLP:conf/acl/ZhangXZMA22, DBLP:journals/corr/abs-2012-15466}, etc. To name a few, TS-TCC~\cite{DBLP:conf/ijcai/Eldele0C000G21} first globally augments the raw data into two different but correlated views and then learns the temporal representation via the temporal contrastive module and the contextual contrasting module; TS2Vec~\cite{DBLP:conf/aaai/YueWDYHTX22} impose hierarchical CL regularization to constrain the locally augmented context views to share the consistent contextual information; DIM~\cite{DBLP:conf/iclr/HjelmFLGBTB19} proposes to maximize the mutual information between local representation and global representation. These approaches collectively enhance the diversity and richness of the data for effective CL.
+
+
+% Unlike multi-modal data which naturally consists of various types of data, when dealing with a single-view image, text, and graph data, researchers tend to use data augmentation methods to generate the augmented views and then apply CL~\cite{DBLP:conf/nips/ZhangR22, DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, DBLP:conf/ijcai/LinBB0ZX22, DBLP:conf/nips/PanK21, DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21, DBLP:conf/icml/HassaniA20}. 
+% There are various types of view construction for CL, which can be mainly categorized into two classes, including global view construction and local view construction. To construct the global view construction, researchers augment a sample globally to generate synthetic ones similar to the original one and then apply CL to maximize the mutual information between two augmented views~\cite{DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, tian2020contrastive, DBLP:conf/icml/HassaniA20, DBLP:conf/www/0001XYLWW21}. Specifically, the typical data augmentation methods for global view construction include random rotation, color jittering, and color distortion in the computer vision domain~\cite{DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, tian2020contrastive}, graph-level augmentation in graph mining~\cite{DBLP:conf/icml/HassaniA20, DBLP:conf/www/0001XYLWW21, DBLP:conf/ijcai/JinZL00P21}, etc. Different from global view construction, local view construction usually refers to augmenting a sample locally or partially with specific purposes~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21, DBLP:conf/acl/ZhangXZMA22, DBLP:journals/corr/abs-2012-15466}, edge-level augmentations~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21}, such as image cropping in computer vision~\cite{DBLP:conf/iclr/Xiao0ED21, DBLP:conf/cvpr/TrostenLJK23, tian2020contrastive}, node-level augmentations~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21}, edge-level augmentations~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21} in graph mining, and sentence-level augmentation in NLP~\cite{DBLP:conf/acl/ZhangXZMA22, DBLP:journals/corr/abs-2012-15466}.
+
+
+% Specifically, in the computer vision, various types of CL losses are introduced, such as instance-level CL loss~\cite{, , }, cluster-level CL loss~\cite{DBLP:conf/aaai/Li0LPZ021,  DBLP:conf/mm/YangJW00WLZLZ23, DBLP:conf/cvpr/XuT0P0022},  inter-view contrastive loss~\cite{DBLP:conf/cvpr/XuT0P0022, DBLP:conf/cvpr/0001GLL0021}, etc; 
+
+
+% ; for graph data, the widely-used CL losses include node-level contrastive loss~\cite{zheng2021deeper, DBLP:conf/www/0001XYLWW21, DBLP:conf/icml/HassaniA20}, graph-level contrastive loss~\cite{DBLP:conf/nips/PanK21, DBLP:conf/nips/YouCSCWS20, DBLP:conf/icml/YouCSW21, DBLP:conf/icml/HassaniA20}, local-level contrastive loss~\cite{DBLP:journals/www/FangLALJ23}, inter-view contrastive loss~\cite{DBLP:conf/emnlp/LiWFO23, DBLP:conf/www/WangMCW21, DBLP:conf/ijcai/JinZL00P21}, intra-view contrastive loss~\cite{DBLP:conf/emnlp/LiWFO23, DBLP:conf/www/WangMCW21, DBLP:conf/ijcai/JinZL00P21}; for time-series data, 
+% TS-TCC~\cite{DBLP:conf/ijcai/Eldele0C000G21} first transform the raw data into two different but correlated views and then learn the temporal representation via the temporal contrastive module and the contextual contrasting module; TS2Vec~\cite{DBLP:conf/aaai/YueWDYHTX22} impose hierarchical CL regularization to constrain the augmented context views to share the consistent contextual information.
+% % BTSF \cite{yang2022unsupervised} and TF-C 
+
+% \by{what's the connection of this paragraph and "view heterogeneity"?}
+% Despite the excellent performance of CL in learning compact and high-quality representations, one major issue of CL attracts many researchers's attention. Many existing methods~\cite{DBLP:conf/kdd/ZhengXZH22, DBLP:conf/iccv/Zheng0Y0Z0021, DBLP:conf/icml/SaunshiPAKK19, DBLP:conf/aaai/ShahSCC22} 
+% % \hh{have -- let's use present complete tense or present tense. not past tense}\lc{Sure.}
+% point out the \textit{class collision issue} in CL, where two samples with similar semantic information or even similar label information are pushed apart. Here, we consider this pair of samples as a false-negative pair. Specifically, \cite{DBLP:conf/icml/SaunshiPAKK19} alerts the price of including too many false-negative samples, and \cite{DBLP:conf/kdd/ZhengXZH22} theoretically proves that including one false-negative pair in CL loss will lead to a sub-optimal solution. To mitigate the negative impact of \textit{class collision issue}, ~\cite{DBLP:conf/kdd/ZhengXZH22, DBLP:conf/acl/WangCZLG23, DBLP:conf/nips/ChuangRL0J20, DBLP:journals/corr/abs-2105-09401} propose to reduce the weight of false-negative pairs that potentially share similar label information; \cite{DBLP:conf/cvpr/SunZW0ZFGZB23} proposes to first distinguish the potential false-negative samples and then eliminate its effects via two false negatives suppression losses;~\cite{DBLP:conf/wacv/HuynhKWMK22, DBLP:conf/iclr/ChenHTC022, DBLP:journals/access/KimJ23b} first identify the potential false-negative pairs and then exclude them from CL loss. Moreover, the issue of \textit{high GPU memory usage requirement} and the corresponding solutions will be introduced in subsection ~\ref{Large_vision_model}.
+
+
+% \subsubsection{Multi-view contrastive learning for vision data}
+% In the computer vision domain, many existing works~\cite{DBLP:conf/cvpr/0001GLL0021} show the excellent performance of CL over the traditional self-supervised learning methods. Different from the traditional multi-view learning problem where the data are collected from different sources and exhibit view heterogeneity, researchers usually augment the raw images via different image augmentation methods to first generate the augmented view and then apply CL methods to train the models~\cite{}. 
+
+% \cite{DBLP:conf/cvpr/0001GLL0021} proposes an incomplete multi-view clustering method named COMPLETER, which incorporates CL to recover the missing features. Specifically, given a dataset with two views $\bm{X}=\{X^1, X^2, X^{1,2}\}$ with $n$ samples, $X^1$ and $X^{1,2}$ denote the first view, the second view and the example presented in both view, respectively. Let $m$ be the size of $X^{1,2}$ and $X^v$ be the $v$-th view of $X^{1,2}$. The overall objective function is written as follows:
+% \begin{align}
+%     \label{completer_overall_loss} L &= L_{cl} + \lambda_1 L_{pre} + \lambda_2 L_{rec} \\
+%     \label{completer_reconstruction_error} L_{rec} &= \sum_{v=1}^2 \sum_{t=1}^m ||X^v_t-g^{(v)}(f^{(v)}(X^v_t))||_2^2 \\
+%     \label{completer_contrastive_learning} L_{cl} &= -\sum_{d=1}^{D}\sum_{d'=1}^{D} P_{dd'} \ln\frac{P_{dd'}}{P_{d}^{\alpha+1}+P_{d'}^{\alpha+1}} \\
+%     \label{completer_dual_prediction} L_{pre} &= ||G^{(1)}(Z^1)-Z^2||_2^2 + ||G^{(2)}(Z^2)-Z^1||_2^2 
+% \end{align}
+% where $L_{cl}$, $L_{pre}$, and $L_{rec}$ denote the cross-view CL, prediction loss, and within-view reconstruction error. $ \lambda_1$ and $ \lambda_2$ are two constant parameters. In Eq~\ref{completer_reconstruction_error}, $g^{(v)}$ and $f^{(v)}$ is a pair of encoder and decoder for the $v$-th view and $X^v_t$ denotes the $t$-th sample for the $v$-th view. The goal of reconstruction error is to extract the compact representation $Z_t^v=f^{(v)}(X^v_t)$ for $X^v_t$ and avoid the trivial solution. In Eq.~\ref{completer_contrastive_learning}, $P=\frac{1}{m}\sum_{t=1}^mZ^1_t(Z^2_t)^T$ denotes the joint probability distribution of $Z^1$ and $Z^2$, where $Z^1$ and $Z^2$ denote the clustering assignment probability. More specifically, $P_{dd'}$ is the $d$-th row $d'$-th column element, and $\alpha$ is the constant parameter. Eq.~\ref{completer_contrastive_learning} aims to maximize the mutual information between the representations of different views, while Eq.\ref{completer_dual_prediction} aims to infer the missing views by predicting the representation $Z^1$ ($Z^2$) based on $Z^2$ ($Z^1$).
+
+% Similarly, the authors of ~\cite{Yuan0K0WMKF21} proposed a multi-modal framework by exploiting intrinsic modality properties and extracting semantic information from cross-modal correlation simultaneously. Specifically, given a dataset $D={I_j, C_j, t_j}$ consisting of $N$ pairs of image-caption-tags tuples, where $I_j$ denotes the $j$-th image, $C_j$ is the $j$-th caption, and $t_j$ is the $K$ dimensional binary vector indicating the occurrence of a specific $k$-th tag in $I_j$
+
+
+
+\subsection{Contrastive Learning for Foundation Model with View Heterogeneity}
+\subsubsection{Large Vision Model}
+\label{Large_vision_model}
+Different from many traditional CL methods, most of the large vision models~\cite{chen2020simple, he2020momentum, DBLP:journals/corr/abs-2003-04297, DBLP:conf/nips/GrillSATRBDPGAP20, DBLP:conf/iccv/CuiZ00J21, DBLP:conf/nips/Tian0PKSI20, DBLP:conf/cvpr/ColeYWAB22} mainly implement the data augmentation methods to generate two augmented views and then apply CL to learn the representations.
+% Inspired by the early works of CL~\cite{oord2018representation},
+Specifically, SimCLR~\cite{chen2020simple} achieves competitive performance on par with the supervised model after hundreds of iterations of fine-turning with 1\% of the labeled data on the ImageNet dataset. 
+% Different from InfoNCE, SimCLR proposes to contrast the representations on the projection space rather than the original hidden space. 
+% Specifically, given the representation $\bm{Z^1_i}$ ($\bm{Z^2_i}$) of the sample $\bm{X^1}_i$ ($\bm{X^2}_i$), SimCLR project $\bm{Z^1_i}$ ($\bm{Z^2_i}$) to the projection space denoted as $H^1_i=g_1(\bm{Z^1_i})$ ($H^2_i=g_2(\bm{Z^2_i})$), and then the CL loss is written as follows:
+% \begin{equation}
+%     \label{SimCLR}
+%     \begin{split}
+%          \mathcal{L} = -\E_{X_i\in \mathcal{D}}[ \log \frac{\exp(sim(\bm{H_i^1}, \bm{H_i^2}))}{\sum_{k} \exp(sim(\bm{H_i^1}, \bm{H_k^2}))}]
+%     \end{split}
+% \end{equation}
+% After the training stage is completed, $\bm{Z^1_i}$ and $\bm{Z^2_i}$ will be used for the final prediction.
+Different from traditional CL methods (e.g., InfoNCE~\cite{oord2018representation}), SimCLR introduces a learnable nonlinear transformation named \textit{projection head} between the representation and the contrastive loss, which alleviates the class collision issue to some extent~\cite{DBLP:conf/iccv/Zheng0Y0Z0021}. Furthermore, SimCLR contributes the success of the unsupervised CL large vision model to stronger data augmentation,  normalized embeddings, an appropriately adjusted temperature parameter, larger batch sizes, longer training iterations, and deeper and wider networks.
+% the performance of CL with different commonly used data augmentation methods and the experimental results show that \textit{random color distortions} and \textit{random Gaussian blur} are the two most suitable augmentation methods in image classification task along with CL 
+Despite the superiority of CL algorithms~\cite{chen2020simple, oord2018representation} for many tasks, one major drawback of CL is its \textit{high GPU memory requirement} as we need to increase the batch size to achieve better performance. To relax such a constraint, MoCo~\cite{he2020momentum} stores the new encoded representations of the current batch in a dictionary and removes the oldest representation to reduce memory usage but keep a large batch size. Additionally, as a slowly progressing encoder encodes the representations stored in the dictionary, MoCo adopts a momentum-based moving average to maintain consistency for the newest and oldest representations and ensure that the difference among these representations can be small. Chen \etal ~\cite{DBLP:journals/corr/abs-2003-04297} verify the effectiveness of the projection head and stronger data augmentation proposed in SimCLR and then incorporate them into MoCo to get MoCo v2, showing further performance improvement. Following these works, BYOL \cite{DBLP:conf/nips/GrillSATRBDPGAP20} trains the online network to predict the representation of the same image encoded by the target network under a different augmented view; Tian \etal~\cite{DBLP:conf/nips/Tian0PKSI20} investigate the question of "what makes for good views for contrastive learning" and propose \textit{InfoMin} principle to characterize the good views; Cui \etal~\cite{DBLP:conf/iccv/CuiZ00J21} tackle the difficulty of imbalanced learning of CL and introduce PaCo to rebalance the importance of the majority class and the minority classes; Dwibedi \etal~\cite{DBLP:conf/iccv/DwibediATSZ21} propose a nearest-neighbor CL method by sampling the nearest neighbors in the latent space and considering them as positives; Cole \etal~\cite{DBLP:conf/cvpr/ColeYWAB22} find that reducing the number of training data by half only degrades the performance by less than 2\% and current contrastive method may not be sufficient to generalize to many downstream tasks.
+
+
+% the benefit of additional pretraining data beyond 500k images is modest, (ii) adding pretraining images from another domain does not lead to more general representations, (iii) corrupted pretraining images have a disparate impact on supervised and self-supervised pretraining, and (iv) CL lags far behind supervised learning on fine-grained visual classification tasks
+
+%\hh{these sentences (start from 'other contributions' reads like they are copied-pasted from the abs/intro of the paper)}\lc{I have updated this paragraph by reducing the details of SimCLR and adding more related works.}. 
+
+% Specifically, the representations of all samples are initialized and stored in the dictionary at the beginning. At each iteration, the representations of the samples in the current mini-batch will be pushed to the dictionary to replace the oldest representations in the queue. However, using a queue introduces a new issue that the gradient for the key encoder becomes intractable, as the gradient should propagate to all samples in the queue instead of the samples in the mini-batch. To address this issue, MoCo proposes a momentum update rule for the parameters of the key encoder denoted as $\theta_k$ (for simplicity, we may consider the output of the query encoder and the key encoder as the representation of the first view and the second view, respectively) as follows:
+% % Different from traditional CL framework, MoCo is equipped with stop gradient operation and momentum encoder. Technically, given the parameters $\theta_1$ ($\theta_2$) of the encoder $f_1$ ($f_2$), MoCo aims to 
+% \begin{equation}
+%     \label{Moco_update_rule}
+%     \begin{split}
+%          \theta_k \rightarrow m\theta_k + (1-m)\theta_q
+%     \end{split}
+% \end{equation}
+% where $\theta_q$ is the parameters of the query encoder and $m\in [0,1)$ is the momentum coefficient. The main assumption of MoCo is that CL can learn a high-quality representation with a large dictionary structure containing rich negative samples and the representation generated by the key encoder is kept as consistent as possible despite its evolution. The momentum update in Eq.~\ref{Moco_update_rule} makes $\theta_k$ evolve in a more smooth way such that the difference of the representations in the queue can be small.
+
+
+
+
+\subsubsection{Large Language Model}
+% \hh{@Zihao, let's use present tense in this paragraph to be consistent with other parts of the paper} \zh{Fixed.}
+CL with view heterogeneity is one of the most prevalent choices when pretraining large language models because of the scarcity of labeled data ~\cite{zhang-etal-2022-contrastive-data}, by regarding augmented data as new views. A well-known pretraining technique that learns word embeddings through CL is word2vec ~\cite{DBLP:journals/corr/abs-1301-3781}. Later, augmenting different views and conducting CL are used to pre-train state-of-the-art language models. SimCSE ~\cite{gao2021simcse} and ContraCLM ~\cite{DBLP:conf/acl/JainZAWNLTNRBMX23} adopt simple yet effective dropout-based augmentation. Shen \etal ~\cite{DBLP:journals/corr/abs-2009-13818} propose to apply a cutoff for natural language augmentation to boost the model ability on both language understanding and generation. CERT ~\cite{DBLP:journals/corr/abs-2005-12766} and MixText ~\cite{DBLP:conf/acl/ChenYY20} create augmentations of original sentences using back-translation. DeCLUTR ~\cite{DBLP:conf/acl/GiorgiNWB20}, which closely resembles QT ~\cite{DBLP:conf/iclr/LogeswaranL18}, samples textual segments of the anchors up to paragraph length, allowing each sample to be as overlapping view, adjacent view or subsumed view with the anchor. CoDA ~\cite{DBLP:conf/iclr/QuSSSC021} introduces contrast-enhanced and diversity-promoting data augmentation through a combination of back-translation, adversarial training, and label-preserving transformations. CLEAR ~\cite{DBLP:journals/corr/abs-2012-15466} augments sentences by word deletion, span deletion, reordering, and synonym substitution to generate different views. COCO-LM ~\cite{DBLP:conf/nips/MengXBTBHS21} incorporates sequence contrastive loss through sentence cropping. NL-Augmenter ~\cite{DBLP:journals/corr/abs-2112-02721} provides a framework with over a hundred transformations for the users to manually augment natural languages to generate views. Kaushik \etal ~\cite{DBLP:conf/iclr/KaushikHL20} design a human-in-loop system for counterfactually augmenting the documents. EfficientCL ~\cite{DBLP:conf/emnlp/YeKO21} applies a combination of cutoff and PCA jittering, similar to color jittering, for semantic information augmentation. DiffAug \cite{DBLP:conf/emnlp/WangL22} provides an option for sentence representation augmentation that is differentiable.
+
+Besides pre-training, CL with view heterogeneity has been widely used in other tasks. (a) \textit{Fine-tuning}. Contrastive objectives have been used for language model fine-tuning \cite{DBLP:conf/iclr/GunelDCS21, DBLP:journals/corr/abs-2310-18339, DBLP:conf/acl/MaSA21}, and a recent work LM-CPPF ~\cite{DBLP:conf/acl/AbaskohiRY23} proposes to use few-shot paraphrasing for contrastive prompt-based fine-tuning. (b) \textit{Machine Translation}. Different languages are naturally different views. mRASP2 ~\cite{DBLP:conf/acl/PanWWL20} leverages CL with augmentations to align token representations and close the gap among representations of different languages. Li \etal ~\cite{DBLP:conf/acl/Li0CKV22} propose two-stage cross-lingual CL to improve word translation of language models. Mao \etal ~\cite{DBLP:conf/naacl/MaoCDSWK22} introduce a word-level contrastive objective to leverage word alignments for many-to-many neural machine translation. (c) \textit{Other view heterogeneity-related tasks}. CALMS ~\cite{DBLP:conf/acl/WangCZQL21} leverages contrastive sentence ranking and sentence-aligned substitution to conduct multilingual text summarization. Xu \etal ~\cite{DBLP:journals/corr/abs-2310-02263} introduce contrastive post-training techniques for aligning multiple language models of varying strengths. Lee \etal ~\cite{DBLP:conf/iclr/LeeLH21} propose to obtain positive and negative examples for conditional text generation by adding perturbations that optimize the conditional likelihood.
+
+
+\subsubsection{Multi-modal Foundation Models}
+Multi-modal foundation models combine data different modalities.
+
+\textbf{Vision-language model.} The study of the vision-language models is evolving rapidly, and many surveys have provided comprehensive reviews from multiple perspectives. Mogadala \etal ~\cite{DBLP:journals/jair/MogadalaKK21} survey common vision-language tasks, benchmark datasets, and seminal methods. Li \etal ~\cite{DBLP:journals/corr/abs-2203-01922} first summarize the development of task-specific vision-language models, then review vision-language pretraining methods for general vision-language foundation models. Wang \etal ~\cite{DBLP:journals/ijautcomp/WangCQGWWTG23} and Du \etal ~\cite{DBLP:conf/ijcai/DuLLZ22} share recent advances in vision-language model pretraining. Zhang \etal ~\cite{DBLP:journals/corr/abs-2304-00685} review vision-language models specifically for various visual recognition tasks. In this work, we focus on leveraging heterogeneous CL in the pretraining phase of vision-language models.
+
+The seminal work in this group of models that uses heterogeneous CL, specifically cross-modal CL, is the well-known CLIP  (Contrastive Language–Image Pre-training) ~\cite{DBLP:conf/icml/RadfordKHRGASAM21}. By optimizing the contrastive loss from the language and vision views of over 400 million image-caption pairs, CLIP achieves strong performance in few-shot or zero-shot image classification settings. 
+% For each batch with a batch size $B$, CLIP minimizes a symmetrical image-text infoNCE loss $\mathcal{L} = \mathcal{L}_{I\rightarrow T} + \mathcal{L}_{T\rightarrow I}$, where $\mathcal{L}_{I\rightarrow T}$ 
+% \by{maybe we don't need to show these two losses.}
+% \begin{equation}
+% \begin{split}
+%     \mathcal{L}_{I\rightarrow T} &= -\frac{1}{B} \sum_{i=1}^B \log \frac{\exp(z_i^I \cdot z_i^T / \tau)}{\sum_{j=1}^B\exp(z_i^I \cdot z_j^T / \tau)}\\
+%     \mathcal{L}_{T\rightarrow I} &= -\frac{1}{B} \sum_{i=1}^B \log \frac{\exp(z_i^T \cdot z_i^I / \tau)}{\sum_{j=1}^B\exp(z_i^T \cdot z_j^I / \tau)}
+% \end{split}
+% \end{equation}
+% where $z_i^I$ and $z_i^T$ are respectively the embedding of sample $i$ from the image view and text view. $\tau$ is the temperature. 
+Another seminal work ALIGN ~\cite{DBLP:conf/icml/JiaYXCPPLSLD21} uses the same heterogeneous contrastive backbone over a larger noisy dataset. Following the impressive success of the image-text CL framework, many CLIP variants have been proposed. KELIP ~\cite{DBLP:journals/corr/abs-2203-14463}, ChineseCLIP ~\cite{DBLP:journals/corr/abs-2211-01335} and AltCLIP ~\cite{DBLP:conf/acl/ChenLZYW23} extend CLIP into other languages by leveraging the heterogeneous CL to fine-tune the CLIP model. DeCLIP ~\cite{DBLP:conf/iclr/LiLZCOSYY22} considers self-supervision together with image-text-pair supervision to achieve data-efficient training. SLIP ~\cite{DBLP:conf/nips/LeeKSKKLK22} introduces image self-supervision to obtain better representations. UniCLIP ~\cite{DBLP:conf/nips/LeeKSKKLK22} further integrates the contrastive loss of both inter-domain pairs and intra-domain pairs into a single universal space. HiCLIP ~\cite{DBLP:conf/iclr/GengYT0Z23} incorporates hierarchy-aware attention with the heterogeneous contrastive pre-training. RA-CLIP ~\cite{DBLP:conf/cvpr/XieSXZZZ23} and LA-CLIP ~\cite{DBLP:conf/nips/FanKIKT23} respectively introduce retrieval-augmented and LLM-augmented heterogeneous CL between images and texts. GrowCLIP ~\cite{DBLP:conf/iccv/DengSHLXHKZZL23} extends the heterogeneous CL into online settings. Some other representative vision-language models also use heterogeneous CL during pretraining, for example, Flamingo ~\cite{DBLP:conf/nips/AlayracDLMBHLMM22}, FLAVA ~\cite{DBLP:conf/cvpr/SinghHGCGRK22}, WenLan ~\cite{DBLP:journals/corr/abs-2103-06561}, ALBEF ~\cite{DBLP:conf/nips/LiSGJXH21}.
+
+
+\textbf{Audio-language model.} CLAP (Contrastive Language-Audio Pretraining) ~\cite{DBLP:conf/icassp/ElizaldeDIW23} imitates the process of CLIP to build an audio-language model that achieves state-of-the-art performance on multiple downstream tasks, even with much less training data compared to the vision-language domain. LAION CLAP ~\cite{DBLP:conf/icassp/WuCZHBD23} uses more data, as well as feature fusion and keyword-to-caption augmentation, to train the contrastive language-audio model. AudioCLIP ~\cite{DBLP:conf/icassp/GuzhovRHD22} adds the audio modality to the two-modality CLIP through three two-view CL. Wav2CLIP ~\cite{DBLP:conf/icassp/WuSKB22} learns robust audio representations by projecting audio into a shared embedding space with images and text and distilling from CLIP through contrastive loss projection layers. C-MCR ~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23} offers a framework to efficiently train CLIP and CLAP by connecting the representation spaces. CALM ~\cite{DBLP:journals/corr/abs-2202-03587} can efficiently bootstrap high-quality audio embedding by aligning audio representations to pretrained language representations and utilizing contrastive information between acoustic inputs. CLAPSpeech ~\cite{DBLP:conf/acl/YeHRJLHYZ23} learns the prosody variance of the same text token under different contexts through word-level and phoneme-level contrastive pretraining for view heterogeneity.
+
+\textbf{Graph-language model.} On text-attributed graphs, ConGraT ~\cite{DBLP:journals/corr/abs-2305-14321} conducts CLIP-like contrastive pretraining for both language and graph tasks. G2P2 ~\cite{DBLP:conf/sigir/Wen023} extends the CLIP framework to text attributed graphs for zero-shot and few-shot classification. GRENADE ~\cite{DBLP:conf/emnlp/0001DL23} conducts graph-centric CL and knowledge alignment that considers neighborhood-level similarity to learn
+expressive and generalized representations. For text-paired graphs ~\cite{DBLP:journals/corr/abs-2312-02783}, MoleculeSTM ~\cite{DBLP:journals/natmi/LiuNWLQLTXA23} and MoMu ~\cite{DBLP:journals/corr/abs-2209-05481}
+bridge molecular graphs and text data through contrastive
+learning. MolCA ~\cite{DBLP:conf/emnlp/LiuLL00K0C23} adopts a cross-modal projector and uni-modal adapter to practically and efficiently understand molecular contents in both text and graph form. MolFM ~\cite{DBLP:journals/corr/abs-2307-09484} leverages information from the input molecule structure, the input text description, and the auxiliary knowledge graph to build a multimodal molecular foundation model. GIT-Mol~\cite{DBLP:journals/corr/abs-2308-06911} incorporates cross-modal CL to build a multi-modal molecular foundation model with graphs, SMILES (Simplified Molecular Input
+Line Entry System), images, and text.
+
+
+
+
+
+\subsubsection{Other Foundation Models}
+% (1){Graph Foundation Models}.
+% In this subsection, we briefly review foundation models for other data types due to the limited number of existing works on this topic. 
+Inspired by foundation models for language and vision data, recently, some attempts have been made to build foundation models for other data types.
+For time series, TimeCLR \cite{yeh2023toward} develops a time series foundation model by leveraging CL to train unlabeled samples from multiple domains. For the graph data, due to the complex nature of graphs, we only find some initial attempts~\cite{DBLP:conf/nips/YouCSCWS20, DBLP:conf/wsdm/YouCWS22, DBLP:journals/nn/LiangDZM0G23, DBLP:journals/tetci/ChenWFML24, zheng2021deeper} to develop graph foundation models and most of them follow the pertaining strategies of large language models~\cite{DBLP:journals/corr/abs-2310-11829, DBLP:journals/corr/abs-2402-02216}. For instance, GraphCL ~\cite{DBLP:conf/nips/YouCSCWS20} studies several intuitive augmentation strategies and proposes the initial framework for graph CL by maximizing the agreement of the augmented graphs in different views. Some later works ~\cite{DBLP:conf/wsdm/YouCWS22, DBLP:conf/bic-ta/SunCD022, DBLP:journals/nn/LiangDZM0G23, DBLP:journals/tetci/ChenWFML24} follow this track and propose other kinds of augmentations. 
+% GRACE ~\cite{DBLP:journals/corr/abs-2006-04131} generates heterogeneous views on both structure and attribute levels through graph corruptions. GCC ~\cite{DBLP:conf/kdd/QiuCDZYDWT20} leverages CL with heterogeneous views to pretrain a GNN that learns the intrinsic and transferable structural representations. 
+MA-GCL ~\cite{DBLP:conf/aaai/Gong0S23} and SimGRACE ~\cite{DBLP:conf/www/XiaWCHL22} propose that the heterogeneous views can also be generated from the neural architecture instead of the graph instances. 

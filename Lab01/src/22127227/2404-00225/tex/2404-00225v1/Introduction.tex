@@ -1,0 +1,331 @@
+% \section{Introduction}
+% % \lc{Need to update the introduction .} 
+% Recent years have witnessed the rapid growth of the volume of big data. A Forbes report shows that the amount of newly created data in the past several years had increased by more than two trillion gigabytes\footnote{\url{https://www.forbes.com/sites/gilpress/2020/01/06/6-predictions-about-data-in-2020-and-the-coming-decade/?sh=3214c68f4fc3}}. One major characteristic of big data is heterogeneity~\cite{wang2017heterogeneous}. Specifically, big data are usually collected from multiple sources and associated with various tasks, exhibiting view or task heterogeneity. For instance, in a social media platform, such as Facebook or Twitter, a post usually consists of a mixture of multiple types of data, such as a recorded video or several photos along with the text description. In the financial domain, taking the stock market for instance, the collected data may include not only the numerical values (\eg, stock price, the statistics from a company quarter report) but also some textual data conveying important information (\eg, a piece of news about a pharmaceutical company receiving the approval from Food and Drug Administration for its new product). 
+
+% % The past year has witnessed the rapid development of the foundation models in various domains, such as ChatGPT in Natural Language Processing (NLP), Vision Transformer~\cite{DBLP:conf/iclr/DosovitskiyB0WZ21} in Computer vision, etc. These models greatly improve our lives by enabling quick information access, increasing productivity through automating repetitive tasks, efficient proofreading, etc. 
+
+% In response to the challenges posed by the exponential growth of big data, a promising approach is emerging by leveraging contrastive self-supervised learning to pre-train foundational models tailored for large-scale heterogeneous datasets. Recently, Contrastive Learning (CL) has gained an increasing interest in training foundation models~\cite{chen2020simple, gao2021simcse, DBLP:conf/acl/JainZAWNLTNRBMX23}, due to its good generalization capability and the independence of labeled data. Amidst the explosive advancements in foundation models across multiple domains, including natural language processing and computer vision, there is an urgent need for a comprehensive survey on heterogeneous CL for foundational models.
+
+% \begin{table*}[th]
+% \begin{center}
+% \scalebox{0.9}{
+% \begin{tabular}{|c|c|c|c|c|c|c|}
+% \hline
+%       &     & \multicolumn{4}{c|}{\bf Research Topics and Coverage}\\ \hline
+% {\bf Learning Paradigms}    & Survey Papers        & \multicolumn{1}{c|}{View Heterogeneity} & \multicolumn{1}{c|}{Task/Label Heterogeneity} & \multicolumn{1}{c|}{Contrastive Learning} & \multicolumn{1}{c|}{Foundation Model}  \\ \hline
+% \multirow{6}{*}{} &  Li \etal, 2018~\cite{li2018survey}   &      \cmark  &      \xmark   &      \xmark     &     \xmark    \\ \cline{2-6}
+%                     % &  Xu \etal, 2013~\cite{xu2013survey}  &     \cmark   &      \xmark   &   \xmark    &  \xmark\\ \cline{2-6}
+%                     &  Zhang \etal, 2018~\cite{zhang2018binary}   &    \xmark    &    \cmark    &    \xmark      &  \xmark     \\ \cline{2-6}
+% Non-Contrastive     &  Yan \etal, 2021~\cite{yan2021deep} &    \cmark    &     \xmark  &    \xmark  &   \xmark  \\ \cline{2-6}
+% Learning            &  Jin \etal, 2023~\cite{DBLP:journals/corr/abs-2312-02783} & \cmark  & \xmark  & \xmark    & \cmark \\ \cline{2-6} 
+%                     &  Xu \etal, 2024~\cite{xu2024survey}   &   \cmark     &   \xmark     &   \xmark       &     \cmark  \\ \hline     
+% \multirow{6}{*}{} & Jaiswa \etal~ 2020~\cite{jaiswal2020survey}  & \xmark  & \xmark  & \cmark    & \xmark \\ \cline{2-6}
+%      & Le-Khac \etal~ 2020~\cite{le2020contrastive} & \xmark  & \xmark  & \cmark    & \xmark \\ \cline{2-6}
+% Contrastive     & Liu \etal, 2023~\cite{DBLP:journals/tkde/LiuZHMWZT23}    &   \xmark      &    \xmark     &   \cmark       &   \xmark     \\ \cline{2-6}
+% Learning         & Albelwi 2022~\cite{DBLP:journals/entropy/Albelwi22}    &   \xmark     &  \cmark       & \cmark          &  \xmark     \\ \cline{2-6}
+%       % &     &        &        &          &       \\ \cline{2-6}
+%       &  {\bf This survey}   &  \cmark       &   \cmark     &  \cmark        & \cmark       \\ \hline
+% \end{tabular}
+% }
+% \end{center}
+% \caption{Comparison with the existing related survey papers.}
+
+% \label{survey_comparison}
+% \end{table*}
+% % \subsection{Major difference from the other survey papers}
+% However, existing surveys on this topic are limited in scope and fail to systematically evaluate the most advanced techniques. Previous survey papers~\cite{yan2021deep, li2018survey, zhang2018binary, jaiswal2020survey, le2020contrastive, DBLP:journals/corr/abs-2312-02783, xu2024survey, DBLP:journals/tkde/LiuZHMWZT23, DBLP:journals/entropy/Albelwi22} mainly focus on investigating single heterogeneity~\cite{li2018survey, zhang2018binary, yan2021deep} (\eg, view heterogeneity, task heterogeneity), CL~\cite{jaiswal2020survey, le2020contrastive, DBLP:journals/tkde/LiuZHMWZT23, DBLP:journals/entropy/Albelwi22} or multi-modal foundation model~\cite{DBLP:journals/corr/abs-2312-02783, xu2024survey}. The comparison of these surveys is summarized in Table \ref{survey_comparison}. Specifically, \cite{yan2021deep, zhang2018binary, li2018survey} solely focus on heterogeneous machine learning, (\eg, multi-view learning, multi-label learning) and they do not cover any topic about CL and foundation model. \cite{jaiswal2020survey, le2020contrastive} discuss some CL methods at the early stage and they fail to include the most recent advanced techniques; ~\cite{DBLP:journals/entropy/Albelwi22, DBLP:journals/tkde/LiuZHMWZT23} investigate the recent advances in CL, but these two papers are only limited to summarizing the traditional CL methods. ~\cite{xu2024survey, DBLP:journals/corr/abs-2312-02783} introduce the multi-modal foundation models, but their topics are only limited to multi-modal large language models. This survey critically evaluates the current landscape of heterogeneous CL for foundation models from both view and task heterogeneities, highlighting the open challenges and future trends of CL.
+% % \cite{sun2013survey} mainly focuses on the traditional multi-view feature learning methods. \cite{xu2013survey} focuses on traditional multi-view learning with some theoretical analysis (e.g, CCA-based methods, Co-training, general error analysis) and includes the combination of multi-view learning with other learning, such as transfer learning, active learning, ensemble learning, etc.
+% % \cite{yan2021deep} focuses on multi-view feature learning in terms of representation alignment and view fusion perspectives. \cite{zhang2018binary} investigate the state-of-the-art methods in multi-label learning from three aspects, including the basic setting of multi-label learning, a binary solution with label correlation, and some related issues regarding the binary relevance of multi-label learning. Among the papers mentioned above, \cite{li2018survey, jaiswal2020survey, le2020contrastive} are the most relevant works to this paper. \cite{li2018survey} focuses on multi-view learning in deep learning scope and the extension of traditional multi-view learning methods to deep learning, while our paper mainly targets heterogeneous learning in the context of CL, including the multi-view learning, multi-task learning, multi-label learning in the context of CL methods. Both \cite{jaiswal2020survey} and \cite{le2020contrastive} investigate the recent advances in CL, but these two papers are only limited to summarizing the current CL methods.
+% % \hh{is it true that these existing works either addressing heterogeneity by other learning paradigms (such as supervised learning) other than CL, or they use CL in the homogeneous setting or a single type of heterogeneity? if so, we could add a table, such as rows are two learning paradigms (supervised vs. CL), and columns are the complexity/types of heteroneith. we can place existing works as well as this paper in the corresponding cells of this table.} \lc{I have added a table to compare this survey with existing surveys.}
+
+% Our contributions are summarized as follows:
+% \begin{itemize}
+%     \item \textbf{Categorization of Contrastive Foundation Models.} We systematically review the contrastive foundation models and categorize the existing methods into two branches, including the contrastive foundation models for view heterogeneity and task heterogeneity.
+%     \item \textbf{Systematic Review of Techniques.} We provide a comprehensive review of heterogeneous CL for foundation models. For both view heterogeneity and task heterogeneity, we summarize the representative methods and make necessary comparisons.
+%     \item \textbf{Future Directions.} We summarize four possible research directions on heterogeneous contrastive foundation models for future exploration.
+% \end{itemize}
+
+% This paper is organized as follows. In Section 2, we briefly review the basic concept of CL, and in Section 3, we first introduce the traditional 
+% % \hh{remove 'small'? 'traditional' already suggests that these works are not for 'large foundation models'}\lc{updated.}
+% multi-view CL model as the basis and then present the multi-view CL for large foundation models. In Section 4, we summarize CL methods for task heterogeneity, including pretraining tasks and downstream tasks, and show how different tasks are combined with CL loss for different purposes. In Section 5, we present several open challenges in CL before we conclude this survey paper in Section 6.
+
+
+
+
+
+% % \begin{figure*}
+% % \centering
+% % \includegraphics[width=1.05\linewidth]{taxonomy.png} \\
+% % \caption{Taxonomy of this Survey with Representative Works.\by{maybe we should replace the authors with the method names.}}
+% % \label{taxonomy}
+% % \end{figure*}
+
+
+
+% \begin{figure*}
+%     \centering
+    
+% % I am using only the basic, xnode, and tnode styles
+% \tikzset{
+%     basic/.style  = {draw, text width=1.4cm, align=center, fill=pink!10!green!20!, font=\scriptsize, rectangle},
+%     % root/.style   = {basic, rounded corners=2pt, thin, align=center, fill=green!30, text width=2.5cm},
+%     onode/.style = {basic, thin, rounded corners=2pt, align=center, fill=green!10!blue!15, text width=1.2cm,font=\tiny},
+%     xnode/.style = {basic, thin, rounded corners=2pt, align=center, fill=pink!40,text width=1.5cm,font=\tiny},
+%     tnode/.style = {basic, thin, align=left, fill=green!30!yellow!20, text width=7cm, align=center, font=\tiny},
+%     % wnode/.style = {basic, thin, align=left, fill=pink!10!blue!80!red!10, text width=6.5em},
+%     edge from parent/.style={draw=black, edge from parent fork right}
+% }
+% %
+
+% \begin{forest} for tree={
+%     grow=east,
+%     growth parent anchor=west,
+%     parent anchor=east,
+%     child anchor=west,
+%     edge path={\noexpand\path[\forestoption{edge},->, >={latex}] 
+%          (!u.parent anchor) -- +(6pt,0pt) |-  (.child anchor) 
+%          \forestoption{edge label};}
+% }
+% % l sep is used for arrow distance
+% [Heterogeneous CL, basic,  l sep=5mm
+%     [Task \\ Heterogeneity, onode,  l sep=5mm,
+%         [Downstream Tasks, onode,  l sep=5mm,
+%             [Connecting Downstream Tasks with CL Strategies, xnode,  l sep=5mm,
+%                 [Task Reformulation, xnode,  l sep=5mm,
+%         		[CRLC \cite{do2021clustering}\text{,} CL4SRec \cite{xie2022contrastive}\text{,} CL4SRec \cite{xie2022contrastive}\text{,} InfoNCE \cite{oord2018representation}\text{,} NeuTraL \cite{qiu2021neural}\text{,} MSC \cite{reiss2023mean}, tnode]]
+%                 [Multi-task Learning, xnode,  l sep=5mm,
+%         		[CoCa \cite{yu2022coca}\text{,} XMC-GAN \cite{DBLP:conf/cvpr/0010KBLY21}\text{,} mRASP2 \cite{DBLP:conf/acl/PanWWL20}\text{,} SimCTG \cite{su2022contrastive}\text{,} SimGCL \cite{yu2022graph}, tnode]]
+%                 [Prompting Learning, xnode,  l sep=5mm,
+%         		[PCE~\cite{DBLP:conf/acl/ParanjapeMGHZ21}\text{,} AKSCP~\cite{ DBLP:conf/acl/ZhengSYLPZXZ23}\text{,} PESCO~\cite{DBLP:conf/acl/WangCZY23}\text{,} CP-Tuning~\cite{DBLP:conf/wsdm/Xu0QLXHH23}\text{,} LM-CPPF~\cite{DBLP:conf/acl/AbaskohiRY23}, tnode]]
+%                 [AutoML, xnode,  l sep=5mm,
+%         		[JOAO \cite{DBLP:conf/icml/YouCSW21}\text{,} InfoTS \cite{luo2023time}\text{,} AutoSSL \cite{jin2021automated}\text{,} InfoMin \cite{DBLP:conf/nips/Tian0PKSI20}\text{,} AutoCL \cite{jing2024automated}\text{,} ArieL~\cite{feng2022adversarial}, tnode]]
+%             ]
+%             [Typical Downstream Tasks, xnode,  l sep=5mm,
+%                 [Time-Series, xnode,  l sep=5mm,
+%         		[TNC~\cite{tonekaboni2020unsupervised}\text{,} TRNN~\cite{jing2021network}\text{,} CPD~\cite{deldari2021time}\text{,} SR-CNN~\cite{ren2019time}\text{,} CIB~\cite{choi2023conditional}\text{,} CoST~\cite{woo2021cost}, tnode]]
+%         	[Graph Learning, xnode,  l sep=5mm,
+%         		[Hdmi~\cite{jing2021hdmi}\text{,} DIM~\cite{velickovic2019deep}\text{,} CL4SRec~\cite{xie2022contrastive}\text{,} DINGAL~\cite{yan2021dynamic}\text{,} CoLA~\cite{liu2021anomaly}\text{,} Gccad~\cite{chen2022gccad}\text{,} GMI~\cite{peng2020graph}, tnode]]
+%                 [NLP, xnode,  l sep=5mm,
+%         			[mRASP2~\cite{pan2021contrastive}\text{,}  ssSCL-ST~\cite{wang2021cross}\text{,}    CALMS~\cite{DBLP:conf/acl/WangCZQL21}\text{,}  CGT~\cite{ye2021contrastive}\text{,}  SeqCo~\cite{xu2022sequence}\text{,}  CLSC~\cite{wang2020coarse}\text{,}  Contrastnet~\cite{chen2022contrastnet}, tnode]]
+%                 [CV, xnode,  l sep=5mm,
+%         			[PCL~\cite{li2020prototypical}\text{,} CC~\cite{DBLP:conf/aaai/Li0LPZ021}\text{,} CAT-Det~\cite{DBLP:conf/cvpr/ZhangC022}\text{,} DiscoFaceGAN~\cite{DBLP:conf/cvpr/DengYCWT20}\text{,}  Contraga~\cite{kang2020contragan}\text{,} XMC-GAN~\cite{DBLP:conf/cvpr/0010KBLY21} , tnode]]
+%             ]
+%         ]
+%         [Pre-training Tasks, onode,  l sep=5mm,
+%             [Auxiliary Tasks, xnode,  l sep=5mm,
+%         	   [CLIP \cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,} TimesURL \cite{liu2023timesurl}\text{,} MUSER \cite{chen2022learning}\text{,} KGCL \cite{yang2022knowledge}\text{,} GeoCL \cite{ayush2021geography}\text{,} Knowledge-CLIP \cite{pan2022contrastive}, tnode]]	
+%             [Preference Tasks, xnode,  l sep=5mm,
+%         	   [CPL~\cite{DBLP:journals/corr/abs-2310-13639}\text{,} CLEA~\cite{dennler2024using}\text{,} CL-RLHF~\cite{shen2024improving} , tnode]]
+%             [Supervised Tasks, xnode,  l sep=5mm,
+%                 [SupCon \cite{abs-2004-11362}\text{,} Sel-CL \cite{li2022selective}\text{,} FSCL \cite{park2022fair}\text{,} UniCL \cite{yang2022unified}\text{,} HeroCon~\cite{DBLP:conf/kdd/ZhengXZH22}, tnode]]
+%             [Pretext Tasks, xnode,  l sep=5mm,
+%         	[Model Based Pair Construction, xnode,  l sep=5mm,
+%         		[ProtoNCE \cite{li2020prototypical}\text{,} InfoMin \cite{DBLP:conf/nips/Tian0PKSI20}\text{,} AutoGCL \cite{yin2022autogcl}\text{,} InfoTS \cite{luo2023time}\text{,} FairCL \cite{zhang2022fairness} , tnode]]
+%                 [Heuristics Based Pair Construction, xnode,  l sep=5mm, 
+%                     [DIM \cite{DBLP:conf/iclr/HjelmFLGBTB19}\text{,} SimCLR \cite{chen2020simple}\text{,} DeepWalk \cite{perozzi2014deepwalk}\text{,} CLIP \cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,} SRL \cite{franceschi2019unsupervised}, tnode]]
+%             ]
+%         ]
+%     ]
+%     [View \\ Heterogeneity, onode,  l sep=5mm,
+%         [Contrastive Foundation Model, onode,  l sep=5mm,
+%             [Attempts Towards Other Foundation Model, xnode,  l sep=5mm,
+%                 [TimeCLR \cite{yeh2023toward}\text{,} MA-GCL ~\cite{DBLP:conf/aaai/Gong0S23}\text{,} SimGRACE ~\cite{DBLP:conf/www/XiaWCHL22}\text{,} GraphCL ~\cite{DBLP:conf/nips/YouCSCWS20}, tnode]]
+%             [Multi-modal Foundation Model, xnode,  l sep=5mm,
+%                 [Graph-lanuage, xnode,  l sep=5mm,
+%                     [ConGraT ~\cite{DBLP:journals/corr/abs-2305-14321}\text{,} G2P2 ~\cite{DBLP:conf/sigir/Wen023}\text{,} GRENADE ~\cite{DBLP:conf/emnlp/0001DL23}\text{,} MolFM ~\cite{DBLP:journals/corr/abs-2307-09484}\text{,} MolCA ~\cite{DBLP:conf/emnlp/LiuLL00K0C23}\text{,} GIT-Mol~\cite{DBLP:journals/corr/abs-2308-06911}\text{,} MoMu ~\cite{DBLP:journals/corr/abs-2209-05481}, tnode]]
+%                 [Audio-language, xnode,  l sep=5mm,
+%                     [CLAP~\cite{DBLP:conf/icassp/ElizaldeDIW23}\text{,} C-MCR ~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23}\text{,} CALM ~\cite{DBLP:journals/corr/abs-2202-03587}\text{,} Wav2CLIP ~\cite{DBLP:conf/icassp/WuSKB22}\text{,}  AudioCLIP ~\cite{DBLP:conf/icassp/GuzhovRHD22}\text{,} LAION CLAP ~\cite{DBLP:conf/icassp/WuCZHBD23}\text{,} CLAPSpeech ~\cite{DBLP:conf/acl/YeHRJLHYZ23}, tnode]]
+%                 [Vision-language, xnode,  l sep=5mm,
+%                     [CLIP~\cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,} AltCLIP ~\cite{DBLP:conf/acl/ChenLZYW23}\text{,} SLIP ~\cite{DBLP:conf/nips/LeeKSKKLK22}\text{,} RA-CLIP ~\cite{DBLP:conf/cvpr/XieSXZZZ23}\text{,} LA-CLIP ~\cite{DBLP:conf/nips/FanKIKT23}\text{,} GrowCLIP ~\cite{DBLP:conf/iccv/DengSHLXHKZZL23} ,  tnode]]
+%             ]
+%             [Large Language Model, xnode,  l sep=5mm,
+%                 [SimCSE ~\cite{gao2021simcse}\text{,} ContraCLM ~\cite{DBLP:conf/acl/JainZAWNLTNRBMX23}\text{,} CLEAR ~\cite{DBLP:journals/corr/abs-2012-15466}\text{,}  MixText ~\cite{DBLP:conf/acl/ChenYY20}\text{,} COCO-LM ~\cite{DBLP:conf/nips/MengXBTBHS21}\text{,} NL-Augmenter ~\cite{DBLP:journals/corr/abs-2112-02721}\text{,} EfficientCL ~\cite{DBLP:conf/emnlp/YeKO21}\text{,} DiffAug \cite{DBLP:conf/emnlp/WangL22}\text{,} DeCLUTR ~\cite{DBLP:conf/acl/GiorgiNWB20}, tnode]]
+%             [Large Vision Model, xnode,  l sep=5mm,
+%                 [SimCLR~\cite{chen2020simple}\text{,} BYOL \cite{DBLP:conf/nips/GrillSATRBDPGAP20}\text{,} MoCo~\cite{he2020momentum}\text{,} MoCo v2~\cite{DBLP:journals/corr/abs-2003-04297}\text{,} InfoMin~\cite{DBLP:conf/nips/Tian0PKSI20}\text{,} NNCLR~\cite{DBLP:conf/iccv/DwibediATSZ21},  tnode]]
+%         ]
+%         [Basis, onode,  l sep=5mm,
+%             [Uni-modal Model, xnode,  l sep=5mm,
+%         		[GCA~\cite{DBLP:conf/www/0001XYLWW21}\text{,} GraphCL~\cite{DBLP:conf/nips/YouCSCWS20}\text{,} JOAO~\cite{DBLP:conf/icml/YouCSW21}\text{,} VaSCL \cite{DBLP:conf/acl/ZhangXZMA22}\text{,} CC~\cite{DBLP:conf/cvpr/TrostenLJK23}\text{,} Clear~\cite{DBLP:journals/corr/abs-2012-15466}, tnode]]
+%             [Multi-modal Model, xnode,  l sep=5mm,
+%         		[C-MCR~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23}\text{,} M5Product~\cite{DBLP:conf/cvpr/DongZWWKWLWL22}\text{,} Mulan~\cite{zheng2024multi}\text{,} FairMVC~\cite{zheng2023fairness}\text{,} HeroCon~\cite{DBLP:conf/kdd/ZhengXZH22}\text{,} MFLVC~\cite{DBLP:conf/cvpr/XuT0P0022}\text{,} COMPLETER~\cite{DBLP:conf/cvpr/0001GLL0021}\text{,} FactorCL~\cite{ DBLP:conf/nips/LiangDMZMS23}, tnode]]
+%         ]  
+%     ]
+% ]
+% \end{forest}
+
+%     \caption{Taxonomy of This Survey with Representative Works.
+%     % \lc{In the sub-branch of the basis of CL, can we divide it into two branches: (1) multi-modal model vs uni-modal model?}
+%     }
+%     \label{fig:lit_surv}
+
+% \end{figure*}
+
+
+
+\section{Introduction}
+% \lc{Need to update the introduction .} 
+Recent years have witnessed the rapid growth of the volume of big data. A Forbes report shows that the amount of newly created data in the past several years had increased by more than two trillion gigabytes\footnote{\url{https://www.forbes.com/sites/gilpress/2020/01/06/6-predictions-about-data-in-2020-and-the-coming-decade/?sh=3214c68f4fc3}}. One major characteristic of big data is heterogeneity~\cite{wang2017heterogeneous}. Specifically, big data are usually collected from multiple sources and associated with various tasks, exhibiting view or task heterogeneity. For instance, in a social media platform, such as Facebook or Twitter, a post usually consists of a mixture of multiple types of data, such as a recorded video or several photos along with the text description. In the financial domain, taking the stock market for instance, the collected data may include not only the numerical values (\eg, stock price, the statistics from a company quarter report) but also some textual data conveying important information (\eg, a piece of news about a pharmaceutical company receiving the approval from Food and Drug Administration for its new product). 
+
+% The past year has witnessed the rapid development of the foundation models in various domains, such as ChatGPT in Natural Language Processing (NLP), Vision Transformer~\cite{DBLP:conf/iclr/DosovitskiyB0WZ21} in Computer vision, etc. These models greatly improve our lives by enabling quick information access, increasing productivity through automating repetitive tasks, efficient proofreading, etc. 
+
+In response to the challenges posed by the exponential growth of big data, a promising approach is emerging by leveraging contrastive self-supervised learning to pre-train foundational models tailored for large-scale heterogeneous datasets. Recently, Contrastive Learning (CL) has gained an increasing interest in training foundation models~\cite{chen2020simple, gao2021simcse, DBLP:conf/acl/JainZAWNLTNRBMX23}, due to its good generalization capability and the independence of labeled data. Amidst the explosive advancements in foundation models across multiple domains, including natural language processing and computer vision, there is an urgent need for a comprehensive survey on heterogeneous contrastive learning for foundational models.
+
+\begin{table*}[th]
+\begin{center}
+\scalebox{0.9}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+      &     & \multicolumn{4}{c|}{\bf Research Topics and Coverage}\\ \hline
+{\bf Learning Paradigms}    & Survey Papers        & \multicolumn{1}{c|}{View Heterogeneity} & \multicolumn{1}{c|}{Task/Label Heterogeneity} & \multicolumn{1}{c|}{Contrastive Learning} & \multicolumn{1}{c|}{Foundation Model}  \\ \hline
+\multirow{6}{*}{} &  Li \etal, 2018~\cite{li2018survey}   &      \cmark  &      \xmark   &      \xmark     &     \xmark    \\ \cline{2-6}
+                    % &  Xu \etal, 2013~\cite{xu2013survey}  &     \cmark   &      \xmark   &   \xmark    &  \xmark\\ \cline{2-6}
+                    &  Zhang \etal, 2018~\cite{zhang2018binary}   &    \xmark    &    \cmark    &    \xmark      &  \xmark     \\ \cline{2-6}
+Non-Contrastive     &  Yan \etal, 2021~\cite{yan2021deep} &    \cmark    &     \xmark  &    \xmark  &   \xmark  \\ \cline{2-6}
+Learning            &  Jin \etal, 2023~\cite{DBLP:journals/corr/abs-2312-02783} & \cmark  & \xmark  & \xmark    & \cmark \\ \cline{2-6} 
+                    &  Xu \etal, 2024~\cite{xu2024survey}   &   \cmark     &   \xmark     &   \xmark       &     \cmark  \\ \hline     
+\multirow{6}{*}{} & Jaiswa \etal~ 2020~\cite{jaiswal2020survey}  & \xmark  & \xmark  & \cmark    & \xmark \\ \cline{2-6}
+     & Le-Khac \etal~ 2020~\cite{le2020contrastive} & \xmark  & \xmark  & \cmark    & \xmark \\ \cline{2-6}
+Contrastive     & Liu \etal, 2023~\cite{DBLP:journals/tkde/LiuZHMWZT23}    &   \xmark      &    \xmark     &   \cmark       &   \xmark     \\ \cline{2-6}
+Learning         & Albelwi 2022~\cite{DBLP:journals/entropy/Albelwi22}    &   \xmark     &  \cmark       & \cmark          &  \xmark     \\ \cline{2-6}
+      % &     &        &        &          &       \\ \cline{2-6}
+      &  {\bf This survey}   &  \cmark       &   \cmark     &  \cmark        & \cmark       \\ \hline
+\end{tabular}
+}
+\end{center}
+\caption{Comparison with the existing related survey papers.}
+\label{survey_comparison}
+\vspace{-5mm}
+\end{table*}
+% \subsection{Major difference from the other survey papers}
+However, existing surveys on this topic are limited in scope and fail to systematically evaluate the most advanced techniques. Previous survey papers~\cite{yan2021deep, li2018survey, zhang2018binary, jaiswal2020survey, le2020contrastive, DBLP:journals/corr/abs-2312-02783, xu2024survey, DBLP:journals/tkde/LiuZHMWZT23, DBLP:journals/entropy/Albelwi22} mainly focus on investigating single heterogeneity~\cite{li2018survey, zhang2018binary, yan2021deep} (\eg, view heterogeneity, task heterogeneity), contrastive learning~\cite{jaiswal2020survey, le2020contrastive, DBLP:journals/tkde/LiuZHMWZT23, DBLP:journals/entropy/Albelwi22} or multi-modal foundation model~\cite{DBLP:journals/corr/abs-2312-02783, xu2024survey}. The comparison of these surveys is summarized in Table \ref{survey_comparison}. Specifically, \cite{yan2021deep, zhang2018binary, li2018survey} solely focus on heterogeneous machine learning, (\eg, multi-view learning, multi-label learning) and they do not cover any topic about contrastive learning and foundation model. \cite{jaiswal2020survey, le2020contrastive} discuss some contrastive learning methods at the early stage and they fail to include the most recent advanced techniques; ~\cite{DBLP:journals/entropy/Albelwi22, DBLP:journals/tkde/LiuZHMWZT23} investigate the recent advances in contrastive learning, but these two papers are only limited to summarizing the traditional contrastive learning methods. ~\cite{xu2024survey, DBLP:journals/corr/abs-2312-02783} introduce the multi-modal foundation models, but their topics are only limited to multi-modal large language models. This survey critically evaluates the current landscape of heterogeneous contrastive learning for foundation models from both view and task heterogeneities, highlighting the open challenges and future trends of contrastive learning.
+% \cite{sun2013survey} mainly focuses on the traditional multi-view feature learning methods. \cite{xu2013survey} focuses on traditional multi-view learning with some theoretical analysis (e.g, CCA-based methods, Co-training, general error analysis) and includes the combination of multi-view learning with other learning, such as transfer learning, active learning, ensemble learning, etc.
+% \cite{yan2021deep} focuses on multi-view feature learning in terms of representation alignment and view fusion perspectives. \cite{zhang2018binary} investigate the state-of-the-art methods in multi-label learning from three aspects, including the basic setting of multi-label learning, a binary solution with label correlation, and some related issues regarding the binary relevance of multi-label learning. Among the papers mentioned above, \cite{li2018survey, jaiswal2020survey, le2020contrastive} are the most relevant works to this paper. \cite{li2018survey} focuses on multi-view learning in deep learning scope and the extension of traditional multi-view learning methods to deep learning, while our paper mainly targets heterogeneous learning in the context of contrastive learning, including the multi-view learning, multi-task learning, multi-label learning in the context of contrastive learning methods. Both \cite{jaiswal2020survey} and \cite{le2020contrastive} investigate the recent advances in contrastive learning, but these two papers are only limited to summarizing the current contrastive learning methods.
+% \hh{is it true that these existing works either addressing heterogeneity by other learning paradigms (such as supervised learning) other than contrastive learning, or they use contrastive learning in the homogeneous setting or a single type of heterogeneity? if so, we could add a table, such as rows are two learning paradigms (supervised vs. contrastive learning), and columns are the complexity/types of heteroneith. we can place existing works as well as this paper in the corresponding cells of this table.} \lc{I have added a table to compare this survey with existing surveys.}
+
+Our contributions are summarized as follows:
+\begin{itemize}
+    \item \textbf{Categorization of Contrastive Foundation Models.} We systematically review the contrastive foundation models and categorize the existing methods into two branches, including the contrastive foundation models for view heterogeneity and task heterogeneity.
+    \item \textbf{Systematic Review of Techniques.} We provide a comprehensive review of heterogeneous contrastive learning for foundation models. For both view heterogeneity and task heterogeneity, we summarize the representative methods and make necessary comparisons.
+    \item \textbf{Future Directions.} We summarize four possible research directions on heterogeneous contrastive foundation models for future exploration.
+\end{itemize}
+
+This paper is organized as follows. In Section 2, we briefly review the basic concept of contrastive learning, and in Section 3, we first introduce the traditional 
+% \hh{remove 'small'? 'traditional' already suggests that these works are not for 'large foundation models'}\lc{updated.}
+multi-view contrastive learning model as the basis and then present the multi-view contrastive learning for large foundation models. In Section 4, we summarize contrastive learning methods for task heterogeneity, including pretraining tasks and downstream tasks, and show how different tasks are combined with contrastive learning loss for different purposes. In Section 5, we present several open future directions in contrastive learning before we conclude this survey paper in Section 6.
+
+
+
+
+
+% \begin{figure*}
+% \centering
+% \includegraphics[width=1.05\linewidth]{taxonomy.png} \\
+% \caption{Taxonomy of this Survey with Representative Works.\by{maybe we should replace the authors with the method names.}}
+% \label{taxonomy}
+% \end{figure*}
+
+
+
+\begin{figure*}
+    \centering
+    
+% I am using only the basic, xnode, and tnode styles
+\tikzset{
+    basic/.style  = {draw, text width=1.4cm, align=center, fill=pink!10!green!20!, font=\scriptsize, rectangle},
+    % root/.style   = {basic, rounded corners=2pt, thin, align=center, fill=green!30, text width=2.5cm},
+    onode/.style = {basic, thin, rounded corners=2pt, align=center, fill=green!10!blue!15, text width=1.2cm,font=\tiny},
+    xnode/.style = {basic, thin, rounded corners=2pt, align=center, fill=pink!40,text width=1.5cm,font=\tiny},
+    tnode/.style = {basic, thin, align=left, fill=green!30!yellow!20, text width=7cm, align=center, font=\tiny},
+    % wnode/.style = {basic, thin, align=left, fill=pink!10!blue!80!red!10, text width=6.5em},
+    edge from parent/.style={draw=black, edge from parent fork right}
+}
+%
+
+\begin{forest} for tree={
+    grow=east,
+    growth parent anchor=west,
+    parent anchor=east,
+    child anchor=west,
+    edge path={\noexpand\path[\forestoption{edge},->, >={latex}] 
+         (!u.parent anchor) -- +(6pt,0pt) |-  (.child anchor) 
+         \forestoption{edge label};}
+}
+% l sep is used for arrow distance
+[Heterogeneous CL, basic,  l sep=5mm
+    [Task \\ Heterogeneity, onode,  l sep=5mm,
+        [Downstream Tasks, onode,  l sep=5mm,
+            [Connecting Downstream Tasks with CL Strategies, xnode,  l sep=5mm,
+                [Task Reformulation, xnode,  l sep=5mm,
+        		[CRLC \cite{do2021clustering}\text{,} CL4SRec \cite{xie2022contrastive}\text{,} CL4SRec \cite{xie2022contrastive}\text{,} InfoNCE \cite{oord2018representation}\text{,} NeuTraL \cite{qiu2021neural}\text{,} MSC \cite{reiss2023mean}, tnode]]
+                [Multi-task Learning, xnode,  l sep=5mm,
+        		[CoCa \cite{yu2022coca}\text{,} XMC-GAN \cite{DBLP:conf/cvpr/0010KBLY21}\text{,} mRASP2 \cite{DBLP:conf/acl/PanWWL20}\text{,} SimCTG \cite{su2022contrastive}\text{,} SimGCL \cite{yu2022graph}\text{,} STERLING \cite{jing2023sterling}, tnode]]
+                [Prompting Learning, xnode,  l sep=5mm,
+        		[PCE~\cite{DBLP:conf/acl/ParanjapeMGHZ21}\text{,} AKSCP~\cite{ DBLP:conf/acl/ZhengSYLPZXZ23}\text{,} PESCO~\cite{DBLP:conf/acl/WangCZY23}\text{,} CP-Tuning~\cite{DBLP:conf/wsdm/Xu0QLXHH23}\text{,} LM-CPPF~\cite{DBLP:conf/acl/AbaskohiRY23}, tnode]]
+                [AutoML, xnode,  l sep=5mm,
+        		[JOAO \cite{DBLP:conf/icml/YouCSW21}\text{,} InfoTS \cite{luo2023time}\text{,} AutoSSL \cite{jin2021automated}\text{,} InfoMin \cite{DBLP:conf/nips/Tian0PKSI20}\text{,} AutoCL \cite{jing2024automated}\text{,} ArieL~\cite{feng2022adversarial}, tnode]]
+            ]
+            [Typical Downstream Tasks, xnode,  l sep=5mm,
+                [Time-Series, xnode,  l sep=5mm,
+        		[TNC~\cite{tonekaboni2020unsupervised}\text{,} TRNN~\cite{jing2021network}\text{,} CPD~\cite{deldari2021time}\text{,} SR-CNN~\cite{ren2019time}\text{,} CIB~\cite{choi2023conditional}\text{,} CoST~\cite{woo2021cost}, tnode]]
+        	[Graph Learning, xnode,  l sep=5mm,
+        		[Hdmi~\cite{jing2021hdmi}\text{,} DIM~\cite{velickovic2019deep}\text{,} CL4SRec~\cite{xie2022contrastive}\text{,} DINGAL~\cite{yan2021dynamic}\text{,} CoLA~\cite{liu2021anomaly}\text{,} Gccad~\cite{chen2022gccad}\text{,} GMI~\cite{peng2020graph}, tnode]]
+                [NLP, xnode,  l sep=5mm,
+        			[mRASP2~\cite{pan2021contrastive}\text{,}  ssSCL-ST~\cite{wang2021cross}\text{,}    CALMS~\cite{DBLP:conf/acl/WangCZQL21}\text{,}  CGT~\cite{ye2021contrastive}\text{,}  SeqCo~\cite{xu2022sequence}\text{,}  CLSC~\cite{wang2020coarse}\text{,}  Contrastnet~\cite{chen2022contrastnet}, tnode]]
+                [CV, xnode,  l sep=5mm, 
+        			[Mice~\cite{tsai2020mice}\text{,} PCL~\cite{li2020prototypical}\text{,} CC~\cite{DBLP:conf/aaai/Li0LPZ021}\text{,} CAT-Det~\cite{DBLP:conf/cvpr/ZhangC022}\text{,} DiscoFaceGAN~\cite{DBLP:conf/cvpr/DengYCWT20}\text{,}  Contraga~\cite{kang2020contragan}\text{,} XMC-GAN~\cite{DBLP:conf/cvpr/0010KBLY21} , tnode]]
+            ]
+        ]
+        [Pre-training Tasks, onode,  l sep=5mm,
+            [Auxiliary Tasks, xnode,  l sep=5mm,
+        	   [CLIP \cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,} TimesURL \cite{liu2023timesurl}\text{,} MUSER \cite{chen2022learning}\text{,} KGCL \cite{yang2022knowledge}\text{,} GeoCL \cite{ayush2021geography}\text{,} Knowledge-CLIP \cite{pan2022contrastive}, tnode]]	
+            [Preference Tasks, xnode,  l sep=5mm,
+        	   [CPL~\cite{DBLP:journals/corr/abs-2310-13639}\text{,} CLEA~\cite{dennler2024using}\text{,} CL-RLHF~\cite{shen2024improving} , tnode]]
+            [Supervised Tasks, xnode,  l sep=5mm,
+                [SupCon \cite{abs-2004-11362}\text{,} Sel-CL \cite{li2022selective}\text{,} FSCL \cite{park2022fair}\text{,} UniCL \cite{yang2022unified}\text{,} HeroCon~\cite{DBLP:conf/kdd/ZhengXZH22}, tnode]]
+            [Pretext Tasks, xnode,  l sep=5mm,
+        	[Model Based Pair Construction, xnode,  l sep=5mm,
+        		[ProtoNCE \cite{li2020prototypical}\text{,} InfoMin \cite{DBLP:conf/nips/Tian0PKSI20}\text{,} AutoGCL \cite{yin2022autogcl}\text{,} InfoTS \cite{luo2023time}\text{,} FairCL \cite{zhang2022fairness} , tnode]]
+                [Heuristics Based Pair Construction, xnode,  l sep=5mm, 
+                    [DIM \cite{DBLP:conf/iclr/HjelmFLGBTB19}\text{,} SimCLR \cite{chen2020simple}\text{,} DeepWalk \cite{perozzi2014deepwalk}\text{,} CLIP \cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,} SRL \cite{franceschi2019unsupervised}, tnode]]
+            ]
+        ]
+    ]
+    [View \\ Heterogeneity, onode,  l sep=5mm,
+        [Contrastive Foundation Model, onode,  l sep=5mm,
+            [Attempts Towards Other Foundation Model, xnode,  l sep=5mm,
+                [TimeCLR \cite{yeh2023toward}\text{,} MA-GCL ~\cite{DBLP:conf/aaai/Gong0S23}\text{,} SimGRACE ~\cite{DBLP:conf/www/XiaWCHL22}\text{,} GraphCL ~\cite{DBLP:conf/nips/YouCSCWS20}, tnode]]
+            [Multi-modal Foundation Model, xnode,  l sep=5mm,
+                [Graph-lanuage, xnode,  l sep=5mm,
+                    [ConGraT ~\cite{DBLP:journals/corr/abs-2305-14321}\text{,} G2P2 ~\cite{DBLP:conf/sigir/Wen023}\text{,} GRENADE ~\cite{DBLP:conf/emnlp/0001DL23}\text{,} MolFM ~\cite{DBLP:journals/corr/abs-2307-09484}\text{,} MolCA ~\cite{DBLP:conf/emnlp/LiuLL00K0C23}\text{,} GIT-Mol~\cite{DBLP:journals/corr/abs-2308-06911}\text{,} MoMu ~\cite{DBLP:journals/corr/abs-2209-05481}, tnode]]
+                [Audio-language, xnode,  l sep=5mm,
+                    [CLAP~\cite{DBLP:conf/icassp/ElizaldeDIW23}\text{,} C-MCR ~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23}\text{,} CALM ~\cite{DBLP:journals/corr/abs-2202-03587}\text{,} Wav2CLIP ~\cite{DBLP:conf/icassp/WuSKB22}\text{,}  AudioCLIP ~\cite{DBLP:conf/icassp/GuzhovRHD22}\text{,} LAION CLAP ~\cite{DBLP:conf/icassp/WuCZHBD23}\text{,} CLAPSpeech ~\cite{DBLP:conf/acl/YeHRJLHYZ23}, tnode]]
+                [Vision-language, xnode,  l sep=5mm,
+                    [CLIP~\cite{DBLP:conf/icml/RadfordKHRGASAM21}\text{,}  KELIP ~\cite{DBLP:journals/corr/abs-2203-14463}\text{,} ChineseCLIP ~\cite{DBLP:journals/corr/abs-2211-01335}\text{,} AltCLIP ~\cite{DBLP:conf/acl/ChenLZYW23}\text{,} UniCLIP ~\cite{DBLP:conf/nips/LeeKSKKLK22}\text{,} SLIP ~\cite{DBLP:conf/nips/LeeKSKKLK22}\text{,} RA-CLIP ~\cite{DBLP:conf/cvpr/XieSXZZZ23}\text{,} LA-CLIP ~\cite{DBLP:conf/nips/FanKIKT23}\text{,} GrowCLIP ~\cite{DBLP:conf/iccv/DengSHLXHKZZL23} ,  tnode]]
+            ]
+            [Large Language Model, xnode,  l sep=5mm,
+                [SimCSE ~\cite{gao2021simcse}\text{,} ContraCLM ~\cite{DBLP:conf/acl/JainZAWNLTNRBMX23}\text{,} CLEAR ~\cite{DBLP:journals/corr/abs-2012-15466}\text{,}  MixText ~\cite{DBLP:conf/acl/ChenYY20}\text{,} COCO-LM ~\cite{DBLP:conf/nips/MengXBTBHS21}\text{,} NL-Augmenter ~\cite{DBLP:journals/corr/abs-2112-02721}\text{,} EfficientCL ~\cite{DBLP:conf/emnlp/YeKO21}\text{,} DiffAug \cite{DBLP:conf/emnlp/WangL22}\text{,} DeCLUTR ~\cite{DBLP:conf/acl/GiorgiNWB20}, tnode]]
+            [Large Vision Model, xnode,  l sep=5mm,
+                [SimCLR~\cite{chen2020simple}\text{,} BYOL \cite{DBLP:conf/nips/GrillSATRBDPGAP20}\text{,} MoCo~\cite{he2020momentum}\text{,} MoCo v2~\cite{DBLP:journals/corr/abs-2003-04297}\text{,} InfoMin~\cite{DBLP:conf/nips/Tian0PKSI20}\text{,} NNCLR~\cite{DBLP:conf/iccv/DwibediATSZ21},  tnode]]
+        ]
+        [Basis, onode,  l sep=5mm,
+         %    [Time-series Model, xnode,  l sep=5mm,
+        	% 	[Eldele et al. , tnode]]
+         %    [Graph Model, xnode,  l sep=5mm,
+        	% 	[Hassani and Ahmadi, tnode]]
+        	% [Text Model, xnode,  l sep=5mm,
+        	% 	[Lin et al., tnode]]
+         %    [Vision Model, xnode,  l sep=5mm,
+        	% 	[Lin et al., tnode]]
+            [Uni-modal Model, xnode,  l sep=5mm,
+        		[GCA~\cite{DBLP:conf/www/0001XYLWW21}\text{,} GraphCL~\cite{DBLP:conf/nips/YouCSCWS20}\text{,} JOAO~\cite{DBLP:conf/icml/YouCSW21}\text{,} VaSCL \cite{DBLP:conf/acl/ZhangXZMA22}\text{,} CC~\cite{DBLP:conf/cvpr/TrostenLJK23}\text{,} ClEAR~\cite{DBLP:journals/corr/abs-2012-15466}, tnode]]
+            [Multi-modal Model, xnode,  l sep=5mm,
+        		[C-MCR~\cite{DBLP:conf/nips/WangZCHLYTLWZZ23}\text{,} M5Product~\cite{DBLP:conf/cvpr/DongZWWKWLWL22}\text{,} Mulan~\cite{zheng2024multi}\text{,} FairMVC~\cite{zheng2023fairness}\text{,} HeroCon~\cite{DBLP:conf/kdd/ZhengXZH22}\text{,} MFLVC~\cite{DBLP:conf/cvpr/XuT0P0022}\text{,} COMPLETER~\cite{DBLP:conf/cvpr/0001GLL0021}\text{,} FactorCL~\cite{ DBLP:conf/nips/LiangDMZMS23}, tnode]]
+        ]  
+    ]
+]
+\end{forest}
+    \caption{Taxonomy of this Survey with Representative Works. 
+    }
+    \vspace{-3mm}
+    \label{fig:lit_surv}
+\end{figure*}

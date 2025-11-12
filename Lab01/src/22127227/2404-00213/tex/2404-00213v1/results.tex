@@ -1,0 +1,71 @@
+\section{Results}
+\subsection{Token-Based Scaling}
+\label{sec:tokscale}
+\begin{figure}
+\centerline{\includegraphics[width=\textwidth, keepaspectratio]{token_on_token_results.png}}
+\setlength{\belowcaptionskip}{-8pt}
+\caption{\textbf{Token-based evaluation set} accuracy for our six documents across 1x, 5x, and 10x scaling with models trained on \textbf{token-scaled datasets}. The base model results with no training are included under the bars annotated as ``original," and we include a RAG baseline as well which leverages the cleaned document sections to answer the eval questions.}
+\label{fig:hist}
+\end{figure}
+The token-based scaling results are shown in figure \ref{fig:hist}. First, we compare the results for the 2018 FIFA World Cup vs. the others. We notice the untrained model for this dataset scores much better than any of the others (0.712 accuracy vs. a max of 0.242), serving as a sanity check that indeed the other five articles are post-cutoff and out-of-domain. The knowledge we try to inject into the model is mostly new.
+
+We observe variation in the base model's performance between the post-cutoff datasets (Superbowl's 0.061 accuracy vs. NCAA's 0.242). This is attributed to some details of the sporting events being decided in advance. For example, the host city and venue selections for the 2023 FIFA Women's World Cup were announced in March 2021 \citep{enwiki:1214162630}, before the cutoff, so it would be fair game for the model to answer questions about those details. The majority of the information from the articles are still post-cutoff though, as noted above when comparing to the FIFA 2018 results.
+
+Between the base model and the 1x train dataset, the accuracy more than doubles for each of our five post-cutoff events. Training on the 5x scaled datasets continues with statistically significant, large gains for all events, with PGA seeing the largest relative improvement at +78.6\% compared to the 1x case. The gains quickly drop off for some datasets with 10x scaling, however, with NCAA seeing a modest 1\% relative improvement. These are diminishing returns. Cricket, though, sees a 26.8\% relative accuracy improvement in 10x compared to 5x, suggesting it still had content not well covered by the 5x dataset that training for 10x helped it improve. 
+
+We see the effects of token scaling on fine-tuning effectiveness is greatly diminished for the FIFA 2018 dataset across the board compared to the other five. This makes sense intuitively, since that 2018 event, being pre-cutoff, has already been trained on by the model. We do see modest relative gains of 17.4\% in the 5x model compared to the 1x one, but performance notably degrades for the 10x case. We suspect this is due to the lack of diversity in question generation (same style/distribution of Q\&A) causing overfitting and a poorer ability to generalize. Across the internet-scale corpus that GPT-4 was pretrained on, details and statistics about the FIFA 2018 World Cup likely appeared in many different dialogues, tones, and perspectives; post-training now on one form with such a high degree of repetition may be ablating some of the generalization benefits we otherwise got from the original training data. 
+
+This lack of diverse question generation as we hit the 10x scale may similarly explain why we see diminishing returns for some of our other datasets that are post-cutoff, and we suspect a similar improvement in our dataset generation methodology may increase training robustness and give us a further performance boost (constrained for same compute/budget, of course).
+
+Since RAG is a go-to solution for new knowledge injection into LLM systems as mentioned previously, we perform RAG over the cleaned document sections using Azure OpenAI hybrid search (vector + keyword) \citep{msftvectorsearchdocs}. These results are added in the rightmost column in the graphs in figure \ref{fig:hist}, but we note that these RAG figures are merely meant to contextualize our fine-tuned models' performances compared to standard practice. In none of the document/dataset-scaling configurations do we outperform RAG with fine-tuning, but this was a nongoal for this study. We get SFT performance to be within 16\% (or better) of RAG performance for all scenarios (closing much of the gap), but as discussed more rigorously in section \ref{sec:limitations}, our hyperparameters are not optimized, and the training has significant room for improvement. Here, we were primarily interested in the scaling.
+
+\subsection{Fact Coverage in Token Datasets}
+\label{sec:tokenfactcov}
+At the core of our task is training to learn new knowledge, which we might represent as a set of constituent facts. By scaling up the token counts of our datasets, we aim to train our models with more examples covering those target facts. Consider however some particular fact or set of facts that our given model may struggle with -- token-based question-answer pair generation is not guaranteed to cover those weak areas as we naively scale up. There may be differences in the effectiveness of token-scaling as well due to different documents being more or less dense in new facts than others.
+
+To explore the above cases further, we directly generate the set of atomic facts contained in each of the documents then retroactively study how many synthesized question-answer pairs cover each of the atomic facts. Coverage was estimated by transforming the atomic facts and question-answer pairs into embeddings using OpenAI's text-embedding-ada-002 model \citep{msftaoaimodeldocs} and calculating cosine similarity. We allowed multilabel assignment to account for the case where a single question might cover two closely related facts. The threshold for assignment was swept over, and 0.945 was selected as the value for determining assignment. 
+
+\begin{figure}
+\centering
+\includegraphics[width=0.51\textwidth, keepaspectratio]{fact_coverage.png}
+\captionsetup{justification=centering}
+    \setlength{\belowcaptionskip}{-8pt}
+    \caption{Fact coverage across token-based datasets.}
+    \label{fig:factcoverage}
+\end{figure}
+
+In our analysis, we would hope to see full coverage, meaning every atomic fact in a given document has at least one example in the training set that covers it. But as we can see in figure \ref{fig:factcoverage}, about 20\% of the facts are not covered by any example even in our 10x scaled datasets. For the facts that are covered, a desirable property might be an even distribution of question counts over them. We take to the FIFA 2023 Women's World Cup document and plot the number of related questions over all the atomic facts in the overview section in appendix  \ref{sec:tokfactdistribution}, finding this is not the case. Instead, we see some facts are far more popular than others in terms of question coverage, with one fact in the 10x scaling receiving more than 25 questions -- despite 20\% of the facts receiving none at all. 
+
+The number of additional facts covered going from 1x to 5x is much greater across all our datasets than from 5x to 10x, offering another potential explanation for why our token-based training results showed such diminishing returns: the model may not be generating enough examples for its weakest areas as we scale. We note the token-based evaluation sets were generated according to the same procedure, however, meaning they have the same distribution, so such weak areas would likely fall in the low-coverage regime of facts rather than the no-coverage regime. That some facts may be covered by neither train nor evaluation set indicates a more serious gap in the methodology given our goal is to perform knowledge injection over the full extent of a document's content.
+
+Clearly GPT-4 generated the questions for each section according to some distribution that is nonuniform; it is further unreasonable to assume this distribution will match that of a user querying about these events, so we are motivated to turn to an alternate dataset generation scheme in the hopes of covering more facts and increasing knowledge injection efficacy.
+
+\subsection{Fact-Based Scaling}
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth, keepaspectratio]{fact_on_fact_results.png}
+    \caption{\textbf{Fact-based evaluation set} accuracy for our six documents across 1x, 5x, and 10x scaling with models trained on \textbf{fact-scaled datasets}. The base model results with no training are included under the bars annotated as original," and we include a RAG baseline as well which leverages the cleaned document sections to answer the eval questions.}
+    \label{fig:factonfact}
+\end{figure*}
+In figure \ref{fig:factonfact}, we display the results from fine-tuning GPT-4 on datasets scaled over the fact dimension, scored on a fact-based evaluation set.
+
+We make a few of the same observations as before: the base model does the best on FIFA 2018 at 0.712 vs. NCAA's 0.31, the best among the post-cutoff datasets. That NCAA jumped from 0.242 to 0.310 suggests some pre-cutoff facts may have not been covered in the previous token-based datasets. The second highest post-cutoff dataset is FIFA 2023 with a much lower base model accuracy of 0.211; once again we conclude the majority of facts from all post-cutoff datasets are out-of-domain.
+
+Unlike with the token-based scaling, we see no negative drops in performance as we scale up, even for FIFA 2018. While again we do not beat RAG for any datasets, we notice scaling gains are more consistent as we go from 1x to 5x to 10x. We consider the FIFA 2018 base model performance a signal for knowledge ingestion efficacy after GPT-4's pretraining and observe the gap between our 10x trained models and RAG on the post-cutoff datasets is brought to parity to the gap between the FIFA 2018 base performance and RAG.
+
+On the consistent scaling gains, the model is guaranteed to see additional relevant examples for facts it was struggling with as scaling increases, and performance goes up in turn. More importantly, as full and even fact coverage in the evaluation set is guaranteed according to our dataset generation procedure, we have more confidence in these results representing a complete picture of the model's efficacy at ingesting the full content of each document.
+
+\subsection{Cross-Validating Token-on-Fact}
+\label{sec:crossval}
+With the more complete fact-based evaluation set, we go back and assess the models fine-tuned on the 1x, 5x, and 10x token-based scaling datasets. The Q\&A distributions are different due to the varying synthesis approaches, but the content and goals are the same, so we feel the comparison is especially valuable. The results are depicted in figure \ref{fig:tokonfact}.
+
+The pre-cutoff FIFA 2018 results suffer the least degradation (up to a relative 10\%) compared to the post-cutoff datasets. The facts were already present in the base model from pretraining, so we rely on fine-tuning less for increased coverage. The post-cutoff datasets tell a different story; comparing the 1x results between figures \ref{fig:hist} and \ref{fig:tokonfact}, FIFA 2023 sees a small 5.5\% relative decrease from token (training)-on-token (eval) to token-on-fact; NCAA and Superbowl see small relative increases of about 2\% and 3\%, respectively; and PGA and Cricket see larger relative decreases on the order of 18-19\%. The significant differences from PGA, Cricket, and to a lesser extent FIFA 2023 speak to the uncovered facts in their 1x token datasets. We consider the small increases in the NCAA and Superbowl datasets as artifacts of randomness and lucky optimization, since in theory token-on-fact can only be as good as token-on-token due to the aforementioned coverage considerations. Once we hit the 5x scale, all models trained on token-scaled datasets see major degradations when evaluated on fact-based sets compared to token-based ones. The smallest such difference is FIFA 2023 which sees a relative decrease of -12.8\%, and the largest is PGA at -37.3\%. This trend is preserved at the 10x scale. For convenience, we plot out these relative degradations between figures \ref{fig:hist} and \ref{fig:tokonfact} in appendix \ref{sec:crossval_rels}.
+
+Of additional interest is the difference in our scaling gains. The extent of these gains are lower across the board for token-on-fact compared to the token-on-token values from figure \ref{fig:hist}. This is attributed to what was described in section \ref{sec:tokenfactcov}: blindly scaling up based on token counts in the training sets does not gaurantee coverage of missed facts, particularly if GPT-4 is less likely to pay attention to them according to its distribution over Q\&A.
+
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth, keepaspectratio]{token_on_fact_results.png}
+    \caption{\textbf{Fact-based evaluation set} accuracy for our six documents across 1x, 5x, and 10x scaling with models trained on \textbf{token-scaled datasets}.}
+    \label{fig:tokonfact}
+\end{figure*}

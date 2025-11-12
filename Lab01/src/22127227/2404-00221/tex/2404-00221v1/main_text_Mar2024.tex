@@ -1,0 +1,1545 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathabx}
+\usepackage{ascmac}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{breakcites}
+\usepackage{latexsym}
+\usepackage{cases}
+\usepackage{url}
+\usepackage{pifont}
+\usepackage{multirow}
+\usepackage{setspace}
+\usepackage{arydshln}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns.meta}
+\usepackage{here}
+\usepackage{natbib}
+\usepackage[english]{babel}
+\usepackage{threeparttable}
+\usepackage[a4paper]{geometry}
+%\geometry{verbose,tmargin=28mm,bmargin=28mm,lmargin=25mm,rmargin=25mm}
+\geometry{verbose,tmargin=28mm,bmargin=28mm,lmargin=25mm,rmargin=25mm}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\hypersetup{
+bookmarkstype=none,
+colorlinks,
+linkcolor=blue,
+citecolor=blue}
+\usepackage{prettyref}
+\usepackage{natbib}
+\usepackage{threeparttable}
+\allowdisplaybreaks[1]
+
+
+\tikzstyle{rednode} = [shape=rectangle, fill=red!50, line width=3]
+\tikzstyle{bluenode} = [shape=rectangle, fill=blue!50, line width=3]
+\tikzstyle{yellownode} = [shape=rectangle, fill=yellow!50, line width=3]
+%\tikzstyle{dotnode} = [dashed, pattern=north west lines, pattern color=gray!150]
+\tikzstyle{dotnode} = [dashed, pattern={Lines[angle=90,distance=3pt]}, pattern color=gray!150]
+\tikzstyle{backslashnode} = [dashed, pattern={Lines[angle=45,distance=3pt]}, pattern color=gray!150]
+\tikzstyle{slashnode} = [dashed, pattern={Lines[angle=-45,distance=3pt]}, pattern color=gray!150]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeS commands.
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+
+\floatname{algorithm}{Procedure 1}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\renewcommand\thealgorithm{}
+
+\newcommand{\MF}{\mathcal{F}}
+\newcommand{\MS}{\mathcal{S}}
+\newcommand{\MA}{\mathcal{A}}
+\newcommand{\MG}{\mathcal{G}}
+\newcommand{\MZ}{\mathcal{Z}}
+\newcommand{\MY}{\{-1,1\}}
+\newcommand{\MP}{\mathcal{P}}
+\newcommand{\MR}{\mathcal{R}}
+\newcommand{\MH}{\mathcal{H}}
+\newcommand{\MB}{\mathcal{B}}
+\newcommand{\Bk}{\mathbf{k}}
+\newcommand{\Bz}{\mathbf{z}}
+\newcommand{\Bb}{\mathbf{b}}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\Natural}{\mathbb{N}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits}
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits}
+\newcommand{\indep}{\perp \!\!\! \perp}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\setstretch{1.7}
+
+\makeatother
+
+\begin{document}
+\setstretch{1.2} 
+\title{Robust Learning for Optimal Dynamic Treatment Regimes with Observational Data\thanks{I thank Toru Kitagawa, Aureo de Paula,
+and participants at various seminars and conferences
+for their comments and suggestions. I acknowledge financial support from JSPS KAKENHI Grant (number
+22K20155) and ERC Grant (number 715940).}
+}
+\author{Shosei Sakaguchi\thanks{Faculty of Economics, The University of Tokyo, 7-3-1 Hongo, Bunkyo-ku, Tokyo 113-0033, Japan. Email: sakaguchi@e.u-tokyo.ac.jp.} }
+\date{\today}
+%\date{\today \bigskip \\ \textit{Preliminary Draft}}
+
+\maketitle
+
+\vspace{-1cm}
+
+\begin{abstract}
+\begin{spacing}{1.2}
+    %We study statistical decisions for dynamic sequential treatment assignment problems. 
+    Many public policies and medical interventions involve dynamics in their treatment assignments, where treatments are sequentially assigned to the same individuals across multiple stages, and the effect of treatment at each stage is usually heterogeneous with respect to the history of prior treatments and associated characteristics. We study statistical learning of optimal dynamic treatment regimes (DTRs) that guide the optimal treatment assignment for each individual at each stage based on the individual’s history. We propose a step-wise doubly-robust approach to learn the optimal DTR using observational data under the assumption of sequential ignorability. The approach solves the sequential treatment assignment problem through backward induction, where, at each step, we combine estimators of propensity scores and action-value functions (Q-functions) to construct augmented inverse probability weighting estimators of values of policies for each stage. The approach consistently estimates the optimal DTR if either a propensity score or Q-function for each stage is consistently estimated. Furthermore, the resulting DTR can achieve the optimal convergence rate $n^{-1/2}$ of regret under mild conditions on the convergence rate for estimators of the nuisance parameters.\bigskip \\
+\noindent 
+\textbf{Keywords:} Dynamic treatment regime; Q-learning; AIPW estimator; Double/debiased machine learning. \\
+%\textbf{JEL codes:} C22, C44, C54
+\end{spacing}
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\setstretch{1.4} 
+
+
+\section{Introduction} \label{sec:introduction}
+
+
+Many public policies and medical interventions involve dynamics in their treatment assignments. For example, in public policy, some job training programs provide individuals with a series of training sessions over multiple stages (e.g., \citet{Lechner_2009,Rodriguez_et_al_2022}). In clinical medicine, physicians often administer medical treatments to patients in a sequential manner based on their evolving medical history (e.g., \citet{Wang_et_al_2012,Pelham_et_al_2016}). Sequential treatment assignments are also common in educational programs spanning multiple grades (e.g., \cite{Ding_Lehrer_2010}) and in multi-stage marketing strategies (e.g., \cite{Liu_2023}).
+
+We consider the setting of sequential treatment assignment (\cite{Robins_1986}) in which treatments are sequentially assigned to each individual across multiple stages. In this setting, the effect of treatment at each stage is usually heterogeneous with respect to the past treatments and associated characteristics. Hence, an effective design of sequential treatment assignment should account for such treatment effect heterogeneity at each stage. %Therefore, to enhance the effect of sequential treatment interventions, the optimal decision of treatment to an individual at each stage should depend upon his/her accumulated information at the corresponding stage.
+
+This study examines statistical learning of sequential treatment assignment using data from an observational study. 
+We assume that the assumption of sequential ignorability (\citet{Robins_1997}) holds, meaning that the treatment assignment at each stage is independent of potential outcomes conditioning on the history of treatment assignments and observed characteristics. 
+Under this assumption, we construct an approach to learn the optimal Dynamic Treatment Regime (DTR), the sequence of the stage-specific policies (treatment rules) that guides the optimal treatment for each individual at each stage based on the individual’s history of the corresponding stage (\citet{Murphy_2003,Chakraborty_Murphy_2014}).
+%\footnote{Specifying a class of DTRs can accommodate exogenous policy constraints (e.g., interpretability) by restricting the class of feasible DTRs. Moreover, it can also specify different types of dynamic treatment choice problems, such as start/stop time decision problems, where the interest is in when consecutive treatment assignment should be started or stopped for each individual.}
+
+We propose a step-wise doubly-robust approach to learn the optimal DTR through backward induction. The approach sequentially estimates the optimal stage-specific policy from the final to first stages and, hence, has the advantage of computational feasibility. At each step of backward induction, the approach constructs an augmented inverse probability weighting (AIPW) estimator of a policy value function for the corresponding stage by combining estimates of propensity scores and action value functions (Q-functions).\footnote{The Q-function for each stage is the conditional mean of the outcome given the treatment and history, assuming that the treatment assignment in the future stages follows the estimated future policies.} We estimate the Q-functions using the fitted Q-evaluation method (\citet{Munos_et_al_2008, Fonteneau_et_al_2013, Le_et_al_2019}), a method of off-line policy evaluation in reinforcement learning. The optimal policy for the corresponding stage is then estimated by maximizing the estimated policy value function over a pre-specified class of stage-specific policies. Throughout the sequential procedure, the estimated DTR is obtained as the sequence of the estimated policies for all stages. %The step-wise backward induction procedure gives the computational advantage of the proposed approach.
+%This approach is computationally attractable as it solves the problem through backward induction.
+
+We also use the cross-fitting to make the estimation of the policy value function and learning of the optimal policy independent, reducing over-fitting. The proposed approach has the doubly robust property in the sense that the optimal DTR is consistently estimated if either the propensity score or the Q-function is consistently estimated for each stage. 
+
+
+We evaluate the statistical property of the proposed approach in terms of the regret that is the welfare loss of the estimated DTR relative to the optimal one. The main contribution of this study is to show the rate of convergence for the regret of the estimated DTR in relation to convergence rates of mean squared errors for the estimators of the nuisance components, which are the propensity scores and Q-functions. The main result reveals conditions on the estimators of the nuisance components and class of DTRs under which the estimated DTR achieves the minimax optimal convergence rate $n^{-1/2}$ of the regret. 
+For example, if all the nuisance components are estimated with rate $n^{-1/4}$ of convergence in the root-mean-squared error, which is achievable for many machine learning methods under structured assumptions on the nuisance components, then the regret of the resulting DTR converges to zero at the minimax optimal rate of $n^{-1/2}$. This result is comparable with those of \cite{Athey_Wager_2020} and \cite{zhou2022offline}, who study policy learning in the static treatment assignment problem using observational data.
+
+
+%The proposed approach also has computational advantage over existing methods for doubly robust estimation of the optimal DTRs (e.g., \citet{Zhang_et_2013}) for the following two reasons. First, the nuisance components of the proposed approach do not depend on any specific-policies, making the estimation of the nuisance components free from the choice of policies. Second, the approach divides the optimization problem to find the optimal DTR into sequential stage-specific optimization problems. Solving the optimization problem simultaneously over a whole class of feasible DTRs is computationally demanding especially when the class of feasible DTRs is not very simple. Section \ref{sec:existing_methods} gives more detailed discussion on the computational point.
+
+\subsection*{Related Works \label{sec:related literature}}
+
+A large body of literature focuses on the statistical decision of treatment choice, but many works in that literature focus on the static treatment assignment problem; for example, \cite{Manski_2004}, \cite{Qian_Murphy_2011}, \cite{Zhao_et_al_2012}, \cite{Laber_Zhao_2015}, \cite{Kitagawa_Tetenov_2018a}, \cite{Athey_Wager_2020}, \cite{Kallus_2021}, and \cite{zhou2022offline} among others. Among these works, this study is most relevant to  \cite{Athey_Wager_2020} and \cite{zhou2022offline}. They propose doubly robust policy learning in the static problem, and show that the $n^{-1/2}$-upper bound on the regret can be achieved even in the observational data setting. This study seeks to extend their approaches and results to the dynamic treatment setting. 
+
+This study is related to the literature of estimation of the optimal DTRs.\footnote{\cite{Chakraborty_Murphy_2014}, \cite{Laber_et_al_2014}, \cite{Kosorok_et_al_2019}, and \cite{Li_et_al_2023} review the literature.}
+The batch offline Q-learning (\citet{Watkins_Dayan_1992}) is a dominant approach for estimating the optimal DTRs (e.g., \citet{Murphy_2005,Moodie_et_al_2012,Schulte_et_al_2014,Zhang_et_al_2018}). This approach sequentially estimates the Q-function for each stage, and then estimates the optimal policy from the final to first stage through backward induction. 
+\cite{Murphy_2005} shows that the performance of the DTR obtained by Q-learning depends on how accurately the Q-functions are estimated. The resulting DTR may be far from optimal if the estimated Q-functions are not close to the true ones. 
+The approach proposed in this study also uses the regression model for the Q-functions. 
+However, leveraging the propensity score models, our proposed approach is more robust and accurate than Q-learning itself.
+
+In terms of statistical setting, this study is close to the classification-based approach of \cite{Zhao_et_al_2015} and \cite{Sakaguchi_2021} who use inverse propensity weighted outcomes to estimate the value function of a DTR and then estimate the optimal DTR by maximizing it over a pre-specified class of DTRs. \citet{Zhao_et_al_2015} develop methods to estimate the optimal DTR using the Support Vector Machine with propensity weighted outcomes; however, their focus is on using experimental data (i.e., the propensity scores are known). \citet{Sakaguchi_2021} proposes methods to estimate the optimal DTRs using inverse weights of estimated propensity scores in both the experimental and observational data settings.
+The classification-based approach is simple to implement; however, using the inverse probability weighted outcomes sometimes has problematically high variance and can lead to inferior DTRs (see, .e.g., \citet{Doroudi_et_al_2018}). Our approach improves the power of the propensity weighting type approach by leveraging the Q-learning.  
+
+
+Doubly robust estimators for the optimal DTRs are also proposed by \cite{Zhang_et_2013}, \cite{Wallace_Moodie_2015}, and \cite{Ertefaie_et_al_2021}. \cite{Zhang_et_2013} propose estimating the optimal DTR by maximizing the doubly robust estimator of the value function of a DTR over a pre-specified class of DTRs. However, this approach faces computational challenges for two reasons: (i) nuisance components must be estimated for each specific DTR, as noted by \cite{Nie_et_al_2021}; (ii) the approach maximizes the estimated value function over the entire class of DTRs. Our approach solves these computational issues because (i) nuisance components to be estimated depend only on the estimated policies in future stages, and (ii) the optimal DTR is estimated through stage-wise backward induction rather than simultaneous optimization across all stages. \cite{Wallace_Moodie_2015} develop doubly robust estimation of optimal DTRs based on Q-learning and G-estimation (\cite{Robins_2004}). \cite{Ertefaie_et_al_2021} propose a doubly robust approach for Q-learning to estimate optimal DTRs. They focus on the statistical properties of the parameters in the Q-functions, whereas our focus lies on the statistical properties of the regret of the estimated DTR. In the problem of learning an optimal policy to decide optimal stopping/starting times using observational data, \cite{Nie_et_al_2021} develop a doubly robust learning approach with computational feasibility, and show upper bounds on the associated regret.
+\cite{Jiang_Li_2016}, \cite{Thomas_et_al_2016}, and \cite{Kallus_Uehara_2020} propose doubly robust evaluation of a fixed DTR, but do not consider the learning of optimal DTRs.
+
+\subsection*{Structure of the Paper }
+The remainder of the paper proceeds as follows. Section \ref{sec:setup} describes the dynamic treatment framework and formulates the dynamic treatment choice problem. Section \ref{sec:doubly_robust_policy_learning} presents the doubly robust approach to learn the optimal DTRs through backward induction. Section \ref{sec:statistical_properties} shows the statistical properties of the proposed approach, where we derive the rate of convergence for the regret of the resulting DTR. Section \ref{sec:simulation} presents a simulation study to evaluate finite sample performances of the proposed approach. In Section \ref{sec:empirical_illustration}, we apply the proposed method to the data from Project STAR (e.g., \citet{krueger_1999}), where we learn the optimal DTR for sequential allocation of students to regular-size classes with a teacher aide and small-size classes without a teacher aide in their early education. Appendix provides proofs of a main theorem and some auxiliary lemmas.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Setup\label{sec:setup}}
+
+We introduce the dynamic treatment framework, following dynamic counterfactual outcomes framework of \citet{Robins_1986,Robins_1997} and \cite{Murphy_2003}, in Section \ref{sec:dynamic treatment framework}. We subsequently define the dynamic treatment choice problem in Section \ref{sec:dynamic treatment choice problem}. 
+
+\subsection{Dynamic Treatment Framework \label{sec:dynamic treatment framework}}
+
+We suppose that there are $T$ $(< \infty)$ stages of multiple treatment assignment.
+Let $\MA_{t} \equiv \{1,\ldots,d_t\}$ ($t=1,\ldots,T$) denote a set of possible treatment arms in stage $t$, where $d_t$ denotes the number of possible treatment arms in stage $t$ and may vary across stages. We observe assigned treatment $A_{t} \in \MA_{t}$ for each individual in each stage $t$. Let $S_{t}$ be a vector of state variables that are observed prior to the treatment assignment in each stage $t$. $S_t$ may depend on the past treatments and the past state variables. In each stage $t$, we observe the outcome $Y_{t}$ after the treatment intervention of the corresponding stage. We allow $S_{t}$ to contain the previous outcome $Y_{t-1}$ for $t \geq 2$. 
+
+Throughout this paper, for any variable $V_{t}$, we denote by $\text{\ensuremath{\text{\ensuremath{\underline{V}}}}}_{t}\equiv \left(V_{1},\ldots,V_{t}\right)$
+the history of the variable up to stage $t$, and denote by $\text{\ensuremath{\underline{V}}}_{s:t} \equiv \left(V_{s},\ldots,V_{t}\right)$,
+for $s\leq t$, the partial history of the variable from stage $s$ up to stage $t$.
+%We define the history in stage $t$ by $H_{t}\equiv(\underline{A}_{t-1},\underline{S}_{t})$, which is available information for the policy-maker when she decides a treatment assignment in stage $t$. %\footnote{We can also define $H_t = (\underline{A}_{t-1},\underline{S}_{t})$. In this case, $H_t$ contains all of the observed past information as well as the current covariates.} 
+Let $Z\equiv(\underline{A}_{T},\underline{S}_T,\underline{Y}_{T})$ be the vector of all the observed variables. We define the history in stage $t$ by $H_t \equiv (\underline{S}_t,\underline{A}_{t-1})$, which is the available information when the policy maker chooses the treatment intervention in stage $t$. Note that $H_1 = (S_1)$, where $S_1$ represents the individual characteristics observed before the sequential treatment intervention begins. We denote the supports of $H_{t}$ and $Z$ by ${\cal H}_{t}$ and $\MZ$, respectively.
+
+To formalize our results, we use the framework of dynamic counterfactual outcomes (\citet{Robins_1986,Hernan_et_al_2001,Murphy_2003}).
+Let $Y_{t}\left(\text{\ensuremath{\underline{a}}}_{t}\right)$ be the potential outcome of $\underline{a}_{t}$ in stage $t$ for each $\underline{a}_t \in \underline{\MA}_t$, which represents the individual's outcome for stage $t$ that is realized if the individual is treated by the sequence of treatments $\underline{a}_t$.\footnote{In the notion of $Y_t(\underline{a}_t)$, we assume that the outcome for each stage is not influenced by the treatments in the future stages.} As we allow the state variables to depend on the past treatments, we also define the potential state variables as $S_{t}(\underline{a}_{t-1})$ for each $t\geq 2$ and $\underline{a}_{t-1} \in \underline{\MA}_{t-1}$. Note that the potential state variables $S_{t}(\underline{a}_{t-1})$ may contain the potential outcome $Y_{t-1}(\underline{a}_{t-1})$ for the previous stage. We suppose that the observed outcomes and state variables are defined as $Y_{t} \equiv Y_{t}(\underline{A}_t)$ and $S_t \equiv S_t(\underline{A}_{t-1})$, respectively. We denote by $P$ the distribution of all of the underlying variables $\left(\underline{A}_T,\left\{\underline{S}_T(\underline{a}_{T-1})\right\}_{\underline{a}_{T-1} \in \underline{\MA}_{T-1}},\{\underline{Y}_{T}(\underline{a}_T)\}_{\underline{a}_T \in \underline{\MA}_T}\right)$, where $\underline{S}_T(\underline{a}_{T-1}) \equiv (S_1,S_2(a_1),\ldots,S_T(\underline{a}_{T-1}))$ and $\underline{Y}_T(\underline{a}_T) \equiv (Y_1(a_1),Y_2(\underline{a}_{2}),\ldots,Y_T(\underline{a}_{T}))$.
+
+From an observational study, we observe $Z_{i}\equiv \left(\underline{A}_{i,T},\underline{S}_{i,T},\underline{Y}_{i,T}\right)$ for individuals $i=1,\ldots,n$ with $\underline{A}_{i,T}=(A_{i,1},\ldots,A_{i,T})$, $\underline{S}_{i,T}=(S_{i,1},\ldots,S_{i,T})$, and $\underline{Y}_{i,T}=(Y_{i,1},\ldots,Y_{i,T})$. The observed outcome $Y_{i,t}$ for each stage $t$ is defined as $Y_{i,t}  \equiv Y_{i,t}(\underline{A}_{i,t})$ with $Y_{i,t}\left(\underline{a}_{t}\right)$ being a
+potential outcome for individual $i$ for stage $t$ that is realized when $\underline{A}_{i,t} = \underline{a}_{t}$. Similarly, for $t \geq 2$, the observed state variables are defined as  $S_{i,t}  \equiv S_{i,t}(\underline{A}_{i,t-1})$ with $S_{i,t}\left(\text{\ensuremath{\underline{a}}}_{t-1}\right)$ being
+potential state variables for individual $i$ and stage $t$ that is realized when $\underline{A}_{i,t-1} = \underline{a}_{t-1}$. Letting $\underline{S}_{i,T}(\underline{a}_{T-1}) \equiv (S_{i,1},S_{i,2}(a_1),\ldots,S_{i,T}(\underline{a}_{T-1}))$ and $\underline{Y}_{i,T}(\underline{a}_{T}) \equiv (Y_{i,2}(a_1),\ldots,Y_{i,T}(\underline{a}_{T}))$, we suppose that the vectors of random variables $\left(\underline{A}_{i,T},\left\{\underline{S}_{i,T}\left(\text{\ensuremath{\underline{a}}}_{T-1}\right)\right\}_{\text{\ensuremath{\underline{a}}}_{T-1}\in\underline{\MA}_{T-1}}, \left\{ \underline{Y}_{i,T}\left(\text{\ensuremath{\underline{a}}}_{T}\right)\right\} _{\text{\ensuremath{\underline{a}}}_{T}\in\underline{\MA}_{T}}\right)$,
+$i=1,\ldots,n$, are independent and identically distributed (i.i.d) under the distribution $P$. 
+We also denote the history of the $i$-th individual in stage $t$ as $H_{i,t}\equiv (\underline{S}_{i,t},\underline{A}_{i,t-1})$.
+
+Define $e_{t}\left(h_{t},a_{t}\right)\equiv \Pr\left(A_{t}=a_{t}\mid H_{t}=h_{t}\right)$, the propensity score of the treatment $a_t$ in stage $t$ given the history $h_t$. In the observational data setting that we study, the propensity scores are unknown to the analyst. This is in contrast to 
+the experimental data setting where the propensity scores are known to the analyst from the experimental design.\footnote{Even when date is obtained from from an experiment with sequential randomized trial, the propensity scores are often unknown due to non-compliance of assigned treatments.}
+
+Throughout the paper, we suppose that the underlying distribution $P$ satisfies the following assumptions.
+
+\medskip
+
+\begin{assumption}[Sequential Ignorability]\label{asm:sequential independence} For any $t=1,\ldots,T$ and $\text{\ensuremath{\underline{a}}}_{T}\in\underline{\MA}_{T}$,
+\begin{align*}
+\{Y_{t}\left(\underline{a}_{t}\right),\ldots,Y_{T}\left(\underline{a}_{T}\right),S_{t+1}(\underline{a}_{t}),\ldots,S_{T}(\underline{a}_{T-1})\} \indep A_{t} \mid H_{t}.  
+\end{align*}
+\end{assumption}
+
+%\smallskip
+
+\begin{assumption}[Bounded Outcomes]\label{asm:bounded outcome}
+There exists $M <\infty$ such that the support of $Y_{t}(\underline{a}_{t})$ is
+contained in $\left[-M/2,M/2\right]$ for all $t \in \{1,\ldots,T\}$ and $\underline{a}_{t} \in \underline{\MA}_{t}$.
+\end{assumption}
+
+%\smallskip
+
+\begin{assumption}[Overlap Condition]\label{asm:overlap} 
+There exists $\eta \in (0,1)$ such that $\eta \leq e_{t}(H_{t},a_{t})$ a.s. for any $t \in \{1,\ldots,T\}$ and $a_{t} \in \MA_{t}$. 
+\end{assumption}
+
+\medskip
+
+
+Assumption \ref{asm:sequential independence} is what is called a dynamic unconfoundedness assumption or sequential ingnorability assumption elsewhere, and is commonly used in the literature of dynamic treatment effect analysis (\cite{Robins_1997}; \cite{Murphy_2003}). This assumption means that the treatment assignment at each stage is independent of the potential outcomes for the corresponding and future stages and the state variables for the future stages conditional on the history up to that point. In observational studies, this assumption is satisfied when a sufficient set of confounders is controlled at each stage. Assumptions \ref{asm:bounded outcome} and \ref{asm:overlap} are standard assumptions in statistical causal inference.
+
+\bigskip
+
+\subsection{Dynamic Treatment Choice Problem\label{sec:dynamic treatment choice problem}}
+
+The aim of this study is to provide a method to learn the optimal DTRs using data from an observational study. We define a policy for each stage $t$ as $\pi_{t}:\MH_{t}\mapsto \MA_{t} $, a map from the history space for stage $t$ to the treatment space for stage $t$. A policy $\pi_t$ decides which treatment is to be assigned to each individual at stage $t$ based on the history $h_t$. We define a DTR by $\pi \equiv\left(\pi_{1},\ldots,\pi_{T}\right)$,
+a sequence of stage-specific policies. The DTR sequentially guides a treatment choice for each individual from the first to last stages depending on the individual’s history up to that point. 
+
+Let $H_{t}(\underline{a}_{t-1}) \equiv (\underline{S}_{t}(\underline{a}_{t-1}),\underline{a}_{t-1})$ be a potential history that corresponds to the history realized when the sequence of the past treatments is $\underline{a}_{t-1}$. We suppose that $H_{1}(\underline{a}_{0}) = H_1$ when $t=1$. Given a fixed DTR $\pi$, we define the welfare of $\pi$ as
+\begin{align*}
+W\left(\pi\right) &\equiv   
+E\left[\sum_{t=1}^{T}\sum_{\underline{a}_t \in \underline{\MA}_t}\left( Y_{t}(\underline{a}_t)\cdot \prod_{s=1}^{t}1\{\pi_s(\underline{H}_{s}(\underline{a}_{s-1}))=a_s\}\right)\right],
+\end{align*}
+which is the mean value of the total outcome that is realized when the sequential treatment assignments follow $\pi$.
+
+We consider choosing a DTR from a pre-specified class of DTRs denoted by $\Pi \equiv \Pi_{1}\times\cdots\times \Pi_{T}$, where $\Pi_{t}$ denotes a class of policies for stage $t$ (i.e., a pre-specified class of measurable functions $\pi_{t}:\MH_{t}\rightarrow \MA_{t}$). For example, \cite{Laber_Zhao_2015}, \cite{Tao_et_al_2018}, \cite{Sun_Wang_2021}, and \cite{Blumlein_et_al_2022} use a class of trees for $\Pi_t$, and \cite{Zhang_et_al_2018} use a class of policies with a list form for $\Pi_t$. They employ such policy classes to enhance the interpretability of the resulting DTRs.\footnote{\cite{Ahmad_et_al_2018} discuss the importance of interpretability of machine learning models in healthcare.} The class of DTRs is required to satisfy Assumption \ref{asm:first-best} presented later.
+%\cite{Zhao_et_al_2015} use a class of reproducing kernels for each $\Pi_{t}$ as a flexible class of policies.
+
+
+The ultimate goal is to choose an optimal DTR that maximizes the welfare $W\left(\cdot\right)$ over $\Pi$. 
+We are especially interested in learning the optimal DTR from the observation data which satisfies the sequential ignorability assumption (Assumption \ref{asm:sequential independence}).
+The following section proposes a step-wise approach to learn the optimal DTR.
+
+%\bigskip
+
+\section{Learning of the Optimal DTR}\label{sec:doubly_robust_policy_learning}
+
+\subsection{Backward Induction and Fitted Q-evaluation}
+
+We discuss a sequential approach to learn the optimal DTRs through backward-induction. For a DTR $\pi$ and the class $\Pi$ of DTRs, we denote their partial sequences by $\pi_{s:t} \equiv (\pi_s,\ldots,\pi_t)$ and $\Pi_{s:t} \equiv \Pi_s \times \cdots \times \Pi_t$, respectively, for $s\leq t$.\footnote{Throughout the paper, for any object $v_{s:t}$ and $\underline{w}_{s:t}$ ($s\leq t$), we suppose that $v_{t:t}$ and $\underline{w}_{t:t}$ correspond to $v_t$ and $w_t$, respectively.}
+
+
+Given a fixed DTR $\pi$, we define Q-functions (state-action-value functions), recursively, as follows:
+\begin{align}
+    Q_T(h_T,a_T) &\equiv E\left[Y_{T}|H_T = h_T, A_t = a_t\right] \label{eq:action_value_func_1}\\
+     Q_{T-1}^{\pi_{T}}(h_{T-1},a_{T-1}) &\equiv E\left[Y_{T-1} + Q_T(h_T,\pi_T(H_{T}))|H_{T-1} = h_{T-1}, A_{T-1} = a_{T-1}\right]
+     \end{align}
+     and, for $t=T-2,\ldots,1$,
+     \begin{align}
+     Q_{t}^{\pi_{(t+1):T}}(h_t,a_t) &\equiv E\left[Y_{t} + Q_{t+1}^{\pi_{(t+2):T}}(H_{t+1},\pi_{t+1}(H_{t+1}))|H_t = h_t, A_t = a_t\right]. \label{eq:state_value_func_2}
+\end{align}
+We refer to $Q_{t}^{\pi_{(t+1):T}}(h_t,a_t)$ as the Q-function for $\pi_{(t+1):T}$. 
+The Q-function $Q_{t}^{\pi_{(t+1):T}}(h_t,a_t)$ represents the mean value of the total outcome when the history and treatment are $h_t$ and $a_t$ in stage $t$ and the treatment assignment in the future stages follow $\pi_{(t+1):T}$. 
+We denote $Q_{T}^{\pi_{(T+1):T}}(\cdot,\cdot) = Q_{T}(\cdot,\cdot)$ when $t=T$. %\cite{Tsiatis_et_al_2019} show that $V_{t}(\pi_{t:T}) = E\left[V_{t}^{\pi_{t:T}}(H_t)\right]$ under Assumption \ref{asm:sequential independence}. 
+In what follows, for any function $f(\cdot,\cdot):\MH_{t} \times \MA_{t} \rightarrow \Real$ and policy $\pi_{t}(\cdot):\MH_{t} \rightarrow \MA_{t}$, we denote $f(h_{t},\pi_{t}(h_{t}))$ shortly by $f(h_{t},\pi_{t})$ (e.g., $Q_{t}^{\pi_{(t+1):T}}(h_t,\pi_t) = Q_{t}^{\pi_{(t+1):T}}(h_t,\pi_t(h_t))$).
+
+Given a DTR $\pi$, we can use the sequential relationships outlined in equations (\ref{eq:action_value_func_1})--(\ref{eq:state_value_func_2}) to estimate the sequence ${Q_{t}^{\pi_{(t+1):T}}(\cdot,\cdot)}_{t=1,\ldots,T}$ of the Q-functions for $\pi$. This approach is refereed to as the fitted Q-evaluation (\citet{Munos_et_al_2008,Fonteneau_et_al_2013,Le_et_al_2019}) in the literature of reinforcement learning, and consists of multiple steps as follows:
+\begin{itemize}
+    \item Regress $Y_{T}$ on $(H_T,A_T)$ to obtain $\widehat{Q}_{T}(\cdot,\cdot)$ as the estimated regression function for $Q_T(\cdot,\cdot)$;
+    \item Regress $Y_{T-1} + \widehat{Q}_{T}(H_{T},\pi_{T})$ on $(H_{T-1},A_{T-1})$ to obtain $\widehat{Q}_{T-1}^{\pi_{T}}(\cdot,\cdot)$ as the estimated regression function for $Q_{T-1}^{\pi_{T}}(\cdot,\cdot)$;
+   \item Recursively, for $t=T-2,\ldots,1$, regress $Y_{t} + \widehat{Q}_{t+1}^{\pi_{(t+2):T}}(H_{t+1},\pi_{t+1})$ on $(H_t,A_t)$ to obtain $\widehat{Q}_{t}^{\pi_{(t+1):T}}(\cdot,\cdot)$ as the estimated regression function for $Q_{t}^{\pi_{(t+1):T}}(\cdot,\cdot)$.
+\end{itemize}
+%Note that our definition of $Q_t(\cdot,\cdot)$ depends on the policy classes $\Pi_t,\ldots,\Pi_{T}$  through the maximization of $Q_{s}(\cdot,\cdot)$ over $\Pi_{s}$ for $s > t$. %\footnote{Batch Q-learning methods usually chooses the optimal actions at each stage without constraints on the candidate of actions, which leads to the first-best policy at each stage. However, under Assumption \ref{asm:first-best} (i.e., the feasibility of the first-best policy), there is little difference between the batch Q-learning with and without the policy search over the pre-specified class of policies. \citeauthor{Murphy_2005} (\citeyear{Murphy_2005}, Section 3) gives detailed discussion for this.}%
+%This sequential procedure to estimate the Q-functions for a given DTR $\pi$ is refereed to as the fitted Q-evaluation (\citet{Munos_et_al_2008,Fonteneau_et_al_2013,Le_et_al_2019}) in the literature of reinforcement learning. 
+We can apply a flexible regression method, including machine learning methods (e.g., random forest, lasso, neural network learning) to the regressions to estimate $Q_{t}^{\pi_{(t+1):T}}(\cdot,\cdot)$ in each step. 
+%Under Assumption \ref{asm:first-best}, we can show that $\pi_{t}^{\ast,FB} = \argmax_{\pi \in \Pi_t}E\left[Q_{t}^{\pi_{(t+1):T}^{\ast,FB}}(H_t,\pi_t)\right]$ (see e.g., \cite{Murphy_2005}).
+
+For each stage $t$, we define the potential outcomes of the sequences of the treatments $\underline{a}_{s-1}$ and policies $\pi_{s:t}$ for $s < t$ by
+\begin{align*}
+    \widetilde{Y}_{t}(\underline{a}_{s-1},\pi_{s:t}) \equiv \sum_{\underline{a}_{t} \in \underline{\MA}_{t}}\left[ Y_{t}(\underline{a}_{t})\cdot \prod_{\ell=s}^{t}1\{\pi_{\ell}\left(H_{\ell}(\underline{a}_{\ell-1})\right)=a_\ell\}\right],
+\end{align*}
+where we suppose $\widetilde{Y}_{t}(\underline{a}_{0},\pi_{1:t}) = \widetilde{Y}_{t}(\pi_{1:t}) \equiv \sum_{\underline{a}_{t} \in \underline{\MA}_{t}}\left[ Y_{t}(\underline{a}_{t})\cdot \prod_{\ell=1}^{t}1\{\pi_{\ell}\left(H_{\ell}(\underline{a}_{\ell-1})\right)=a_\ell\}\right] $ when $s=1$. We define the policy value function of $\pi_{t:T}$ for stage $t$ as 
+\begin{align*}
+  V_t(\pi_{t:T})\equiv E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}\left(\underline{A}_{t-1},\pi_{t:s}\right)\right],
+\end{align*}
+which represents the mean of the total outcome from stage $t$ to stage $T$ that is realized when the treatment assignments before stage $t$ follow $\underline{A}_{t-1}$ (i.e., assignments in the observational data) and the treatment assignments from stage $t$ follows $\pi_{t:T}$. Note that the policy value function for stage 1 corresponds to the welfare function; i.e., $V_{1}(\pi_{1:T}) = W(\pi)$. Lemma \ref{lemma:identification} in Appendix \ref{app:proofs_of_lemmas} shows that under Assumptions \ref{asm:sequential independence},  $E[Q_{t}^{\pi_{(t+1):T}}(H_{t},\pi_{t}(H_{t}))] = V_t(\pi_{t:T})$. 
+\begin{comment}
+We consider to sequentially estimate the optimal DTR through backward induction.  To identify the optimal DTR through backward induction, we suppose that the policy class $\Pi_t$ for each stage $t=2,\ldots,T$ contains the first-best policy in the following sense.
+
+\bigskip
+
+\begin{assumption}[First-Best Policy] 
+\label{asm:first-best} 
+For any $t=T,\ldots,2$, there exists $\pi_{t}^{\ast,FB}\in \Pi_{t}$ such that 
+\begin{align*}
+&E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}\left(\underline{A}_{1:(t-1)},\pi_{t:s}^{\ast,FB}\right) \middle| H_{t}\right]
+\geq \max_{a_{t} \in \MA_{t}}E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}\left(\underline{A}_{1:(t-1)},a_{t},\pi_{(t+1):s}^{\ast,FB}\right) \middle| H_{t}\right]
+\end{align*}
+holds a.s. for all $\pi_{t} \in \Pi_{t}$. 
+\end{assumption}
+
+\bigskip
+
+We call $\pi_{t}^{\ast,FB}$ that satisfies Assumption \ref{asm:first-best} the first-best policy in stage $t$. The first-best policy $\pi_{t}^{\ast,FB}$ always chooses the best treatment arm for any history $h_t$ given that the first-best policies are followed in the future stages.  Assumption \ref{asm:first-best} is satisfied when $\Pi_t$ ($t=2,\ldots,T$) are flexible enough or correctly specified. 
+
+ 
+
+For a given DTR $\pi$, we define the 
+\end{comment}
+
+We use backward induction to estimate the optimal DTRs in a step-wise manner.
+To sequentially identify the optimal DTRs through backward induction, we assume that the policy class $\Pi_t$ for each stage $t=2,\ldots,T$ contains the first-best policy in the following sense.
+
+\medskip
+
+\begin{assumption}[First-Best Policy] 
+\label{asm:first-best} 
+There exists $\pi_{2:T}^{\ast,FB} = (\pi_{2}^{\ast,FB},\ldots,\pi_{T}^{\ast,FB})\in \Pi_{2:T}$ such that for any $t=2,\ldots,T$,
+\begin{align*}
+Q_{t}^{\pi_{(t+1):T}^{\ast,FB}}\left(H_t,\pi_{t}^{\ast,FB}(H_t)\right) \geq \max_{a_{t} \in \MA_t}Q_{t}^{\pi_{(t+1):T}^{\ast,FB}}\left(H_t,a_t\right) \mbox{\ a.s.}
+\end{align*} 
+\end{assumption}
+
+\medskip
+
+We call $\pi_{t}^{\ast,FB}$ that satisfies Assumption \ref{asm:first-best} the first-best policy in stage $t$. The first-best policy $\pi_{t}^{\ast,FB}$ always chooses the best treatment arm for any history $h_t$ given that the first-best policies are followed in the future stages. Assumption \ref{asm:first-best} is satisfied when $\Pi_t$ ($t=2,\ldots,T$) are flexible enough or correctly specified. This assumption is explicitly or implicitly assumed in many works that study the estimation of the optimal DTRs through backward induction (e.g., \citet{Zhang_et_2013,Zhao_et_al_2015,Li_et_al_2023}). \cite{Sakaguchi_2021} shows that Assumption \ref{asm:first-best} is a sufficient condition for the solution of the backward induction procedure in the population problem to correspond to the optimal DTR. 
+\cite{Zhang_et_2013} discuss how to correctly specify $\Pi$ in order to satisfy Assumption \ref{asm:first-best} depending on models relevant to the treatment effect heterogeneity.
+
+\medskip
+
+\begin{remark}[Q-functions and a Class of Policies]
+Suppose that, for each stage $t$, the treatment is binary ($\MA_{t} = \{0,1\}$) and that the Q-function for the optimal policy is given as $Q_{t}^{\pi_{(t+1):T}^{\ast}}(h_{t},a_{t}) = \mu_{t}(h_{t}) + \phi_{t}(h_{t})\cdot a_{t}$ for some functions $\mu_{t}(\cdot)$ and $\phi_{t}(\cdot)$ of the history $h_{t}$. In this case, any class $\Pi_{t}$ of polices $\pi_{t}$ that contains the policy $\pi_{t}(h_{t}) = 1\{\phi_{t}(h_{t}) \geq 0\}$ satisfies Assumption \ref{asm:first-best}. For example, when $\phi_{t}(h_{t}) = h_{t}^{\prime} \beta_{t}$ for some $\beta_{t} \in \Real^{|h_{t}|}$, a class of linear score functions $\Pi_{t} = \{\pi_{t}(h_{t})=1\{h_{t}^{\prime} b_{t} \geq 0\}:b_{t} \in \Real^{|h_{t}|}\}$ satisfies Assumption \ref{asm:first-best}. Note that the correct-specification of $\Pi_{t}$ is not relevant to the function $\mu_{t}(\cdot)$ in the model of the Q-function.
+\end{remark}
+
+
+\medskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Learning of the Optimal DTRs through Backward Induction}
+
+This section presents a backward induction procedure to estimate the optimal DTRs using AIPW estimator of the policy value function. Following the doubly robust policy learning of \cite{Athey_Wager_2020} and \cite{zhou2022offline}, we employ the cross-fitting (\citet{Schick_1986,chernozhukov_et_al_2018}) to make the estimation of the policy value function and learning of the optimal policy independent. We randomly divide the data set $\{Z_i:i=1,\ldots,n\}$ into $K$ evenly-sized folds (e.g., $K=5$). Let $I_k$ be a set of indices of the data in the $k$-th fold and $I_{-k}$ be a set of indices of the data excluded from the $k$-th fold. In what follows, for any statistics $\hat{f}$, we denote by $\hat{f}^{-k}$ the corresponding statistics calculated using the data excluded from the $k$-th fold.
+
+
+The approach we propose is based on backward induction, and hence consists of multiple steps. As a preliminary step, we estimate the propensity scores $\{e_t(\cdot,\cdot)\}_{t=1,\ldots,T}$ for all stages and the Q-function $Q_T(\cdot,\cdot)$ for the last stage by using the data excluded in each cross-fitting fold. For each index $k$ of the fold, we denote by $\hat{e}_{t}^{-k}(\cdot,\cdot)$ and $\widehat{Q}_{T}^{-k}(\cdot,\cdot)$, respectively, the estimators of $e_t(\cdot,\cdot)$ and $Q_T(\cdot,\cdot)$ using data not contained in the $k$-th fold. Any regression methods, including machine learning methods (e.g., random forest and neural network learning), can be used to estimate $e_t(\cdot,\cdot)$ and $Q_{T}(\cdot,\cdot)$. 
+
+Given $\{\hat{e}_{t}^{-k}(\cdot,\cdot)\}_{t=1,\ldots,T}$ and  $\widehat{Q}_{T}^{-k}(\cdot,\cdot)$ for each $k=1,\ldots,K$, the optimal DTR is estimated in the following sequential way. In the first step, regarding the last stage $T$, we make a score function of the treatment $a_T$ for stage $T$ as follows: 
+\begin{align*}
+    \widehat{\Gamma}_{i,T}(a_T) \equiv \frac{Y_{i,T} - \widehat{Q}_{T}^{-k(i)}(H_{i,T},A_{i,T})}{\hat{e}_{T}^{-k(i)}(H_{i,T},A_{i,T})}\cdot 1\{A_{i,T}=a_T\} +
+    \widehat{Q}_{T}^{-k(i)}(H_{i,T},a_{T}).
+\end{align*}
+Note that, given a policy $\pi_T$, the sample mean $(1/n)\sum_{i=1}^{n}\widehat{\Gamma}_{i,T}(\pi_T(H_{i,T}))$ is an AIPW estimator of the policy value $V_{t}(\pi_{T})$ for stage $T$.
+
+We then find the best candidate policy in stage $T$ by solving
+\begin{align}
+\hat{\pi}_{T} \in \argmax_{\pi_{T}\in \Pi_{T}}\frac{1}{n}\sum_{i=1}^{n}\widehat{\Gamma}_{i,T}\left(\pi_T(H_{i,T})\right). \label{eq:policy_search_T}
+\end{align}
+%Given the solution $\hat{\pi}_{T}$, the sample mean $(1/n)\sum_{i=1}^{n}\widehat{\Gamma}_{i,T}(\hat{\pi}_T(H_{i,T}))$ becomes an AIPW estimator of the policy value $V_{t}(\hat{\pi}_{T})$.
+%Note that this step is not different from the first of the approach presented in Section \ref{sec:first_approach} because $\widehat{Q}_{t}^{\pi_{(t+1):T},-k}(\cdot,\cdot)$ does not substantially differ from $\widehat{Q}_{t}^{\pi_{(t+1):T},-k}(\cdot,\cdot)$.
+
+In the following step, we consider stage $T-1$. Given $\hat{\pi}_{T}$ estimated in the previous step, for each $k$-th fold of cross-fitting, we estimate the Q-function $Q_{T-1}^{\hat{\pi}_{T}}(\cdot,\cdot)$ by regressing $Y_{i,T-1} + \widehat{Q}_{T}(H_{i,t},\hat{\pi}_{T})$ on $(H_{i,T-1},A_{i,T-1})$ using the observations whose indices are not contained in $I_k$. This corresponds to the second step of the fitted-value Q-evaluation.
+%\footnote{This step is similar to the regression step in the batch offline Q-learning (\cite{Murphy_2005}). The difference is that the Q-learning estimates the optimal policy using the regression equation of the outcome whereas our approach estimates the optimal policy by maximizing the AIPW estimator of the policy value function.} 
+We denote by $\widehat{Q}_{T-1}^{\hat{\pi}_{T},-k}(\cdot,\cdot)$ the resulting estimator of $Q_{T-1}^{\hat{\pi}_{T}}(\cdot,\cdot)$ for each fold $k$. Any regression method can be applied in this step. 
+
+We next make the score function of $a_{T-1}$ as
+\begin{align*}
+    \widehat{\Gamma}_{i,T-1}^{\hat{\pi}_{T}}(a_{T-1})  &\equiv \frac{ Y_{i,T-1} + \widehat{\Gamma}_{i,T}(\hat{\pi}_{T}(H_{i,T})) - \widehat{Q}_{T-1}^{\hat{\pi}_{T},-k(i)}(H_{i,T-1},A_{i,T-1}) }{\hat{e}_{T-1}^{-k(i)}(H_{i,T-1},A_{i,T-1})} \cdot 1\{A_{i,T-1} = a_{T-1}\} \\
+    &+ 
+\widehat{Q}_{T-1}^{\hat{\pi}_{T},-k(i)}(H_{i,T-1},a_{T-1}).
+\end{align*}
+Given a policy $\pi_{T-1}$, the sample mean $(1/n)\sum_{i=1}^{n}\widehat{\Gamma}_{i,T-1}^{\hat{\pi}_{T}}(\pi_{T-1}(H_{i,T-1}))$ is an AIPW estimator of the policy value $V_{T-1}(\pi_{T-1},\hat{\pi}_{T})$.
+We then find the best candidate policy in stage $T-1$ by solving
+\begin{align*}
+    \hat{\pi}_{T-1} \in \argmax_{\pi_{T-1}\in \Pi_{T-1}} \frac{1}{n}\sum_{i=1}^{n}\widehat{\Gamma}_{i,T-1}^{\hat{\pi}_T}\left(\pi_{T-1}(H_{i,T-1})\right).
+\end{align*}
+Given the solution $\hat{\pi}_{T-1}$, the sample mean $(1/n)\sum_{i=1}^{n}\widehat{\Gamma}_{i,T-1}^{\hat{\pi}_T}\left(\hat{\pi}_{T-1}(H_{i,T-1})\right)$ becomes an AIPW estimator of the policy value $V_{T-1}(\hat{\pi}_{(T-1):T})$ for the sequence of the estimated policies $\hat{\pi}_{(T-1):T}$.
+
+Recursively, for $t=T-2,\ldots,1$, we learn the optimal policy as follows. For each cross-fitting index $k$, we first estimate the Q-function $Q_{t}^{\hat{\pi}_{(t+1):T}}$ by regressing  $Y_{i,t} + \widehat{Q}_{t+1}^{\hat{\pi}_{(t+2):T}}(H_{i,t+1},\hat{\pi}_{t+1})$ on $(H_{i,t},A_{i,t})$ using the observations whose indices are not in $I_k$ (the fitted Q-evaluation). We can apply any regression method to this step. We make the score function of $a_{t}$ as
+\begin{align*}
+    \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}(a_t) &\equiv \frac{ Y_{i,t} + \widehat{\Gamma}_{i,t+1}^{\hat{\pi}_{(t+2):T}}(\hat{\pi}_{t+1}(H_{i,t+1})) - \widehat{Q}_{t}^{\hat{\pi}_{(t+1):T},-k(i)}(H_{i,t},A_{i,t}) }{\hat{e}_{t}^{-k(i)}(H_{i,t},A_{i,t})}\cdot 1\{A_{i,t} = a_t\} \\
+    &+ 
+    \widehat{Q}_{t}^{\hat{\pi}_{(t+1):T},-k(i)}(H_{i,t},a_{t}).
+\end{align*}
+We then find the best candidate policy in stage $t$ by solving
+\begin{align*}
+    \hat{\pi}_{t} \in \argmax_{\pi_{t}\in \Pi_{t}} \frac{1}{n}\sum_{i=1}^{n} \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}\left(\pi_{t}(H_{i,t})\right),
+\end{align*}
+where the objective function $(1/n)\sum_{i=1}^{n} \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}\left(\pi_{t}(H_{i,t})\right)$ is an AIPW estimator of the policy value $V_{t}(\pi_t,\hat{\pi}_{(t+1):T})$.
+
+
+Throughout this procedure, we eventually obtain the sequence $\hat{\pi} \equiv (\hat{\pi}_{1},\ldots,\hat{\pi}_{T})$, which is the resulting estimator of the optimal DTR. In the following section, we will clarify a statistical property of $\hat{\pi}$ with respect to its regret. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Statistical Properties}\label{sec:statistical_properties}
+
+Given a DTR $\pi \in \Pi$, we define the regret of $\pi$ by $R(\pi) \equiv \sup_{\tilde{\pi} \in \Pi}W(\tilde{\pi}) - W(\pi)$, the loss of the welfare of $\pi$ relative to the maximum welfare achievable in $\Pi$.
+We study the statistical property of $\hat{\pi}$ with respect to its regrets $R(\hat{\pi})$. This section shows the doubly robust property of the approach proposed in the previous section, and derives the rate of convergence of $R(\hat{\pi})$ depending on the rates of convergence of the estimators of the nuisance components, $\{\hat{e}_{t}^{-k}(\cdot,\cdot)\}_{t=1,\ldots,T}$ and  $\{\widehat{Q}_{t}^{\pi_{(t+1):T},-k}(\cdot,\cdot)\}_{t=1,\ldots,T}$, and the complexity of $\Pi$. 
+
+Let $\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(\cdot,\cdot)$ and $\hat{e}_{t}^{(n)}(\cdot,\cdot)$, respectively, denote the estimators of the Q-function $Q_{t}^{\pi_{(t+1):T}}(\cdot,\cdot)$ for $\pi_{(t+1):T}$ and the propensity score $e_t(\cdot,\cdot)$ using size $n$ sample randomly drawn from the population $P$. We denote $\widehat{Q}_{T}^{\pi_{(T+1):T},(n)}(\cdot,\cdot) = \widehat{Q}_{T}^{(n)}(\cdot,\cdot)$ when $t=T$.
+We suppose that $\{\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(\cdot,\cdot)\}_{t=1,\ldots,T}$ and $\{\hat{e}_{t}^{(n)}(\cdot,\cdot)\}_{t=1,\ldots,T}$ satisfy the following assumption.
+
+\bigskip{}
+
+\begin{assumption}\label{asm:rate_of_convergence_backward}
+(i) There exists $\tau >0$ such that the following holds: For all $t=1,\ldots,T$, $s=1,\ldots,t$, and $m \in \{0,1\}$,
+\begin{align*}
+    \sup_{\underline{a}_{s:t} \in \underline{\MA}_{s:t}} & E\left[ \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\left(\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(H_{t},a_{t}) - Q_{t}^{\pi_{(t+1):T}}(H_{t},a_{t})\right)^{2}\right] \\
+    &\times E\left[\left(\frac{1}{\prod_{\ell=s}^{t-m}\hat{e}_{\ell}^{(n)}(H_{\ell},a_{\ell})} - \frac{1}{\prod_{\ell=s}^{t-m}e_{\ell}(H_{\ell},a_{\ell})} \right)^{2}\right] = \frac{o(1)}{n^{\tau}}.
+\end{align*}
+(ii) There exists $n_0 \in \Natural$ such that for any $n \geq n_0$ and $t=1,\ldots,T$, 
+\begin{align*}
+     \sup_{a_{t} \in \MA_{t}, \pi_{(t+1):T} \in \Pi_{(t+1):T}}\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(H_{t},a_{t}) < \infty \mbox{\ \ and\ \ }
+     \sup_{a_t \in \MA_t}\hat{e}_{t}^{(n)}(H_{t},a_{t}) > 0.
+\end{align*}
+hold a.s.
+\end{assumption}
+
+\bigskip{}
+
+
+As we will see later, the $\sqrt{n}$-consistency of the regret  $R(\hat{\pi})$ to zero can be achieved when Assumption \ref{asm:rate_of_convergence_backward} (i) holds with $\tau=1$. This is not very strong or restrictive. For example, Assumption \ref{asm:rate_of_convergence_backward} (i) is satisfied with $\tau = 1$ when
+\begin{align*}
+&\sup_{a_{t} \in \MA_{t}}  E\left[\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\left(\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(H_{t},a_{t}) - Q_{t}^{\pi_{(t+1):T}}(H_{t},a_{t})\right)^{2}\right] = \frac{o(1)}{\sqrt{n}}\mbox{\ and\ }\\
+    &\sup_{\underline{a}_{s:t} \in \underline{\MA}_{s:t}} E\left[\left(\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{(n)}(H_{\ell},a_{\ell})} - \frac{1}{\prod_{\ell=s}^{t}e_{\ell}(H_{\ell},a_{\ell})} \right)^{2}\right] = \frac{o(1)}{\sqrt{n}}
+\end{align*}
+hold for all $t=1,\ldots,T$ and $s=1,\ldots,t$. The uniform MSE convergence rate of $\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(H_{t},a_{t})$ for the fitted Q-evaluation is not a standard result, but some existing results could be applicable (e.g., \cite{Zhang_et_al_2018}).\footnote{\cite{Zhang_et_al_2018} derive the rate of convergence for the batch offline Q-learning using Support Vector Machine regression with the policy search over the class of list forms of policies. They do this using a weaker notion of smoothness for the Q-functions.}
+Note that Assumption \ref{asm:rate_of_convergence_backward} (i) encompasses the property of doubly robustness; that is, Assumption \ref{asm:rate_of_convergence_backward} (i) is satisfied if either $\widehat{Q}_{t}^{\pi_{(t+1):T},(n)}(\cdot,\cdot)$ is uniformly consistent or $\prod_{s=t}^{T}\hat{e}_{s}^{(n)}(\cdot,\cdot)$ is consistent.
+
+%The result for the rate of convergence of the condinal treatment effect estimator  $\widehat{Q}_{t}^{(n)}(\cdot,\cdot)$ is not a standard result because the population objective function $Q_{t}(\cdot,\cdot)$ is not smooth due to the non-differentiable maximization in its definition (\ref{eq:Q_learn_2}). However, some results may be applicable. For example, \cite{Zhang_et_al_2018} derive the rate of convergence for the batch offline Q-learning using Support Vector Machine regression with the policy search over the class of list forms of policies.\footnote{They do this by using a weaker notion of smoothness.}
+
+We next consider the complexity of the class $\Pi$ of DTRs and that $\Pi_t$ of each stage-specific policy. Following \cite{zhou2022offline}, we use the $\epsilon$-Hamming covering number to measure the complexity for the class of the sequence of policies $\pi_{s:t} \in \Pi_{s}\times \cdots \times \Pi_{t}$ for each $s$ and $t$ such that $s \leq t$. 
+
+\bigskip{}
+
+\begin{definition}
+(i) For any stages $s$ and $t$ such that $s \leq t$, given a set of history points $\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\} \subseteq \MH_{t}$, we define the Hamming distance between two sequences of policies  $\pi_{s:t}, \pi_{s:t}^{\prime} \in \Pi_{s:t}$ as $d_{h}(\pi_{s:t},\pi_{s:t}^{\prime}) \equiv n^{-1}\sum_{i=1}^{n}1\{\pi_s(h_{s}^{(i)})\neq \pi_{s}^{\prime}(h_{s}^{(i)}) \vee \cdots \vee \pi_t(h_{t}^{(i)})\neq \pi_{t}^{\prime}(h_{t}^{(i)})\}$,
+%\begin{align*}
+%    d_{h}(\pi_{t:T},\pi_{t:T}^{\prime}) \equiv n^{-1}\sum_{i=1}^{n}1\{\pi_s(h_{s}^{(i)})\neq \pi_{s}^{\prime}(h_{s}^{(i)}) \vee \cdots \vee \pi_t(h_{t}^{(i)})\neq \pi_{t}^{\prime}(h_{t}^{(i)})\},
+%\end{align*}
+where note that $h_{s}^{(i)} \subseteq h_{s+1}^{(i)}\subseteq \ldots \subseteq h_{t}^{(i)} \in \MH_t$ from the definition of the history. 
+Let $N_{d_h}\left(\epsilon,\Pi_{s:t},\left\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\right\}\right)$ be the smallest number of sequences of policies $\pi_{s:t}^{(1)},\pi_{s:t}^{(2)},\ldots$ in $\Pi_{s:t}$ such that for any $\pi_{s:t} \in \Pi_{s:t}$, there exists $\pi_{s:t}^{(i)}$ satisfying $d_h(\pi_{s:t},\pi_{s:t}^{(i)}) \leq \epsilon$.
+We define the $\epsilon$-Hamming covering number of $\Pi_{s:t}$ as
+\begin{align*}
+    N_{d_h}(\epsilon,\Pi_{s:t})  \equiv  \sup\left\{N_{d_h}\left(\epsilon,\Pi_{s:t},\left\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\right\}\right)\middle| n \geq 1, h_{t}^{(1)},\ldots,h_{t}^{(n)} \in \MH_t\right\}.
+\end{align*}
+(ii) We define the entropy integral of $\Pi_{s:t}$ as $\kappa(\Pi_{s:t})= \int_{0}^{1}\sqrt{\log N_{d_h}\left(\epsilon^2,\Pi_{s:t}\right)}d\epsilon$.
+\end{definition}
+
+\bigskip{}
+
+%\begin{definition}
+%(i) For any stage $t$, given a set of points $\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\} \subseteq \MH_{t}$, let the Hamming distance between two policies $\pi_t$ and $\pi_{t}^\prime$ be $d_h(\pi_t,\pi_{t}^\prime)  \equiv  n^{-1}\sum_{i=1}^{n}1\{\pi_{t}(h_{t}^{(i)}) \neq \pi_{t}^{\prime}(h_{t}^{(i)})\}$. We define the $\epsilon$-Hamming covering number of $\Pi_t$ as
+%\begin{align}
+%    N_{d_h}(\epsilon,\Pi_t)  \equiv  \sup\left\{N_{d_h}\left(\epsilon,\Pi_t,\left\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\right\}\right)\middle| n \geq1, h_{t}^{(1)},\ldots,h_{t}^{(n)} \in \MH_t\right\}, \label{eq:covering_number}
+%\end{align}
+%where $N_{d_h}\left(\epsilon,\Pi_t,\left\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\right\}\right)$ is the smallest number of policies $\pi_{t}^{(1)},\pi_{t}^{(2)},\ldots\in \Pi_t$ such that for any $\pi_t \in \Pi_t$, there exists $\pi_{t}^{(i)}$ such that $d_h(\pi_t,\pi_{t}^\prime) \leq \epsilon$.\\
+%(ii) We define the entropy integrals of $\Pi_t$ as $\kappa(\Pi_t)= \int_{0}^{1}\sqrt{\log N_{d_h}\left(\epsilon^2,\Pi_t\right)}d\epsilon$.
+%\end{definition}
+
+
+Note that when $s=t$, $N_{d_h}(\epsilon,\Pi_{t:t}) = N_{d_h}(\epsilon,\Pi_t)$ and $\kappa(\Pi_{t:t}) = \kappa(\Pi_t)$. 
+We suppose that $\Pi_t$ for each $t$ is not too complex in terms of the covering number.
+\bigskip{}
+
+\begin{assumption}\label{asm:bounded entropy}
+For all $t=1,\ldots,T$, $N_{d_h}(\epsilon,\Pi_{t}) \leq C\exp(D(1/\epsilon)^{\omega})$ holds for any $\epsilon>0$ and some constants $C,D>0$ and $0<\omega<0.5$.
+\end{assumption}
+
+\bigskip{}
+
+This assumption implies that the covering number of $\Pi_t$ does not grow too quickly, but allows that $\log N_{d_h}(\epsilon,\Pi_{t})$ grows at a rate of $1/\epsilon$.
+The assumption is satisfied, for example, by a class of finite-depth trees (see \citeauthor{zhou2022offline} (\citeyear{zhou2022offline}, Lemma 4)). In the case of a binary action set (i.e., $|\MA_t|=2$), a VC-class of $\MA_{t}$ also satisfies Assumption \ref{asm:bounded entropy}. % (see \citeauthor{zhou2022offline} (\citeyear{zhou2022offline}, Remark 8)). 
+\citeauthor{zhou2022offline} (\citeyear{zhou2022offline}, Remark 4) shows that the entropy integral $\kappa(\Pi_t)$ is finite under Assumption \ref{asm:bounded entropy}. 
+
+As for the class $\Pi$ of whole DTRs, $\kappa(\Pi)$ is finite as well under Assumption \ref{asm:bounded entropy}. 
+
+\bigskip
+
+\begin{lemma}\label{lem:entropy_integral_bound}
+Under Assumption \ref{asm:bounded entropy}, $\kappa(\Pi) < \infty$.
+\end{lemma}
+
+\begin{proof}
+See Appendix \ref{app:preliminary_results}.
+\end{proof}
+
+\bigskip
+
+%\cite{zhou2022offline} give some other discussion for the covering number. For example, for the policy class of finite-depth trees (\cite{Breiman_2017}), $\log N_{d_h}(\epsilon,\Pi_{t})$ is only $O(\log(1/\epsilon))$ (see \citeauthor{zhou2022offline} (\citeyearpar{zhou2022offline}, Lemma 4)). 
+
+The following theorem is the main result of this study and shows the rate of convergence for the regret of the DTR $\hat{\pi}$ obtained by the proposed approach.
+
+\bigskip
+
+\begin{theorem}\label{thm:main_theorem_backward}
+Under Assumptions \ref{asm:sequential independence}--\ref{asm:overlap}, \ref{asm:first-best}, \ref{asm:rate_of_convergence_backward}, and \ref{asm:bounded entropy},
+\begin{align}
+    R(\hat{\pi}) = O_{p}\left(\kappa(\Pi) \cdot n^{-1/2}\right) + O_{p} (n^{-\min\{1/2,\tau/2\}}). \label{eq:main_result}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+See Appendix \ref{app:main_proof}.
+\end{proof}
+
+\bigskip
+
+This theorem shows the rate of convergence for the regret $R(\hat{\pi})$ of the DTR estimated by the proposed approach. When Assumption \ref{asm:rate_of_convergence_backward} (i) holds with $\tau = 1$, the approach proposed in Section \ref{sec:doubly_robust_policy_learning} achieves the minimax optimal rate $\kappa(\Pi) \cdot n^{-1/2}$ of convergence of the regret.\footnote{In the case that treatment assignment is binary in each stage (i.e., $|\MA_{t}|=2$ for each $t$), \cite{Sakaguchi_2021} shows that the minimax optimal rate of convergence of the regret is $V_{1:T}\cdot n^{-1/2}$, where $V_{1:T}$ is the VC-dimension of the class of DTRs.} This result is comparable with those of \cite{Athey_Wager_2020} and \cite{zhou2022offline} who study static policy learning and that of \cite{Nie_et_al_2021} who study learning problem of the optimal stopping/starting.
+
+\bigskip
+
+\begin{remark}
+Appendix \ref{app:main_proof} presents the proof of Theorem \ref{thm:main_theorem_backward}, where we consider the derivation of the asymptotic upper bound on $R(\hat{\pi})$. This is a non-trivial task because the each stage-specific policy in $\hat{\pi}=(\hat{\pi}_{1},\ldots,\hat{\pi}_{T})$ is separately estimated rather than simultaneously estimated. If the DTR is simultaneously estimated across all stages, we can apply the theoretical analysis of \cite{Athey_Wager_2020} and \cite{zhou2022offline} for doubly robust policy learning. %However, when $\hat{\pi}$ is sequentially estimated, we cannot directly apply their theoretical analysis. 
+While the sequential estimation makes the analysis of $R(\hat{\pi})$ challenging, Appendix \ref{app:main_proof} introduces some analytical tools to evaluate the regret of the sequentially estimated DTR.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Simulation Study}\label{sec:simulation}
+
+
+We conduct a simulation study to examine the finite sample performance of the approach presented in Section \ref{sec:doubly_robust_policy_learning}.
+We consider a data generating processes (DGP) that consists of two stages of binary treatment assignment $(A_{1},A_{2}) \in \{0,1\}^2$, associated potential outcomes $\left\{Y_2\left(a_{1},a_{2}\right)\right\}_{\left\{ a_{1},a_{2}\right\} \in\left\{ 0,1\right\} ^{2}}$ for the second stage,
+$20$ state variables $(S_{1}^{(1)},\ldots,S_{1}^{(20)})$ observed at the first stage, and one state variable $S_2$ observed at the second stage. We specifically consider the following DGP:
+\begin{align*}
+&(S_{1}^{(1)},\ldots,S_{1}^{(20)})^{\prime} \thicksim N(\boldsymbol{0},I_{20});\\
+&S_{2}\left(a_{1}\right)=  \left(-0.5 + 1.5S_{1}^{(1)}\right)a_{1}+ S_{1}^{(2)} + \left(S_{1}^{(3)}\right)^2 + S_{1}^{(4)} + \varepsilon_{1} \mbox{\ with\ }\varepsilon_{1} \sim N(0,1);\\
+&Y_{2}\left(a_{1},a_{2}\right) =  (1.0 + 0.5 a_{1} + S_{2}(a_1))\times a_{2} 
+    + 0.5 S_{2}(a_1) + S_{1}^{(4)} - \left(S_{1}^{(5)}\right)^2 + S_{1}^{(6)} + \varepsilon_{2}\\
+&\mbox{with\ } \varepsilon_{2} \sim N(0,1);\\
+&A_{1} \thicksim Ber\left(1/(1+e^{0.5 S_{1}^{(2)}-0.5S_{1}^{(3)}-S_{1}^{(5)}})\right),\ A_{2} \thicksim Ber\left(1/(1+e^{0.5S_{1}^{(5)}+0.5 S_{2}-0.2A_{1}})\right).
+\end{align*}
+Note that the treatment $a_1$ in the first stage has an influence on the outcome $Y_{2}$ through direct and indirect channels: (i) $a_1$ has a direct influence on $Y_{2}$ through the treatment effect heterogeneity $Y_2(a_1,1)-Y_2(a_1,0)$ for the second stage and (ii) $a_{1}$ has an indirect influence on $Y_2$ through the state variable $S_2(a_1)$ for the second stage. 
+
+We compare the performance of the approach proposed in Section \ref{sec:doubly_robust_policy_learning} (labeled ``DR''), the IPW-based approach (labeled ``IPW'') studied in \cite{Sakaguchi_2021}, and Q-learning (labeled ``Q-learn''). For each method, we use the generalized random forest of \citet{Athey_et_al_2019} to estimate the nuisance components.\footnote{In the application of DR, instead of estimating $Q^{\hat{\pi}_{(t+1):T}}_{t}(\cdot,\cdot)$ at each step of the procedure, we estimate the optimal Q-functions using Q-learning and utilize these estimates throughout the procedure. This simplifies the application of the estimation procedure proposed in this study. The generalized random forest is used at each of Q-learning.}
+%When $p$ is large, the estimations of the nuisance components become noisy. 
+We set $K=5$ for the cross-fitting of the proposed approach.
+
+
+
+For the proposed approach and IPW-based approach, we use a class of DTRs $\Pi=\Pi_{1} \times \Pi_{2}$ with $\Pi_1$ and $\Pi_1$ being the following classes of linear treatment rules:
+\begin{align*}
+\Pi_{1}= & \left\{ 1\left\{ \left(1,S_{1}^{(1)}\right)\boldsymbol{\beta}_{1}\geq0\right\} :\boldsymbol{\beta}_{1}\in\mathbb{R}^{2}\right\};\\
+\Pi_{2}= & \left\{ 1\left\{ \left(1,A_{1},S_{2}\right)\boldsymbol{\beta}_{2}\geq0\right\} :\boldsymbol{\beta}_{2}\in\mathbb{R}^{3}\right\} .
+\end{align*}
+%Under the DGP, $\Pi_2$ contains the first-best policy, satisfying Assumption \ref{asm:first-best}. Note that Q-learning we consider does not depend on any policy class; hence, it can consistently estimate the optimal DTR under both the DGPs.
+
+For each of the proposed and IPW-based approach using the classes $\Pi_1$ and $\Pi_2$ of linear treatment rules, the optimization problem at each step can be formulated as Mixed Integer Linear Programming (MILP) problems (see \citeauthor{Sakaguchi_2021} (\citeyear{Sakaguchi_2021}, Appendix B)), for which some efficient softwares (e.g., CPLEX; Gurobi) are available.
+
+
+%Table ?? shows the results of 500 simulations with sample sizes $n=200$, $500$, $1000$, $1500$, and $2000$, where we calculate the mean welfare achieved by each estimated DTR with 2,0000 observations randomly drawn from the same DGP.
+Figure \ref{fig:simulation_results} shows the results of 250 simulations. The results show that the B-DR outperforms IPW and Q-learn in terms of the mean welfare, especially when the sample size is not large. The proposed method can achieve a mean welfare higher than that of IPW and Q-learn in finite sample scenarios.
+
+\medskip
+
+\begin{center}
+[Figure~\ref{fig:simulation_results} about here]
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Empirical Application}\label{sec:empirical_illustration}
+
+We apply the proposed approach to the data from Project STAR (e.g., \citet{krueger_1999, Gerber_et_al_2001, krueger_whitmore_2001,Ding_Lehrer_2010,Chetty_et_al_2011}), where we study the optimal allocation of students to regular-size classes with a full-time teacher aide and small-size classes without a full-time teacher aide in their early education. We use data of 1,877 students who were not assigned to regular-size classes without a full-time teacher aide in kindergarten.\footnote{We do not consider allocation to a regular-size class without a teacher aide as it should not be superior to either the regular-size class with a teacher aide or the small-size class without one for any student.} Among these students, 702 were randomly assigned to regular-size classes with a teacher aide, while the others were randomly assigned to small-size classes without a teacher aide in kindergarten (labeled by grade K). As they progressed to grade 1, the students were supposed to be randomly shuffled between the two types of classes. However, because some students selected a class type themselves, the experimental allocation was not entirely random (see, e.g., \cite{Ding_Lehrer_2010} for a detailed discussion). In this regard, we should consider this problem in the context of the observational data setting.
+
+We investigate the optimal allocation of students to two types of classes in grades K and 1, based on their socioeconomic information and intermediate academic achievement. We suppose that the welfare that the policymaker aims to maximize is the population average of the sum of scores on reading and mathematics tests that students take at the end of grade 1.
+We set the first and second stages ($t=1$ and $2$) to grades K and 1, respectively. The treatment variable $A_{t}$ takes the value one if the student belongs to a small-size class at stage $t$, and zero if the student belongs to a regular-size class with a teacher aide at stage $t$.  The outcome $Y_2$ represents the sum of reading and mathematics test scores at the end of grade 1.\footnote{We use demeaned outcomes $Y_{2}^{dm} \equiv Y_{2}-E_{n}\left[Y_{2}\right]$ as suggested by \cite{Kitagawa_Tetenov_2018a}.} The standard deviation of $Y_{2}$ in the sample is 94.96. We do not use any first-stage outcome $Y_1$.
+
+We use seven variables for $H_1 (=S_{1})$: Gender of a student, ethnicity of a student (White/Asian or others), qualification for free or reduced-price school lunch, type of school location (rural or non-rural), degree of a teacher (bachelor degree or higher), experience of a teacher (years in the profession) and ethnicity of a teacher (White or others). Regarding $S_{2}$, we use 3 variables: reading, math, and total test scores at the end of grade K. Recall that $H_2 = (A_1,S_1,S_2)$.
+
+
+We next define classes of policies $\Pi_1$ and $\Pi_2$ in stages 1 and 2. For $\Pi_1$, we use the class of depth 1 trees which may take splitting variables from the degree of a teacher, and experience of a teacher, and the type of school location. For $\Pi_2$, we use the class of depth 2 trees which may take splitting variables from the reading, math, and total test scores at the end of kindergarten, and the type of class allocated at kindergarten. Note that we do not use the gender of a student, ethnicity of a student and teacher, or the qualification for free or reduced-price school lunch for splitting variables of policy trees, because using such variables for treatment choice is 
+discriminatory.
+%these variables are socially sensitive and hence should not be taken into account of treatment choice.
+
+Figure \ref{fig:estimated_decision_trees} exhibits the DTR estimated by the proposed approach. The policy for the first stage utilizes teacher experience to allocate students to either the small-size class or the regular-size class with a teacher aide. According to the estimated policy, teachers with less than or equal to 19 years of experience should be allocated to small-size classes in kindergarten.
+The policy for the second stage employs the total test score and the reading test score at the end of grade K to allocate students to either type of class. For instance, in grade 1, students with a total test score of 913 or lower are assigned to the small-size class by the estimated policy.
+%We also estimate the welfare gain of the estimated DTR by using 5-fold sample splitting. 
+
+\medskip
+
+\begin{center}
+[Figure~\ref{fig:estimated_decision_trees} about here]
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{comment}
+\section{Conclusion}\label{sec:conclusion}
+We studied statistical learning of the optimal DTRs using observational data. We proposed a doubly robust approach to learn the optimal DTRs under the assumption of sequential ignorability. Building on backward induction, the approach learns optimal DTRs in a step-wise manner, ensuring computational tractability. Our main result shows that the DTR estimated by the proposed approach can achieve the $\sqrt{n}$-consistency of welfare regret under mild conditions on the MSE convergence rate for estimators of the propensity scores and Q-functions. The simulation study confirms the outperformance of the proposed approach in finite sample settings. Applying the proposed approach to the data from Project STAR, we learn the optimal DTR for the sequential allocation of students to regular-size classes with a teacher aide and small-size classes without a teacher aide in their early education.
+%\end{comment}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\section*{Figures}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\bigskip
+
+\begin{figure}[h!]
+\centering \caption{Monte Carlo Simulation Results}
+\label{fig:simulation_results}
+\begin{center}
+\includegraphics[scale=0.45]{figures/simulation_result.pdf}
+\end{center}
+\vspace{.3cm}
+\begin{tablenotes}\footnotesize
+\item[] Notes: This figure shows the results of Monte Carlo simulations with 250 replications. For each sample size $n \in \{200,500,800,1100,1400\}$, the red, green, and blue lines represent the mean welfare of the DTR estimated by the proposed approach, the IPW approach, and Q-learning, respectively, averaged over 250 simulations. In each simulation, the welfare is estimated using 30,000 observations randomly drawn from the same DGP.
+\end{tablenotes}
+\end{figure}
+
+\bigskip
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+\begin{figure}[h!]
+\caption{Estimated DTR for class assignment in grades K and 1} \label{fig:estimated_decision_trees}
+\vspace{.5cm}
+\begin{minipage}[t]{0.44\hsize}
+\begin{center}
+
+{\small  (a) Policy for grade K} \\
+\vspace{0.5cm}
+\input{figures/depth1_tree_1st.tikz} 
+
+\end{center}
+\end{minipage}
+\begin{minipage}[t]{0.44\hsize}
+\begin{center}
+{\small (b) Policy for grade 1} \\
+\vspace{.5cm}
+\input{figures/depth2_tree_1st.tikz}
+\end{center}
+\end{minipage}
+
+\vspace{.3cm}
+\begin{tablenotes}\footnotesize
+\item[] Notes: This figure illustrates the DTR estimated in Section \ref{sec:empirical_illustration}. Panels (a) and (b) illustrate the estimated policy trees for grades K and 1, respectively.
+\end{tablenotes}
+\end{figure}
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\part*{Appendix}
+
+%This appendix provides the proof of Theorem \ref{thm:main_theorem_backward}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Proof of Theorem \ref{thm:main_theorem_backward}}\label{app:main_proof}
+
+%\begin{comment}
+This appendix presents the proof of Theorem \ref{thm:main_theorem_backward} along with some auxiliary lemmas. 
+We consider deriving asymptotic upper bound on $R(\hat{\pi})$. This is however a non-trivial task because the components of the DTR $\hat{\pi}=(\hat{\pi}_{1},\ldots,\hat{\pi}_{T})$ are separately estimated rather than simultaneously estimated. We hence cannot directly apply the theoretical analysis of \cite{Athey_Wager_2020} and \cite{zhou2022offline} for static doubly robust policy learning to this analysis. In what follows, we present an original analysis to derive an asymptotic upper bound on $R(\hat{\pi})$.
+
+
+Given the estimated DTR $\hat{\pi}$, for any $t=1,\ldots,T$ and $\pi_t \in \Pi_{t}$, we define $R_{t}^{\hat{\pi}_{t:T}}(\pi_t) \equiv V_{t}(\pi_t,\hat{\pi}_{(t+1):T}) - V_{t}(\hat{\pi}_{t:T})$. $R_{t}^{\hat{\pi}_{t:T}}(\pi_t)$ measures the deviation of the policy $\pi_{t}$ from the sequence of the estimated policies $\hat{\pi}_{t:T}$ in stage $t$ with respect to the value function. Note that $R_{T}^{\hat{\pi}_{T}}(\pi_t)= V_T(\pi_T) - V_T(\hat{\pi}_T)$.  The following lemma provides a useful result for analyzing the regret  $R(\hat{\pi})$, which relates the regret $R(\hat{\pi})$ of the entire DTR to the stage-specific regrets.
+
+\medskip
+
+\begin{lemma}\label{lem:helpful_lemma}
+Under Assumptions \ref{asm:sequential independence}, \ref{asm:overlap}, and \ref{asm:first-best}, the regret of $\hat{\pi}$ is bounded from above as
+\begin{align}
+    R(\hat{\pi}) \leq R_{1}^{\hat{\pi}_{1:T}}(\pi_{1}^{\ast}) + \sum_{t=2}^{T} \frac{2^{t-2}}{\eta^{t-1}} R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast}). \label{eq:decomposition_bound}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+See Appendix \ref{app:proofs_of_main_lemmas}.
+\end{proof}
+
+\medskip
+
+The result (\ref{eq:decomposition_bound}) enables us to evaluate $R(\hat{\pi})$ through evaluating stage-specific regrets $R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast})$ ($t=1,\ldots,T$), which is simpler to analyze as we will see.
+
+Given a fixed DTR $\pi=(\pi_1,\ldots,\pi_T)$, let us define
+\begin{align*}
+\widetilde{V}_{i,T}(\pi_{T}) &\equiv \frac{ Y_{i,T} - Q_{T}(H_{i,T},A_{i,T}) }{e_{T}(H_{i,T},A_{i,T})}\cdot 1\{A_{i,T}=\pi_{T}(H_{i,T})\} + Q_{T}(H_{i,T},\pi_{T}(H_{i,T})),\\
+\widehat{V}_{i,T}(\pi_T) &\equiv \frac{ Y_{i,T}- \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}(H_{i,T},A_{i,T}) }{\hat{e}_{T}^{-k(i)}(H_{i,T},A_{i,T})}\cdot1\{A_{i,T} = \pi_{T}(H_{i,T})\} \\
+&+  \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,T},\pi_{T}(H_{i,T})\right),%\\
+%\Gamma_{i,T-1}^{\pi_T}(a_{T-1}) &\equiv \frac{ \Gamma_{i,T}(\pi_{T}(H_{i,T})) - Q_{T-1}^{\pi_T}(H_{i,T-1},A_{i,T-1}) }{e_{T-1}(H_{i,T-1},A_{i,T-1})}\cdot 1\{A_{i,T-1}=a_{T-1}\} \\
+%&+ Q_{T-1}^{\pi_T}(H_{i,T-1},A_{i,T-1}),\\
+%\widehat{\Gamma}_{i,T-1}^{\pi_T}(a_{T-1}) &\equiv \frac{\widehat{\Gamma}_{i,T}(\pi_T(H_{i,T}))- \widehat{Q}_{T-1}^{\pi_{T},-k(i)}(H_{i,T-1},A_{i,T-1}) }{\hat{e}_{T-1}^{-k(i)}(H_{i,T-1},A_{i,T-1})}\cdot1\{A_{i,T-1} = a_{T-1}\} \\
+%&+    \widehat{Q}_{T-1}^{\pi_{T},-k(i)}\left(H_{i,T-1},a_{T-1}\right),
+\end{align*}
+and, recursively for $t=T-1,\ldots,1$,
+\begin{align*}
+\widetilde{V}_{i,t}(\pi_{t:T}) &\equiv \frac{ Y_{i,t} + \widetilde{V}_{i,t+1}(\pi_{(t+1):T}) - Q_{t}^{\pi_{(t+1):T}}(H_{i,t},A_{i,t}) }{e_{t}(H_{i,t},A_{i,t})}\cdot 1\{A_{i,t}=\pi_{t}(H_{i,t})\} \\
+&+ Q_{t}^{\pi_{(t+1):T}}(H_{i,t},\pi_{t}(H_{i,t})),\\
+\widehat{V}_{i,t}(\pi_{t:T}) &\equiv \frac{Y_{i,t} + \widehat{V}_{i,t+1}(\pi_{(t+1):T}) - \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}(H_{i,t},A_{i,t}) }{\hat{e}_{t}^{-k(i)}(H_{i,t},A_{i,t})}\cdot 1\{A_{i,t}=\pi_{t}(H_{i,t})\} \\
+&+ \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}(H_{i,t},\pi_{t}(H_{i,t})).
+\end{align*}
+Note that the sample mean $(1/n)\sum_{i=1}^{n}\widetilde{V}_{i,t}\left(\pi_{t:T}\right)$ is an oracle estimate of the policy value function $V_{t}(\pi_{t:T})$ with oracle access to $\{Q_{s}^{\pi_{s:T}}(\cdot,\cdot)\}_{s=t+1,\ldots,T}$ and $\{e_{s}(\cdot,\cdot)\}_{s=t,\ldots,T}$. Lemma \ref{lemma:identification} in Appendix \ref{app:preliminary_results} shows that $(1/n)\sum_{i=1}^{n}\widetilde{V}_{i,t}\left(\pi_{t:T}\right)$ is an unbiased estimator of the policy value $V_{t}(\pi_{t:T})$ under the assumption of sequential ignorability (Assumption \ref{asm:sequential independence}).
+%\footnote{Note that $V_{t}^{\pi_{(t+1):T}}(a_t)$ is different from the optimal action value $E\left[Q_{t}(H_t,a_t)\right]$ unless $\pi_{(t+1):T} \neq \pi_{(t+1):T}^{\ast}$. Hence, $(1/n)\sum_{i=1}^{n}\Gamma_{i,t}^{\pi_{(t+1):T}}\left(a_t\right)$ is not a doubly-robust estimator of the optimal value function $E\left[Q_{t}(H_t,a_t)\right]$.} 
+
+Following the analysis of \cite{zhou2022offline}, we define the policy value difference function $\Delta_{t}(\cdot;\cdot):\Pi_{t:T} \times \Pi_{t:T} \rightarrow \Real$, the oracle influence difference function $\widetilde{\Delta}_{t}(\cdot;\cdot):\Pi_{t:T} \times \Pi_{t:T} \rightarrow \Real$, and the estimated policy value difference function $\widehat{\Delta}_{t}(\cdot;\cdot):\Pi_{t} \times \Pi_{t:T} \rightarrow \Real$, respectively, as follows: For $\pi_{t:T}^{a}=(\pi_{t}^{a},\ldots,\pi_{T}^{a}) \in \Pi_{t:T}$ and $\pi_{t:T}^{b}=(\pi_{t}^{b},\ldots,\pi_{T}^{b}) \in \Pi_{t:T}$,
+\begin{align}
+\Delta_{t}(\pi_{t:T}^{a};\pi_{t:T}^{b})&\equiv V_{t}(\pi_{t:T}^{a}) - V_{t}(\pi_{t:T}^{b}) \label{eq:Delta} \\
+ \widetilde{\Delta}_{t}(\pi_{t:T}^{a};\pi_{t:T}^{b}) &\equiv \frac{1}{n}\sum_{i=1}^{n} \widetilde{V}_{i,t}\left(\pi_{t:T}^{a}\right) - \frac{1}{n}\sum_{i=1}^{n} \widetilde{V}_{i,t}\left(\pi_{t:T}^{b}\right), \label{eq:Delta_tilde}\\
+ \widehat{\Delta}_{t}(\pi_{t:T}^{a};\pi_{t:T}^{b}) &\equiv  \frac{1}{n}\sum_{i=1}^{n} \widehat{V}_{i,t}\left(\pi_{t:T}^{a}\right) -  \frac{1}{n}\sum_{i=1}^{n} \widehat{V}_{i,t}\left(\pi_{t:T}^{b}\right) \nonumber
+\end{align}
+for $t=1,\ldots,T$.
+%Lemma \ref{lemma:identification} in Appendix \ref{app:preliminary_results} shows that $\widetilde{\Delta}_{t}(\pi_{t:T}^{a};\pi_{t:T}^{b})$ is an unbiased estimator of the policy value difference function $\Delta_{t}(\pi_{t:T}^{a};\pi_{t:T}^{b})$. 
+
+From the definitions, $R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast})$ is expressed as
+\begin{align*}
+    R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast}) = \Delta_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right).
+\end{align*}
+%Noting that Lemma \ref{lem:helpful_lemma} enables us to evaluate $R(\hat{\pi})$ through evaluating $\Delta_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right)$ for each $t$, 
+In what follows, we evaluate $R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast})$ for each $t$. 
+A standard argument of the statistical learning theory (e.g., \cite{Lugosi_2002}) gives
+\begin{align}
+    R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast})  
+    &=\Delta_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right) 
+    \nonumber\\%& = \frac{1}{n}\sum_{i=1}^{n} \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}\left(\pi_{t}^{\ast}(H_{i,t})\right) - \frac{1}{n}\sum_{i=1}^{n} \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}\left(\hat{\pi}_{t}(H_{i,t})\right) \\
+    %&+ \Delta_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right) - \widehat{\Delta}_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right)\\
+    &\leq \Delta_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right) - \widehat{\Delta}_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right) \nonumber \\
+    &\leq 
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})| \nonumber \\
+    & \leq  \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}}|\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})| \nonumber \\
+    &    + \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})|, \label{eq:standard_inequality}
+\end{align}
+where the first inequality follows because $\hat{\pi}_{t}$ maximizes  $(1/n)\sum_{i=1}^{n} \widehat{\Gamma}_{i,t}^{\hat{\pi}_{(t+1):T}}\left(\pi_{t}(H_{i,t})\right)$ over $\Pi_t$; hence, $\widehat{\Delta}_{t}\left(\pi_{t}^{\ast},\hat{\pi}_{(t+1):T};\hat{\pi}_{t:T}\right) \leq 0$. 
+
+We can now evaluate $R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast})$ through evaluating
+\begin{align}
+  \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})|  
+  \label{eq:former}
+\end{align}
+and 
+\begin{align}
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})|.
+    \label{eq:latter}
+\end{align}
+As for the former, we apply the uniform concentration result of \citeauthor{zhou2022offline} (\citeyear{zhou2022offline}, Lemma 2) for the oracle influence difference function to obtain the following lemma.
+
+\medskip
+\begin{lemma}\label{lem:bound_influence_difference_function}
+Suppose that Assumptions \ref{asm:sequential independence}, \ref{asm:bounded outcome}, \ref{asm:overlap}, and \ref{asm:bounded entropy} hold. Then for any stage $t \in \{1,2,\ldots,T\}$ and $\delta \in (0,1)$, with probability at least $1-2\delta$, the following holds:
+\begin{align}
+    &\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})| \nonumber\\
+    &\leq \left(54.4 \sqrt{2}\kappa(\Pi_{t:T}) + 435.2 + \sqrt{2 \log \frac{1}{\delta}}\right)\sqrt{\frac{M_{t:T}^{\ast}}{n}}  + o\left(\frac{1}{\sqrt{n}}\right), \label{eq:bound_influence_difference_function}
+\end{align}
+where $M_{t:T}^{\ast} \equiv M\cdot \left( 1 +  2\eta^{-T+t-1} + \sum_{s=1}^{T-t} 3\eta^{-s}\right) < \infty$. 
+%where 
+%    $V_{t:T}^{\ast}  \equiv  \sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}}E
+%    \left[\left(\Gamma_{i}^{\pi_{(t+1):T}^{a}}(\pi_{t}^{a}(H_{i,t})) - \Gamma_{i}^{\pi_{(t+1):T}^{b}}(\pi_{t}^{b}(H_{i,t})) \right)^2\right] < \infty$.
+\end{lemma}
+
+\begin{proof}
+See Appendix \ref{app:preliminary_results}.
+\end{proof}
+
+\medskip
+
+As for the latter, extending the analytical strategy of \cite{Athey_Wager_2020} and \cite{zhou2022offline}, 
+which leverages orthogonality conditions and the cross-fitting, to the sequential setting, we can obtain the following lemma. 
+
+\medskip
+
+\begin{lemma}\label{lem:asymptotic_estimated_policy_difference_function}
+Suppose that Assumptions \ref{asm:sequential independence}, \ref{asm:bounded outcome}, \ref{asm:overlap}, and \ref{asm:rate_of_convergence_backward} hold. Then, for any stage $t \in \{1,2,\ldots,T\}$, the following holds:
+\begin{align*}
+     &\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})|\\
+     &= O_{p}(n^{-\min\{1/2,\tau/2\}}).
+\end{align*}
+\end{lemma}
+
+\begin{proof}
+See Appendix \ref{app:proofs_of_main_lemmas}.
+\end{proof}
+
+\medskip
+
+Combing the inequality (\ref{eq:standard_inequality}) with Lemmas \ref{lem:bound_influence_difference_function} and \ref{lem:asymptotic_estimated_policy_difference_function}, we obtain 
+\begin{align}
+    R_{t}^{\hat{\pi}_{t:T}}(\pi_{t}^{\ast}) = O_{p}\left(\kappa(\Pi_{t:T}) \cdot n^{-1/2}\right) + O_{p} (n^{-\min\{1/2,\tau/2\}}) \label{eq:result_deviation_regret}
+\end{align}
+for all $t=1,\ldots,T$. This result eventually shows Theorem \ref{thm:main_theorem_backward} through the inequality (\ref{eq:decomposition_bound}). \rightline{\large $\Box$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Preliminary Results and Proofs of Lemmas \ref{lem:entropy_integral_bound}, \ref{lem:helpful_lemma}, \ref{lem:bound_influence_difference_function}, and \ref{lem:asymptotic_estimated_policy_difference_function}}
+\label{app:proofs_of_lemmas}
+
+\subsection{Preliminary Results and Proofs of Lemmas \ref{lem:entropy_integral_bound} and \ref{lem:bound_influence_difference_function}}\label{app:preliminary_results}
+
+This section presents several preliminary results and proofs of Lemmas \ref{lem:entropy_integral_bound} and \ref{lem:bound_influence_difference_function}.
+
+We first consider the proof of Lemma \ref{lem:entropy_integral_bound}. Lemma \ref{lem:covering_number_of_product} below establishes a connection between the $\epsilon$-Hamming covering numbers of classes for stage-specific policies and a class for sequences of policies. The following lemma will be used to prove Lemma \ref{lem:entropy_integral_bound}.
+
+\medskip
+
+\begin{lemma}\label{lem:covering_number_of_product}
+Given a class of DTRs $\Pi=\Pi_1 \times \cdots \times \Pi_T$, for any integers $s$ and $t$ such that $1\leq s \leq t \leq T$, the following inequality holds: $$N_{d_h}((t-s + 1)\epsilon,\Pi_{s:t}) \leq \prod_{\ell=s}^{t}N_{d_h}(\epsilon,\Pi_{\ell}).$$
+\end{lemma}
+
+\begin{proof}
+Fix a set of history points $\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\} \subseteq \MH_h$. For any $\ell$ ($\leq t$), let $h_{\ell}^{(i)} \subseteq h_{t}^{(i)}$ be the partial history up to stage $\ell$. Let $K_\ell  \equiv  N_{d_h}(\epsilon,\Pi_\ell,\{h_{\ell}^{(1)},\ldots,h_{\ell}^{(n)}\})$. For each $\ell\in \{s,\ldots,t\}$, we denote by $\widetilde{\Pi}_{\ell} \equiv \left(\pi_{\ell}^{(1)},\ldots,\pi_{\ell}^{(K_{\ell})}\right)$ the set of policies such that for any $\pi_{\ell} \in \Pi_{\ell}$, there exists $\pi_{\ell}^{(i)} \in \widetilde{\Pi}_{\ell}$ satisfying $d_{h}(\pi_{\ell},\pi_{\ell}^{(i)}) \leq \epsilon$. Such a set of policies exists from the definition of $N_{d_h}(\epsilon,\Pi_\ell,\{h_{\ell}^{(1)},\ldots,h_{\ell}^{(n)}\})$.
+
+Fix $\pi_{s:t} \in \Pi_{s:t}$, and define $\widetilde{\Pi}_{s:t} \equiv \widetilde{\Pi}_{s}\times \cdots \times \widetilde{\Pi}_{t}$. Let $\tilde{\pi}_{s:t}=(\tilde{\pi}_s,\ldots,\tilde{\pi}_t) \in\widetilde{\Pi}_{s:t}$ be such that for any $\ell \in \{s,\ldots,t\}$, $d_{h}(\pi_{\ell},\tilde{\pi}_{\ell}) \leq \epsilon$. Then
+\begin{align*}
+    d_h(\pi_{s:t},\tilde{\pi}_{s:t}) & = \frac{1}{n}\sum_{i=1}^{n}1\{\pi_{s}(h_{s}^{(i)})\neq \tilde{\pi}_{s}(h_{s}^{(i)}) \vee \cdots \vee \pi_{t}(h_{t}^{(i)})\neq \tilde{\pi}_{t}(h_{t}^{(i)})\} \\
+    & \leq \sum_{\ell=s}^{t} \left(\frac{1}{n}\sum_{i=1}^{n}1\{\pi_{\ell}(h_{\ell}^{(i)})\neq \tilde{\pi}_{\ell}(h_{\ell}^{(i)})\}\right)\\
+    &= \sum_{\ell=s}^{t} d_h(\pi_{\ell},\tilde{\pi}_{\ell}) \leq (t-s+1)\epsilon.
+\end{align*}
+Therefore, for any $\pi_{s:t} \in \Pi_{s:t}$, there exists $\tilde{\pi}_{s:t}\in \widetilde{\Pi}_{s:t}$ such that $d_h(\pi_{s:t},\tilde{\pi}_{s:t}) \leq (t-s+1)\epsilon$. Since $\left|\widetilde{\Pi}_{s:t}\right| = \prod_{\ell=s}^{t}\left|\widetilde{\Pi}_{\ell}\right|=\prod_{\ell=s}^{t}N_{d_h}(\epsilon,\Pi_\ell,\{h_{\ell}^{(1)},\ldots,h_{\ell}^{(n)}\})$, where $|\cdot|$ denotes the cardinality, we have
+\begin{align*}
+    N_{d_h}\left((t-s+1)\epsilon,\Pi_{s:t},\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\}\right) \leq \prod_{\ell=s}^{t}N_{d_h}\left(\epsilon,\Pi_\ell,\{h_{\ell}^{(1)},\ldots,h_{\ell}^{(n)}\}\right).
+\end{align*}
+As this holds for any $n$ and any set of history points $\{h_{t}^{(1)},\ldots,h_{t}^{(n)}\}$, the result in the statement holds.
+\end{proof}
+
+\bigskip
+
+Using Lemma \ref{lem:covering_number_of_product}, we give the proof of Lemma \ref{lem:entropy_integral_bound} below.
+
+\bigskip
+\noindent
+\textit{Proof of Lemma \ref{lem:entropy_integral_bound}}.
+Note that $\Pi=\Pi_{1:T}$. Applying Lemma \ref{lem:covering_number_of_product} to $\Pi$, we have $N_{H}(\epsilon^2,\Pi) \leq \prod_{t=1}^{T} N_{H}(\epsilon^2/T,\Pi_{t})$. Then
+\begin{align*}
+\kappa(\Pi)&=\int_{0}^{1}\sqrt{\log N_{H}\left(\epsilon^{2},\Pi\right)}d\epsilon 
+\leq\int_{0}^{1}\sqrt{\sum_{t=1}^{T}\log N_{H}(\epsilon^{2}/T,\Pi_{t})}d\epsilon\\
+&\leq \sum_{t=1}^{T} \int_{0}^{1}\sqrt{\log N_{H}(\epsilon^{2}/T,\Pi_{t})}d\epsilon\\
+&\leq T \int_{0}^{1}\sqrt{\log C+D\left(\frac{\sqrt{T}}{\epsilon}\right)^{2\omega}}d\epsilon \\
+&\leq T \int_{0}^{1}\sqrt{\log C}d\epsilon+ T\int_{0}^{1}\sqrt{D\left(\frac{\sqrt{T}}{\epsilon}\right)^{2\omega}}d\epsilon\\
+&=T\sqrt{\log C}+\sqrt{T^{(2+\omega)}}\sqrt{D}\int_{0}^{1}\epsilon^{-\omega}d\epsilon=T\sqrt{\log C}+\frac{\sqrt{T^{(2+\omega)}D}}{1-\omega} \\
+&<\infty,    
+\end{align*}
+where the third and last lines follow from Assumption \ref{asm:bounded entropy}.\\ 
+\rightline{\large $\Box$}
+
+\bigskip
+
+
+We next give several preliminary results. 
+Let us first define the conditional policy value function of $\pi_{t:T}$ for any stage $t$ as 
+\begin{align*}
+  V_t(\pi_{t:T};h_{t})\equiv E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}\left(\underline{A}_{t-1},\pi_{t:s}\right)\middle| H_{t}=h_{t}\right].
+\end{align*}
+Note that $E\left[V_t(\pi_{t:T};H_{t})\right] = V_{t}(\pi_{t:T})$.
+The following lemma is used in the proofs of Lemmas \ref{lem:bound_influence_difference_function} and \ref{lem:asymptotic_estimated_policy_difference_function}.
+
+\bigskip{}
+
+\begin{lemma}\label{lemma:identification}
+Suppose that Assumption \ref{asm:sequential independence} holds. Then, for any stage $t$ and DTR $\pi \in \Pi$, the following hold:
+\begin{itemize}
+\item[(i)] $Q_{t}^{\pi_{(t+1):T}}(H_{t},\pi_{t}) = V_{t}(\pi_{t:T};H_{t})$ a.s.;
+    \item[(ii)] $E\left[Q_{t}^{\pi_{(t+1):T}}(H_{t},\pi_{t})\right] = V_{t}(\pi_{t:T})$;
+    \item[(iii)] $E\left[\widetilde{V}_{i,t}(\pi_{t:T})\right] = V_{t}(\pi_{t:T})$ for any $i=1,\ldots,n$. 
+\end{itemize}
+\end{lemma}
+\medskip
+
+\begin{proof}
+    We first prove (i) and (ii). When $t=T$, the following holds a.s.:
+    \begin{align}
+        Q_{T}(H_{T},\pi_{T}) 
+        &= E\left[Y_{T}|A_{T}=\pi_{T}(H_{T}),H_{T}\right] \nonumber \\
+        &= \sum_{a_{T} \in \MA_{T}}E\left[Y_{T}(\underline{A}_{T-1},a_{T}) \cdot 1\{a_{T} = \pi_{T}(H_{T}(\underline{A}_{T-1}))\}\middle|A_{T}=a_{T},H_{T}\right] \nonumber \\
+        &= E\left[\sum_{a_{T} \in \MA_{T}}Y_{T}(\underline{A}_{T-1},a_{T}) \cdot 1\{a_{T} = \pi_{T}(H_{T}(\underline{A}_{T-1}))\}\middle| H_{T}\right]  \nonumber \\
+        &= E\left[\widetilde{Y}_{T}(\underline{A}_{T-1},\pi_{T})
+\middle| H_{T}\right] \nonumber \\
+&= V_{T}(\pi_{T};H_{T}), \label{eq:Q_T_V_T}
+    \end{align}
+    where the third equality follows from Assumption \ref{asm:sequential independence}. Hence, taking the expectation with respect to $H_{T}$ leads to $E\left[Q_{T}(H_{T},\pi_{T})\right] = V_{T}(\pi_{T})$.
+    
+For any integer $t$ such that $t <T$, the following holds a.s.:
+\begin{align}
+   & E\left[Y_{t} + V_{t+1}(\pi_{(t+1):T};H_{t+1}) | A_{t}=\pi_{t}(H_{t}),H_{t}\right] \nonumber\\
+   &=E\left[Y_{t}\left(\underline{A}_{t-1},\pi_{t}(H_{t-1}(\underline{A}_{t-1}))\right) + \sum_{s=t+1}^{T}\widetilde{Y}_{s}(\underline{A}_{t-1},\pi_{t}(H_{t}(\underline{A}_{t-1})),\pi_{(t+1):s})\middle| A_{t}=\pi_{t}(H_{t}),H_{t}\right] \nonumber \\
+   &=E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}(\underline{A}_{t-1},\pi_{t:s})\middle|A_{t}=\pi_{t}(H_{t}), H_{t}\right] 
+      =E\left[\sum_{s=t}^{T}\widetilde{Y}_{s}(\underline{A}_{t-1},\pi_{t:s})\middle|H_{t}\right] \nonumber \\
+   &=V_{t}(\pi_{t:T};H_{t}), \label{eq:V_t+1_V_t}
+\end{align}
+where the second equality follows from the definition of $\widetilde{Y}_{s}(\cdot,\cdot)$, and the third equality follows from Assumption \ref{asm:sequential independence}. 
+
+When $t=T-1$,
+\begin{align*}
+    Q_{T-1}^{\pi_{T}}(H_{T-1},\pi_{T-1})
+    &= E\left[Y_{T-1} + Q_{T}(H_{T},\pi_{T})|A_{T-1}=\pi_{T-1}(H_{T-1}),H_{T-1}\right] \\
+    &= E\left[Y_{T-1} + V_{T}(\pi_{T};H_{T})|A_{T-1}=\pi_{T-1}(H_{T-1}),H_{T-1}\right]\\
+    &= V_{T-1}(\pi_{(T-1):T};H_{T-1})
+\end{align*}
+a.s., where the second and third equalities follow from equations (\ref{eq:Q_T_V_T}) and (\ref{eq:V_t+1_V_t}), respectively. Recursively applying the same argument from $t=T-2$ to $1$, we have $Q_{t}^{\pi_{(t+1):T}}(H_{t},\pi_{t}) = V_{t}(\pi_{t:T};H_{t})$ a.s. Therefore, the result (i) holds for any stage $t$. The result (ii) follows from the result (i) by taking the expectation with respect to $H_{t}$.
+
+We next prove (iii). Given a fixed DTR $\pi=(\pi_1,\ldots,\pi_T)$, similarly to the definition of $\widetilde{V}_{i,t}(\pi_{t:T})$, let us define
+\begin{align*}
+\widetilde{V}_{T}(\pi_{T}) &\equiv \frac{ Y_{T} - Q_{T}(H_{T},A_{T}) }{e_{T}(H_{T},A_{T})}\cdot 1\{A_{T}=\pi_{T}(H_{T})\} + Q_{T}(H_{T},\pi_{T}(H_{T})),
+\end{align*}
+and, recursively for $t=T-1,\ldots,1$,
+\begin{align*}
+\widetilde{V}_{t}(\pi_{t:T}) &\equiv \frac{ Y_{t} + \widetilde{V}_{t+1}(\pi_{(t+1):T}) - Q_{t}^{\pi_{(t+1):T}}(H_{t},A_{t}) }{e_{t}(H_{t},A_{t})}\cdot 1\{A_{t}=\pi_{t}(H_{t})\} \\
+&+ Q_{t}^{\pi_{(t+1):T}}(H_{t},\pi_{t}(H_{t})).
+\end{align*}
+Note that $E\left[\widetilde{V}_{T}(\pi_{T})\right]=E\left[\widetilde{V}_{i,T}(\pi_{T})\right]$ and $E\left[\widetilde{V}_{t}(\pi_{t:T})\right]=E\left[\widetilde{V}_{i,t}(\pi_{t:T})\right]$ for any $i$ and $t$.
+
+We first consider the case that $t=T$. Regarding the first component in $\widetilde{V}_{T}(\pi_{T})$, for any $h_{T} \in \MH_{T}$,
+\begin{align*}
+    &E\left[Y_{T} \cdot \frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right]\\
+    &= E\left[\widetilde{Y}_{T}(\underline{A}_{T-1},\pi_{T}) \middle| H_{T}=h_{T}\right] \cdot E\left[\frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right] \\
+    &= V_{T}(\pi_{T};h_{t}) \cdot \frac{e_{T}(h_T,\pi_{T}(h_{T}))}{e_{T}(h_T,\pi_{T}(h_{T}))} \\
+    &= V_{T}(\pi_{T};h_{t}),
+\end{align*}
+where the first equality follows from Assumption \ref{asm:sequential independence}. 
+Similarly, for any $h_{T} \in \MH_{T}$,
+\begin{align*}
+    &E\left[Q_{T}(H_{T},A_{T}) \cdot \frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right]\\
+    & = E\left[Q_{T}(h_{T},\pi_{T}) \cdot \frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right]\\
+    & = V_{T}(\pi_{T};h_{T}) \cdot E\left[ \frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right]\\
+    & = V_{T}(\pi_{T};h_{T}),
+\end{align*}
+where the second inequality follows from the result (i). 
+
+Therefore, we have
+\begin{align}
+    &E\left[\widetilde{V}_{T}(\pi_{T}) \middle| H_{i,T} = h_{T}\right] \nonumber\\
+    &= E\left[\left(Y_{T} - Q_{T}(H_{T},A_{T})\right) \cdot \frac{1\{A_{T}=\pi_{T}(H_{T})\}}{e_{T}(H_{T},A_{T})} \middle| H_{T}=h_{T}\right] + Q_{T}(h_{T},\pi_{T}) \nonumber \\
+    &= V_{T}(\pi_{T};h_{T}) - V_{T}(\pi_{T};h_{T}) + Q_{T}(h_{T},\pi_{T}) \nonumber\\
+    &= V_{T}(\pi_{T};h_{T}), \label{eq:V_tile_T_to_V_T}
+\end{align}
+where the last line follows from the result (i).
+Thus we have $E\left[\widetilde{V}_{T}(\pi_{T})\right] = E[V_{T}(\pi_{T};H_{T})] = V_{T}(\pi_{T})$.
+
+When $t=T-1$,
+\begin{align*}
+    &E\left[\left(Y_{T-1} + \widetilde{V}_{T}(\pi_{T})\right) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right]\\
+    &=E\left[\left(Y_{T-1} + E\left[\widetilde{V}_{T}(\pi_{T})\middle| H_{T}\right]\right) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right]\\
+    &= E\left[\left(Y_{T-1} + V_{T}(\pi_{T};H_{T})\right) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right]\\
+    &= E\left[\left(Y_{T-1} + Q_{T}(H_{T},\pi_{T})\right) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right]\\
+     &= E\left[E\left[Y_{T-1} + Q_{T}(H_{T},\pi_{T})\middle| A_{T-1}=\pi_{T-1}(H_{T-1}),H_{T-1}\right]\right.\\
+     &\left. \times \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right]\\
+     &= E\left[Q_{T-1}^{\pi_{T}}(H_{T-1},A_{T-1}) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right],
+\end{align*}
+where the second equality follows from the result (\ref{eq:V_tile_T_to_V_T}); the third equality follow from the result (i); the last equality follows from the definition of the Q-function $Q_{T-1}^{\pi_T}(\cdot,\cdot)$.
+
+Therefore, for any $h_{T-1} \in \MH_{T-1}$,
+\begin{align*}
+    &E\left[\widetilde{V}_{T-1}(\pi_{(T-1):T})\middle| H_{T-1} = h_{T-1}\right]\\
+    & = E\left[\left(Y_{T-1} + \widetilde{V}_{T}(\pi_{T}) - Q_{T-1}^{\pi_{T}}(H_{T-1},A_{T-1})\right) \cdot \frac{1\{A_{T-1}=\pi_{T-1}(H_{T-1})\}}{e_{T}(H_{T-1},A_{T-1})} \middle| H_{T-1}=h_{T-1}\right] \\
+    &+ Q_{T-1}^{\pi_{T}}(h_{T-1},\pi_{T-1})\\
+& =  Q_{T-1}^{\pi_{T}}(h_{T-1},\pi_{T-1}) = V_{T-1}(\pi_{(T-1):T};h_{T-1}),
+\end{align*}
+where the last equality follows from the result (i). Hence, we have $E\left[\widetilde{V}_{T-1}(\pi_{(T-1):T})\right] = E\left[V_{T-1}(\pi_{(T-1):T};H_{T-1})\right] = V_{T-1}(\pi_{(T-1):T})$.
+
+Recursively applying the same argument from $t=T-2$ to $1$, we have $E\left[\widetilde{V}_{t}(\pi_{t:T})\right] = V_{t}(\pi_{t:T})$, which proves the result (iii).
+\end{proof}
+
+\bigskip
+
+The following lemma, which follows from Lemma 2 in \cite{zhou2022offline} and its proof, plays important roles in the proofs of Theorem 
+\ref{thm:main_theorem_backward}.
+
+\bigskip{}
+
+\begin{lemma} \label{lem:concentration inequality_influence difference function}
+Fix integers $s$ and $t$ such that $1\leq s \leq t \leq T$. For any $\underline{a}_{s:t}\in \underline{\MA}_{s:t}$, let $\{\Gamma_{i}^{\dag}(\underline{a}_{s:t})\}_{i=1}^{n}$ be i.i.d. random variables with bounded supports. 
+For any $\pi_{s:t} \in \Pi_{s:t}$, let $\widetilde{Q}(\pi_{s:t})  \equiv  (1/n) \sum_{i=1}^{n}  \Gamma_{i}^{\dag}(\pi_{s:t})$, where $\Gamma_{i}^{\dag}(\pi_{s:t}) \equiv \Gamma_{i}^{\dag}((\pi_{s}(H_{i,s}),\ldots,\pi_{t}(H_{i,t})))$, and $Q(\pi_{s:t}) \equiv  E[\widetilde{Q}(\pi_{s:t})]$. For any $\pi_{s:t}^{a},\pi_{s:t}^{b} \in \Pi_{s:t}$, denote $\widetilde{\Delta}(\pi_{s:t}^{a},\pi_{s:t}^{b}) \equiv \widetilde{Q}(\pi_{s:t}^{a}) - \widetilde{Q}(\pi_{s:t}^{b})$ and $\Delta(\pi_{s:t}^{a},\pi_{s:t}^{b}) \equiv Q(\pi_{s:t}^{a}) - Q(\pi_{s:t}^{b})$. Then, when $\kappa(\Pi_{s:t}) < \infty$, the following holds: For any $\delta \in (0,1)$, with probability at least $1-2\delta$,
+\begin{align*}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b} \in \Pi_{s:t}} \left|\widetilde{\Delta}(\pi_{s:t}^{a},\pi_{s:t}^{b})-\Delta(\pi_{s:t}^{a},\pi_{s:t}^{b})\right| &\leq \left(54.4 \sqrt{2}\kappa(\Pi_{s:t}) + 435.2 + \sqrt{2 \log \frac{1}{\delta}}\right)\sqrt{\frac{V_{s:t}^{\ast}}{n}} \\
+    &+ o\left(\frac{1}{\sqrt{n}}\right),
+\end{align*}
+where 
+    $V_{s:t}^{\ast}  \equiv  \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b} \in \Pi_{s:t}}E
+    \left[\left(\Gamma_{i}^{\dag}(\pi_{s:t}^{a}) - \Gamma_{i}^{\dag}(\pi_{s:t}^{b}) \right)^2\right] < \infty$.
+\end{lemma}
+
+\bigskip
+
+Using Lemma \ref{lem:concentration inequality_influence difference function}, we present the proof of Lemma \ref{lem:bound_influence_difference_function} as follows.
+
+\bigskip
+
+\noindent
+\textit{Proof of  Lemma \ref{lem:bound_influence_difference_function}.}
+Given a fixed DTR $\pi=(\pi_1,\ldots,\pi_T)$, let us define recursively for $t=T,\ldots,1$,
+\begin{align*}
+\widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\underline{a}_{t:T}) &\equiv \frac{Y_{i,t} + \widetilde{\Gamma}_{i,t+1}^{\pi_{(t+2):T}}(\underline{a}_{(t+1):T}) - Q_{t}^{\pi_{(t+1):T}}(H_{i,t},A_{i,t}) }{e_{t}(H_{i,t},A_{i,t})}\cdot 1\{A_{i,t}=a_{t}\} \\
+&+ Q_{t}^{\pi_{(t+1):T}}(H_{i,t},a_{t}),
+\end{align*}
+where we suppose that $\widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\underline{a}_{t:T}) = 0$ when $t=T+1$.
+Note that $\widetilde{\Gamma}_{i,t}^{{\pi}_{(t+1):T}}(\pi_{t:T}) = \widetilde{V}_{i,t}(\pi_{t:T})$ where $\widetilde{\Gamma}_{i,t}^{{\pi}_{(t+1):T}}(\pi_{t:T}) \equiv \widetilde{\Gamma}_{i,t}^{{\pi}_{(t+1):T}}(\pi_{t}(H_{i,t}),\ldots,\pi_{T}(H_{i,T}))$.
+
+Fix $\pi_{(t+1):T} \in \Pi_{(t+1):T}$. Define 
+\begin{align*}
+    \widetilde{\Delta}^{\pi_{(t+1):T}} (\pi_{t:T}^{a},\pi_{t:T}^{b}) \equiv \frac{1}{n}\sum_{i=1}^{n}\left(\widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\pi_{t:T}^{a}) - \widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\pi_{t:T}^{b})\right)
+\end{align*}
+and
+\begin{align*}
+    \Delta^{\pi_{(t+1):T}} (\pi_{t:T}^{a},\pi_{t:T}^{b}) \equiv E\left[\frac{1}{n}\sum_{i=1}^{n}\left(\widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\pi_{t:T}^{a}) - \widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\pi_{t:T}^{b})\right)\right].
+\end{align*}
+Note that 
+\begin{align*}
+\widetilde{\Delta}^{\pi_{(t+1):T}}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})
+    = \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}),
+\end{align*}
+where $\widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})$ is defined in (\ref{eq:Delta_tilde}). Noting that 
+\begin{align*}
+    \Delta^{\pi_{(t+1):T}}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) = E\left[\widetilde{V}_{i,t}(\pi_{t}^{a},\pi_{(t+1):T})\right] - E\left[\widetilde{V}_{i,t}(\pi_{t}^{b},\pi_{(t+1):T})\right],
+\end{align*}
+Lemma \ref{lemma:identification} leads to  $\Delta^{\pi_{(t+1):T}}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) = \Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})$,
+where $\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})$ is defined in (\ref{eq:Delta}). 
+
+Therefore, it follows for (\ref{eq:former}) that 
+\begin{align}
+   & \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\Delta_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})| \nonumber \\
+  &=\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widetilde{\Delta}^{\pi_{(t+1):T}}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})  - \Delta^{\pi_{(t+1):T}}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) | \nonumber \\
+  &\leq \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} 
+  \sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}} 
+  |\widetilde{\Delta}^{\pi_{(t+1):T}}(\pi_{t:T}^{a};\pi_{t:T}^{b})  - \Delta^{\pi_{(t+1):T}}(\pi_{t:T}^{a};\pi_{t:T}^{b})|. \label{eq:tilde_delta_inequalty}
+\end{align}
+
+Fix $\pi_{(t+1):T}$. Note that $\{\widetilde{\Gamma}_{i,t}^{\pi_{(t+1):T}}(\underline{a}_{t:T})\}_{i=1}^{n}$ are i.i.d. random variables under Assumptions \ref{asm:bounded outcome} and \ref{asm:overlap} for any $t=1,\ldots,T$. 
+Therefore, fixing $\pi_{(t+1):T}$ and applying Lemma \ref{lem:concentration inequality_influence difference function} with $\Gamma_{i}^{\dag}(\underline{a}_{t:T})=\Gamma_{i,t}^{\pi_{(t+1):T}}(\underline{a}_{t:T})$ leads to the following result:
+For any $\delta \in (0,1)$, with probability at least $1-2\delta$,
+\begin{align}
+    &\sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}} 
+  |\widetilde{\Delta}^{\pi_{(t+1):T}}(\pi_{t:T}^{a};\pi_{t:T}^{b})  - \Delta^{\pi_{(t+1):T}}(\pi_{t:T}^{a};\pi_{t:T}^{b})| \nonumber\\
+    &\leq \left(54.4 \sqrt{2}\kappa(\Pi_{t:T}) + 435.2 + \sqrt{2 \log \frac{1}{\delta}}\right)\sqrt{\frac{V_{t:T}^{\pi_{(t+1):T},\ast}}{n}} + o\left(\frac{1}{\sqrt{n}}\right), \label{eq:bound_influence_difference_function_2}
+\end{align}
+with $V_{t:T}^{\pi_{(t+1):T}\ast}  \equiv  \sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}}E
+    \left[\left(\Gamma_{i}^{\pi_{(t+1):T}}(\pi_{t:T}^{a}(H_{i,T})) - \Gamma_{i}^{\pi_{(t+1):T}}(\pi_{t:T}^{b}(H_{i,T})) \right)^2\right]$.
+    
+Under Assumptions \ref{asm:bounded outcome} and \ref{asm:overlap}, $V_{t:T}^{\pi_{(t+1):T},\ast} \leq M_{t:T}^{\ast} < \infty$ for any $\pi_{(t+1):T}$. Therefore, combining (\ref{eq:tilde_delta_inequalty}) and (\ref{eq:bound_influence_difference_function_2}), we obtain the result (\ref{eq:bound_influence_difference_function}). \\
+\rightline{\large $\Box$}
+
+%\bigskip{}
+
+\begin{comment}
+\begin{lemma} \label{lem:concentration inequality_influence difference function}
+Fix $t \in \{ 1,\ldots,T\}$. Let $\{\Gamma_{i,t}\}_{i=1}^{n}$ be i.i.d. random vectors with bounded support. For any $\pi_{t} \in \Pi_{t}$, let $\widetilde{Q}_{t}(\pi_{t})  \equiv  \frac{1}{n} \sum_{i=1}^{n}\left\langle \pi_{t}(H_{i,t}), \Gamma_{i,t}\right\rangle$ and $Q_{t}(\pi_{t}) \equiv  E[\widetilde{Q}_{t}(\pi_{t})]$. For any $\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t}$, denote $\widetilde{\Delta}_{t}(\pi_{t:T}^{a},\pi_{t:T}^{b})= \widetilde{Q}_{t}(\pi_{t}^{a}) - \widetilde{Q}_{t}(\pi_{t})$ and $\Delta_{t}(\pi_{t:T}^{a},\pi_{t:T}^{b})= Q_{t}(\pi_{t}^{a}) - Q_{t}(\pi_{t})$. Then, under Assumption \ref{asm:bounded entropy}, the following hold: For any $\delta \in (0,1)$, with probability at least $1-2\delta$,
+\begin{align*}
+    \sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_t} \left|\widetilde{\Delta}_{t}(\pi_{t:T}^{a},\pi_{t:T}^{b})-\Delta_{t}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| \leq \left(54.4 \sqrt{2}\kappa(\Pi_t) + 435.2 + \sqrt{2 \log \frac{1}{\delta}}\right)\sqrt{\frac{V_{t}^{\ast}}{n}} + o\left(\frac{1}{\sqrt{n}}\right),
+\end{align*}
+where 
+    $V_{t}^{\ast}  \equiv  \sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_t}E \left|\left\langle \pi_{t}^{a}(H_{i,t}) - \pi_{t}(H_{i,t}),\Gamma_{i,t} \right\rangle^{2} \right|$.
+\end{lemma}
+\end{comment}
+
+%\bigskip{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Proof of Lemma \ref{lem:helpful_lemma}}\label{app:proofs_of_main_lemmas}
+
+We provide the proof of Lemma \ref{lem:helpful_lemma} in this section. 
+The following lemma is a general version of Lemma \ref{lem:helpful_lemma}.
+
+\bigskip
+
+\begin{lemma}\label{lem:helpful_lemma_general}
+Fix $\pi=(\pi_1,\ldots,\pi_T)\in \Pi$. Let  $R_{t}^{\pi_{t:T}}(\tilde{\pi}_t)  \equiv  V_{t}(\tilde{\pi}_t,\pi_{(t+1):T}) - V_{t}(\pi_{t:T})$ for any $\tilde{\pi}_t \in \Pi_t$. Then, under Assumptions \ref{asm:sequential independence}, \ref{asm:overlap}, and \ref{asm:first-best}, the regret of $\pi$ is bounded from above as
+\begin{align}
+    R(\pi) \leq R_{1}^{\pi_{1:T}}(\pi_{1}^{\ast}) + \sum_{t=2}^{T} \frac{2^{t-2}}{\eta^{t-1}} R_{t}^{\pi_{t:T}}(\pi_{t}^{\ast}). \label{eq:decomposition_result}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+For any $t$, define $R_{t}(\pi_{t:T})  \equiv  V_{t}(\pi_{t:T}^{\ast}) - V_{t}(\pi_{t:T})$, which is a partial regret of $\pi_{t:T}$ for stage $t$. 
+
+For any integers $s$ and $t$ such that $1 \leq t < s \leq T$,
+\begin{align}
+    %&\Delta_{t}\left(\pi_{t:T}^{\ast};\pi_{t:(s-1)}^{\ast},\pi_{s:T}\right) %\nonumber \\
+    %&= 
+    &V_{t}(\pi_{t}^{\ast},\ldots,\pi_{T}^{\ast}) - V_{t}(\pi_{t}^{\ast},\ldots,\pi_{s-1}^{\ast},\pi_{s},\ldots,\pi_{T}) \nonumber \\
+    &= E\left[\frac{\prod_{\ell=t}^{s-1}1\{A_{\ell}=\pi_{\ell}^{\ast}(H_{\ell})\}}{\prod_{\ell=t}^{s-1}e_{\ell}(H_{\ell},A_{\ell})}\cdot \left(Q_{s-1}^{\pi_{s:T}^{\ast}}\left(H_{s-1},A_{s-1}\right) - Q_{s-1}^{\pi_{s:T}}\left(H_{s-1},A_{s-1}\right)\right)\right] \nonumber \\
+      &\leq \frac{1}{\eta^{s-t}} \left(V_{s}(\pi_{s:T}^{\ast}) - V_{s}(\pi_{s:T})\right) \nonumber \\
+    &= \frac{1}{\eta^{s-t}}R_{s}\left(\pi_{t:T}\right), \label{eq:bound_delta}
+\end{align}
+where the first equality follows from Lemma \ref{lemma:identification} and Assumption \ref{asm:sequential independence}, and the inequality follows from Assumptions \ref{asm:overlap} and \ref{asm:first-best}.
+
+For $t=T$ and $T-1$, we have
+\begin{align*}
+R_{T}(\pi_T) &= V_{T}(\pi_{T}^{\ast}) - V_{T}(\pi_{T}) = R_{T}^{\pi_{T}}(\pi_{T}^{\ast});  \\
+   R_{T-1}\left(\pi_{(T-1):T}\right) &= \left[V_{T-1}\left(\pi_{T-1}^{\ast},\pi_{T}^{\ast}\right) - V_{T-1}\left(\pi_{T-1}^{\ast},\pi_{T}\right) \right]
+   + \left[V_{T-1}\left(\pi_{T-1}^{\ast},\pi_{T}\right) - V_{T-1}\left(\pi_{T-1},\pi_{T}\right)\right] \\
+   &\leq \frac{1}{\eta}R_{T}^{\pi_{T}}(\pi_{T}^{\ast}) + R_{T-1}^{\pi_{(T-1):T}}\left(\pi_{T-1}^{\ast}\right) \\
+   &= \frac{1}{\eta}R_T(\pi_{T}) + R_{T-1}^{\pi_{(T-1):T}}\left(\pi_{T-1}^{\ast}\right),
+\end{align*}
+where the inequality follows from (\ref{eq:bound_delta}).
+
+Generally, for $k=2,\ldots,T-1$, it follows that
+\begin{align*}
+    &R_{T-k}\left(\pi_{(T-k):T}\right) \\
+    &= V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{T}^{\ast}\right) - V_{T-k}\left(\pi_{T-k},\ldots,\pi_{T}\right) \\ &=\sum_{s=T-k}^{T}\left[V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s}^{\ast},\pi_{s+1},\ldots,\pi_{T}\right) - V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s-1}^{\ast},\pi_{s},\ldots,\pi_{T}\right)\right] \\
+    &=\sum_{s=T-k+1}^{T}\left[V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s}^{\ast},\pi_{s+1},\ldots,\pi_{T}\right) - V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s-1}^{\ast},\pi_{s},\ldots,\pi_{T}\right)\right]  \\
+    &+ R_{T-k}^{\pi_{(T-k):T}}(\pi_{T-k}^{\ast})\\
+    %&\leq \sum_{s=T-k}^{T}\left[V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{T}^{\ast}\right) - V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s-1}^{\ast},\pi_{s},\ldots,\pi_{T}\right)\right]\\
+    &\leq \sum_{s=T-k+1}^{T}\left[V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{T}^{\ast}\right) - V_{T-k}\left(\pi_{T-k}^{\ast},\ldots,\pi_{s-1}^{\ast},\pi_{s},\ldots,\pi_{T}\right)\right] + R_{T-k}^{\pi_{(T-k):T}}(\pi_{T-k}^{\ast})\\
+    &\leq \sum_{s=T-k+1}^{T}\frac{1}{\eta^{s-T+k}} R_{s}\left(\pi_{t:T}\right)+ R_{T-k}^{\pi_{(T-k):T}}(\pi_{T-k}^{\ast}),
+\end{align*}
+where the second equality follows from the telescoping sum; the third equality follows from the definition of $R_{T-k}^{\pi_{(T-k):T}}(\pi_{T-k}^{\ast})$; the first inequality follows from Assumption \ref{asm:first-best}; the last line follows from (\ref{eq:bound_delta}).
+
+Then, recursively, the following hold:
+\begin{align*}
+    R_{T-1}\left(\pi_{(T-1):T}\right) &\leq \frac{1}{\eta}R_{T}\left(\pi_{T}\right)+ R_{T-1}^{\pi_{(T-1):T}}(\pi_{T-1}^{\ast}) = \frac{1}{\eta}R_{T}^{\pi_{T}}\left(\pi_{T}^{\ast}\right)+ R_{T-1}^{\pi_{(T-1):T}}(\pi_{T-1}^{\ast}) \\
+    R_{T-2}\left(\pi_{(T-2):T}\right) &\leq \frac{1}{\eta}R_{T-1}\left(\pi_{(T-1):T}\right)+
+    \frac{1}{\eta^2}R_{T}\left(\pi_{T}\right)+R_{T-2}^{\pi_{(T-2):T}}(\pi_{T-2}^{\ast}) \\
+    &\leq \frac{2}{\eta^2}R_{T}^{\pi_{T}}\left(\pi_{T}^{\ast}\right) + \frac{1}{\eta}R_{T-1}^{\pi_{(T-1):T}}\left(\pi_{T-1}^{\ast}\right) +R_{T-2}^{\pi_{(T-2):T}}(\pi_{T-2}^{\ast})\\
+    & \ \ \vdots \\
+R_{T-k}\left(\pi_{(T-k):T}\right) & \leq \sum_{s=1}^{k} \frac{2^{k-s}}{\eta^{k-s+1}} R_{T-s+1}^{\pi_{(T-s+1):T}}(\pi_{T-s+1}^{\ast}) + R_{T-k}^{\pi_{(T-k):T}}(\pi_{T-k}^{\ast}).
+\end{align*}
+Therefore, setting $k=T-1$ and noting that $R_{1}\left(\pi_{1:T}\right) = R(\pi)$, we obtain
+\begin{align*}
+    R(\pi) &\leq  \sum_{s=1}^{T-1} \frac{2^{T-1-s}}{\eta^{T-s}} R_{T-s+1}^{\pi_{(T-s+1):T}}(\pi_{T-s+1}^{\ast}) + R_{1}^{\pi_{1:T}}(\pi_{1}^{\ast}) \\
+    & = R_{1}^{\pi_{1:T}}(\pi_{1}^{\ast}) + \sum_{s=1}^{T-1} \frac{2^{s-1}}{\eta^{s}} R_{s+1}^{\pi_{(s+1):T}}(\pi_{s+1}^{\ast}).
+\end{align*}
+Setting $t=s+1$ in the above equation leads to the result.
+\end{proof}
+
+\bigskip
+
+The proof of Lemma \ref{lem:helpful_lemma} is given below.
+
+\bigskip
+
+\noindent
+\textit{Proof of Lemma \ref{lem:helpful_lemma}.}
+Lemma \ref{lem:helpful_lemma} follows immediately from Lemma \ref{lem:helpful_lemma_general} with setting $\pi=\hat{\pi}$.\\
+\rightline{\large $\Box$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Proof of Lemma \ref{lem:asymptotic_estimated_policy_difference_function}}
+
+
+We next gives the proof of Lemma \ref{lem:asymptotic_estimated_policy_difference_function}.
+For any $\underline{a}_{s:t} \in \underline{\MA}_{s:t}$ and $\pi_{s:t}^{a},\pi_{s:t}^{b} \in \Pi_{s:t}$, let
+\begin{align*}
+    G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}  \equiv  \prod_{\ell=s}^{t}1\{\pi_{\ell}^{a}(H_{i,\ell})=a_\ell\} - \prod_{\ell=s}^{t}1\{\pi_{\ell}^{b}(H_{i,\ell})=a_\ell\}.
+\end{align*} 
+
+Given a fixed DTR $\pi=(\pi_1,\ldots,\pi_T)$, with some abuse of notation, we define
+\begin{align*}
+\widetilde{V}_{i,T}(a_{T}) &\equiv \frac{ Y_{i,T} - Q_{T}(H_{i,T},a_{T}) }{e_{T}(H_{i,T},a_{T})}\cdot 1\{A_{i,T}=a_{T}\} + Q_{T}(H_{i,T},a_{T}),\\
+\widehat{V}_{i,T}(a_{T}) &\equiv \frac{ Y_{i,T} - \widehat{Q}_{T}^{-k(i)}(H_{i,T},a_{T}) }{\hat{e}_{T}^{-k(i)}(H_{i,T},a_{T})}\cdot 1\{A_{i,T}=a_{T}\} + \widehat{Q}_{T}^{-k(i)}(H_{i,T},a_{T}),
+\end{align*}
+and, recursively, for $t=T-1,\ldots,1$,
+\begin{align*}
+\widetilde{V}_{i,t}^{\pi_{(t+1):T}}(a_{t}) &\equiv \frac{ Y_{i,t} + \widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1})) - Q_{t}^{\pi_{(t+1):T}}(H_{i,t},a_{t}) }{e_{t}(H_{i,t},a_{t})}\cdot 1\{A_{i,t} = a_{t}\} \\
+&+ Q_{t}^{\pi_{(t+1):T}}(H_{i,t},a_{t}),\\
+\widehat{V}_{i,t}^{\pi_{(t+1):T}}(a_t) &\equiv \frac{ Y_{i,t} + \widehat{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1})) - \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}(H_{i,t},a_{t}) }{\hat{e}_{t}^{-k(i)}(H_{i,t},a_{t})}\cdot 1\{A_{i,t} = a_{t}\} \\
+&+ \widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}(H_{i,t},a_{t}),
+\end{align*}
+where we denote $\widetilde{V}_{i,T}^{\pi_{(T+1):T}}(a_{t}) = \widetilde{V}_{i,T}(a_{T})$ and $\widehat{V}_{i,T}^{\pi_{(T+1):T}}(a_{t}) = \widehat{V}_{i,T}(a_{T})$ when $t=T$.
+
+Note that the inside of (\ref{eq:latter}) is expressed as
+\begin{align}
+    &\widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) \nonumber \\
+    &= \sum_{a_{t} \in \MA_{t}} G_{i,\pi_{t}^{a},\pi_{t}^{b}}^{a_{t}}\left(\widehat{V}_{i,t}^{\pi_{(t+1):T}}(a_t) - \widetilde{V}_{i,t}^{\pi_{(t+1):T}}(a_t)\right). \label{eq:latter_expression_1}
+\end{align}
+
+For integers $s$ and $t$ such that $1 \leq s \leq t \leq T$ and $\underline{a}_{s:t} \in \underline{\MA}_{s:t}$, let
+\begin{align*}
+    &\widetilde{S}_{s:t}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) \\
+    &\equiv  \frac{1}{n}\sum_{i=1}^{n} G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot \left(\frac{\prod_{\ell = s}^{t-1}1\{ A_{i,\ell} = a_{\ell}\} }{\prod_{\ell = s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell}) } \right) 
+    \cdot \left(\widehat{V}_{i,t}^{\pi_{(t+1):T}}(a_t) - \widetilde{V}_{i,t}^{\pi_{(t+1):T}}(a_t)\right),
+\end{align*}
+where we suppose that $(\prod_{\ell = s}^{t-1}1\{ A_{i,\ell} = a_{\ell}\})/(\prod_{\ell = s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})) = 1$ when $s=t$. We denote $\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T}) = \widetilde{S}_{t:t}^{\underline{a}_{t:t}}(\pi_{t:t}^{a},\pi_{t:t}^{b},\pi_{(t+1):T})$.
+When $t=T$, we also denote $\widetilde{S}_{s:t}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) = \widetilde{S}_{s:T}^{\underline{a}_{s:T}}(\pi_{s:T}^{a},\pi_{s:T}^{b})$ where
+\begin{align*}
+    \widetilde{S}_{s:T}^{\underline{a}_{s:T}}(\pi_{s:T}^{a},\pi_{s:T}^{b}) \equiv \frac{1}{n}\sum_{i=1}^{n} G_{i,\pi_{s:T}^{a},\pi_{s:T}^{b}}^{\underline{a}_{s:T}}\cdot \left(\frac{\prod_{\ell = s}^{T-1}1\{ A_{i,\ell} = a_{\ell}\} }{\prod_{\ell = s}^{T-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell}) } \right) 
+    \cdot \left(\widehat{V}_{i,T}(a_T) - \widetilde{V}_{i,T}(a_T)\right).
+\end{align*}
+
+Note that
+\begin{align*}
+\sum_{a_{t} \in \MA_{t}}\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T}) =    \widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})
+\end{align*}
+holds from equation (\ref{eq:latter_expression_1}).
+Hence, regarding (\ref{eq:latter}), it follows that
+\begin{align}
+     &\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widehat{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T}) - \widetilde{\Delta}_{t}(\pi_{t}^{a},\pi_{(t+1):T};\pi_{t}^{b},\pi_{(t+1):T})| \nonumber \\
+     &\leq \sum_{a_{t} \in \MA_{t}} \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T})|. \label{eq:latter_bound}
+\end{align}
+
+Therefore, we can evaluate (\ref{eq:latter}) through evaluating $$\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T})|.$$
+
+
+\bigskip
+
+
+\begin{lemma} \label{lem:convergence_rate_Stilde}
+Suppose that Assumptions \ref{asm:sequential independence}, \ref{asm:bounded outcome}, \ref{asm:overlap}, \ref{asm:rate_of_convergence_backward}, and \ref{asm:bounded entropy} hold. 
+Then for any integers $s$ and $t$ such that $1\leq s \leq t < T$,
+\begin{align}
+        &\sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \nonumber \\
+        & \leq  O_{p}(n^{-\min\{1/2,\tau/2\}}) \notag \\
+        &+ \sum_{a_{t+1} \in \MA_{t+1}}\sup_{\pi_{(t+2):T} \in  \Pi_{(t+2):T}} \sup_{\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b}\in \Pi_{s:(t+1)}} \left| \widetilde{S}_{s:(t+1)}^{\underline{a}_{s:(t+1)}}(\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b},\pi_{(t+2):T})\right|. \label{eq:sequential_bound}
+\end{align}
+Moreover, for any integer $t$ such that $1 \leq t \leq T$,
+\begin{align}
+    &\sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| =  O_{p}(n^{-\min\{1/2,\tau/2\}}). \label{eq:final_term_convergence}
+\end{align}
+\end{lemma}
+
+\bigskip
+
+\begin{proof}
+
+We first consider the case that $t <T$. For any integers $s$ and $t$ such that $1\leq s\leq t < T$, define
+\begin{align}
+\widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i=1}^{n}
+G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}
+\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+&\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right) \nonumber\\
+&\times \left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right); \label{eq:Stilde_A} \\
+\widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+	&\times\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right) \nonumber \\
+ &\times \left(\frac{1\left\{ A_{i,t}=a_{t}\right\} }{\hat{e}_{t}^{-k(i)}\left(H_{i,t},a_{t}\right)}-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right); \label{eq:Stilde_B_1} \\
+\widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+&\times\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right) \notag \\ 
+&\times \left(\frac{1\left\{ A_{i,t}=a_{t}\right\} }{\hat{e}_{t}^{-k(i)}\left(H_{i,t},a_{t}\right)}-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right).\label{eq:Stilde_C}
+\end{align}
+Note that 
+\begin{align*}
+    &\widetilde{S}_{s:t}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) \\
+    &= \widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) 
+    + \widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})  
+    + \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) \\
+    &+ \frac{1}{n}\sum_{i=1}^{n} G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}} \left(\frac{\prod_{\ell = s}^{t}1\{ A_{i,\ell} = a_{\ell}\} }{\prod_{\ell = s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell}) } \right) \left(\widehat{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1})) - \widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))\right).
+\end{align*}
+Regarding the forth term in the above equation, it follows that
+\begin{align*}
+    \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} &\left| \frac{1}{n}\sum_{i=1}^{n} G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}  \left(\frac{\prod_{\ell = s}^{t}1\{ A_{i,\ell} = a_{\ell}\} }{\prod_{\ell = s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell}) } \right) \right.\\
+    &\left. \times\left(\widehat{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1})) - \widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))\right)\right| \\
+    \leq  \sum_{a_{t+1} \in \MA_{t+1}} &\sup_{\pi_{(t+2):T} \in  \Pi_{(t+2):T}} \sup_{\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b}\in \Pi_{s:(t+1)}} \left| \widetilde{S}_{s:(t+1)}^{\underline{a}_{s:(t+1)}}(\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b},\pi_{(t+2):T})\right|. \label{eq:Stilde_bound}
+\end{align*}
+Hence, we have 
+\begin{align}
+        &\sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \nonumber \\
+        & \leq  \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \nonumber \\
+        &+ \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \nonumber \\
+        &+ \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \nonumber \\
+        &+ \sum_{a_{t+1} \in \MA_{t+1}}\sup_{\pi_{(t+2):T} \in  \Pi_{(t+2):T}} \sup_{\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b}\in \Pi_{s:(t+1)}} \left| \widetilde{S}_{s:(t+1)}^{\underline{a}_{s:(t+1)}}(\pi_{s:(t+1)}^{a},\pi_{s:(t+1)}^{b},\pi_{(t+2):T})\right|. 
+\end{align}
+
+In what follows, we will prove the following:
+\begin{align}
+    \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| &= O_{P}\left(n^{-1/2}\right); \label{eq:S_tilde_A_bound}\\
+    \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| &= O_{P}\left(n^{-1/2}\right); \label{eq:S_tilde_B_bound}\\
+    \sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| &= O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right). \label{eq:S_tilde_C_bound}
+\end{align}
+Then we can obtain the result (\ref{eq:sequential_bound}) from equation (\ref{eq:Stilde_bound}).
+%We will prove the results for the case of $s < t$. The results for the case of $s=t$ follow from the same argument. Fix $s$ and $t$, $\underline{a}_{s:T} \in \underline{\MA}_{s:T}$, and $\pi_{s:T} \in \Pi_{s:T}$. 
+
+In what follows, without loss of generality, we suppose that $n>n_0$ where $n_0$ appears in Assumption \ref{asm:rate_of_convergence_backward}.
+We first consider $\widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$. We decompose $\widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ as follows:
+\begin{align*}
+    &\widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) = \widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}) + \widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T}),
+\end{align*}
+where
+\begin{align*}
+\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\\
+      &\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right);\\
+\widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right)\\
+ &\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right).
+\end{align*}
+For each fold $k$, define
+\begin{align*}
+\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i \in I_{k}}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\\
+      &\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)
+\end{align*}
+
+
+
+Fix $k \in \{1,\ldots,K\}$. We now consider $\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$. Since $\widehat{Q}_{t}^{\pi_{(t+1):T},-k}(\cdot,a_{t})$ is computed using the data in the rest $K-1$ folds, when the data $\MS_{-k} \equiv \{Z_i : i \notin I_{k}\}$ in the rest $K-1$ folds is conditioned,  $\widehat{Q}_{t}^{\pi_{(t+1):T},-k}(\cdot,\underline{a}_{t:T})$ is fixed; hence, $\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ is a sum of i.i.d. bounded random variables under Assumptions \ref{asm:bounded outcome}, \ref{asm:overlap}, and \ref{asm:rate_of_convergence_backward} (ii).
+
+It follows that 
+\begin{align*}
+&E\left[G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\cdot\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right) \right. \\ & \left. \times \left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)\middle| \MS_{-k}\right]\\
+=&	E\left[G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})} \cdot \left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\right. \\ 
+& \left. \times E\left[\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)\middle| H_{i,t}\right]\middle|\MS_{-k} \right]\\
+=&	E\left[G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})} \cdot \left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\right. \\ 
+& \left. \times \left(1-\frac{e_{t}\left(H_{i,t},a_{t}\right)}{e_{t}\left(H_{i,t},a_{t}\right)}\right)\middle|\MS_{-k} \right]\\
+=&	0.
+\end{align*}
+Hence, fixing $\pi_{(t+1):T}$, $\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|$ can be written as
+\begin{align*}
+     	&\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+&=	\frac{1}{K}\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\frac{1}{n/K}\sum_{i \in I_k }
+G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right.\\
+	&\times \left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right) \\
+	&-E\left[\frac{1}{n/K}\sum_{i \in I_k }G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\cdot\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right.\\
+	&\left.\left.\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)\middle|\MS_{-k} \right] \right|.
+\end{align*}
+
+By applying Lemma \ref{lem:concentration inequality_influence difference function} while fixing $\MS_{-k}$ and setting $i \in I_k$ and 
+\begin{align*}
+    \Gamma_{i}^{\dag}(\underline{a}_{s:t})= \frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right),
+\end{align*}
+the following holds: $\forall \delta > 0$, with probability at least $1-2\delta$,
+\begin{align*}
+&\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+&\leq	o\left(n^{-1/2}\right)+\left(54.4\kappa\left(\Pi_{s:t}\right)+435.2+\sqrt{2\log(1/\delta)}\right) \\
+	&\times\left[\sup_{\pi_{s:T}\in \Pi_{s:T}}E\left[\left(G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\right)^{2}\cdot\left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right)^{2}\right.\right.\\
+&	\left.\left.\left.\times\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^{2}\left(1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)^{2}\right|\MS_{-k} \right] \middle/ \left(\frac{n}{K}\right) \right]^{1/2} \\
+&\leq	o\left(n^{-1/2}\right)+\sqrt{K} \cdot \left(54.4\kappa\left(\Pi_{s:t}\right)+435.2+\sqrt{2\log(1/\delta)}\right)
+	\cdot \left(\frac{1}{\eta}\right)^{t-s+1}\\
+	&\times \sqrt{\frac{E\left[\left.\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^2\right|\MS_{-k} \right]}{n}},
+\end{align*}
+where the last inequality follows from $\left(G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\right)^{2}\leq 1$ a.s. and Assumption \ref{asm:overlap} (overlap condition). From Assumptions \ref{asm:bounded outcome} and \ref{asm:rate_of_convergence_backward} (ii), we have 
+\begin{align*}
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}E\left[\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^2\right]<\infty.
+\end{align*}
+Hence, Markov's inequality leads to
+\begin{align*}
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} E\left[\left.\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^2\right|\MS_{-k} \right] = O_p(1).
+\end{align*}
+Note also that $\kappa(\Pi_{s:t})<\infty$ according to Lemma \ref{lem:entropy_integral_bound}. Combining these results, we have
+\begin{align}
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| = O_p \left(\frac{1}{\sqrt{n}}\right). \label{eq:A1_convergence}
+\end{align}
+Consequently, 
+\begin{align*}
+    &\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \\
+    &\leq  \sum_{k=1}^{K}\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:T}^{a},\pi_{s:T}^{b}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| = O_p \left(\frac{1}{\sqrt{n}}\right).
+\end{align*}
+
+We next consider $\widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ (we will consider $\widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ later). We decompose $\widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ as follows:
+\begin{align*}
+    \widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})=\sum_{k=1}^{K}\left(\widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})+\widetilde{S}_{s:t,(B2)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right),
+\end{align*}
+where
+\begin{align*}
+    \widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i\in I_k}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\\
+    &\times \left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)};\\
+    \widetilde{S}_{s:t,(B2)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})& \equiv \frac{1}{n}\sum_{i \in I_k}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\\
+    &\times \left(\frac{\prod_{\ell=s}^{t}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t}e_{\ell}(H_{i,\ell},a_{\ell})}\right).
+\end{align*}
+Fix $k \in \{1,\ldots,K\}$. As for $  \widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$, taking the conditional expectation given the date $\MS_{-k}$ in the rest $k-1$ folds leads to 
+\begin{align}
+&E\left[ \widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\middle|\MS_{-k}\right] \nonumber \\
+ 	&=E\left[\frac{1}{n/K}\sum_{i \in I_k}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\right. \nonumber \\
+ 	&\left.\times\left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\middle|\MS_{-k}\right] \nonumber \\
+&=	E\left[\frac{1}{n/K}\sum_{i \in I_k}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}E\left[\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\middle|H_{i,t},A_{i,t}=a_{t}\right]\right. \nonumber \\
+&\left. \times \left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\middle|\MS_{-k}\right] \nonumber \\
+&=	E\left[\frac{1}{n/K}\sum_{i \in I_k}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)\right. \nonumber \\
+&\left.\times \left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\middle|\MS_{-k}\right] \nonumber \\
+&=	0, \nonumber
+\end{align}
+where the third equality follows from Lemma \ref{lemma:identification} in Appendix \ref{app:preliminary_results}. Note that conditional on $\MS_{-k}$, $\widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$ is a sum of i.i.d. bounded random variables under Assumptions \ref{asm:bounded outcome}, \ref{asm:overlap}, and \ref{asm:rate_of_convergence_backward} (ii), and its condition mean is zero.
+Hence, fixing $\pi_{(t+1):T}$ and conditioning on $\MS_{-k}$, we can apply Lemma \ref{lem:concentration inequality_influence difference function} with setting $i \in I_k$ and 
+\begin{align*}
+    \Gamma_{i}^{\dag}(\underline{a}_{s:t})&=	\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right) \\
+&\times \left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}
+\end{align*}
+to obtain the following: $\forall \delta > 0$, with probability at least $1-2\delta$,
+\begin{align*}
+    	&\sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \\
+&\leq	o\left(n^{-1/2}\right)+\left(54.4\kappa\left(\Pi_{s:t}\right)+435.2+\sqrt{2\log(1/\delta)}\right) \\
+&\times	\left[\sup_{\pi_{s:T}\in\Pi_{t:T}}E\left[\left(G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\right)^{2}\cdot\left(\widetilde{V}_{i,t+1}^{\pi_{(t+2):T}}(\pi_{t+1}(H_{i,t+1}))-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^{2}\right.\right.\\
+&\left.\left. \left(\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)^{2}\left(\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right)^{2}\middle| \MS_{-k} \right]\middle/ \left(\frac{n}{K}\right)\right]^{1/2} \\
+&\leq	\left(n^{-1/2}\right)+\sqrt{K}\cdot\left(54.4\kappa\left(\pi_{t:T}\right)+435.2+\sqrt{2\log(1/\delta)}\right)\cdot\left(\sum_{j=0}^{T-t}\frac{3M}{\eta^j}\right) \\
+&\times	\sqrt{\frac{E\left[\left(\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)^{2}\middle|\MS_{-k} \right]}{n}},
+\end{align*}
+where the last inequality follows from $\left(G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\right)^{2}\leq 1$ a.s. and Assumptions \ref{asm:bounded outcome} and \ref{asm:overlap}. From Assumptions \ref{asm:overlap} and \ref{asm:rate_of_convergence_backward} (ii), we have
+\begin{align*}
+    E\left[\left(\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)^{2}\right] < \infty.
+\end{align*}
+Hence, Markov's inequality leads to
+\begin{align*}
+    E\left[\left(\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k}(H_{i,\ell},a_{\ell})}\right)^{2}\middle|\MS_{-k} \right] = O_p(1).
+\end{align*}
+Note also that $\kappa(\Pi_{s:t})<\infty$ according to Lemma \ref{lem:entropy_integral_bound}. Combining these results, we have
+\begin{align}
+   \sup_{\pi_{(t+1):T}\in\Pi_{(t+1):T}}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| = O_p \left(\frac{1}{\sqrt{n}}\right).  \label{eq:B1_convergence}
+\end{align}
+By applying the same argument to derive (\ref{eq:B1_convergence}), we also obtain 
+\begin{align*}
+   \sup_{\pi_{(t+1):T}\in\Pi_{(t+1):T}}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B2)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| = O_p \left(\frac{1}{\sqrt{n}}\right).
+\end{align*}
+Consequently, 
+\begin{align*}
+    &\sup_{\pi_{(t+1):T}\in\Pi_{(t+1):T}}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+    &\leq  \sum_{k=1}^{K}\sup_{\pi_{(t+1):T}\in\Pi_{(t+1):T}}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B1)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\ 
+     &+ \sum_{k=1}^{K}\sup_{\pi_{(t+1):T}\in\Pi_{(t+1):T}}
+    \sup_{\pi_{s:t}^{a},\pi_{s:t}^{b}\in\Pi_{s:t}}\left|\widetilde{S}_{s:t,(B2)}^{\underline{a}_{s:t},k}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+    &= O_p \left(\frac{1}{\sqrt{n}}\right),
+\end{align*}
+which proves equation (\ref{eq:S_tilde_B_bound}).
+
+We next consider to bound $\sup_{\pi_{(t+1):T} \in  \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|$ from above. 
+It follows that 
+\begin{align*}
+&\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+	&=\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{s:t}^{a},\pi_{s:t}^{b}}^{\underline{a}_{s:t}}\frac{\prod_{\ell=s}^{t-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} 
+\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right) \right. \notag \\ 
+&\left. \times \left(\frac{1\left\{ A_{i,t}=a_{t}\right\} }{\hat{e}_{t}^{-k(i)}\left(H_{i,t},a_{t}\right)}-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right) \right| \\
+	&\leq\frac{1}{n}\sum_{i=1}^{n}\left|Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right| \\
+ &\times \left|\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{e_{t}\left(H_{i,t},a_{t}\right)\cdot\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}\right|\\
+	&\leq\frac{1}{n}\sum_{i=1}^{n}\left|Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right| \cdot \left|\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t}e_{\ell}(H_{i,\ell},a_{\ell})}\right|\\
+	&+\frac{1}{n}\sum_{i=1}^{n}\left|Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right| \\
+ &\times \left|\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right|\left(\frac{1}{e_t(H_{i,t},a_t)}\right)\\
+	&\leq\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}} \\
+ &\times \sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t}e_{\ell}(H_{i,\ell},a_{\ell})}\right)^{2}}\\
+	&+\left(\frac{1}{\eta}\right)\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}}\\ &\times \sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right)^{2}}
+\end{align*}
+where the last inequality follows from Cauchy-Schwartz inequality and Assumption \ref{asm:overlap} (overlap condition). Maximizing over $\Pi_{(t+1):T}$ and taking the expectation of both sides yields:
+\begin{align*}
+ & E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\right] \\
+ &\leq	E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}}\right. \\
+&	\left.\times\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}\left(H_{i,\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t}e_{\ell}\left(H_{i,\ell},a_{\ell}\right)}\right)^{2}}\right] \\
+& + \eta^{-1}E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}}\right. \\
+&	\left.\times\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}\left(H_{i,\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}\left(H_{i,\ell},a_{\ell}\right)}\right)^{2}}\right] \\
+ &\leq	\sqrt{\frac{1}{n}\sum_{i=1}^{n}E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}\right]} \\
+&	\times\sqrt{\frac{1}{n}\sum_{i=1}^{n}E\left[\left(\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k(i)}\left(H_{i,\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t}e_{\ell}\left(H_{i,\ell},a_{\ell}\right)}\right)^{2}\right]} \\
+&+ \eta^{-1}\sqrt{\frac{1}{n}\sum_{i=1}^{n}E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)\right)^{2}\right]} \\
+&	\times\sqrt{\frac{1}{n}\sum_{i=1}^{n}E\left[\left(\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}\left(H_{i,\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}\left(H_{i,\ell},a_{\ell}\right)}\right)^{2}\right]} \\
+&= \sum_{k=1}^{K}	\sqrt{E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{i,t},a_{t}\right)\right)^{2}\right]} \\
+&	\times\sqrt{E\left[\left(\frac{1}{\prod_{\ell=s}^{t}\hat{e}_{\ell}^{-k}\left(H_{\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t}e_{\ell}\left(H_{\ell},a_{\ell}\right)}\right)^{2}\right]} \\
+&+ \eta^{-1}\sum_{k=1}^{K}\sqrt{E\left[\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\left(Q_{t}^{\pi_{(t+1):T}}\left(H_{t},a_{t}\right)-\widehat{Q}_{t}^{\pi_{(t+1):T},-k}\left(H_{t},a_{t}\right)\right)^{2}\right]} \\
+&	\times\sqrt{E\left[\left(\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}\left(H_{\ell},a_{\ell}\right)}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}\left(H_{\ell},a_{\ell}\right)}\right)^{2}\right]} \\
+ &=	O\left(n^{-\tau/2}\right),
+\end{align*}
+where the second inequality follows from Cauchy-Schwartz inequality and the last line follows from Assumption \ref{asm:rate_of_convergence_backward} (i). Then applying Markov's inequality leads to
+\begin{align}
+   \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(C)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| &= O_{P}\left(n^{-\tau/2}\right), \label{eq:S_C_convergence}
+\end{align}
+which proves equation (\ref{eq:S_tilde_C_bound}).
+
+Now let us consider $\widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})$. Note that 
+\begin{align*}
+    	&\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}}\left|\widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right|\\
+    	&\leq\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\frac{1}{n}\sum_{i=1}^{n}\left|\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right|\\
+     &\times\left|\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right|
+    	\cdot \left|1-\frac{1\left\{ A_{i,t}=a_{t}\right\} }{e_{t}\left(H_{i,t},a_{t}\right)}\right|\\
+	&\leq\left(\frac{1}{\eta}\right)\sqrt{\frac{1}{n}\sum_{i=1}^{n}\left(\frac{1}{\prod_{\ell=s}^{t-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})}-\frac{1}{\prod_{\ell=s}^{t-1}e_{\ell}(H_{i,\ell},a_{\ell})}\right)^{2}}\\
+	&\times \sqrt{\frac{1}{n}\sum_{i=1}^{n}\sup_{\pi_{(t+1):T}\in \Pi_{(t+1):T}}\left(\widehat{Q}_{t}^{\pi_{(t+1):T},-k(i)}\left(H_{i,t},a_{t}\right)-Q_{t}^{\pi_{(t+1):T}}\left(H_{i,t},a_{t}\right)\right)^{2}},
+\end{align*}
+where the last inequality follows from Assumption \ref{asm:overlap} (overlap condition) and Cauchy-Schwartz inequality. Then, by applying the same argument to derive (\ref{eq:S_C_convergence}), we obtain
+\begin{align*}
+    \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| &= O_{P}\left(n^{-\tau/2}\right).
+\end{align*}
+ Combining this result with (\ref{eq:A1_convergence}), we obtain 
+ \begin{align*}
+     &\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}}\sup_{\pi_{s:t}^{a},\pi_{s:t}^{a}\in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A)}^{\underline{a}_{s:t}}(\pi_{s:t}^{a},\pi_{s:t}^{b},\pi_{(t+1):T})\right| \\
+     &\leq \sum_{k=1}^{K} \sup_{\pi_{s:t}^a , \pi_{s:t}^b \in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A1)}^{\underline{a}_{s:t},k}\left(\pi_{s:t}\right)\right| 
+     + \sup_{\pi_{s:t}^a , \pi_{s:t}^b \in \Pi_{s:t}} \left| \widetilde{S}_{s:t,(A2)}^{\underline{a}_{s:t}}\left(\pi_{s:t}\right)\right| \\
+     &= O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right).
+ \end{align*}
+ This proves equation (\ref{eq:S_tilde_A_bound}). 
+
+Consequently, combining equations (\ref{eq:Stilde_bound})--(\ref{eq:S_tilde_C_bound}), we obtain the result (\ref{eq:sequential_bound}).
+
+
+We next consider the case that $t=T$. In this case, $\widetilde{S}_{t:T}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})$ is decomposed as
+\begin{align*}
+    &\widetilde{S}_{t:T}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b}) = \widetilde{S}_{t:T,(A)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b}) 
+    + \widetilde{S}_{t:T,(B)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})  
+    + \widetilde{S}_{t:T,(C)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b}),
+\end{align*}
+where 
+\begin{align*}
+\widetilde{S}_{t:T,(A)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})& \equiv \frac{1}{n}\sum_{i=1}^{n}
+G_{i,\pi_{t:T}^{a},\pi_{t:T}^{b}}^{\underline{a}_{t:T}}
+\frac{\prod_{\ell=s}^{T-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{T-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+&\times\left(\widehat{Q}_{T}^{-k(i)}\left(H_{i,T},a_{T}\right)-Q_{T}\left(H_{i,T},a_{T}\right)\right) \left(1-\frac{1\left\{ A_{i,T}=a_{T}\right\} }{e_{T}\left(H_{i,T},a_{T}\right)}\right); \ \\
+\widetilde{S}_{t:T,(B)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{t:T}^{a},\pi_{t:T}^{b}}^{\underline{a}_{t:T}}\frac{\prod_{\ell=s}^{T-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{T-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+	&\times\left(Y_{i,T}-Q_{T}\left(H_{i,T},a_{T}\right)\right)  \left(\frac{1\left\{ A_{i,T}=a_{T}\right\} }{\hat{e}_{T}^{-k(i)}\left(H_{i,T},a_{T}\right)}-\frac{1\left\{ A_{i,T}=a_{T}\right\} }{e_{T}\left(H_{i,T},a_{T}\right)}\right);  \\
+\widetilde{S}_{t:T,(C)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})& \equiv \frac{1}{n}\sum_{i=1}^{n}G_{i,\pi_{t:T}^{a},\pi_{t:T}^{b}}^{\underline{a}_{t:T}}\frac{\prod_{\ell=s}^{T-1}1\{A_{i,\ell}=a_{\ell}\}}{\prod_{\ell=s}^{T-1}\hat{e}_{\ell}^{-k(i)}(H_{i,\ell},a_{\ell})} \nonumber \\
+&\times\left(Q_{T}\left(H_{i,T},a_{T}\right)-\widehat{Q}_{T}^{-k(i)}\left(H_{i,T},a_{T}\right)\right) 
+\left(\frac{1\left\{ A_{i,T}=a_{T}\right\} }{\hat{e}_{T}^{-k(i)}\left(H_{i,T},a_{T}\right)}-\frac{1\left\{ A_{i,T}=a_{T}\right\} }{e_{T}\left(H_{i,T},a_{T}\right)}\right).
+\end{align*}
+
+By the same arguments to derive the results (\ref{eq:S_tilde_A_bound})--(\ref{eq:S_tilde_C_bound}), we can show that
+\begin{align*}
+    \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(A)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| &= O_{P}\left(n^{-1/2}\right); \\
+    \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(B)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| &= O_{P}\left(n^{-1/2}\right); \\
+    \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(C)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| &= O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right). 
+\end{align*}
+Therefore, 
+\begin{align*}
+    &\sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| \\
+    &\leq \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(A)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| 
+    + \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(B)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| \\
+    &+ \sup_{\pi_{t:T}^{a},\pi_{t:T}^{a}\in \Pi_{t:T}} \left| \widetilde{S}_{t:T,(C)}^{\underline{a}_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})\right| \\
+    &= O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right), 
+\end{align*}
+which leads to the result (\ref{eq:final_term_convergence}).
+\end{proof}
+
+We finally presents the proof of Lemma \ref{lem:asymptotic_estimated_policy_difference_function}.
+\bigskip
+
+\noindent
+\textit{Proof of  Lemma \ref{lem:asymptotic_estimated_policy_difference_function}.}
+From equation (\ref{eq:latter_bound}), it suffices to show that 
+\begin{align}
+    \sum_{a_{t} \in \MA_{t}} \sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T})| = O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right). \label{eq:S_tilde_t_convergence}
+\end{align}
+Applying the result (\ref{eq:sequential_bound}) in Lemma \ref{lem:convergence_rate_Stilde} sequentially to the right hand side of the above equation leads to
+\begin{align*}
+    \sum_{a_{t} \in \MA_{t}}\sup_{\pi_{(t+1):T} \in \Pi_{(t+1):T}} \sup_{\pi_{t}^{a},\pi_{t}^{b} \in \Pi_{t}} |\widetilde{S}_{t}^{a_{t}}(\pi_{t}^{a},\pi_{t}^{b},\pi_{(t+1):T})| &\leq O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right) \\
+    &+ \sum_{\underline{a}_{t:T} \in \underline{\MA}_{t:T}}\sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}} |\widetilde{S}_{t:T}^{a_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})|.
+\end{align*}
+The result (\ref{eq:final_term_convergence}) in Lemma \ref{lem:convergence_rate_Stilde} shows that $$\sup_{\pi_{t:T}^{a},\pi_{t:T}^{b} \in \Pi_{t:T}} |\widetilde{S}_{t:T}^{a_{t:T}}(\pi_{t:T}^{a},\pi_{t:T}^{b})| = O_{P}\left(n^{-\min\{1/2,\tau/2\}}\right).$$
+Therefore, the result (\ref{eq:S_tilde_t_convergence}) holds, which eventually shows the results in Lemma \ref{lem:asymptotic_estimated_policy_difference_function}.\\
+\rightline{\large $\Box$}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bigskip
+
+\bibliographystyle{ecta}
+\bibliography{ref_DTR,ref_surrogate_loss}
+
+
+\end{document}

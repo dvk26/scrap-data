@@ -1,0 +1,2413 @@
+%\documentclass[12pt]{article}
+\pdfoutput=1
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+% Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
+
+
+
+
+%\usepackage{aistats2023}
+% If your paper is accepted, change the options for the package
+% aistats2023 as follows:
+%
+%\usepackage[accepted]{aistats2023}
+%
+% This option will print headings for the title of your paper and
+% headings for the authors names, plus a copyright note at the end of
+% the first column of the first page.
+
+% If you set papersize explicitly, activate the following three lines:
+%\special{papersize = 8.5in, 11in}
+%\setlength{\pdfpageheight}{11in}
+%\setlength{\pdfpagewidth}{8.5in}
+
+% If you use natbib package, activate the following three lines:
+%\usepackage[round]{natbib}
+%\renewcommand{\bibname}{References}
+%\renewcommand{\bibsection}{\subsubsection*{\bibname}}
+
+% If you use BibTeX in apalike style, activate the following line:
+%\bibliographystyle{apalike}
+\usepackage{graphicx,psfrag,epsf}
+\usepackage{enumerate}
+%\usepackage{natbib}
+\usepackage{bm}
+\usepackage{dutchcal}
+\usepackage{soul}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+%\usepackage{subfigure}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+
+%\usepackage{chapterbib}	
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bmu}{\overline{\mu}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bPsi}{\mathbf{\Psi}}
+\newcommand{\bTheta}{\mathbf{\Theta}}
+\newcommand{\bbE}{\mathbb{E}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bG}{\mathbf{G}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\ti}{\Tilde{i}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+
+\newcommand{\chen}[1]{{\color{green}{\bf{Chen says:}} \emph{#1}}}
+\newcommand{\red}[1]{{\color{red}{#1}}}
+\newcommand{\blue}[1]{{\color{blue}{#1}}}
+\newcommand{\yellow}[1]{{\color{yellow}{#1}}}
+
+%\newcommand{\blind}{0}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}} 
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
+
+\begin{document}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Functional-Edged Network Modeling}
+\author{Haijie Xu$^{1}$,  Chen Zhang$^{1}$
+\thanks{$^{1}$Tsinghua University, Beijing, China}}
+
+
+\maketitle
+
+\begin{abstract}
+Contrasts with existing works which all consider nodes as functions and use edges to represent the relationships between different functions. We target at network modeling whose edges are functional data and transform the adjacency matrix into a functional adjacency tensor, introducing an additional dimension dedicated to function representation.
+Tucker functional decomposition is used for the functional adjacency tensor, and 
+to further consider the community between nodes, we regularize the basis matrices to be symmetrical. Furthermore, to deal with irregular observations of the functional edges, we conduct model inference to solve a tensor completion problem. It is optimized by a Riemann conjugate gradient descent method. Besides these, we also derive several theorems to show the desirable properties of the functional edged network model. Finally, we evaluate the efficacy of our proposed model using simulation data and real metro system data from Hong Kong and Singapore.
+\end{abstract}
+
+%\noindent%
+%{\it Keywords:} 
+\begin{IEEEkeywords}
+    Functional tensor, Network modeling, Tucker decomposition, Community detection, Riemann optimization
+\end{IEEEkeywords}
+%\vfill
+
+
+%\spacingset{1.45} 
+%\spacingset{1.47}% DON'T change the spacing!
+
+
+\section{INTRODUCTION}
+\label{sec:intro}
+%Many real-world applications generate data representing pairwise interactions between entities, which can naturally be interpreted as the nodes and weighted edges of a network. 
+Numerous real-world applications produce data that signify interactions between pairs of entities, lending themselves to a natural interpretation as nodes and weighted edges in a network. For instance, in social platforms, individual users can be represented as nodes, with the communication between two users being depicted as edges. In the Internet of Things (IoT), each device can be considered as a node, while the data transmission between two devices can be represented as an edge. 
+%In the manufacturing industry, machines can be viewed as nodes, and the transportation of parts or materials between two machines can be captured as edges. 
+In urban transportation, each station can be represented as a node, and the passenger flow between stations can be regarded as an edge.
+%Graph data pervades numerous domains, highlighting the pressing need for efficient statistical modeling techniques in this field.
+
+Though many works have been developed for network modeling, they all focus on scalar or vector edges.  In practice, many scenarios involve edges that take on the form of functions within a particular range or domain.  For example, in IoT, signal transmissions between devices are often transformed into the frequency domain, resulting in the formulation of spectral densities. In transportation, the real-time passenger flow between different stations can be continuously observed and formulate a function over time for each day. As illustrated in the left part of Figure \ref{fig:HongKong example}, it shows the passenger flows between four different metro stations in Hong Kong. %\chen{revise figure 1, give node name, change data as real passenger flows, but make the data irregularly observed, like Figure 1 in Qiao 2020's paper}
+
+In practice, one approach to address network data with functional edges would be to first sample each function at a grid of points, $t_{1}, \ldots, t_{L}$ and estimate $L$ networks. This could be achieved by separately modeling $L$ networks using existing methods, such as graph embedding \cite{ou2016asymmetric,goyal2018graph,gallagher2023spectral}. For example, matrix factorization-based embedding computes the decomposition of the graph adjacency matrix. To further consider the network dependence between different points, dynamic network models \cite{kazemi2020representation} can be applied as well. 
+However, a significant drawback common to these approaches is their requirement that all random functions be sampled at a uniform set of grid points. In practical scenarios, observations of curves often occur at different sets of points, i.e. irregular points, which can hinder the effectiveness of these methods.
+%However, these approaches all share one major deficiency, which is that they will only work if all random functions are sampled at a common set of grid points, whereas in practice curves are often observed at different sets of points, i.e., irregularly observed. 
+Another approach is to use nonparametric smoothing to estimate the functional edges first, and then make slices on regular observation points. However, this smoothing only utilizes data of the same function, potentially overlooking the influence between different edges based on the network structure. This paper takes a different approach by directly treating functional edges as a three-dimensional functional tensor, where the third dimension represents continuous functions defined on a specific domain. We propose a novel functional tensor decomposition for modeling.  
+
+%these functions can be observed at either a dense grid of points or a small subset of possible points. As such, one approach to address t
+
+%The function may even be irregularly observed.
+%Most of current methods assume the weights of all the edges are observed at regularly spaced discrete time points, and use dynamic graphical models \cite{DynNet_BayesTime, DynNet_BayesInOut}. This assumption, however, is often unsatisfactory when the observation points are irregular, or 
+%Furthermore, the data acquisition frequencies and positions for different edges may be different, which makes the observations of different edges irregular in the time space. 
+%As Figure \ref{fig:obs} shows, the left is the regularly sampled edges over the domain, while the right is the irregularly ovserbed edges. 
+%the setting of time-homogeneous observation is the observation time of each edge are same but the setting of irregular observation is more flexible, the observation time, even the number of observation points can be different for each edge.  
+%For the irregular observed cases, it is more suitable to regard the dynamic weight over time as a continuous function and the observations are sampled from the function at certain discrete time points, which can be irregularly spaced or even with different sampling frequencies for different edges. In this way, we can observe or infer the edge value at any time with flexibility. 
+
+%However, irregular observed functional edges also bring new challenges for modeling. For traditional networks, we usually use the two-dimensional adjacency matrix to describe the network structure. Yet in the functional-edged network, the network structure can be regarded as a three-dimensional functional tensor, where the third dimension is continuous functions defined on a specific domain. 
+%One crucial aspect to consider is that even a single function within a network constitutes high-dimensional data. In a network comprising $m$ nodes, there exists a total of $m(m-1)$ edges, resulting in extremely high-dimensional data. Consequently, it becomes imperative to employ efficient dimension reduction approaches for effective modeling.
+\iffalse
+\begin{figure}
+  \centering
+  \subfigure[Regular observation]
+    {\includegraphics[width=0.3\linewidth]{HongKong_ireg.png}}\label{fig:obs-a}}
+    
+  \subfigure[Irregular observation]
+    {\includegraphics[width=0.3\linewidth]{community2.png}}\label{fig:obs-b}}
+  \caption{Different missing data setting}
+  \label{fig:obs}
+\end{figure}
+\fi
+
+\iffalse
+\begin{figure}
+  \centering
+  \subfigure[Passenger flow function (pink line) and its irregular observation (black dots)]
+    {\includegraphics[width=0.45\linewidth]{HongKong_ireg.png}\label{fig:HongKongireg}}
+  \subfigure[Community structure]
+    {\includegraphics[width=0.45\linewidth]{community2.png}\label{fig:community}}
+  \caption{Passenger flow of Hong Kong metro station and community structure}
+  %\label{fig:miss}
+\end{figure}
+
+\fi
+
+\begin{figure*}
+  \centering
+  \includegraphics[width = 0.9\linewidth]{example_HongKong.png}
+  \caption{
+  Partial passenger flow and community structure of Hong Kong metro system. Left: Passenger flow function (pink line) and its irregular observations (black dots) between four stations shown in the right pink box. Right: Four main communities of the Hong Kong metro system: traffic hub (TrH), central business zone (CBZ),  general residential zone (GRZ) and mixed residential-business zone (mRBZ).
+    }
+  \label{fig:HongKong example}
+\end{figure*}
+Furthermore, many large-scale networks exhibit a community structure, characterized by clusters of nodes where edges within each community are dense, while edges connecting different communities are sparse. The community structure of Hong Kong metro system is shown in the right part of  Figure \ref{fig:HongKong example}. Community detection is commonly integrated into network modeling \cite{zhong2015measuring, xu2016network}. Discovering the underlying community structure not only facilitates improving data analysis techniques such as clustering but also allows for a better understanding of the network's overall structure, thereby enhancing the model's interpretability.
+
+%The community structure is the topological structure which cluster nodes into different groups. We call these groups as communities and this relationship is more likely to be based on a certain possibility, rather than deterministic. Our primary focus lies in determining the possibility of each node belonging to a specific community and capturing the weight function between communities. By leveraging the community structure, we can effectively reduce the dimensionality of our model and enhance spatial interpretability. Discovering the underlying community structure not only facilitates improved data analysis techniques such as clustering but also enables early detection and response to network changes. Furthermore, identifying the community structure allows for a better understanding of the network's overall structure, thereby enhancing the interpretability of our model.   The community structure has been used in many researches of transport system \cite{zhong2015measuring, xu2016network}. So we need to find the most reasonable structure to do the modeling.
+\iffalse
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.6\linewidth]{community2.png}
+  \caption{Community structure }
+  \label{fig:community}
+\end{figure}
+\fi
+Though there are emerging works for functional network modeling, all of them treat node data as functions, and the probabilistic edges describe the dependence structure of nodes. So far to our best knowledge, there is no work dealing with functional-edged network. To fill this research gap, we proposed a so-called Functional Edged Network (FEN) model based on a novel functional Tucker decomposition, which can on the one hand extract features for high-dimensional adjacency functional tensor with irregular observation points, and on the other can describe the community structure of the network by symmetrical decomposition.
+To efficiently estimate the FEN model, we propose a Riemann conjugate gradient descent optimization approach. Furthermore, we also discuss the theoretical properties of the FEN model.
+%In particular, our FEN model has the following contributions: 1) we extract the community information in the adjacency functional tensor with symmetrical matrix factorization; 2) we conduct functional decomposition to extract smooth dynamic patterns of the community structure; 3) we can deal with irregularly sampled data shown in Figure \ref{fig:obs} ; 4) we propose an efficient model estimation algorithm with Riemann conjugate gradient descent optimization approach. 
+
+The remainder of this paper is organized as follows. Section \ref{sec:literature} reviews the literature on related topics to our problem. Section \ref{sec:model} describes our specific problem formulation and gives its theoretical properties. Section \ref{sec:optimization} introduces our model estimation algorithm in detail. %Section \ref{sec:theorem} presents some theorems of our model. 
+Section \ref{sec:simulation} presents thorough numerical studies based on simulated data. Section \ref{sec:case} applies our proposed FEN to the real-world case study to further illustrate its efficacy and applicability. Some conclusive remarks are given in Section \ref{sec:conlusion}.
+
+\section{LITERATURE REVIEW}
+\label{sec:literature}
+
+\subsection{High Dimensional Functional Data Modeling}
+If we neglect the spatial structure of the network, we can regard the $m(m-1)$ functional edges as multivariate functions. In such cases, modeling methods based on principal component analysis (PCA) are commonly employed.
+
+In particular, for functional data with regular observation points, traditional PCA can be revised and applied for modeling. Specifically, \cite{VPCA} proposed a vectorized PCA (VPCA) algorithm by combining multiple functions into one long function data, and using classical PCA for decomposition. However, this brute vectorization neglects the correlation between different functions and hence loses a lot of estimation accuracy. An alternative method is presented by \cite{MFPCA}, known as multivariate functional PCA (MFPCA). This approach regarded these multiple functions as the different samples of one function and combined them as a function matrix to do PCA. Following it, \cite{FPCA_ZC} further assumed its functional scores are sparse, and could better deal with high-dimensional functions with diverse features. Besides these, there are also many other functional PCA (FPCA) methods that can describe specific data features. For instance, \cite{foutz2010research} smoothed the functional data before applying the FPCA to get the smooth functional shape. \cite{bali2011robust} adapted the projection-pursuit approach to the functional data setting to achieve the robust estimator for functional PCA. However, all of the above methods cannot be directly applied to irregularly observed functional data, unless some data alignment algorithms are preprocessed. Furthermore, these methods do not address the smoothness property of functional data as well. 
+ 
+ To deal with irregularly observed functional data, \cite{SIFPCA} proposed a sparse irregular FPCA (SIFPCA)  based on kernel smoothing algorithm to estimate the covariance function with sparsely observed functions. Then conditional expectation algorithm is used to estimate the FPCA score. Later, \cite{SIFPCAImproved} further extended it to more strict settings, where observation points are not required to be fixed but can be treated as random variables with a given distribution. Besides these methods, the mixed effect model is also used to estimate the sparse FPCA \cite{rice2001nonparametric}, but there is a problem that the high-dimensional covariance matrix may be numerically unstable \cite{FPCAReview}. To solve this problem, \cite{james2000principal} and \cite{james2003clustering} proposed the reduced rank model that avoided the above potential problems of the mixed effects model. Then \cite{zhou2008joint} used penalized splines to model the principal components of FPCA, cast the model into the mixed effect model and extended it for two-dimensional sparse irregular cases.
+
+However,  all these methods can neither address network community structure nor be directly used for functional-edged network modeling.
+%\st{Through the investigation of FPCA, it is found that although many theoretical frameworks about FPCA have proposed the estimation of sparse or irregulars observation data in recent years, few of them have been put into practice in application scenarios. In the functional network model we studied, irregular FPCA was not used to express the model before and they also ignore the spatial structure of the network which needs us to improve. }
+
+\subsection{Functional Network Analysis}
+%\chen{cannot understand this section. need rewrite. what does functional change? functional structure changes? cannot uderstand different types of methods }
+%Functional graphical model is attracting emerging research attention in recent years \cite{DynNet_MLEBasic,DynNet_DoubleFun,DynNet_BayesEdge}. All the current works consider that it is the node data that are functions, while the edges are ``probabilistic edges'' representing the relationships between different functions. The goal is to estimate the edges accurately. 
+Functional graphical models have garnered increasing research attention in recent years, as evidenced by works such as \cite{DynNet_MLEBasic, DynNet_DoubleFun, DynNet_BayesEdge}. These studies share a common approach, considering the node data as functions, while the edges are conceptualized as "probabilistic edges", symbolizing the relationships between different functions. The primary objective is to achieve accurate estimation of these edges.
+
+%As the nodes are all functions, these related edges are also should change over time. 
+%For a specific time point of the functional network, 
+%There are many methods to estimate these "probabilistic edges" 
+Among different methods, the traditional Gaussian graphical model  \cite{chun2013joint,danaher2014joint} is the most popular one. Initially,\cite{DynNet_MLEBasic} treats an edge as a partial cross-correlation function between nodes. It first conducted FPCA on the data, and then calculated the precision matrix of PC scores of different nodes, as the adjacency matrix. 
+Considering the edges are sparse, it assumes the probabilistic edge is fixed. Building upon this foundation, \cite{DynNet_DoubleFun} took a further step by considering that the probabilistic edges can also be functions, introducing the concept of the doubly functional graphical model. \cite{tsai2023latent} also considered functional data from multiple modes to be multimodal. It decomposes the multimodal data into different spaces and assumes the decomposition coefficients formulate a Gaussian graphical model. These above models assume Gaussian distribution on functional data. Besides, several nonparametric models are also proposed. \cite{li2018nonparametric} proposed a nonparametric graphical model based on the additive conditional dependence, while \cite{solea2022nonparametric} introduced an additive function-on-function regression model to describe the nonparametric partial correlation among different nodes. 
+%For the functional network which needs to consider all the time point but only some specific moments, \cite{DynNet_MLEBasic} proposed a new methods to estimate the "probabilistic edges" , but they only use a static model to describe the network which means that they only consider whether there is an edge between two nodes but not try to describe the  the change of the functional edge.
+%To improve it, \cite{DynNet_DoubleFun} proposed the doubly functional graphical model which can estimate the precision matrix at any time point in the domain. In this way, they can describe the change of the functional edge over time at any given moment.
+
+
+If all the functional edges are regularly observed at equally spaced grids, we can treat them as dynamic networks, for which many models have been proposed such as stochastic block model \cite{matias2017statistical}, exponential random graph model \cite{lee2020model}, latent factor model \cite{MTR}, latent feature relational model \cite{heaukulani2013dynamic} and latent space model (LSM) \cite{sewell2017latent}. Here we would like to address LSM, originally proposed by \cite{hoff2002latent}.
+The core concept behind LSM lies in assigning each actor a vector in a low-dimensional latent space. The pairwise distances between these vectors, calculated using a specified similarity measure, determine the probabilities of connections within the network. LSM interprets these latent features as unmeasured characteristics of nodes, implying that nodes closer together in the latent space are more likely to establish connections. 
+This interpretation naturally explains the presence of high levels of homophily and transitivity observed in real-world networks. Additionally, LSM can effectively capture and describe the community structure within the network by regarding each latent state as a community and estimating the likelihood of nodes belonging to each community.
+%In particular, \cite{hoff2002latent} introduced dynamic multi-layer network based on a general multilinear tensor regression model and analyzed longitudinal multivariate relational data. Tensor-based method to solve the multi-layer dynamic network can provide a good property of decomposition and reduce the information loss from observations to latent variables. 
+
+
+In particular, \cite{sewell2017latent} introduced a community detection method within dynamic network data by LSM, by assuming the latent position of each node follows a Gaussian mixture model whose distribution can dynamically change over time. Recently, \cite{loyal2023eigenmodel} further proposed an LSM for the multilayer dynamic network, where a symmetric tri-matrix decomposition is developed to capture different community structures in different layers. 
+%to identify the common time-varying structures, layer-wise variation and degree heterogeneity. In the artificial decomposition method, the meaning of each latent variables is clear and associate to the information which easy to understand.
+%building upon the distance and projection. The method can determine what communities exist in the network, which actors belong to these communities and how these actors change communities over time.  
+Similarly, \cite{robinson2012detecting} proposed a method of discovering change points in network behavior via using a k-dimensional simplex latent space. The above methods build community structure well through LSM which can be considered in our model.
+%Since algorithms based on LSM \cite{sewell2017latent,DynNet_BayesTime} are built by the Bayes framework, the variational inference proposed by \cite{DynNet_BayesSpeed} is very important.  Because they proved that it is faster than the traditional MCMC estimation method. 
+%Besides all of this, \cite{MLDS} also improved the  traditionallinear dynamic system model (LDS), proposes multi-linear dynamic system model (MLDS) to model the time series tensor which is similar to our model setting. 
+
+
+As previously mentioned, all the methods discussed above are graphical models, wherein nodes contain data, and edges represent "probabilistic" conditional dependencies between nodes.
+%To the best of our knowledge, the only work that has ventured into considering graphs with edges as functional data is \cite{zhang2023multi}.
+%However, as mentioned earlier, all the above methods are graphical models, which it is the nodes that have data and the edges represent ``probabilistic'' conditional dependence of different nodes. So far to our best knowledge, the only work considering graphs with edges as functional data is \cite{zhang2023multi}, which 
+%They proposed a two-step method for network community detection. It first conducted MFPCA on each edge and then used the extracted PC scores as edges to build a multi-layer network, for which a tri-matrix nonnegative matrix factorization is used for community detection. 
+In summary, although the goals of existing works are different from our paper, their modeling methods shed light upon our model. 
+
+%for the dynamic network model, but the problem is that most of the research methods, except \cite{zhang2023multi}, are for the "probability edge", which means they only think the node set is real, with the probability of the existence of the matrix to represent the edge precision, so for edge set, there is not a direct estimation.
+%\cite{zhang2023multi} directly treated the edges of the network as different functions that can be expressed by a linear combination of different extracted patterns, but they assumed the combination coefficients are non-negative which is too strong for our model.In our method, we prefer to directly estimate the edge set. Although the focus is not exactly the same, the estimation methods used in the above articles still have great reference significance for our model.
+
+\subsection{Tensor Analysis For Networks}
+%\chen{rewirte this section, only introduce network models based on tensor analysis or decomposition}
+For cases when all the functional edges are regularly obs at equally spaced grids, another way is to stack the adjacency matrices of all the sampling points as an adjacency tensor.  Subsequently, tensor decomposition algorithms, such as CANDECOMP/PARAFAC (CP) decomposition, tucker decomposition, etc, can be employed for modeling \cite{kazemi2020representation}. For extrapolation, 
+\cite{papalexakis2012parcube} proposed a CP decomposition that introduced a non-negativity constraint to enhance interpretability. The decomposition results were used to find the most active nodes or time points. \cite{xiong2010temporal} proposed a probabilistic CP factorization. It also imposed a smoothness prior to the temporal vectors corresponding to using time as a regularizer. Additionally, \cite{yu2017link} presented another way of incorporating temporal dependencies into the embeddings with decomposition methods. It decomposed the adjacency matrices into both time-invariant and time-variant components and regularized the time-variant components to be projected onto feature space that ensures neighboring nodes have similar feature vectors.
+
+
+%In particular, \cite{papalexakis2012parcube} modeled the number of emails between employees in a period of time as a three-dimensional tensor and then used CP decomposition to do the analysis. A non-negativity constraint on the decomposition results is also added to increase interpretability. The decomposition results is used to find the most active employee or the most active time point.
+%The similar idea are also used in the Tucker decomposition\cite{sun2008incremental}, for each basis matrix of the decomposition results, the maximum absolute values of some column corresponded to the most relevant dimensions of some nodes of the network. Of course, all these methods can be used for the tensor completion task in our problem, but we may lose a lot of estimation accuracy because the third dimension of our adjacency matrix includes continuous smooth functions, which may be impossible to be accuratly estimated by the above tensor decomposition methods.
+
+%like Tucker decomposition\cite{tucker1966some}, CANDECOMP/PARAFAC (CP) decomposition \cite{hitchcock1927expression}, tensor train \cite{TensorTrain}, tensor ring \cite{zhao2016tensor}, tensor network \cite{TensorNetwork}, etc. There are also other algorithms that improve the traditional Tucker decomposition methods. For example, \cite{TuckerDecNonnegetive} requires the tensor to be non-negative. \cite{TuckerDecSparse} thinks the core of Tucker decomposition is sparse.
+
+%By leveraging prior knowledge, they employ the Bayes algorithm to compute the Tucker decomposition of the tensor. This approach allows for the effective utilization of existing knowledge about the system being estimated prior to observation. 
+
+In addition to the mentioned methods, several genetic tensor decomposition and completion techniques consider the incorporation of smoothing constraints. In particular, \cite{2DContinueDecomposition} proposed a decomposition algorithm for matrix decomposition, the two-dimensional tensor,  where one dimension represents continuous time. Similar to CP decomposition in tensors, this paper used two fixed basis sets, one is discrete and the other is continuous. Additionally,  \cite{CPDecSmooth} considered ``smoothness'' constraints as well as low-rank approximations and proposed an efficient algorithm for performing tensor completion that is particularly powerful regarding visual data.
+Furthermore, \cite{han2023guaranteed} used the Reproducing Kernel Hilbert Space (RKHS) theory to deal with the smoothness of tensor. It proposed a functional CP decomposition method, where the basis functions of the continuous dimension belong to the RKHS. However, it did not consider the completion problem under irregular observations.
+Meanwhile, \cite{wang2014low} proposed a novel spatially-temporally consistent tensor completion method for recovering the video missing data. This approach introduced a new smoothness regularization along the temporal dimension to leverage temporal information between consecutive video frames.
+\cite{zhou2023partially} considered completing partially observed tensors in the presence of covariates through a regression approach. It performed a CP decomposition on the regression coefficients and added sparse and smooth constraints to the decomposed vectors to do the completion.
+\cite{chen2021bayesian} integrated low-rank tensor factorization and vector autoregressive (VAR) process into a single probabilistic graphical model, to characterize both global and local consistencies in large-scale time series data. \cite{mcneil2021temporal} addressed graphs with nodes representing time series data and edges signifying static connection strengths between nodes.  It learned a low-rank, joint decomposition of the data via a combination of graph and time dictionaries. 
+%claimed that CP decomposition to model the t and complete missing data. They  constrained the smoothness of edges in the network and combined the  differential matrices and smoothing coefficients as  the smoothness penalty. However, they have to assume the smoothing constraints must be exactly the same for all the tensor dimensions, and hence cannot impose separate constraints only on some specific dimensions, which is not flexible.  Besides this,  \cite{tTNN} improved the t-SVD decomposition and proposed the twist tensor nuclear norm (t-TNN) algorithm which decomposed and completed the tensor data by twisting,  to achieve the effect of smoothing constraints, and could deal with irregular observation data. In simple terms, they changed the order of dimensions to do the t-SVD decomposition which can effectively exploit the information redundancy between observations.    However, because this algorithm is mainly aimed at video completion, which is not designed for network data, it does not consider network topology in the model. 
+
+In summary, though the above methods cannot be directly used for modeling functional-edged networks with irregularly observed points,
+the above methods motivate us to use tensor analysis to describe the functional network, which is also the innovation of our research.
+
+\section{FEN MODEL}
+\label{sec:model}
+In this section, we present our FEN model in detail. Firstly, we introduce the notation system of this paper. Then we present the model formulation using Tucker decomposition which considers community structure. Next, we address irregular observation points by employing a mask tensor and formalizing smoothing constraints in the model inference framework to better capture the smoothness of functions. 
+
+\subsection{Notation}
+We use a lowercase letter $a$ to denote a scalar, a boldfaced lowercase letter $\mathbf{a}$ to denote a vector, a boldfaced uppercase letter $\mathbf{A}$ to denote a regular matrix or tensor, and a stylized uppercase letter $\mathcal{A}$ to denote a matrix or tensor that contains continuous dimensions.
+For a three-dimensional tensor $\mathbf{A} \in \bbR^{d_1 \times d_2 \times d_3}$, we use $A_{i_1,i_2,i_3}$ to denote its $(i_1,i_2,i_3)$ element. If some dimensions of tensor $\mathcal{A}$ are continuous, we use parenthesized subscripts to indicate this. For example, $A_{i_1,i_2,(t)}$ denotes the $(i_1,i_2,(t))$ element of tensor $\mathcal{A}$ where the third dimension is continuous functional data in the domain $t\in \cT$. We use  $\mathcal{A}_{[i_1=j]}$ to denote a slice of tensor $\mathcal{A}$, where only fixed dimensions are in square brackets.   
+For convenience, we can use the abbreviated notation $A_{i_1i_2i_3}$ instead of $A_{i_1,i_2,i_3}$ without ambiguity.
+%Firstly, we need to introduce our notation. We use a lowercase letter, $a$, to denote scalar,  a uppercase letter, $A$, to denote vector or matrix,  a boldfaced uppercase letter, $\mathbf{A}$, to denote tensor and a stylized uppercase letter, $\mathcal{A}$, to denote a tensor or matrix contains continuous dimensions. For a three dimensional tensor $\mathbf{A} \in \bbR^{d_1 \times d_2 \times d_3}$, we can use $A_{i_1,i_2,i_3}$ to denote the element of it. If some dimensions of tensor $\mathcal{A}$ are continuous dimensions, we can use parenthesized subscripts to indicate that the dimensions are continue. For example, $A_{i_1,i_2,(t)}$ denotes the element of tensor $\mathcal{A}$ where the third dimension is a continuous dimension. We can use $A_{i_1= 1:d_1, i_2=1:d_2, (t = t_0)}$ and $\mathcal{A}_{i_1 = j,i_2 = 1:d_2,(t\in \mathcal{T})}$ to denote the different slices of tensor $\mathcal{A}$ and without ambiguity, we can simplify the above expressions to  $A_{[(t = t_0)]}$ and $\mathcal{A}_{[i_1 = j]}$ where only fixed dimensions are in square brackets. The reason we use stylized letter in the second slice is that it has a continuous dimension. For convenience, we use the abbreviated $A_{i_1i_2i_3}$ instead of $A_{i_1,i_2,i_3}$ without ambiguity.  
+Then we can define the matricization of tensor, e.g. $\mathbf{A}_{(1)} \in \bbR^{d_1 \times d_2d_3}$ as follows,
+\begin{equation*}
+    (\mathbf{A}_{(1)})_{i_1,(i_2-1)d_3+ i_3}= A_{i_1i_2i_3},
+\end{equation*}
+where $i_1 = 1,\cdots,d_1, i_2 = 1,\cdots, d_2, i_3 = 1,\cdots, d_3$. Then $\mathbf{A}_{(2)}$, $\mathbf{A}_{(3)}$ and so on can be defined similarly.
+
+The inner product of $\mathbf{A},\mathbf{B} \in \bbR^{d_1 \times d_2 \times d_3}$ is $\langle\mathbf{A}, \mathbf{B}\rangle = \sum_{i_1 = 1}^{d_1}\sum_{i_2 = 1}^{d_2}\sum_{i_3 = 1}^{d_3}A_{i_1i_2i_3}B_{i_1i_2i_3}$. The Frobenius norm (F norm) of tensor $\mathbf{A} \in \bbR^{d_1 \times d_2 \times d_3}$ can be defined as $||\mathbf{A}||_{F} = \sqrt{\langle \mathbf{A},\mathbf{A}\rangle} = \sqrt{\sum_{i_1 = 1}^{d_1}\sum_{i_2 = 1}^{d_2}\sum_{i_3 = 1}^{d_3}A_{i_1i_2i_3}^2}$. Similarly, if $\mathcal{A} \in \bbR^{d_1 \times d_2 \times \cT}$, its F norm can be defined as $||\mathcal{A} ||_F = \sqrt{\sum_{i_1 = 1}^{d_1} \sum_{i_2 = 1}^{d_2} \int_{\cT} A_{i_1i_2(t)}^2dt}$
+
+At last, we need to define the marginal product, $\times_1$: $\bbR^{r_1\times r_2 \times r_3} \times \bbR^{d_1 \times r_1} \longmapsto \bbR^{d_1 \times r_2 \times r_3}$ as follows,
+\begin{equation*}
+    (\mathbf{A} \times_1 \mathbf{C})_{i_1j_2j_3} = \sum_{j_1 = 1}^{r_1} A_{j_1j_2j_3}C_{i_1j_1},
+\end{equation*}
+where $\mathbf{A}\in \bbR^{r_1\times r_2 \times r_3}, C \in \bbR^{d_1 \times r_1}$ and $i_1=1,\cdots,d_1\quad j_2 = 1,\cdots,r_2 \quad  j_3 = 1,\cdots, r_3$. Then $\times_2$, $\times_3$ and so on are defined similarly. For continuous tensor $\mathcal{A}$ we can also similarly define the marginal product by using integration instead of summation as follows,
+\begin{equation*}
+    (\mathcal{A}\times_1 \mathcal{C})_{i_1j_2j_3} = \int_{\cT}A_{(t)j_2j_3}C_{i_1(t)}dt
+\end{equation*}
+where $\mathcal{A}\in \bbR^{\cT\times r_2 \times r_3}, \mathcal{C} \in \bbR^{d_1 \times \cT}$ and $i_1=1,\cdots,d_1\quad j_2 = 1,\cdots,r_2 \quad  j_3 = 1,\cdots, r_3$. 
+
+
+\subsection{Model Formulation}
+We assume the functional network has $m$ nodes and at most $m(m-1)$ edges. The weight value of each edge can change over time. Specifically, we assume that the edge between node $i$ and $j$ has a weight function denoted by $X_{ij(t)}$, which is a first-order continuously differentiable function at a closed interval $\cT=[T_s,T_e]$ with respect to $t$.
+
+We can represent the time-varying edge weights using an adjacency functional tensor $\mathcal{X} \in \bbR^{m \times m \times \cT}$, which is a three-dimensional functional tensor consisting of $m(m-1)$ weight functions as described above. The third dimension of $\mathcal{X}$ is continuous and represents the weight functions in $\cT = [T_s, T_e]$. 
+
+To describe the community structure in the network, we assume there are in total $s$ communities. Define $\bPhi\in \bbR^{m\times s}$ where $\Phi_{ia}$ represents the possibility of the community $a$ containing node $i$. Suppose the strength of the connection from community $a$ to community $b$ at point $t$ as $C_{ab(t)}$. Then we conduct the following decomposition on $X_{ij(t)}$
+\begin{equation}
+\begin{aligned}
+    X_{ij(t)} & =  \sum_{a = 1}^s\sum_{b=1}^s\Phi_{ia} C _{ab(t)} \Phi_{jb} \\
+    & s.t. \quad \bPhi^{T} \bPhi = \mathbf{I}_{s}.
+    \label{eq:community structure}
+    \end{aligned}
+\end{equation}
+Here $\mathbf{I}_s \in \bbR^{s \times s}$ denotes the identity matrix of order $s$. On the one hand, the orthogonality can avoid an unidentifiable model. For example, if we let $\Phi_{ia}^* = \sqrt{\lambda}\Phi_{ia}, \Phi_{jb}^* = \sqrt{\lambda}\Phi_{jb}$ and $C_{ab(t)}^* = \frac{C_{ab(t)}}{\lambda}$, then $\Phi_{ia}^* C_{ab(t)}^*\Phi_{jb}^* = \Phi_{ia} C_{ab(t)}\Phi_{jb}$. As such, to make the model identifiable, we set $\sum_{i=1}^m \Phi_{ia}^2 = 1, a = 1,\cdots, s$. 
+On the other hand, we have $0 \leq \Phi_{ia}^2 \leq 1$ which can make $\Phi_{ia}^2$ better interpretable, i.e., as the possibility of the community $a$ contains node $i$. The higher the value of $|\Phi_{ia}|$, the more likely node $i$ is in the community $a$. Additionally, the sign of $\Phi_{ia}$ denotes the attitude of node $i$ to community $a$. For example, in social networks, people can express likes and dislikes about the group they belong to. 
+%In our model, we can use the sign of $\phi_{ik}$ to represent this attitude. 
+Last, $\sum_{i = 1}^{m}\Phi_{ia}\Phi_{ib} = 0, a \neq b$ can further guarantee the diversity of different communities.
+%The orthogonality can guarantee there are no similar communities. We use $c_{kl}(t)$ to denote the weight function between community $k$ and community $l$. 
+
+%Furthermore, we regularize $\sum_{i=1}^m \phi_{ik}^2 = 1, k = 1,\cdots, s$ to make the model identifiable. Without it, if we let $\phi_{ik}^* = \sqrt{\lambda}\phi_{ik}, \phi_{il}^* = \sqrt{\lambda}\phi_{il}$ and $c_{kl}^*(t) = \frac{c_{kl}(t)}{\lambda}$,then $\phi_{ik}^* c_{kl}^*(t)\phi_{il}^* = \phi_{ik} c_{kl}(t)\phi_{il}$.
+
+%We also need to note that if we do not constrain the norm of each community's weight, the model may be unidentifiable. For example, if we let $\phi_{ik}^* = \sqrt{\lambda}\phi_{ik}, \phi_{il}^* = \sqrt{\lambda}\phi_{il}$ and $c_{kl}^*(t) = \frac{c_{kl}(t)}{\lambda}$,then $\phi_{ik}^* c_{kl}^*(t)\phi_{il}^* = \phi_{ik} c_{kl}(t)\phi_{il}$. To make the model identifiable, we set $\sum_{i=1}^m \phi_{ik}^2 = 1, k = 1,\cdots, s$. In this way, we can use the weight functions between different communities and the possibility of nodes belonging to their communities to represent the weight functions between different nodes.
+
+To further describe the temporal features of $C_{ab(t)}$, we assume $C_{ab(t)}$ as a linear combination of $K$ functional bases $\{\mathcal{g}_{k}(t),k =1,\ldots,K\}$ as: 
+\begin{equation*}
+\begin{aligned}
+  C_{ab(t)} =\sum_{k=1}^{K} B_{abk} \mathcal{g}_{k}(t).
+    \label{eq:dec of C}
+\end{aligned}
+\end{equation*}
+Combine Equation (\ref{eq:community structure}), we can get 
+\begin{equation*}
+\begin{aligned}
+    X_{ij(t)}=\sum_{a = 1}^{s}\sum_{b = 1}^s\sum_{k = 1}^{K} B_{abk}\Phi_{ia}\Phi_{jb}\mathcal{g}_{k}(t).
+    \label{eq:observe single point}
+\end{aligned}
+\end{equation*}
+The above equation can be rewritten in the tensor form as:
+\begin{equation}
+\label{eq:tucker for X}
+    \mathcal{X} = \bB \times_{1} \bPhi \times_{2} \bPhi \times_{3} \mathcal{G}.
+\end{equation}
+Here $\bB \in \bbR^{s \times s \times K}$, $\bPhi \in \bbR^{m \times s}$, $\mathcal{G} \in \bbR^{\cT \times K}$, where $  \mathcal{G}_{[i_2 = k]} \triangleq \mathcal{g}_k(\cdot)$. It is to be noted that without loss of generality, for convenience, we assume the $\mathcal{X}$ has been centralized.
+
+
+%and $s$ and $K$  are the hyperparameters that need to be determined in advance. 
+ 
+Considering the data may include noise, we further define the observation functions as follows,
+\begin{equation}
+\begin{aligned}
+\label{eq:continue Y=X+E}
+    \mathcal{Y} = \mathcal{X} + \mathcal{E} 
+     = \bB \times_{1} \bPhi \times_{2} \bPhi \times_{3} \mathcal{G} + \mathcal{E},
+\end{aligned}
+\end{equation}
+where $\mathcal{Y} \in \bbR^{m \times m \times \cT}$ denotes the observation function and $\mathcal{E} \in \bbR^{m \times m \times \cT}$ denotes the noise function. Each point in $\mathcal{E}$, i.e., $E_{ij(t)},i=1,\cdots,m, \quad j = 1,\cdots,m, \quad t \in \cT$  follows a normal distribution with mean of $0$ and variance of $\sigma^2$ and is independent with each other point. 
+
+Equation (\ref{eq:continue Y=X+E}) expresses the observation function when we only have one sample. In reality, if we have multiple samples, we need to introduce a fourth dimension and the data become $\mathcal{X},\mathcal{Y},\mathcal{E} \in \bbR^{m \times m \times \cT \times N}$ where $N$ represents the number of samples. Since the fourth dimension does not need decomposition, we have
+\begin{equation}
+\begin{aligned}
+\label{eq:continue Y=X+E dim=4}
+    \mathcal{Y}= \mathcal{X} + \mathcal{E}  = \bB \times_{1} \bPhi \times_{2} \bPhi \times_{3} \mathcal{G} \times_{4}\mathbf{I}_N+ \mathcal{E},
+\end{aligned}
+\end{equation}
+where $\mathbf{I}_N\in \bbR^{N\times N}$ is an identity matrix of order $N$.
+
+\subsection{Model Inference}
+Now we introduce how to conduct parameter estimation of $\{\mathcal{X},\bB,\bPhi,\mathcal{G}\}$  for FEN. Generally, we need the functional tensor $\mathcal{X}$ to be smooth in the third dimension to represent a continuum of values across a domain. This can be achieved by adding a $l_2$ loss on the derivative of the functional dimension, as the smoothing constraints when we do the estimation. Because of the Tucker decomposition, we can add this smoothing constraint to the corresponding decomposed bases, i.e., $\mathcal{g}_{k}(t), k=1,\ldots,K$, to guarantee the smoothness of $\hat{\mathcal{X}}$. Then we can rewrite our FEN model as solving the following optimization problem, 
+
+\begin{equation}
+    \begin{aligned}
+         \{\hat{\mathcal{X}},\hat{\bB},\hat{\bPhi},\hat{\mathcal{G}}\} = & \mathop{\arg \min}\limits_{\mathcal{X}, \bB, \Phi, \mathcal{G}} \frac{1}{2}||\mathcal{Y} - \mathcal{X}||_{F}^2 + 
+         \sum_{k = 1}^{K} \alpha_k\int_{\cT}({\mathcal{g}_k}^{'}(t))^2\,dt\\
+         s.t. &\mathcal{X} = \bB \times_{1} \bPhi \times_2 \bPhi \times_3 \mathcal{G}\\
+         &\bPhi^T \bPhi = \mathbf{I}_{s}\\
+         &{\mathcal{G}}^T \mathcal{G} = \mathbf{I}_{K} \\
+         &\mathcal{g}_{k} \in \mathbf{C}^1(\cT),
+    \end{aligned}
+    \label{eq:FEN continue}
+\end{equation}
+where $\alpha_k$ is the smoothing constraint coefficients, $\mathbf{I}_K \in \bbR^{K \times K}$ is an identity matrix of order $K$. $\mathbf{C}^1(\cT)$ denotes the set of all first-order continuous differentiable functions on $\cT$ . 
+%In this way, we can guarantee functions in the tensor $\mathcal{X}$ is smoothly differentiable by limiting smooth differentiable functions in the continues basis matrix $\mathcal{G}$.
+
+\iffalse
+\begin{theorem}
+\label{the:continue with smooth}
+$\hat{\mathcal{X}}$ is the solution of Equation (\ref{eq:FEN continue}) and $\mathcal{X}$ is the true tensor in Equation (\ref{eq:continue Y=X+E dim=4}), then we have
+    \begin{equation}
+    \begin{aligned}
+        ||\hat{\mathcal{X}} - \mathcal{X}||_F \leq ||\mathcal{E}||_F + \sqrt{||\mathcal{E}||_F^2 +  \sum_{k=1}^K \alpha_k ||\mathcal{g}_k^{'}||_{\infty}^2(T_e - T_s)}
+        \end{aligned}
+    \end{equation}
+    where $\mathcal{E}$ is the true noise tensor, and $\mathcal{G}$ is the functional basis matrix of the true tensor $\mathcal{X}$.
+\end{theorem}
+Theorem \ref{the:continue with smooth} shows the upper bound of the difference between the estimated functional tensor and the real tensor. 
+\fi
+
+The optimization problem presented above gives theoretical properties in continuous space. In reality, each edge $Y_{ij(t)n}$ can only be observed at a set of points. Consider the observation points of different edges are various. 
+%Consider the fact that sensors in the real world have a certain sampling frequency, which suggests that regularly spaced observation points may be more appropriate. 
+We find the smallest observation resolution of all edges and define it as the global observation resolution, with a corresponding set of regularly spaced observation points as $\Tilde{\cT} = \{t_{l}=T_s + \frac{l}{L} (T_e - T_s) | l = 1,2,\dots, L\}$. It is to be noted that $L$ is expected to be big enough to ensure that any observation point of any function sample is a subset of $\Tilde{\cT}$.
+%We need to note that, the above optimization  problem contains the continue function.  If we can actually observe the whole function, we can use it to solve our FEN model. But in reality, each edge $Y_{ij(t)n}$ are actually observable at a series of discrete time points, which may be irregular. To make uniform notation, we choose the smallest sampling time resolution of all the edges as the global sampling time resolution, and define a set of observation points 
+%$\Tilde{\cT} =  \{T_s + \frac{l}{L} (T_e - T_s) |  l = 1,2,\dots, L\}$. 
+%On the one hand, since we can only have countable observation points in reality, we can increase $L$ to a certain number to let  any observation points can be the subset of $\Tilde{\cT}$. On the other hand, the sensors observed in real life have a certain sampling frequency. In this way, the isometric segmentation is more reasonable.
+Then the $l$th observation of edge between node $i$ and node $j$ of sample $n$ can be written as follows,
+\begin{equation*}
+\begin{aligned}
+\label{eq:observe single point2}
+    Y_{ij(t_l)n} &= X_{ij(t_l)n} +E_{ij(t_l)n}\\
+    &=\sum_{a = 1}^{s}\sum_{b = 1}^s\sum_{k = 1}^{K} B_{abkn}\Phi_{ia}\Phi_{jb}\mathcal{g}_{k}(t_{l}) + E_{ij(t_l)n}, \forall t_l \in \Tilde{\cT},
+\end{aligned}
+\end{equation*}
+where $E_{ij(t_l)n}$ is the noise following an independent and identical normal distribution with a mean of $0$ and variance of $\sigma^2$.
+
+If we can observe edges at all the points of $\Tilde{\cT}$, We can get the fully observed discrete tensor as follows,
+%\st{we can not observe the continues functions, then we need to use the discrete tensor to express the observe points. Combine Equation  \ref{eq:observe single point} and Equation  \ref{eq:continue Y=X+E},We can get the full observe discrete tensor as following:}
+\begin{equation*}
+\begin{aligned}
+     \bY^{F} = \bX + \bE
+     = \bB \times_{1} \bPhi \times_{2} \bPhi \times_{3} \bG + \mathbf{E},
+\end{aligned}
+\end{equation*}
+where $\bY^{F} \in \bbR^{m \times m \times L \times N}, \bX \in \bbR^{m \times m \times L \times N}, \bE \in \bbR^{m \times m \times L \times N}, \bG \in \bbR^{L \times K}$ denote discretized versions of $\mathcal{Y}, \mathcal{X}, \mathcal{E}$ and $ \mathcal{G}$ at the corresponding points in $\Tilde{\cT}$ respectively.
+
+%where $\bX \in \bbR^{m \times m \times L \times N}, G \in \bbR^{K \times L}$ denote dicretilized version of $\mathcal{G}$ at the corresponding values \chen{points} of $\Tilde{\cT}$. $\bY^{F} \in \bbR^{m \times m \times L \times N}$ denotes the full observation in the observation points set, and $\bE \in \bbR^{m \times m \times L \times N}$ consists of independent and identically distributed normal random noise variables with mean of $0$ and variance of $\sigma^2$.
+
+In reality, because each edge is only observed at a subset of $\Tilde{\cT}$, which is different for different edges, we express these irregular observations using a mask tensor $\boldsymbol{\Omega} \in \bbR^{m \times m \times L \times N}$, whose value is $1$ at the points that $\bY^{F}$ are observed and $0$ otherwise. Then we have
+\begin{equation*}
+    \bY = \boldsymbol{\Omega} * \bY^F,
+\end{equation*}
+where $*$ denotes the element-wise product,  $\bY$ is the structured observation tensor in reality. With it, we can observe $\{\mathcal{X},\bB, \Phi, \mathcal{G}\}$ by rewriting Equation (\ref{eq:FEN continue}) as follows:
+\begin{equation}
+    \begin{aligned}
+         \{\hat{\bX},\hat{\bB},\hat{\bPhi},\hat{\bG}\} = & \mathop{\arg\min}\limits_{\bX, \bB, \Phi, G} \frac{1}{2}||\mathcal{P}_{\boldsymbol{\Omega}}(\bY - \bX)||_{F}^2 + 
+         \frac{1}{2}\sum_{k = 1}^K\alpha_k \mathbf{g}_k^{T} \mathbf{H} \mathbf{g}_k\\
+         s.t. &\bX = \bB \times_{1} \bPhi \times_2 \bPhi \times_3 \bG\\
+         &\bPhi^T \bPhi = \mathbf{I}_s\\
+         &{\bG}^T \bG = \mathbf{I}_{K},
+    \end{aligned}
+    \label{eq:FEN model}
+\end{equation}
+where  $\mathbf{g}_k$ denotes the $k$th column of $\bG$ and $\alpha_k$ is the smoothing constraint coefficient. $\mathbf{H} = \mathbf{D}^{T}\mathbf{D} \in \bbR^{L\times L}$ denotes differential matrix where $\mathbf{D} \in \bbR^{(L-1)\times L}$ is a matrix which only consists of $0,1,-1$ with elements $1$ at positions $(i,i)$, elements $-1$ at positions $(i,i+1)$, $ i = 1,\cdots,L-1$ and elements $0$ at other positions. $\mathcal{P}_{\boldsymbol{\Omega}}(\cdot)$ denotes element-wise product with $\boldsymbol{\Omega}$.  Then we can interpolate and complete the discrete $\hat{\bX}$ in the third dimension as an estimation of $\mathcal{X}$. When $L$ is large, the interpolation and completion is straightforward. 
+%In the following Section \ref{sec:optimization}, we will introduce how to derive $\hat{\bX}$ and its decomposition. 
+
+To further discuss the estimation properties of Equation (\ref{eq:FEN model}), we first make the following two assumptions. 
+\begin{assumption}
+    Define $r_i^{0}   \triangleq \textbf{rank}(\bX_{(i)})$, and $\br = [s, s, K, N]$,we assume
+    \begin{equation*}
+        r_i \leq r_i^{0}, \quad i = 1,\cdots, 4,
+    \end{equation*}
+    \label{ass:r<R}
+    where $r^0_i$ the $i$th element of $\br^0$, $r_i$ is the $i$th element of $\br$.
+\end{assumption}
+We can always select $\br$ that satisfies Assumption \ref{ass:r<R}.
+
+\begin{assumption}
+\label{ass:Omega}
+    Given $\bX$, for $\forall \Tilde{\bX} \in \cM_\br$, we have
+    \begin{equation*}
+        ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX -\Tilde{\bX} )||_{F} \in [c||\bX-\Tilde{\bX} ||_{F}, C||\bX-\Tilde{\bX} ||_{F}],
+    \end{equation*}
+    where $c,C$ are constants which are only related to $\boldsymbol{\Omega}$,$\bX$ and $\br$. $\cM_\br$ is the low-rank space defined in Equation (\ref{eq:rie low rank}).
+\end{assumption}
+Intuitively, this assumption requires that $\mathcal{P}_{\boldsymbol{\Omega}}$ is sufficiently
+sensitive to the perturbation of $\Tilde{\bX}$. A similar assumption has been used in previous studies on tucker decomposition with smoothness \cite{imaizumi2017tensor}.
+
+
+\begin{theorem}
+\label{the:theorem 2}
+Under Assumption \ref{ass:r<R} and Assumption \ref{ass:Omega}, when $\alpha_k = 0$ which means there are no smoothing constraints, the solution of Equation (\ref{eq:FEN model}) will have 
+\begin{equation}
+    \label{eq:theorem2 1}
+    ||\hat{\bX} - \bX||_F \leq \frac{2}{c}||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F + \frac{C}{c}\sqrt{\sum_{i=1}^3 \delta_i(1-\frac{r_i}{r_i^0})}||\bX ||_F,
+\end{equation}
+where $\delta_i = 4,\ for\ i = 1,2$ and $\delta_i = 1,\ for \ i = 3$. $C,c$ are the constants in Assumption \ref{ass:Omega}.
+\end{theorem}
+
+\begin{proof}
+    The proof of Theorem \ref{the:theorem 2} is shown in the Appendix.
+\end{proof}
+
+Theorem \ref{the:theorem 2} characterizes an upper bound on the F-norm distance between our estimate $\hat{\bX}$ and the true value $\bX$ when we ignore the smoothing constraints. This upper bound consists of two components: one related to the noise and the other related to the low-rank decomposition. As the hyperparameter $\br$ gets closer to $\mathbf{r}^0$, the upper bound is getting smaller.
+\iffalse
+To better characterize this upper bound, we give Corollary \ref{cor:corollary 1} as follows.
+
+\begin{corollary}
+\label{cor:corollary 1}
+Under Assumption \ref{ass:r<R} and Assumption \ref{ass:Omega}, when $\alpha_k = 0$, according to Theorem \ref{the:theorem 2}, the solution of Equation (\ref{eq:FEN model}) will have 
+\begin{equation}
+\begin{aligned}
+\label{eq:corollary 1}
+    P(||\hat{\bX} - \bX||_{F} \leq \epsilon) \geq 
+    1- \frac{C}{\epsilon c}(  \sigma \sqrt{N_{sum}} +
+    \sqrt{\sum_{i = 1}^3 \left(1- \frac{r_i}{r^0_i} \right)\{\sigma^2N_{sum}+ \delta_i ||\bX|| _F^2 \}})
+\end{aligned}
+\end{equation}
+where $\delta_i = 4, \ i = 1,2$ and $\delta_i = 1, \ i = 3$. In particular, when $r_i = r^0_i ,  i = 1, 2, 3$, Equation (\ref{eq:corollary 1}) degenerates into
+\begin{equation}
+    \label{eq:corollary 2}
+    P(||\hat{\bX} - \bX||_{F} \leq \epsilon) \geq 1- \frac{C\sigma \sqrt{N_{sum}}}{\epsilon c}.
+\end{equation}
+\end{corollary}
+
+Corollary \ref{cor:corollary 1} describes the probability that the F-norm distance between our estimated tensor $\hat{\bX}$ and true tensor $\bX$ is less than a small amount $\epsilon$, and this probability gets bigger when the hyperparameters $\br$ gets closer to $\mathbf{r}^0$. This means that the more accurate the hyperparameters, the more efficient the algorithm is. Besides, a smaller value of $\sigma^2$, $||\bX||_{F}$ or $N_{sum}$ may also lead to a smaller estimation error. Corollary \ref{cor:corollary 1} ensures that the estimated tensor given by our model will be close to the true tensor with a high probability when the parameters are selected reasonably.
+\fi
+
+\begin{assumption}
+\label{ass:unif}
+    We define $|\Omega_{ijn}| = \sum_{l=1}^L \Omega_{ijln}$ to denote the number of observable points in function $Y_{ij(t_l)n}, t_l 
+    \in \cT$ and $|\Omega_{ijn}^c|= L-|\Omega_{ijn}|$ to denote the number of unobservable points. Then we assume that at least one of the following two scenarios holds,
+    \begin{itemize}
+        \item (i) $|\Omega_{ijn}| \leq |\Omega_{ijn}^c|$ and $\lceil |\Omega_{ijn}^c|/|\Omega_{ijn}|\rceil = R$ for $\forall i = 1,\cdots,m; j = 1,\cdots,m; n = 1,\cdots,N$.
+        \item  (ii) $|\Omega_{ijn}| \geq |\Omega_{ijn}^c|$ and $\lfloor |\Omega_{ijn}|/|\Omega_{ijn}^c|\rfloor = R$ for $\forall i = 1,\cdots,m; j = 1,\cdots,m; n = 1,\cdots,N$,
+    \end{itemize}
+    where $\lceil \cdot \rceil$ and $\lfloor \cdot \rfloor$  represent round up and round down, respectively.
+\end{assumption}
+Assumption \ref{ass:unif} indicates that the missing proportions on the functions of different edges in the functional network are approximately uniform. This condition is stronger than the condition with irregular observation but weaker than the condition with regular observation.
+
+\begin{assumption}
+\label{ass:upper bound}
+    Define $\mathbf{A} = \hat{\bB}_{(3)}(\mathbf{I}_N \otimes \hat{\bPhi} \otimes\hat{\bPhi})^T \in \bbR^{K\times m^2N}$ with respect to $\hat{\bX} = \hat{\bB} \times_1\hat{\bPhi} \times_2 \bPhi \times_3 \hat{\bG}$, i.e., the solution of Equation (\ref{eq:FEN model}). We assume 
+    \begin{equation*}
+        \sum_{q = 1}^{m^2N} A_{kq}^2 \leq c_k, \ \text{for} \ k = 1,\cdots,K,
+    \end{equation*}
+    where $c_k$ is the constant which is only related to $\bY$ and $\otimes$ denotes the kronecker product.
+\end{assumption}
+
+\begin{theorem}
+\label{thm:PomegaC}
+    Under Assumption \ref{ass:upper bound}, if the scenario (i) in Assumption \ref{ass:unif} holds, we have
+    \begin{equation} 
+    \begin{aligned}
+    ||\mathcal{P}_{\boldsymbol{\Omega}^C}(\hat{\bX}-\bX) ||_F^2 \leq &3\Delta\Gamma K\sum_{k=1}^K c_k\hat{\mathbf{g}}_k^T\mathbf{H} \hat{\mathbf{g}}_k\\ &+ 3R||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}-\bY) ||_F^2 + \Tilde{C}.
+    \end{aligned}
+    \end{equation}
+    If the scenario (ii) in Assumption \ref{ass:unif} holds, we have
+    \begin{equation} 
+    \begin{aligned}
+    R||\mathcal{P}_{\boldsymbol{\Omega}^C}(\hat{\bX}-\bX) ||_F^2 \leq &3\Delta'\Gamma' K\sum_{k=1}^K c_k\hat{\mathbf{g}}_k^T\mathbf{H} \hat{\mathbf{g}}_k\\ &+ 3||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}-\bY) ||_F^2 + \Tilde{C}.
+    \end{aligned}
+    \end{equation}
+    Here $\boldsymbol{\Omega}^C$ is the complementary tensor of $\boldsymbol{\Omega}$, with 0 at positions where $\boldsymbol{\Omega}$ is 1 and 1 at positions where $\boldsymbol{\Omega}$ is 0. $\Delta,\Gamma,\Delta',\Gamma'$ are constants which are only related to $\boldsymbol{\Omega}$, $c_k$ is the constant in Assumption \ref{ass:upper bound} and $\Tilde{C}$ is the constant related to $\bY,\bX$.
+\end{theorem}
+\begin{proof}
+    The proof of Theorem \ref{thm:PomegaC} is shown in the Appendix.
+\end{proof}
+Theorem \ref{thm:PomegaC} gives the upper bound on the F-norm distance between our estimate
+$\hat{\bX}$ and the true value $\bX$ in the unobservable region. It contains the smoothness constraints. In other words, if we set $\alpha_k = \frac{\Delta\Gamma K c_k}{R}$ or $\alpha_k = \Delta'\Gamma' K c_k$, minimizing the objective function in Equation (\ref{eq:FEN model}) will effectively help us minimize the upper bound of $||\mathcal{P}_{\boldsymbol{\Omega}^C}(\hat{\bX}-\bX) ||_F$. This theoretically tells us that adding smoothness constraints can assist us in better estimating the unobservable part.
+
+So far, we have completed the construction of FEN. 
+%By optimizing Equation (\ref{eq:FEN model}), we can obtain a functional network model that satisfies the smoothing constraint, has the dimension reduction according to its community structure, and can be estimated by irregular observation data. 
+In the next section, we will introduce how to solve the optimization problem of Equation (\ref{eq:FEN model}).
+
+\section{OPTIMIZATION ALGORITHM}
+\label{sec:optimization}
+\subsection{Riemann Manifold And Optimization}
+As the solution space of Equation (\ref{eq:FEN model}) constrains the orthogonality of the basis matrices, the traditional optimization methods may be infeasible under our setting. Therefore, in this section, we introduce how to use Riemann optimization to solve Equation (\ref{eq:FEN model}). 
+
+A Riemann manifold is a smooth surface on which a gradient can be specified at any point in Euclidean space. The low-rank space $\cM_{\br}$ defined by the Tucker decomposition, i.e.,
+\begin{equation}
+\begin{aligned}
+   \cM_\br = \{ &\bX = \bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG | 
+    \bB \in \bbR^{s \times s \times K \times N}, \\ &\bPhi \in \bbR^{m \times s}, \bG \in \bbR^{L \times K},
+   \bPhi^T \bPhi = I_s, \bG^T \bG = I_K\},
+    \label{eq:rie low rank}
+\end{aligned}
+\end{equation}
+is a continuous smooth surface with a gradient vector corresponding to the tangent plane (we will reproduce later). So it is a Riemann manifold. Since we have the target decomposition $\hat{\bX} \in \mathcal{M}_\mathbf{r}$, we need to search the optimal solution $\hat{\bX}$ in the low-rank space $\cM_{\br}$. Then we can reformulate Equation (\ref{eq:FEN model}) as following,
+\begin{equation}
+\begin{aligned}
+   \hat{\bX} =\mathop{\arg \min}\limits_{\bX \in \cM_{\br}} f(\bX)  = &\mathop{\arg \min}\limits_{\bX \in \cM_{\br}} \frac{1}{2}||\mathcal{P}_{\boldsymbol{\Omega}}(\bY - \bX)||_{F}^2 \\ &+ 
+         \frac{1}{2}\sum_{k = 1}^K\alpha_k \mathbf{g}_k^{T} \mathbf{H} \mathbf{g}_k,
+    \label{eq:FEN model opti}
+\end{aligned}
+\end{equation}
+where $\mathbf{g}_k$ and $\mathbf{H}$ have the same definition with Equation (\ref{eq:FEN model}).
+
+In particular, we choose the conjugate gradient method under Riemann optimization to solve the objective problem. Compared to other methods, such as Newton's method, the conjugate gradient method eliminates the need to solve the Hessian matrix, which saves a significant amount of time, especially in the case of a large number of tensor operations. Compared with the steepest descent method, the conjugate gradient method can converge faster by taking into account the iteration direction of the previous step.
+\iffalse
+\subsection{Low-Rank Space and Riemann Manifold}
+
+First, define the low rank space $\cM_{\br}$ with $\br = [s, s, K, N]$ as
+\begin{equation}
+\begin{aligned}
+   \cM_\br = \{ \bX = \bB \times_1 \Phi \times_2 \Phi \times_3 G | 
+    \bB \in \bbR^{s \times s \times K \times N}, \Phi \in \bbR^{m \times s}, G \in \bbR^{L \times K},
+   \Phi^T \Phi = I_s, G^T G = I_K\}.
+    \label{eq:rie low rank}
+\end{aligned}
+\end{equation}
+%where $I_{s}$ and $I_K$ denote the $s$ and $K$ order identity matrix respectively. 
+Obviously, we have the target decomposition $\hat{\bX} \in \mathcal{M}_\mathbf{r}$. So we need to search the optimal solution $\hat{\bX}$ in the low-rank space $\cM_{\br}$. 
+
+Simply speaking, a Riemann manifold is actually a smooth surface on which a gradient can be specified at any point in  Euclidean space. The low-rank space $\cM_{\br}$ defined by the Tucker decomposition is a continuous smooth surface with the gradient vector corresponding to the tangent plane,  which we will reproduce later. So the low-rank space $\cM_{\br}$ is a kind of Riemann manifold. Besides this, 
+
+We choose the conjugate gradient method under Riemann optimization to solve our objective problem. Compared to other methods, such as Newton's method, the conjugate gradient method eliminates the need to solve the Hessian matrix, which saves a significant amount of time, especially in the case of a large number of tensor operations. Compared with the steepest descent method, the conjugate gradient method can converge faster by taking into account the iteration direction of the previous step.
+\fi
+\subsection{Conjugate Gradient Method}
+Under the framework of Riemann optimization, the optimization function is restricted to the Riemann manifold, which requires that the optimization method be carried out in the tangent plane of every point on the manifold. So first we need to define a concrete representation of the tangent plane for each point on the Riemann manifold. Then we map the gradient of the objective function in Equation (\ref{eq:FEN model opti}), which is in Euclidean space, to the tangent plane. We call the gradient tensor in the tangent plane as the Riemann gradient. For the conjugate gradient method, we also need to define a gradient transfer projection to update the Riemann gradient in the tangent plane of the last iteration to the tangent plane of the current iteration. Then we linearly combine these two gradients by calculating the linear combination coefficients to get the updated direction in the tangent plane. Last, we need a retraction method to map the updated direction in the tangent plan back to the Riemann manifold. The overall pseudo algorithm is shown in Algorithm \ref{alg:riemann_CG}. It is to be noted in this section we denote $f(\bX_k)$ as the objective function in Equation (\ref{eq:FEN model opti}) where we replace $\bX$ by $\bX_k$ to represent it in the $k$th iteration. 
+%$\{\bX_{out},\bB_{out},\bPhi_{out},\bG_{out}\}$ is the solution to the Equation (\ref{eq:FEN model opti}). 
+The details of the conjugate gradient method in Riemann optimization will be introduced as follows. 
+
+\begin{algorithm}
+	\caption{Conjugate gradient method under Riemann optimization} 
+	\label{alg:riemann_CG}
+	\begin{algorithmic}
+		% 输入
+		\REQUIRE observe tensor $\bY$\\
+		mask tensor $\boldsymbol{\Omega}$\\
+		rank of Tucker decomposition $\br = [s,s,K, N]$\\
+		smoothing constraint coefficient $\alpha_k, k = 1,\cdots, K$\\
+		differential matrix $\mathbf{H}$\\
+		tolerate error $\delta$\\
+		initial value $\bX_0 \in \cM_\br$
+		
+		% 输出
+		\ENSURE the estimated $\{\hat{\bX},\hat{\bB},\hat{\bPhi},\hat{\bG}\}$ of Equation (\ref{eq:FEN model}) 
+		
+		% 初始化
+        \STATE $\bm{\eta}_0 = -\mathrm{grad}f(\bX_0)$ 
+        \STATE $\gamma_0 = \arg \min_{\gamma}f(\bX_0 + \gamma \bm{\eta}_0) $
+        \STATE $\bX_1 = R(\bX_{0}, \gamma_0 \bm{\eta}_0)$
+        \STATE $k = 1$
+		\WHILE{not converge } 
+			\STATE $\bm{\xi}_k = \mathrm{grad}f(\bX_k)$
+			\STATE $\bm{\eta}_k =  - \bm{\xi}_k + \beta_k \cF_{\bX_{k-1} \rightarrow \bX_{k}}\bm{\eta}_{k-1}$
+			\STATE $\gamma_k = \arg \min_{\gamma}f(\bX_k + \gamma \bm{\eta}_k)$
+			\STATE \{$\bX_{k+1},\bB_{k+1},\bPhi_{k+1},\bG_{k+1}  \}= R(\bX_{k}, \gamma_k \bm{\eta}_k)$
+			\STATE $k = k+1$
+		\ENDWHILE
+		\STATE $\{\bX_{out},\bB_{out},\bPhi_{out},\bG_{out}\} = \{\bX_{k},\bB_{k},\bPhi_{k},\bG_{k}\}$
+	\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Tangent Plane $T_{\bX}\cM_\br$}
+\iffalse
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.6\linewidth]{riemann_grad1.png}
+  \caption{Riemann gradient on tangent plane }
+  \label{fig:riemann grad}
+\end{figure}
+\fi
+Since the Riemann manifold is a surface in Euclidean space, each step of our iterative process needs to be calculated on the tangent plane of the current point. Specifically, the Riemann gradient $\mathrm{grad}f(\bX_k)$ (the blue vector in Figure \ref{fig:riemann grad}) is the projection of Euclidean gradient $\nabla f(\bX_k)$ (the red vector in Figure \ref{fig:riemann grad}) of the objective function on the tangent plane. As each point on the Riemann manifold has the decomposition shown in Equation (\ref{eq:rie low rank}), we can give the definition of the tangent plane $T_{\bX}\cM_\br$ of a point $\bX = \mathbf{B}\times_1 \bPhi \times_2 \bPhi \times_3 \bG$ as follows:
+
+\begin{equation*}
+\begin{aligned}
+    T_{\bX}\cM_\br = 
+    &\{\Tilde{\mathbf{B}} \times_1 \bPhi \times_2 \bPhi \times_3 \bG + \bB \times_1 \Tilde{\bPhi} \times_2 \bPhi \times_3 \bG + \\
+    &\bB \times_1 \bPhi \times_2 \Tilde{\bPhi} \times_3 \bG + 
+    \bB \times_1 \bPhi \times_2 \bPhi \times_3 \Tilde{\bG}  | \\
+    &\Tilde{\bPhi}^T \bPhi =0, \Tilde{\bG}^T \bG = 0\}.
+\end{aligned}
+\end{equation*}
+
+\subsubsection{Euclidean Gradient $\nabla f(\bX_k)$}
+The Euclidean gradient of the objective function is derived as follows
+\begin{equation}
+    \begin{aligned}
+    \nabla f(\bX_k) &=\mathcal{P}_{\boldsymbol{\Omega}}(\mathbf{Y}-\bX_k)+\text { fold }_{(3)}\left\{\mathbf{H} \bG_k \boldsymbol{\alpha} \mathbf{S}^{T}_k\right\},
+    \label{eq:euc grad}
+    \end{aligned}
+\end{equation}
+where $\mathbf{S}_k =\mathbf{Q}_k^{T}\left(\mathbf{Q}_k \mathbf{Q}_k^T\right)^{-1}$ , $\mathbf{Q}_k = \left(\mathbf{B}_k \times_{1} \bPhi_k \times_{2} \bPhi_k \right)_{(3)}$, $\bB_k,\bPhi_k,\bG_k$ are the decomposition of $\bX_k$ on the Riemann manifold, i.e., $\bX_k = \bB_k \times_1 \bPhi_k \times_2 \bPhi_k \times_3 \bG_k$,
+$\text{fold}_{(i)}\{ \mathbf{A} \}$ denotes the inverse operation of the matrixization of the tensor $\mathbf{A}$ in the direction $i$, $\boldsymbol{\alpha}$ is the diagonal matrix whose $i$th diagonal element represents the smoothing constraint coefficient $\alpha_i$. We can find that the two terms on the right side of Equation (\ref{eq:euc grad}) correspond to the Euclidean gradient of the two parts of the objective function in Equation (\ref{eq:FEN model opti}) respectively.
+
+\subsubsection{Riemann Gradient $\mathrm{grad}f(\bX_k)$}
+Having obtained the tangent plane of the Riemann manifold, we need to project the Euclidean gradient of the objective function $\nabla f(\bX_k)$ onto the tangent plane
+and get the Riemann gradient $\mathrm{grad}f(\bX_{k})$. Then we need to define how to project the tensor in Euclidean space onto a given tangent plane.
+\begin{equation}
+    \begin{aligned}
+    \label{eq:euc to rie}
+        &\mathbf{P}_{T_{\mathbf{X}} \mathcal{M}_{\mathbf{r}}}(\mathbf{A}): \mathbb{R}^{m \times m \times L \times N}  \rightarrow T_{\mathbf{X}} \mathcal{M}_{\mathbf{r}} \\
+        &\mathbf{A} \mapsto  \left(\mathbf{A} \times_1 \bPhi^T \times_2\bPhi^T \times_3 \bG^T\right)  \times_1 \bPhi \times_2\bPhi \times_3 \bG   \\
+        &+\bB \times_1 \left( \mathrm{P}_{\bPhi}^{\perp}\left[\mathbf{A} \times_2 \bPhi^T \times_3 \bG^T\right]_{(1)} \mathbf{B}_{(1)}^{\dagger}     \right) \times_2 \bPhi \times_3 \bG  \\
+        &+\bB \times_1 \bPhi \times_2 \left( \mathrm{P}_{\bPhi}^{\perp}\left[\mathbf{A} \times_1 \bPhi^T \times_3 \bG^T\right]_{(2)} \mathbf{B}_{(2)}^{\dagger}     \right)  \times_3 \bG \\
+        &+\bB \times_1 \bPhi \times_2 \bPhi \times_3\left( \mathrm{P}_{\bG}^{\perp}\left[\mathbf{A} \times_1 \bPhi^T \times_2 \bPhi^T\right]_{(3)} \mathbf{B}_{(3)}^{\dagger}   \right).
+    \end{aligned}
+\end{equation}
+Here $\mathrm{P}_{\bPhi}^{\perp}:=\mathbf{I}_{m}-\bPhi \bPhi^T$, $\mathrm{P}_{\bG}^{\perp}:=\mathbf{I}_{L}-\bG \bG^T$, $\mathbf{B}_{(j)}^{\dagger}=\mathbf{B}_{(j)}^{T}\left(\mathbf{B}_{(j)} \mathbf{B}_{(j)}^{T}\right)^{-1}$, where $\bPhi, \bG, \bB$ are the decomposition of $\mathbf{X}$ on the Riemann manifold, i.e., $\mathbf{X} = \bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG$.
+%Since each point on the Riemann manifold has its core and basis matrices of Tucker decomposition, we can substitute that into Equation (\ref{eq:euc to rie}) and get the result of the projection of any tensor on the tangent plane.
+In this way, we can calculate the Riemann gradient $\mathrm{grad}f(\bX_k)$ by replacing $\mathbf{A}, T_{\mathbf{X}} \mathcal{M}_{\mathbf{r}}$ in Equation (\ref{eq:euc to rie}) with $\nabla f(\bX_k), T_{\mathbf{X}_k} \mathcal{M}_{\mathbf{r}}$ in Equation (\ref{eq:euc grad}).
+
+\subsubsection{Vector Transport $\cF_{\bX_{k-1} \rightarrow \bX_{k}}$}
+
+
+\begin{figure*}
+  \centering
+  \subfloat[]{%
+        \includegraphics[width = 0.3\linewidth]{riemann_grad1.png}
+        \label{fig:riemann grad}}
+  \subfloat[]
+    { \includegraphics[width = 0.3\linewidth]{vector_trans1.png}\label{fig:vector tran}}
+   \subfloat[]
+    {  \includegraphics[width = 0.3\linewidth]{retraction1.png}\label{fig:retraction}}
+  \caption{Different projections in a Riemannian manifold: (a) Riemann gradient; (b) Vector transport; (c) Retraction}
+  \label{fig:vector tran and retraction}
+\end{figure*}
+In the conjugate gradient method under Riemann optimization, we need to update the current descent direction with considering the direction of the previous iteration.  However as shown in Figure \ref{fig:vector tran}, the descent direction is on the tangent plane of the current point. In order to consider the descent direction of the previous iteration, we need to project it on the tangent plane of the current point, i.e., define the vector transport $\cF_{\bX_{k-1} \rightarrow \bX_{k}}$.
+
+It is worth noting that the tangent plane $T_{\bX}\cM_{\br}$ in the previous iteration is a subset of Euclidean space, so the direction of previous iteration can also be regarded as a tensor in Euclidean space which can be updated in the current tangent plane by Equation (\ref{eq:euc to rie}) as follows
+\begin{equation}
+    \cF_{\mathbf{X}_{k-1} \rightarrow \mathbf{X}_{k}} \bm{\eta}_{k-1}=\mathbf{P}_{T_{\mathbf{X}_{k}} \mathcal{M}_{\mathbf{r}}}\left(\bm{\eta}_{k-1}\right)
+    \label{eq:vector trans}.
+\end{equation}
+%\chen{this part is not writen clearly,what is $\eta_{k-1}$, what is its relationship with $grad f(X_k)$ consistently; what is the relationship between Eq. 18 and  $\cF_{\bX_{k-1} \rightarrow \bX_{k}}$}
+Here $\bm{\eta}_{k-1}$ is the descent direction of the last iteration which is defined on the last tangent plane. By using Equation (\ref{eq:vector trans}), we can get the $\cF_{\mathbf{X}_{k-1} \rightarrow \mathbf{X}_{k}} \bm{\eta}_{k-1}$ that is the projection of the last decent direction onto the current tangent plane. 
+%The projection operator $\cF_{\bX_{k-1} \rightarrow \bX_{k}}$ is the vector transport. 
+%In this way, we can calculate the vector transport $\cF_{\bX_{k-1} \rightarrow \bX_{k}}$ \chen{how to calculate it should be clearly written?}
+
+\subsubsection{Conjugate Direction $\boldsymbol{\eta}_k$ And Step Size $\gamma_k$}
+With the vector transport, we can linearly combine the previous descent direction with the current Riemann gradient to get the current descent direction, i.e.,
+\begin{equation*}
+    \bm{\eta}_k =  - \mathrm{grad}f(\bX_k) + \beta_k \cF_{\bX_{k-1} \rightarrow \bX_{k}}\bm{\eta}_{k-1},
+\end{equation*}
+where the linear combination coefficient $\beta_k$ is calculated as following,
+\begin{equation*}
+    \beta_{\bX_k} = \max\{0, \frac{\langle \mathrm{grad}f(\bX_k), \mathrm{grad}f(\bX_k) - \zeta_{\bX_{k-1} \rightarrow \bX_{k}} \rangle}{||\mathrm{grad}f(\bX_{k-1})||_{F}^2} \},
+\end{equation*}
+where $\zeta_{\bX_{k-1} \rightarrow \bX_{k}} =  \cF_{\bX_{k-1} \rightarrow \bX_{k}}\mathrm{grad}f(\bX_{k-1})$.
+After getting the descent direction, it is necessary to calculate the optimal step size which can be obtained by solving the following optimal problem,
+\begin{equation*}
+    \gamma_k = \arg \min_{\gamma} f(\bX_k + \gamma \bm{\eta}_k).
+\end{equation*}
+It has a closed-form solution as 
+\begin{equation*}
+    \gamma_k = \frac{\langle \mathcal{P}_{\boldsymbol{\Omega}}\bm{\eta}_k, \mathcal{P}_{\boldsymbol{\Omega}}(\bX_k - \bY)\rangle}{\langle \mathcal{P}_{\boldsymbol{\Omega}}\bm{\eta}_k, \mathcal{P}_{\boldsymbol{\Omega}}\bm{\eta}_k \rangle}.
+\end{equation*}
+
+Then we can get the value of the next target point on the tangent plane.
+
+\subsubsection{Retraction $R(\cdot)$}
+All the current operations are performed on the tangent plane of the Riemann manifold. So at the end of each iteration, the retraction $R(\cdot)$ is to project the points on the tangent plane back onto the Riemann manifold, as shown in Figure \ref{fig:retraction}. 
+To satisfy our symmetry constraints for the first two basis matrices, we introduce the Symmetry-HOSVD (SHOSVD) as shown in Algorithm \ref{alg:SHOSVD} where $SVD_{i}(\mathbf{A})$ denotes the first $i$ columns of the left eigenvectors of the SVD decomposition of $\mathbf{A}$. Then we define $R(\bX_k, \gamma_k \bm{\eta}_k) = SHOSVD(\bX_k + \gamma_k \bm{\eta}_k)$. 
+
+\begin{algorithm}[hbt]
+	\caption{Sysmmetry-HOSVD} 
+	\label{alg:SHOSVD}
+	\begin{algorithmic}
+		% 输入
+		\REQUIRE 
+		tensor to be decomposed $\bX \in \bbR^{m \times m \times L \times N}$ \\
+        targeted decomposition dimension of the core tensor $\br = [s, s, K, N]$
+		% 输出
+		\ENSURE 
+		decomposition result $SHOSVD(\bX) = \bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG$
+		
+		% 初始化
+        \STATE $\bPhi = SVD_{s}\left( \frac{\bX_{(1)} + \bX_{(2)}}{2}\right)$
+        \STATE $\bG = SVD_{K}(\bX_{(3)})$
+        \STATE $\bB = \bX \times_1 \bPhi^T \times_2 \bPhi^T \times_3 \bG^T$
+         \STATE$SHOSVD(\bX) = \bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG$
+	\end{algorithmic}
+\end{algorithm}
+
+%So far, we have refined the details of  Algorithm \ref{alg:riemann_CG} to solve Equation (\ref{eq:FEN model opti})  and we can use it to estimate parameters in the FEN model and get the decomposition $ \hat{\bX} =\hat{\bB} \times_1 \hat{\bPhi} \times_2 \hat{\bPhi} \times_3 \hat{\bG}$.
+
+\begin{assumption}
+    \label{ass:converage}
+    Define $\bX_k$ as the estimation of the $k$th iteration by Algorithm \ref{alg:riemann_CG}, we have 
+    \begin{equation*}
+        \lim\limits_{k \to \infty} \sigma_{r_i}(\bX_{(i)}) \neq 0, \quad i = 1,2,3,4,
+    \end{equation*}
+    where $\sigma_j(\bX_{(i)})$ denotes the $j$th biggest singular value of $\bX_{(i)}$.
+\end{assumption}
+Assumption \ref{ass:converage} states that as $k\to \infty$, $\bX_{(i)}$ has rank $r_i$. This is intuitive because, according to Assumption \ref{ass:r<R}, $\br \leq \br^0$, and $\bY$ also includes the influence of full-rank noise, $\bE$. Therefore, as the algorithm converges, it is impossible to use a lower-rank tensor to estimate $\bY$.
+
+
+\begin{theorem}
+\label{the:local converage}
+    Define  $f(\bX_k)$ is the objection function of Equation (\ref{eq:FEN model opti}) by replacing $\bX$ by $\bX_k$. Under Assumption \ref{ass:converage}, we have
+    \begin{equation}
+        \lim\limits_{k \to \infty} || \mathrm{grad}f(\bX_k)||_F = 0.
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    The proof of Theorem \ref{the:local converage} is shown in the Appendix.
+\end{proof}
+Theorem \ref{the:local converage} shows that Algorithm \ref{alg:riemann_CG} converges at least to a saddle point.
+
+\iffalse
+\subsubsection{Basis Symmetrization Constraint $\mathcal{D}(\cdot)$}
+Through the above description, we can get a set of solution results of Riemann optimization, but it does not satisfy the symmetry constraint of the bases. Simply speaking, we can get $\bX_{out} = \Tilde{\mathbf{B}} \times_1 \hat{\mathbf{U}_1} \times_2 \hat{\mathbf{U}_2} \times_3 \hat{\mathbf{U}_3}$ through the above iteration. According to the properties of the orthogonal basis matrix, we only need to use Algorithm \ref{alg:Base sym} to obtain the object decomposition of symmetric bases in accordance with the constraints of Equation \ref{eq:FEN model}.
+
+\begin{algorithm}
+	\caption{Base Symmetrization} 
+	\label{alg:Base sym}
+	\begin{algorithmic}
+		% 输入
+		\REQUIRE 
+		decomposition of asymmetric basis$\bX_{out} = \Tilde{\mathbf{B}} \times_1 \hat{\mathbf{U}_1} \times_2 \hat{\mathbf{U}_2} \times_3 \hat{\mathbf{U}_3}$
+		% 输出
+		\ENSURE 
+		decomposition of symmetric basis $\mathcal{D}(\bX_{out}) = \hat{\bB} \times_1 \hat{\mathbf{U}_1} \times_2 \hat{\mathbf{U}_1} \times_3 \hat{\mathbf{U}_3}$
+		
+		% 初始化
+        \STATE $\mathbf{O} = \hat{\mathbf{U}_2}^T \hat{\mathbf{U}_1} $
+        \STATE $\hat{\bB} = \Tilde{\bB} \times_{2} \mathbf{O}^{-1}$
+         \STATE$\mathcal{D}(\bX_{out}) = \hat{\bB} \times_1 \hat{\mathbf{U}_1} \times_2 \hat{\mathbf{U}_1} \times_3 \hat{\mathbf{U}_3}$
+	\end{algorithmic}
+\end{algorithm}
+
+Using Algorithm \ref{alg:Base sym}, we can get $\hat{\bX} = \mathcal{D}(\bX_{out})$. In this way, we add the bases symmetrization constraint for the decomposition. So far, the algorithm to solve Equation \ref{eq:FEN model} has been given and we can use it to estimate parameters in the FEN model and get the decomposition $ \hat{\bX} =\hat{\bB} \times_1 \hat{\Phi} \times_2 \hat{\Phi} \times_3 \hat{\Theta}$.
+
+\fi
+\iffalse
+\section{Theorem}
+\label{sec:theorem}
+In this section,  we derive some theoretical properties of FEN model.
+
+\subsection{Assumptions}
+According to Equation (\ref{eq:FEN model}) and Equation (\ref{eq:FEN continue}), we have the target problems,
+\begin{equation}
+    \begin{aligned}
+    \hat{\bX} = \mathop{\arg \min}\limits_{\bX \in \cM_\br} ||\mathcal{P}_{\boldsymbol{\Omega}}(\bY - \bX)||_{F} + \frac{1}{2}\sum_{k = 1}^K\alpha_k g_k^{T} H g_k \\
+    \hat{\mathcal{X}} =  \mathop{\arg \min}\limits_{\mathcal{X} \in \cM_{\mathcal{r}}} \frac{1}{2}||\mathcal{Y} - \mathcal{X}||_{F}^2 + 
+         \sum_{k = 1}^{K} \alpha_k\int_{\cT}({\mathcal{g}_k}^{'}(t))^2\,dt
+    \end{aligned}
+    \label{eq:FEN general}
+\end{equation}
+where $\bY = \bX + \bE$ and $\bY, \bX, \bE, \boldsymbol{\Omega} \in \bbR^{m \times  m \times L \times N}$ and $\mathcal{Y} = \mathcal{X} + \mathcal{E}$ and $\mathcal{Y}, \mathcal{X}, \mathcal{E} \in \bbR^{m \times m \times \cT \times N}$.  $\cM_{\mathcal{r}}$ is the continuous version of $\cM_\br$ whose bases of third dimension is continuous. The elements $\epsilon$ in tensor $\bE$ and $\mathcal{E}$ are defined the same as previously. 
+%obey the normal distribution with mean of 0 and variance of $\sigma^2$ and is independent with each other.  
+$\hat{\bX}$ and $\hat{\mathcal{X}}$ are the estimations of $\bX$ and $\mathcal{X}$ respectively derived from Section \ref{sec:optimization}.
+\iffalse
+First, we give the definition of the rank of a tensor\chen{do we need to bold or italic ``rank"? }
+\begin{equation}
+    \textbf{rank}_{i}(\bX) = \textbf{rank}(\bX_{(i)}) \quad i = 1,\cdots, 4
+    \label{eq:tensor rank}
+\end{equation}
+It is obvious that the rank of a tensor is a vector and each element of it is determined by the rank of the matrixization of the tensor in different directions.\chen{is it a formal definition? write it as a ``Definition''}
+\fi
+
+\begin{assumption}
+    Define $R_i = \textbf{rank}_i(\bY)$, and $\br = [s, s, K, N]$, we assume
+    \begin{equation}
+        r_i \leq R_i \quad i = 1,\cdots, 4
+    \end{equation}
+    where $\textbf{rank}_{i}(\bY) = \textbf{rank}(\bY_{(i)}) \quad i = 1,\cdots, 4$
+    \label{ass:r<R}
+\end{assumption}
+This can be easily satisfied since the hyperparameter $\br$ is a pre-specific vector. We can always select $\br$ that satisfies Assumption \ref{ass:r<R}.
+%by slowly increasing $\br$ during the actual running of the algorithm. In this way, Assumption \ref{ass:r<R} can be achieved.
+
+\begin{assumption}
+    \label{ass:time window}
+    We use $\Delta \triangleq \frac{T_e - T_s}{L}$ to denote the time interval between the neighboring two observation points in set $\Tilde{\cF}$, and 
+    \begin{equation}
+        \Delta = o(\frac{1}{m^2N})
+    \end{equation}
+\end{assumption}
+This can also be satisfied as long as we set $L$ to be large enough, and the observations should not be sparse.
+%and many points in $\Tilde{\cF}$ are unobserved due to irregular observations,  we believe this assumption to be justifiable.
+
+\subsection{Theorems}
+\begin{theorem}
+\label{the:omega}
+Suppose $\bX \in \bbR^{m \times m \times L \times N}$ are full observation tensors from the original functional tensor $\mathcal{X} \in \bbR^{m \times m \times \cF \times N}$, whose third dimension is first order continuously differentiable. Under Assumption \ref{ass:time window}, we have
+\begin{equation}
+        ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX )||_{F} \in [c||\bX ||_{F}, C||\bX ||_{F}]
+    \end{equation}
+    where $\boldsymbol{\Omega}$ is the mask tensor, $c,C$ are constants which are related to $\boldsymbol{\Omega}$ and $\mathcal{X}$.
+\end{theorem}
+Theorem \ref{the:omega} states that the norm of  tensor $\bX$ with missing values is of the same order as the norm of tensor $\bX$. The specific expression of $c,C$ and the proof details are in the appendix.
+
+%\chen{what does theorem mean intutively? why we need this theorem}
+%In our model, we only need to guarantee the continue matrix base $\mathcal{G}$ is first order continuously differentiable , then we can say the third dimension  of original tensor $\mathcal{X} = \bB \times_1 \Phi \times_2 \Phi \times_3 \mathcal{G}$ is  first order continuously differentiable. We can have that the $||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_{F}$ and $||\bX||_{F}$ are of same order according to Theorem \ref{the:omega}.
+
+\begin{theorem}
+\label{the:identifiable}
+    For any two $\bX$ and $\Tilde{\bX}$, we conduct SHOSVD for them as $SHOSVD(\bX) = \bB \times_1 \Phi \times_2 \Phi \times_3 G$ and $SHOSVD(\Tilde{\bX}) = \Tilde{\bB} \times_1 \Tilde{\Phi} \times_2 \Tilde{\Phi} \times_3 \Tilde{G}$, we have 
+    \begin{align}
+    \label{eq:the_identi 1}
+     ||GG^T - \Tilde{G}\Tilde{G}^T||_F & \leq \frac{2}{\lambda_K -\lambda_{K+1}}||\bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T ||_F\\
+     \label{eq:the_identi 2}
+     ||\Phi\Phi^T - \Tilde{\Phi}\Tilde{\Phi}^T||_F &\leq \frac{1}{\mu_s - \mu_{s+1}}||\bX_{(1)}\bX_{(1)}^T - \Tilde{\bX}_{(1)}\Tilde{\bX}_{(1)}^T + \bX_{(2)}\bX_{(2)}^T - \Tilde{\bX}_{(2)}\Tilde{\bX}_{(2)}^T ||_F
+    \end{align}
+    where $\lambda_i$ denotes the $i$th eigenvalue of $\bX_{(3)}\bX_{(3)}^T$, $\mu_i$ denotes the $i$th eigenvalue of $\bX_{(1)}\bX_{(1)}^T + \bX_{(2)}\bX_{(2)}^T$.  $\bX, \Tilde{\bX} \in \bbR^{m \times m \times L \times N}$, $\bB, \Tilde{\bB} \in \bbR^{s \times s \times K \times N}$, $\Phi, \Tilde{\Phi} \in \bbR^{m \times s}$, $G, \Tilde{G} \in \bbR^{L \times K}$.
+\end{theorem}
+\chen{this theorem has no direct relationship with our main results, maybe put it as a lemma in appendix.}
+Theorem \ref{the:identifiable} shows that, if there are two similar tensors $\bX$ and $\Tilde{\bX}$ and we use SHOSVD algorithm as our estimation, the basis matrices will also be very close. This can guarantee that our model is identifiable, there will not be two tensors that are very close but whose decomposition is very different when we do the retraction. It  needs to be noted that we compare $GG^T$ with $\Tilde{G}\Tilde{G}^T$ instead of $G$ and $\Tilde{G}$. This is because  any orthogonal matrix $O \in \bbR^{s \times s}$ can be applied to $G$ and $\bB$ such that $G_0 = GO$ and $\bB_0 = \bB \times_3 O^T$ without affecting the decomposition of $\bX$. Comparing $GG^T$ and $\Tilde{G}\Tilde{G}^T$ allows us to avoid being affected by such orthogonal changes.
+
+\begin{theorem}
+\label{the:local converage}
+    Define $\bX_k$ as the estimation of the $k$th iteration by Algorithm \ref{alg:riemann_CG}, and $f(\bX_k)$ is the objection function of Equation (\ref{eq:FEN model}) by replacing $\bX$ by $\bX_k$. Then
+    \begin{equation}
+        \lim\limits_{k \to \infty} || \mathrm{grad}f(\bX_k)||_F = 0
+    \end{equation}
+\end{theorem}
+
+Theorem \ref{the:local converage} shows that Algorithm \ref{alg:riemann_CG} converges at least to the local optimal solution \chen{or a saddle point}.
+%and to the global optimal solution if the target problem is convex.
+
+\iffalse
+\begin{assumption}
+\label{ass:omega}
+    if  $\bX_1 \in \cM_{\br_{1}}, \bX_2 \in \cM_{\br_{2}}$, then we have
+    \begin{equation}
+        ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX_1 - \bX_2)||_{F} \in [c||\bX_1 - \bX_2||_{F}, C||\bX_1 - \bX_2||_{F}]
+    \end{equation}
+    where $c,C$ are constants which are only related to mask tensor $\boldsymbol{\Omega}$.
+\end{assumption}
+
+Since $\bX_1$ and $\bX_2$ are in different low rank space $\cM_{\br_1}$ and $\cM_{\br_2}$ and they are obtained by the Tucker product of different rank. In this way, $\bX_1$ and $\bX_2$ may have uniform continuity property, that is, the norm at the unobserved point can be linearly constrained by its neighboring points. Under this situation, we propose Assumption \ref{ass:omega} and it also means that $||\mathcal{P}_{\boldsymbol{\Omega}}(\bX - \hat{\bX})||_{F}$ and $||\bX - \hat{\bX}||_{F}$ are of same order.
+\fi
+
+
+\iffalse
+\begin{theorem}
+\label{the:theorem 1}
+If there are two solution of Equation  \ref{eq:FEN general} satisfy $||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \bY)||_F = ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_2 - \bY)||_F = \epsilon$, and under Assumption \ref{ass:omega}, there exists the same set of orthogonal basis $\mathbf{U}_1,\cdots, \mathbf{U}_d$, which makes the following statement true
+\begin{equation}
+\begin{aligned}
+    \hat{\bX}_1  &= \mathbf{G}_1 \times_{i= 1}^4 \mathbf{U}_i\\
+    \hat{\bX}_2  &= \mathbf{G}_2 \times_{i= 1}^4 \mathbf{U}_i\\
+    ||\mathbf{G}_1 - \mathbf{G}_2||_{F}  &\leq 2C\epsilon
+    \end{aligned}
+\end{equation}
+where $C$ is the constant in Assumption \ref{ass:omega}, $\epsilon$ is very small and we'll prove it in the following theorem.
+\end{theorem}
+\fi
+\iffalse
+\begin{proof}
+Firstly, according to triangle inequality, we have
+\begin{equation}
+    \label{proof 1}
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \hat{\bX}_2)||_F \leq ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \bY)||_F + ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_2 - \bY)||_F  = 2\epsilon
+\end{equation}
+
+If basis matrices of $\hat{\bX}_1$ and $\hat{\bX}_2$ are different, we can always use Algorithm \ref{alg:Base sym} to get the same basis matrices $\mathbf{U}_1,\cdots, \mathbf{U}_d$ and only change the core tensors of tucher decomposition. Then we can get
+\begin{equation}
+    \label{proof 2}
+    \hat{\bX}_1 - \hat{\bX}_2 = (\mathbf{G}_1 - \mathbf{G}_2) \times_{i = 1}^d \mathbf{U}_i
+\end{equation}
+Further more  because of the orthogonality of $\mathbf{U}_i$ and the properties of the Tucker decomposition we have $||\mathbf{G}_1 - \mathbf{G}_2||_F = ||\hat{\bX}_1 - \hat{\bX}_2||_F$. Then consider Assumption \ref{ass:omega}, we have
+\begin{equation}
+    \begin{aligned}
+    \label{proof 3}
+    ||\mathbf{G}_1 - \mathbf{G}_2||_F &=||\hat{\bX}_1 - \hat{\bX}_2||_F \\
+    &\leq C ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \hat{\bX}_2)||_F\\
+    &\leq  2C\epsilon
+    \end{aligned}
+\end{equation}
+
+\end{proof}
+\fi
+\iffalse
+Theorem \ref{the:theorem 1} shows that even if there are two optimal solutions to Equation \ref{eq:FEN general}, the two solutions are same in F-norm without considering the orthogonality of the bases or its different order. This theorem ensures that our objective function is always identifiable, and there will not be multiple optimal solutions with big differences.
+\fi
+
+\begin{theorem}
+\label{the:theorem 2}
+Under Assumption \ref{ass:r<R} and Assumption \ref{ass:time window}, when $\alpha_k = 0$ which means there are no smoothing constraints, we have
+\begin{equation}
+    \label{eq:theorem2 1}
+    ||\hat{\bX} - \bX||_F \leq \frac{C}{c}(||\bE||_{F} + \sqrt{\sum_{i = 1}^3 \Lambda_i})
+\end{equation}
+where $\frac{||\bE||_{F}^2}{\sigma^2}$ follows a $\chi^{2}_{N_{sum}}$ distribution with $N_{sum}$ degree of freedom. $\frac{\Lambda_i}{\sigma^2}$ follows a non-central $ \chi^{2}_{(1-\frac{r_i}{R_i})N_{sum}}(\lambda_i)$ with $(1-\frac{r_i}{R_i})N_{sum}$ degree of freedom, and non-centrality $\lambda_i$. Here we have $ \lambda_i \leq (1-\frac{r_i}{R_i})\frac{4||\bX||_{F}^2}{\sigma^2}$ $\ i = 1,2 $ and $\lambda_i \leq (1-\frac{r_i}{R_i})\frac{||\bX||_{F}^2}{\sigma^2}$ $\ i = 3 $, respectively. $N_{sum} = \prod_{i = 1}^4 n_i$ denotes the number of elements in $\bY$, i.e.,  $\mathbf{n} = [m, m, L, N]$. Furthermore, we have
+%As in our model, $\br = [s, s, K, N], \mathbf{n} = [m, m, L, N]$ 
+\begin{equation}
+\begin{aligned}
+    \label{eq:theorem2 2}
+    \bbE(\Lambda_i) &= \sigma^2 (\lambda_i + (1-\frac{r_i}{R_i})N_{sum}) 
+    \leq (1 - \frac{s}{R_i})(4||\bX||_{F}^2 + \sigma^2 N_{sum} ) \quad i = 1,2 \\
+     \bbE(\Lambda_i) &= \sigma^2 (\lambda_i + (1-\frac{r_i}{R_i})N_{sum}) 
+    \leq (1 - \frac{K}{R_i})(||\bX||_{F}^2 + \sigma^2 N_{sum} ) \quad i = 3
+\end{aligned}
+\end{equation}
+but $||\bE||_{F}^2, \Lambda_1,\cdots, \Lambda_d$ are not independent. In particular,  when $r_i = R_i, \forall i = 1, 2, 3$, $\Lambda_i$ degenerates into a constant random variable with a value of 0.
+\end{theorem}
+
+\iffalse
+\begin{proof}
+Firstly, we give the definition which we need
+\begin{equation}
+    \begin{aligned}
+    \label{eq:FEN full}
+    \Tilde{\bX} = \mathop{\arg \min}\limits_{\bX \in \cM_\br} ||\bY - \bX ||_{F}
+    \end{aligned}
+\end{equation}
+$\bY = \bX^D + \bE$, and other symbol definitions are same with Equation \ref{eq:FEN general}. We can say $\Tilde{\bX}$ is the special case of $\hat{\bX}$ when the observation is full observation. So we first study the property of $\Tilde{\bX}$.
+
+And we can note that $HOSCD(\bY) \in \cM_\br$ calculated by Algorithm \ref{alg:HOSVD} is a approximate decomposition of $\bY$ and $\Tilde{\bX}$ can minimize $||\bY - \bX ||_{F}$, then we have
+\begin{equation}
+    \label{eq:apen 1}
+    ||\bY - \Tilde{\bX}||_{F} \leq ||\bY - HOSVD(\bY)||_{F}
+\end{equation}
+then we will introduce some properties to describe $||\bY - HOSVD(\bY)||_{F}$.
+
+According \cite{ProveHOSVD}, for each $\bY \in \bbR^{n_1 \times \cdots \times n_d}$, there exists the following decomposition
+\begin{equation}
+    \label{eq:tensor SVD}
+    \bY = \mathbf{S} \times_{i = 1}^{d} \mathbf{U}_i
+\end{equation}
+where $\mathbf{U}_i \in \bbR^{n_i \times n_i}$are orthogonal, $\mathbf{S} \in \bbR^{n_1 \times \cdots \times n_d}$ is all-orthogonal tensor.
+
+All-orthogonal tensor has the following properties:
+\begin{itemize}
+    \item all-orthogonality
+    \begin{equation}
+    \begin{aligned}
+        \label{eq:all orth 1}
+        \langle \mathbf{S}(i_j = \alpha), &\mathbf{S}(i_j = \beta) \rangle = 0 \\
+        &when \quad \alpha \neq \beta, \ 1\leq j \leq d
+    \end{aligned}
+    \end{equation}
+    \item ordering
+    \begin{equation}
+    \begin{aligned}
+        \label{eq:all orth 2}
+        ||\mathbf{S}(i_j = 1)||_{F} &\geq ||\mathbf{S}(i_j = 2)||_{F} \\
+        &\geq \cdots \geq ||\mathbf{S}(i_j = n_j)||_{F} 
+    \end{aligned}
+    \end{equation}
+    where $1\leq j \leq d  $and we define $\sigma_{k}^{(j)} = ||\mathbf{S}(i_j = k)||_{F} $.
+    \item norm invariance
+    \begin{equation}
+        \label{eq:all orth 3}
+        ||\bY||_{F}^2 = ||\mathbf{S}||_{F}^2 = \sum_{k = 1}^{n_j} {\sigma_{k}^{(j)}}^2 \quad 1\leq j\leq d
+    \end{equation}
+\end{itemize}
+
+After getting the all-orthogonal tensor $\mathbf{S}$ by decompose $\bY$, we can get the following upper bound according to \cite{ProveHOSVD}
+\begin{equation}
+    \label{eq:hosvd upper}
+    ||\bY - HOSVD(\bY)||_{F}^2 \leq \sum_{i_1 = r_1 + 1}^{R_1}{\sigma_{i_1}^{(1)}}^2 + \cdots + \sum_{i_d = r_d + 1}^{R_d}{\sigma_{i_d}^{(d)}}^2
+\end{equation}
+where the definition of $r_i, R_i$ is same with Assumption \ref{ass:r<R}.
+
+It should be noted that each element in $\bY$ is a normal random variable with mean value of corresponding element in $\bX^D$ and variance of $\sigma^2$, and is independent of each other. Each $\sigma_i^{(k)}$ obtained by this decomposition is also a random variable, and then we will study the distribution of these random variable.
+
+According to the property of Tucker decomposition and the orthogonality of $\mathbf{U}_i$, we can get
+\begin{equation}
+\begin{aligned}
+    \mathbf{S}_{(k)} = \mathbf{U}_{k}^T \mathbf{\bY}_{(k)}(&\mathbf{U}^{(1)} \otimes \dots \otimes \mathbf{U}^{(k - 1)} \\
+    &\otimes \mathbf{U}^{(k + 1)} \otimes \dots \otimes \mathbf{U}^{(d)}) 
+\end{aligned}
+\end{equation}
+where $1 \leq k \leq d $and we define $\mathbf{V}_k = \mathbf{U}^{(1)} \otimes \dots \otimes \mathbf{U}^{(k - 1)} \otimes \mathbf{U}^{(k + 1)} \otimes \dots \otimes \mathbf{U}^{(d)}$ for convenience. It is easy to find that each element of $\bY_{(k)}$ obey the normal distribution with same variance and is independent. $\mathbf{U}_k$ and $\mathbf{V}_k$ are orthogonal.According to the properties of normal distribution, if we combine a set of mutually independent homoscedasticity normal distribution with mutually orthogonal linear combination coefficients, the new distribution is still normal distribution and independent, variance does not change, only the mean value of the normal distribution is changed, and the change of the mean value is subject to matrix operation.
+Then we can get each element in $\mathbf{S}$ is independent with the same variance $\sigma^2$ and $\bbE(\mathbf{S}_{(k)}) = \mathbf{U}_k^T \bbE(\bY_{(k)}) \mathbf{V}_k = \mathbf{U}_k^T \bX^D_{(k)} \mathbf{V}_k$. We can rewrite them in tensor form as 
+\begin{equation}
+    \label{eq:expcet S}
+    \bbE(\mathbf{S}) = \bX^D \times_{i = 1}^d \mathbf{U}_i^d
+\end{equation}
+then we get the distribution of $\mathbf{S}$.
+
+Then we define $\Lambda_j = \sum_{i_j = r_j + 1}^{R_j}{\sigma_{i_j}^{(j)}}^2$. Note the following definition $\sigma_{k}^{(j)} = ||\mathbf{S}(i_j = k))||_{F}$, So $\Lambda_i$ is the sum of the squares of the cut elements of the tensor S in the direction $i$.
+Take the three-dimensional case as an example, as shown in Figure \ref{fig:proof}. The figure represents all the elements in the tensor $\mathbf{S}$, where each square column is a fiber of the tensor, and $\Lambda_1$ is calculated from all the blue and green square columns. The elements contained in the figure are $1-\frac{r_1}{R_1}$ times of the total number $N_{sum}$ of elements in the tensor $\mathbf{S}$ . In the same way, $\Lambda_2$ is calculated from the yellow and green squares, which contain elements $1-\frac{r_2}{R_2}$  times the total number of elements $N_{sum}$ of the tensor $\mathbf{S}$. Each element in $\mathbf{S}$ is independent normal random variable with variance of $\sigma^2$, so $\frac{\Lambda_i}{\sigma^2}$ obeys the non-central chi-square distribution, the degree of freedom is the number of elements that make it up $1-\frac{r_i}{R_i}$ , and the non-central value is determined by $\bbE(\mathbf{S})$. On the other hand, as shown in Figure \ref{fig:proof}, since $\Lambda_1$ and $\Lambda_2$ have a common constituent element, the square in the green part, the two non-central chi-square distributions are not independent.
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.7\linewidth]{proof.png}
+  \caption{Constituent elements of $\Lambda_i$}
+  \label{fig:proof}
+\end{figure}
+
+Then according to Equation  \ref{eq:all orth 2}, Equation \ref{eq:all orth 3} and Equation \ref{eq:expcet S}, we can get 
+\begin{equation}
+    \begin{aligned}
+    \label{eq:Lambda}
+    \frac{\Lambda_{i}}{\sigma^2} &\sim noncentral-\chi(\lambda_i, (1-\frac{r_i}{R_i})N_{sum})\\
+    \lambda_i &\leq (1 - \frac{r_i}{R_i})\frac{||\bX^D||_{F}^2}{\sigma^2}
+    \end{aligned}
+\end{equation}
+
+As $\bE = \bY - \bX^D$, then we have
+\begin{equation}
+    \label{eq:Epsilon}
+    \frac{||\bE||_{F}^2}{\sigma^2} \sim \chi_{N_{sum}}
+\end{equation}
+
+According to triangle inequality, we have
+\begin{equation}
+    \begin{aligned}
+    \label{eq:tilde x}
+    ||\Tilde{\bX} - \bX^D||_{F} &\leq ||\bY - \bX^D||_{F} + ||\bY - \Tilde{\bX}||_{F} \\
+    &\leq ||\bE||_{F} + ||\bY - HOSVD(\bY)||_{F}\\
+    &\leq ||\bE||_{F} + \sqrt{\sum_{i = 1}^d\Lambda_i}
+    \end{aligned}
+\end{equation}
+
+At last, we use Assumption \ref{ass:omega} to build the connection between $\Tilde{\bX}$ and $\hat{\bX}$
+\begin{equation}
+    \begin{aligned}
+    \label{eq:theo 2 final}
+    ||\hat{\bX} - \bX^D||_{F} &\leq C||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX} - \bX^D)||_{F}   \\
+    &\leq C||\mathcal{P}_{\boldsymbol{\Omega}}(\Tilde{\bX} - \bX^D)||_{F}\\ 
+    & \leq \frac{C}{c}||\Tilde{\bX} - \bX^D||_{F}\\
+    &\leq \frac{C}{c}(||\bE||_{F} + \sqrt{\sum_{i = 1}^d\Lambda_i})
+    \end{aligned}
+\end{equation}
+where the distribution of the upper bound is given by Equation \ref{eq:Epsilon} and Equation \ref{eq:Lambda}. 
+
+So far, we have proved Theorem \ref{the:theorem 2}
+\end{proof}
+\fi
+
+Theorem \ref{the:theorem 2} characterizes an upper bound on the F-norm distance between our estimate $\hat{\bX}$ and the true value $\bX$ when we ignore the smoothing constraints, and expresses this upper bound by a combination of multiple chi-square distributions. As the hyperparameter $\br$ gets closer to $\mathbf{R}$, the expectation of this estimated upper bound distribution is getting smaller. In order to better characterize this upper bound, we give Corollary \ref{cor:corollary 1} as follows.
+
+\begin{corollary}
+\label{cor:corollary 1}
+Under Assumption \ref{ass:r<R} and Assumption \ref{ass:time window} when $\alpha_k = 0$, according to Theorem \ref{the:theorem 2}, under our model, $\br = [s, s, K, N]$, we can get
+\begin{equation}
+\begin{aligned}
+\label{eq:corollary 1}
+    P(||\hat{\bX} - \bX||_{F} \leq \epsilon) \geq 
+    1- \frac{C}{\epsilon c}(  \sigma \sqrt{N_{sum}} +
+    \sqrt{\sum_{i = 1}^3 \left(1- \frac{r_i}{R_i} \right)\{\sigma^2N_{sum}+ \delta_i ||\bX|| _F^2 \}})
+\end{aligned}
+\end{equation}
+where $\delta_i = 4, \ i = 1,2$ and $\delta_i = 1, \ i = 3$.
+
+In particular, when $r_i = R_i \forall i = 1, 2, 3$, Equation (\ref{eq:corollary 1}) degenerates into
+\begin{equation}
+    \label{eq:corollary 2}
+    P(||\hat{\bX} - \bX||_{F} \leq \epsilon) \geq 1- \frac{C\sigma \sqrt{N_{sum}}}{\epsilon c}
+\end{equation}
+\end{corollary}
+\iffalse
+\begin{proof}
+Firstly, according to Theorem \ref{the:theorem 2} and Chebyshev inequality, we have
+\begin{equation}
+    \begin{aligned}
+    \label{eq:cor proof 1}
+    P(||\hat{\bX} - \bX^D||_{F} \leq \epsilon) &\geq P(\frac{C}{c}(||\bE||_{F} + \sqrt{\sum_{i = 1}^d\Lambda_i}) \leq \epsilon)\\
+    & = P(||\bE||_{F} + \sqrt{\sum_{i = 1}^d\Lambda_i}\leq \frac{\epsilon c}{C})\\
+    &\geq 1 - \frac{C \bbE(||\bE||_{F} + \sqrt{\sum_{i = 1}^d\Lambda_i})}{\epsilon c}
+    \end{aligned}
+\end{equation}
+
+Then according to Jensen's inequality, and$f(x) = \sqrt{x}$ is a concave function, and bringing in the expectation given in Theorem \ref{the:theorem 2} we can get
+\begin{equation}
+    \begin{aligned}
+    \label{eq:cor proof 2}
+    \bbE(||\bE||_{F} &+ \sqrt{\sum_{i = 1}^d\Lambda_i})  \leq \sqrt{\bbE(||\bE||_{F}^2)} + \sqrt{\sum_{i = 1}^d\bbE(\Lambda_i)}\\
+    & = \sqrt{\sigma^2 N_{sum}} + \sqrt{\sigma^2(\lambda_i + (1-\frac{r_i}{R_i})N_{sum})} \\
+    & \leq \sigma \sqrt{N_{sum}} + \sqrt{\sigma^2N_{sum} + ||\bX^D||_{F}^2} \sqrt{\sum_{i = 1}^d(1 - \frac{r_i}{R_i})}
+    \end{aligned}
+\end{equation}
+
+Bring Equation \ref{eq:cor proof 2} into Equation \ref{eq:cor proof 1}, we can get Corollary \ref{cor:corollary 1}.
+\end{proof}
+\fi
+
+When we ignore the smoothing constraints, Corollary \ref{cor:corollary 1} describes the probability that the F-norm distance between our estimated value $\hat{\bX}$ and true value $\bX$ is less than a small amount $\epsilon$, and this probability gets bigger when the hyperparameters $\br$ gets closer to $\mathbf{R}$. This means that the more accurate the hyperparameters, the more efficient the algorithm is. Besides, a smaller value of $\sigma^2$, $||\bX||_{F}$ or $N_{sum}$ may also lead to a smaller estimation error. Corollary \ref{cor:corollary 1} ensures that the estimated value given by our model will be close to the true value with a high probability when the parameters are selected reasonably.
+
+Besides that, for the original FEN model in the continuum space of Equation (\ref{eq:FEN continue}), we also have the following theorem.
+\begin{theorem}
+\label{the:continue}
+If the $Y_{ijn}(t) \triangleq \mathcal{Y}_{[i_1 = i,i_2 = j,i_4 = n]}$ is square integrable function, when $\alpha_k = 0$  we can get
+\begin{equation}
+\begin{aligned}
+    \bbE\{||\mathcal{X} - \hat{\mathcal{X}}||_{F}^2 \} \leq 2m^2N\sum_{k = K+1}^{\infty}\lambda_k 
+    + 4\lambda_1 mKN(m-s) + m^2N\sigma^2(T_e - T_s)
+    \end{aligned}
+\end{equation}
+where $\{ \lambda_k \}$ is a non-negative monotonically decreasing sequence and $\sum_{k = K+1}^{\infty}\lambda_k \rightarrow 0$ as $K \rightarrow \infty$.
+\end{theorem}
+\chen{how to get $\hat{\mathcal{X}}$? if these theorem 5,6,and 7 are results unrelated to our optimzation algorithm, maybe put these results before Section 4?}
+\iffalse
+\begin{proof}
+As we set $\alpha_k = 0 \quad k = 1,\cdots K$, $\hat{\mathcal{X}}$ can minimize $||\mathcal{Y} - \mathcal{X}||_{F}^2$ as a estimation of $\mathcal{X}$. In this way, if we can find an estimation of $\mathcal{X}$ which can satisfy the up bound in  Theorem \ref{the:continue}, $\hat{\mathcal{X}}$ can also satisfy it. Then we will find a decomposition $\Tilde{\mathcal{X}}$  and $ \bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2n^2\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 nK(n-s)$.
+
+Firstly, we can regard the $Y_{ij}(t) \quad i = 1,\cdots,n \quad j = 1,\cdots,n$ as $n^2$ samples from a random function with mean of $0$. Then we can use functional PCA to do the decomposition to $\mathcal{Y}$. 
+\begin{equation}
+    \begin{aligned}
+    Y_{ij}(t) = \sum_{k = 1}^{\infty} a_{ijk} \psi_k(t)
+    \end{aligned}
+\end{equation}
+where $\psi_k(t)$ is basis function and $\int_{\cT}\psi_k(t)^2\, dt = 1$. $a_{ijk}$ is a random variable which represents the PCA score and $\bbE(a_{ijk}) = 0, Var(a_{ijk}) = \lambda_{k}$.  $\{ \lambda_k \}$ is a non-negative monotonically decreasing sequence and $\sum_{k = K+1}^{\infty}\lambda_k \rightarrow 0$ as $K \rightarrow \infty$.
+
+Then we can choose the first $K$ basis functions as a initial decomposition of $\mathcal{Y}$ which can be writen in tensor form as $\mathbf{A} \times_3 \Psi^t$, where $\mathbf{A} \in \bbR^{n \times n \times K}, \Phi^t \in \bbR^{K \times \cT}$ and $\mathbf{A}, \Phi$ are consist of $a_{ijk}, \psi_k(t)$ respectively. 
+
+Then we need to decomposite the $\mathbf{F}$ into the form of Tucker products to get the $\Tilde{\mathcal{X}}$.  We can use Algorithm \ref{alg:HOSVD} and Algorithm \ref{alg:Base sym} to get the $HOSVD(\mathbf{A}) = \mathbf{B} \times_1 \Psi \times_2 \Psi$ with Tucker rank $\br = [s, s, K]$ where $\mathbf{B} \in \bbR^{s\times s\times K}, \Psi \in \bbR^{n\times s}$. For convenience, we use $\mathbf{C}$ which is consist of $c_{ijk}$ to denote $HOSVD(\mathbf{A})$. 
+After the above derivation, we get $\Tilde{\mathcal{X}} = \mathbf{C} \times_3 \Phi^t = \mathbf{B} \times_1 \Phi \times_2 \Phi \times_3 \Psi^t$. Then we will prove the $\bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2n^2\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 nK(n-s)$, to complete the proof.
+
+According to the property of $L_2$ norm, we can get
+\begin{equation}
+    \begin{aligned}
+    &||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2\\ &= \sum_{i = 1}^{n}\sum_{j = 1}^{n}\int_{\cT}(Y_{ij}(t) - \sum_{k = 1}^{K}c_{ijk}\psi_k(t))^2\, dt \\
+    & = \sum_{i = 1}^{n}\sum_{j = 1}^{n}\int_{\cT}((Y_{ij}(t) - \sum_{k = 1}^{K}a_{ijk}\psi_k(t))\\
+    &+(\sum_{k=1}^{K}a_{ijk}\psi_k(t)- \sum_{k = 1}^{K}c_{ijk}\phi_k(t)))^2\, dt \\
+    &\leq 2\sum_{i = 1}^{n}\sum_{j=1}^{n}[\int_{\cT}(Y_{ij}(t) - \sum_{k=1}^{K}a_{ijk}\psi_k(t))^2\, dt\\
+    &+ \int_{\cT}(\sum_{k =1}^{K}a_{ijk}\psi_k(t) - \sum_{k =1}^{K}c_{ijk}\psi_k(t))^2\, dt] 
+    \end{aligned}
+    \label{eq:L2 decom}
+\end{equation}
+
+
+Firstly, we consider the first term of the right side of Equation \ref{eq:L2 decom}. As $a_{ijk}$ and $\psi_k(t)$ are got by the functional PCA, we can have 
+\begin{equation}
+    \begin{aligned}
+    &\bbE\{\sum_{i=1}^n\sum_{j=1}^n \int_{\cT}(Y_{ij}(t) - \sum_{k=1}^{K}a_{ijk}\psi_k(t))^2\, dt \} \\
+    &= \sum_{i=1}^n\sum_{j=1}^n\bbE\{\int_{\cT}(Y_{ij}(t) - \sum_{k=1}^{K}a_{ijk}\psi_k(t))^2\, dt \} \\
+    &= \sum_{i=1}^n\sum_{j=1}^n \sum_{k=K+1}^{\infty}\lambda_k
+    =n^2\sum_{k=K+1}^{\infty}\lambda_k
+    \end{aligned}
+    \label{eq:right first}
+\end{equation}
+
+Then we consider the second term of the right side of Equation \ref{eq:L2 decom}.
+\begin{equation}
+    \begin{aligned}
+    &\sum_{i=1}^n\sum_{j=1}^n\int_{\cT}(\sum_{k =1}^{K}a_{ijk}\psi_k(t) - \sum_{k =1}^{K}c_{ijk}\psi_k(t))^2\, dt\\
+    &= \sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^K(a_{ijk} - c_{ijk})^2 \int_{\cT}\psi_k(t)^2\, dt\\
+    &=\sum_{i=1}^n\sum_{j=1}^n\sum_{k=1}^K(a_{ijk} - c_{ijk})^2
+     = ||\mathbf{A} - \mathbf{C}||_{F}^2
+    \end{aligned}
+\end{equation}
+
+Note that $\mathbf{C}$ is the HOSVD decomposition of $\mathbf{A}$, similarly to the proof of Theorem \ref{the:theorem 2}, we can get
+\begin{equation}
+    \begin{aligned}
+    ||\mathbf{A} - \mathbf{C}||_{F}^2 \leq \Lambda_1 + \Lambda_2
+    \end{aligned}
+\end{equation}
+where $\Lambda_1,\Lambda_2$ are  the sum of the squares of $nK(n-s)$ normally distributed random variables with mean $0$. But as the variance of each element of $\mathbf{A}$ are not same, the variance of normal random variables which construct $\Lambda_1$ and $\Lambda_2$ are also not same but belongs to interval $[\lambda_k, \lambda_1]$.
+
+Then we can divide these normal random variable by their standard deviation and get $\Tilde{\Lambda}_1$ and $\Tilde{\Lambda}_2$. They all obey a Chi-square distribution of $nK(n-s)$ degrees of freedom. Then we have
+\begin{equation}
+    \begin{aligned}
+    &\bbE\{||\mathbf{A} - \mathbf{C}||_{F}^2 \} \leq \bbE\{\Lambda_1 + \Lambda_2 \} \\
+    &\leq \bbE\{\lambda_1(\Tilde{\Lambda}_1 + \Tilde{\Lambda}_2)\} = 2\lambda_1nK(n-s)
+    \end{aligned}
+    \label{eq:right second}
+\end{equation}
+
+Combine Equation \ref{eq:L2 decom}, Equation \ref{eq:right first} and Equation \ref{eq:right second} we can get
+\begin{equation}
+    \begin{aligned}
+    \bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2m^2\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 mK(m-s)
+    \end{aligned}
+\end{equation}
+
+So far we find a decomposition $\Tilde{\mathcal{X}}$ as estimation of $\mathcal{X}$ which can satisfies the up bound in Theorem \ref{the:continue}. As the optimal solution $\hat{\mathcal{X}}$ has the lower up bound than $\Tilde{\mathcal{X}}$, we have proved Theorem \ref{the:continue}.
+\end{proof}
+\fi
+
+Theorem \ref{the:continue} describes the upper bound of the distance between our best estimation and the true function in the continuum space when we ignore the smoothing constraints. The upper bound consists of three parts. The first part $2m^2N\sum_{k=K+1}^{\infty}\lambda_k$ is caused by the functional PCA. It can also be considered as the information loss of the functional decomposition. When $K$ increases, the first part of the upper bound will be small, even be $0$ when $K \rightarrow \infty$. This is reasonable, as the more functional components we include, the less information we lose. The second part of the upper bound $4\lambda_1mKN(m-s)$ is caused by the Tucker decomposition. In contrast with the first part, when $K$ increases, the second part will be big. This is because the larger tensor to be decomposed, the more information is lost.\chen{why?, this is not very reasonable, even for the standard tuker decomposition} 
+%In this way, when the $K$ is big, we will lose less information in the continues dimension decomposition but more in the first two discrete dimensions. The opposite happens when $K$ is small. 
+So we need to balance the value of $K$ to minimize the upper bound in the application. When $s = m$, the second part of the upper bound is zero. This is because we do not conduct the decomposition for the first two dimensions and hence there is no information lost anymore. The third part $m^2N\sigma^2(T_e - T_s)$ shows the influence of the noise variance. A smaller $\sigma^2$ would lead to a tighter upper bound. 
+As to other parameters, a smaller $m$,   $T_e - T_s$ or $N$, resulting in a  lower upper bound. \chen{this is straightforward. since the size is increase with $m^2$, how about use mean of F-norm? }
+
+
+\chen{for the last two theorems, do we need to assume no smooth contstraints? what are their relationships with the previous theorems. It seems the last two theorem 6 and 7 are the most important, add some discussions about them. }
+\begin{theorem}
+\label{the:discrete with smooth}
+    Under Assumption \ref{ass:r<R} and Assumption \ref{ass:time window}, the solution of Equation (\ref{eq:FEN model}) will have 
+    \begin{equation}
+    \begin{aligned}
+        ||\hat{\bX} - \bX||_F \leq \frac{1}{c} \left( ||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F + \sqrt{||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F^2 + 
+        \sum_{k=1}^K \alpha_k||\mathcal{g}_k^{'}||_{\infty}^2\Delta(T_e - T_s) } \right)
+        \end{aligned}
+    \end{equation}
+    where $c$ is the constant in Theorem \ref{the:omega}, $\bE$ is the noise tensor, $\mathcal{g}_k(\cdot) \triangleq \mathcal{G}_{[i_1 = k]}$ and $\mathcal{G}$ is the basis functions of $\mathcal{X}$, $\bX$ is the discretization of $\mathcal{X}$.
+\end{theorem}
+
+\begin{theorem}
+\label{the:continue with smooth}
+    Under Assumption \ref{ass:r<R} and Assumption \ref{ass:time window}, $\hat{\mathcal{X}}$ is the solution of Equation (\ref{eq:FEN continue}) we have
+    \begin{equation}
+    \begin{aligned}
+        ||\hat{\mathcal{X}} - \mathcal{X}||_F \leq ||\mathcal{E}||_F + \sqrt{||\mathcal{E}||_F^2 +  \sum_{k=1}^K \alpha_k ||\mathcal{g}_k^{'}||_{\infty}^2(T_e - T_s)}
+        \end{aligned}
+    \end{equation}
+    where $\mathcal{E}$ is the noise tensor, $\mathcal{g}_k(\cdot) \triangleq \mathcal{G}_{[i_1 = k]}$ and $\mathcal{G}$ is the basis matrix of the third dimension of the true tensor $\mathcal{X}$.
+\end{theorem}
+
+
+
+\fi
+\section{SIMULATION}
+\label{sec:simulation}
+In the simulation study, we evaluate the performance of FEN and compare it with some state-of-the-art methods. 
+%In particular, we consider different scales of networks, with different proportions of missing data and different noise variances. 
+%In this section, we consider data completion for both small-scale and large-scale functional network modeling. We generate simulation data with different data scales, the proportion of missing data and the variance of observation noise to comprehensively evaluate the performance of the FEN model. 
+\subsection{Introduction Of The Baseline Methods}
+As we have introduced in Section \ref{sec:literature}, we consider three types of methods: PCA decomposition, dynamic network modeling, and tensor completion. 
+
+\textbf{PCA-based methods}
+\begin{itemize}
+    \item VPCA \cite{VPCA} conducted PCA decomposition by concatenating discrete observations of functions from different edges into a longer vector and conducting PCA decomposition. It cannot consider spatial relationships between edges and cannot handle irregularly observed functional data.
+    \item MFPCA \cite{MFPCA} conducted PCA decomposition by regarding functions from different edges as the repeated samples of one function and conducting functional PCA. It cannot consider spatial relationships between edges and cannot handle irregularly observed functional data.
+    \item SIFPCA \cite{SIFPCA} conducted PCA decomposition by regarding functions from different edges as the repeated samples of one function and conducting functional PCA. It estimated the covariance function by kernel smooth method and conducted the PCA decomposition of the estimated covariance function to do the completion. In this way, it can handle irregularly observed functional data. However, its computational complexity is so high that it is difficult to use in large-scale data.
+\end{itemize}
+
+\textbf{Dynamic network modeling-based methods}
+\begin{itemize}
+    \item MTR \cite{MTR} regarded the observed values of all functions at a time point as a tensor and performed multilinear tensor regression to do the estimation. It considers the spatial relationships between edges, but cannot handle irregularly observed functional data.
+    
+    \item LDS and MLDS \cite{MLDS}, which are similar to MTR, both treated the functional network as a tensor time series. Yet they use the linear dynamic system or multilinear dynamic system model to do the estimation. So they can not handle irregularly observed functional data as well.
+\end{itemize}
+
+\textbf{Tensor completion-based methods}
+\begin{itemize}
+    \item SPC \cite{CPDecSmooth} treated the functional edges as discrete observations and then conducted CP decomposition with smoothing constraints for adjacency tensor completion and modeling. It does not consider the network community structure. It can handle irregular observation functional data by treating unobserved irregular points as missing data for completion. 
+    \item t-TNN \cite{tTNN} conducted the completion by improving the t-SVD decomposition. It treats the functional edges as discrete observations and changes the order of dimensions to do the t-SVD decomposition. But similarly to SPC, it does not consider the network community structure.
+\end{itemize}
+We compare the above methods with FEN. For the baselines that cannot handle irregular observations, we first use interpolation to get regular observations, and then compare with FEN. 
+
+\subsection{Data Generation}
+We introduce data generation for our simulation study. 
+According to Equation (\ref{eq:tucker for X}), we need to first generate the core tensor $\bB$, discrete basis matrix $\bPhi$ and functional basis matrix $\mathcal{G}$. 
+\begin{algorithm}
+	\caption{Generate Core Tensor} 
+	\label{alg:generate B}
+	\begin{algorithmic}
+		% 输入
+		\REQUIRE 
+		dimension of tensor core  $\br = [s,s,K]$
+		
+		% 输出
+		\ENSURE 
+		tensor core $\mathbf{B}$
+		
+		% 初始化
+        \STATE $k = 1$
+		\WHILE{} 
+		    \STATE generate orthogonal matrix $\mathbf{B}_k \in \bbR ^{s \times s}$
+		    \STATE $\mathbf{B}_{[i_3 = k]} = \mathbf{B}_k$
+		    \IF{Tensor $\mathbf{B}_{[i_3 = 1:k]}$ is full rank in every direction}
+		        \STATE $k = k + 1$
+		    \ENDIF
+			\IF{$k \geq K$}
+		        \STATE break
+		    \ENDIF
+		\ENDWHILE
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{itemize}
+    \item The formation of the core tensor $\bB$ must satisfy that its matrix form has full rank in all directions, i.e., $\textbf{rank}(\mathbf{B}_{(1)}) = \textbf{rank}(\mathbf{B}_{(2)}) = s, \textbf{rank}(\mathbf{B}_{(3)})= K$, where $s,K$ are the hyperparameters. To meet these conditions, we use Algorithm \ref{alg:generate B} to generate $\bB$.
+    \item For functional basis matrix $\bPhi$, we randomly generate orthogonal matrix with order $m$ and take the first $s$ columns of it as $\bPhi$.
+    \item For functional basis matrix $\mathcal{G}$, we choose Fourier bases $G_{(t)k} = \mathcal{g}_k(t) = sin(k\pi t), k = 1,\cdots, K$ defined on $[-1, 1]$.
+\end{itemize}
+
+
+
+After getting functional tensor $\mathcal{X}$, we can set the $L$ observation points as equally spaced on $[T_s, T_e]$ to get $\bX$. Next, we add observation noise to $\bX$ by generating a random noise tensor $\mathbf{E}$ from normal distribution with mean 0 and variance $\sigma^2$.
+
+To generate irregular observations, we randomly select a percentage $\omega$ of observations in the fully observed tensor $\bY^F$ to be missing and set the corresponding entries in the binary mask tensor $\boldsymbol{\Omega}$ to 0 while setting the remaining entries to 1. This yields a set of functional network data with irregularly missing observations for our simulation experiments. Figure \ref{fig:miss} shows the generated observation data with different missing percentages.
+
+\begin{figure}
+  \centering
+  \subfloat[]
+    {\includegraphics[width=0.45\linewidth]{miss_40.png}\label{fig:miss-a}}
+  \subfloat[]
+    {\includegraphics[width=0.45\linewidth]{miss_10.png}\label{fig:miss-b}}
+  \caption{Comparison of observation data generated by different missing percentages: (a)$\omega = 40\%$; (b) $\omega = 10\%$}
+  \label{fig:miss}
+\end{figure}
+
+\subsection{Small-Scale Simulation}
+\label{sec:smallscale}
+
+\iffalse
+\begin{table}
+	\centering
+    \begin{threeparttable}[b]
+	\caption{small-scale simulation parameter setting}
+	\begin{tabular}{ll}
+		\hline
+		Parameter & Value\\
+		\hline
+		$dim(\bX)$ & [10, 10, [-1,1]]\footnotemark[1] \\
+		$N$ & 50  \\ 
+		$dim(\bB)$ & [3, 3, 8]   \\ 
+		$\br$ & [3, 3, 8] \footnotemark[2] \\
+		$\sigma^2$ & 0.01, 0.1, 0.2  \\
+		$\alpha_k$ & 0.1\footnotemark[3] \\
+		$\boldsymbol{\Omega}$ & 40\% , 30\% , 20\% , 10\%   \\
+		\hline
+\end{tabular}
+\begin{tablenotes}
+\tiny 
+\item[1] Fourier basis for third dimension
+\item[2] same with the true core dimension
+\item[3] smoothing constraint coefficient $k = 1,\cdots,K$ 
+\end{tablenotes}
+\end{threeparttable}
+\label{tab:simulation small 1}
+\end{table}
+\fi
+
+
+
+\begin{table}
+	\centering
+	\caption{Small-scale simulation parameter setting }
+	\resizebox{\linewidth}{!}{
+	\begin{tabular}{lccccccc}
+		\hline
+		\textbf{Parameter} & $dim(\mathcal{X})$ & $L$ & $dim(\bB)$ & $[s,s,K]$   \\
+		%\hline
+		\textbf{Value} & [10, 10, [-1,1]]& 50 & [3,3,8]& [3, 3, 8]     \\
+		\hline 
+            \hline
+        \textbf{Parameter}&$\sigma^2$ & $\alpha_k$ & $\omega$ \\
+        %\hline
+        \textbf{Value} & 0.01,0.1,0.2 & 0.1 & 40\% , 30\% , 20\% , 10\% \\
+        \hline
+	
+\end{tabular}}
+\label{tab:simulation small 1}
+\end{table}
+
+The parameter setting is shown in the Table \ref{tab:simulation small 1}. For each method and each setting of parameters, we generate data to run the method and calculate the sum of squares of fitting errors $SE =||\hat{\bX} - \bX ||_{F}^2$. We repeat the experiments for $N=20$ replications. Table \ref{tab:simout small 1} -Table \ref{tab:simout small 3} show the mean of $SE$, i.e., $MSE$ for each method under different $\sigma^2$ where the standard deviation of $MSE$ is shown in parenthesis.
+%\begin{spacing}{1.7}
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10^{-1})$ (with its standard deviation in parenthesis)of different algorithms when $\sigma^2 = 0.01$ at small-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega = 30\%$ & $\omega  = 20\%$ & $\omega  = 10\%$ \\ \hline
+        \textbf{VPCA} & 73.0(129) & 11.9(5.65) & 3.85(2.65) & 0.611(0.133)  \\ 
+        \textbf{MFPCA} & 50.7(38.4) & 15.0(7.75) & 6.83(17.4) & 0.833(0.832)  \\ 
+        \textbf{SIFPCA} & 442(48.5) & 441(46.9) & 439(47.5) & 438(47.5)  \\ 
+        \textbf{SPC} & 0.032(0.019) & 0.018(0.009) & 0.010(0.006) & 0.004(0.002)  \\ 
+        \textbf{t-TNN} & 4.45(5.38) & 0.620(1.14) & 0.067(0.252) & 0.001(0.002)  \\ 
+        \textbf{LDS} & 684(423) & 494(118) & 516(130) & 516(116)  \\ 
+        \textbf{MLDS} & 271(500) & 36.2(49.1) & 7.12(5.11) & 4.19(7.19)  \\ 
+        \textbf{MTR} & 221(130) & 178(128) & 131(93.5) & 128(102)  \\ 
+        \textbf{FEN} & \textbf{0.001(0.0001)} & \textbf{0.001(0.00002)} & \textbf{0.001(0.00003)} & \textbf{0.0009(0.00002)} \\  \hline
+    \end{tabular}
+    }
+    \label{tab:simout small 1}
+\end{table}
+%\end{spacing}
+
+
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10^{-1})$ (with its standard deviation in parenthesis) of different algorithms when $\sigma^2 = 0.1$ at small-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega  = 30\%$ & $\omega  = 20\%$ & $\omega  = 10\%$ \\ \hline
+        \textbf{VPCA} & 35.4(17.0) & 13.8(9.01) & 4.13(2.33) & 0.642(0.278)  \\ 
+        \textbf{MFPCA} & 39.2(16.3) & 22.7(47.6) & 5.81(12.3) & 0.581(0.213)  \\ 
+        \textbf{SIFPCA} & 443(48.5) & 441(46.9) & 439(47.5) & 439(47.5)  \\ 
+        \textbf{SPC} & 0.186(0.139) & 0.101(3.16e-2) & \textbf{0.058(0.023)} & \textbf{0.024(0.023)}  \\ 
+        \textbf{t-TNN} & 8.81(11.8) & 1.86(2.80) & 0.247(0.346) & 0.041(0.019)  \\ 
+        \textbf{LDS} & 217e1(719e1) & 550(133) & 573(145) & 503(116)  \\ 
+        \textbf{MLDS} & 984(303e1) & 30.8(28.1) & 6.55(4.95) & 3.53(7.52)  \\ 
+        \textbf{MTR} & 229(135) & 172(128) & 179(143) & 154(123)  \\ 
+        \textbf{FEN} & \textbf{0.099(0.002)} & \textbf{0.095(0.002)} & 0.094(0.001) & 0.092(0.002) \\ \hline
+    \end{tabular}
+   }
+    \label{tab:simout small 2}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10^{-1})$ (with its standard deviation in parenthesis) of different algorithms when $\sigma^2 = 0.2$ at small-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega  = 30\%$ & $\omega = 20\%$ & $\omega  = 10\%$ \\ \hline
+        \textbf{VPCA} & 196(574) & 10.4(3.31) & 5.04(3.30) & 0.623(0.158)  \\ 
+        \textbf{MFPCA} & 58.7(49.5) & 14.5(8.95) & 3.08(1.05) & 0.834(0.336)  \\ 
+        \textbf{SIFPCA} & 442(48.6) & 442(47.0) & 439(47.5) & 439(47.5)  \\ 
+        \textbf{SPC} & 1.81(0.466) & 0.903(0.262) & 0.408(0.087) & \textbf{0.142(0.025)}  \\ 
+        \textbf{t-TNN} & 6.13(6.90) & 1.49(0.638) & 0.714(0.899) & 0.141(0.036)  \\ 
+        \textbf{LDS} & 704(681) & 534(128) & 522(149) & 525(114)  \\ 
+        \textbf{MLDS} & 256(655) & 17.4(8.69) & 10.3(9.80) & 2.67(5.00)  \\ 
+        \textbf{MTR} & 233(127) & 177(136) & 124(122) & 124(122)  \\ 
+        \textbf{FEN} & \textbf{0.397(0.011)} & \textbf{0.381(0.010)} & \textbf{0.375(0.007)} & 0.369(0.007) \\ \hline
+    \end{tabular}
+   }
+    \label{tab:simout small 3}
+\end{table}
+
+We observe that the $MSE$ of each method decreases as the variance of observation noise $\sigma^2$ or the missing percentage $\omega$ decreases, which is in line with our expectations. FEN outperforms the other baseline methods and is less sensitive to the missing percentage. Since VPCA, MFPCA, and SIFPCA treat different functions as repeated samples of the same function, which loses the topological structure of the graph data, they have quite poor performance. As to LDS, MLDS, and MTR, they cannot handle irregular observations. Consequently, they have to first interpolate the data as a preprocessing step, and then be applied for analysis, which leads to suboptimal results. Among them, MLDS performs the best but is still strongly affected by the missing percentage. The other two tensor completion algorithms, SPC and t-TNN, have a bit worse performance than FEN. Since they do not consider the graph community structure, their interpretability is not as good as FEN.
+
+
+\subsection{Large-Scale Simulation}
+\label{sec:bigscale}
+Following almost the same setting as Section \ref{sec:smallscale}, Table \ref{tab:simulation big 1} shows the parameters for our large-scale simulation.
+
+\iffalse
+\begin{table}[thb]
+	\centering
+    \begin{threeparttable}[B]
+        
+
+	\caption{Large-scale simulation parameter setting}
+	\begin{tabular}{ll}
+		\hline
+		Parameter & Value\\
+		\hline
+		$dim(\bX)$ & [50, 50, [-1,1]]\footnotemark[1] \\
+		$N$ & 100  \\ 
+		$dim(\bB)$ & [15, 15, 25]   \\ 
+		$\br$ & [15, 15, 25]\footnotemark[2] \\
+		$\sigma^2$ & 0.01, 0.1, 0.2  \\
+		$\alpha_k$ & 0.1\footnotemark[3] \\
+		$\omega $ & 40\% , 30\% , 20\% , 10\%  \\
+		\hline
+\end{tabular}
+\begin{tablenotes}
+\tiny
+    \item[1] Fourier basis for third dimension
+    \item[2] same with the true core dimension
+    \item[3] smoothing constraint coefficient $k = 1, \cdots,K $ 
+\end{tablenotes}
+\end{threeparttable}
+\label{tab:simulation big 1}
+\end{table}
+\fi
+
+\begin{table}[bht]
+	\centering
+	\caption{Large-scale simulation parameter setting}
+	\resizebox{\linewidth}{!}{
+	\begin{tabular}{lccccccc}
+		\hline
+		\textbf{Parameter} & $dim(\mathcal{X})$ & $L$ & $dim(\bB)$ & $[s,s,K]$ \\
+		\textbf{Value} & [50, 50, [-1,1]]& 100 & [15,15,25]& [15, 15, 25] &   \\
+		\hline
+            \hline
+            \textbf{Parameter}&$\sigma^2$ & $\alpha_k$ & $\omega $ \\
+            \textbf{Value} & 0.01,0.1,0.2 & 0.1 & 40\% , 30\% , 20\% , 10\% \\
+            \hline
+\end{tabular}}
+\label{tab:simulation big 1}
+\end{table}
+%In addition to increasing the network size and the number of observation points, the other settings are the same as for the small-scale simulation. 
+For comparison, we also calculate the $MSE$ and its standard deviation based on 20 experiment replications. The simulation results are shown in Table \ref{tab:simout big 1} -Table \ref{tab:simout big 3}.
+
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10)$ (with its standard deviation in parenthesis) of different algorithms when $\sigma^2 = 0.01$ at large-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega  = 30\%$ & $\omega  = 20\%$ & $\omega  = 10\%$ \\ \hline
+        \textbf{VPCA}& 218(277) & 79.3(22.9) & 15.0(1.87) & 4.03(0.349)  \\ 
+        \textbf{MFPCA} & 178(70.2) & 46.3(5.38) & 16.2(2.82) & 4.02(0.446)  \\ 
+        \textbf{SPC} & 0.516(0.089) & 0.298(0.013) & 0.158(0.005) & 0.068(0.004)  \\ 
+        \textbf{t-TNN} & 1.30(0.378) & 0.008(0.009) & 0.0006(0.0002) & 0.0002(0.00004)  \\ 
+        \textbf{LDS} & 86.4(25.1) & 65.2(1.32) & 58.4(0.729) & 55.4(0.599)  \\ 
+        \textbf{MLDS} & 127(73.1) & 71.7(19.4) & 56.6(6.29) & 53.1(0.551)  \\ 
+        \textbf{MTR} & 144(25.6) & 97.0(11.7) & 73.2(3.16) & 62.2(1.88)  \\ 
+        \textbf{FEN} & \textbf{0.0(0.0)} & \textbf{0.0(0.0)} & \textbf{0.0(0.0)} & \textbf{0.0(0.0)} \\ \hline
+    \end{tabular}
+   }
+     \label{tab:simout big 1}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10)$ (with its standard deviation in parenthesis) of different algorithms when $\sigma^2 = 0.1$ at large-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega  = 30\%$ & $\omega  = 20\%$ & $\omega = 10\%$ \\ \hline
+        \textbf{VPCA} & 165(92.8) & 64.2(71.9) & 15.7(2.14) & 4.12(0.342)  \\ 
+        \textbf{MFPCA} & 189(131) & 50.2(14.7) & 15.2(1.63) & 3.98(0.278)  \\ 
+        \textbf{SPC} & 0.506(0.015) & 0.295(0.010) & 0.157(0.006) & 0.690(0.0260)  \\ 
+        \textbf{t-TNN} & 1.23(0.269) & 0.005(0.002) & 0.001(0.0002) & 0.004(0.0)  \\ 
+        \textbf{LDS} & 86.5(25.7) & 65.2(1.32) & 58.4(0.728) & 55.4(0.599)  \\ 
+        \textbf{MLDS} & 127(73.2) & 72.0(19.3) & 56.7(6.50) & 53.1(0.552)  \\ 
+        \textbf{MTR} & 153(48.4) & 96.8(15.6) & 73.7(2.22) & 62.3(1.38)  \\ 
+        \textbf{FEN} & \textbf{0.0010(0.0)} & \textbf{0.0010(0.0)} & \textbf{0.0010(0.0)} & \textbf{0.0010(0.0)} \\ \hline
+    \end{tabular}
+    }
+    \label{tab:simout big 2}
+\end{table}
+
+\begin{table}
+    \centering
+    \caption{$MSE(\times 10)$ (with its standard deviation in parenthesis) of different algorithms when $\sigma^2 = 0.2$ at large-scale simulation}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{ccccc}
+    \hline
+        \textbf{Algorithm} & $\omega  = 40\%$ & $\omega  = 30\%$ & $\omega = 20\%$ & $\omega  = 10\%$ \\ \hline
+        \textbf{VPCA} & 173(96.4) & 46.6(13.8) & 17.0(6.06) & 4.14(0.404)  \\ 
+        \textbf{MFPCA} & 234(320) & 64.1(43.2) & 15.1(2.92) & 4.03(0.234)  \\ 
+        \textbf{SPC} & 2.88(0.072) & 1.64(0.047) & 0.853(0.024) & 0.334(0.009)  \\ 
+        \textbf{t-TNN} & 1.25(0.285) & 0.030(0.019) & 0.005(0.0005) & \textbf{0.002(0.00004)}  \\ 
+        \textbf{LDS} & 86.6(26.5) & 65.2(1.32) & 58.4(0.728) & 55.4(0.599)  \\ 
+        \textbf{MLDS} & 127(73.2) & 72.2(19.2) & 56.8(6.70) & 53.1(0.552)  \\ 
+        \textbf{MTR} & 127(72.4) & 101(9.03) & 73.6(4.86) & 62.5(2.36)  \\ 
+        \textbf{FEN} & \textbf{0.004(0.00001)} & \textbf{0.004(0.0)} & \textbf{0.004(0.00001)} & 0.004(0.00001) \\ \hline
+    \end{tabular}
+    }
+    \label{tab:simout big 3}
+\end{table}
+The large-scale simulation experiments further demonstrate the superiority of FEN over other algorithms, especially as the network dimension and number of observation points increase. Furthermore, the model is robust to different percentages of missing data. For the other baselines, their performances are also similar as those in the small-scale simulations.  
+%We note that the remaining results are consistent with those obtained in the small-scale simulations and will be omitted due to space constraints.
+
+%\newpage
+
+\section{CASE STUDY}
+\label{sec:case}
+In this section, we consider two datasets in urban metro transportation to evaluate the performance of FEN and its baselines. As we know, understanding passenger movement patterns, and exploring the spatial relationships of metro stations, can help better public transportation management and land use planning. We can formulate the metro network as a graph, by treating each station as a node, and real-time passenger flows between different Origin-Destination (O-D) paths as edges. As Figure \ref{fig:example6} shows, each passenger flow curve has a very smooth profile and can be regarded as functional data. Consequently, all the O-D path flows formulate a functional-edged graph. However, the observation points of the passenger flows for different O-D paths are different, resulting in irregularly observed functions. By analyzing such data, we hope to identify the urban centers, hubs, and socioeconomic clusters based on network centralities and community structures.
+
+\subsection{Hong Kong Metro System Data}
+\iffalse
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width = 0.75\linewidth]{HK_MTR.jpg}
+  \caption{MTR line map of Hong Kong}
+  \label{fig:HK_MTR}
+\end{figure}
+\fi 
+
+%The subway stations of Hong Kong MTR are the nodes of the subway network, and each edge between two nodes has many important attributes, in this case, we use the passenger flow between two subway stations as the weight function. In addition, the passenger flow in the subway is an important indicator for managing the subway and avoiding congestion, so it has practical significance to predict the subway passenger flow. At the same time, due to the huge subway network, it is usually difficult  to observe all passenger flow or even the time homogeneous passenger flow data. That is, the observation time of passenger flow data between different subway stations may be different, which satisfies the irregular observation hypothesis in our research. In addition, the subway passenger flow is a function that changes with time in  a day. Therefore, taking time as the independent variable, the weight function of edges in our network model changes dynamically. As shown in Figure \ref{fig:example6}, we plot the passenger flow between six pairs of Hong Kong subway stations over time for different dates, where the colored curves represent the records on different days. The weight function in this example is a smooth function of time. Under irregular observation, this data set is suitable for using the FEN model to estimate and predict the passenger flow.
+
+\begin{figure*}
+  \centering
+  \includegraphics[width = 0.75\linewidth]{example4.png}
+  \caption{Passenger flow functions between some O-D paths of the Hong Kong metro system}
+  \label{fig:example6}
+\end{figure*}
+The Hong Kong metro system has in total 90 stations, i.e., nodes. The passenger flows between any two stations from 5:00 am to 12:00 pm every day are treated as functional edges. We have in total 24 days' data for analysis. It is noted that if two stations have accumulated passenger flows of less than 20 each day on average, we remove the edge between these two stations. The parameter settings of FEN for the dataset are shown in
+%To compare the fitting results with true value, we collect the subway data in time homogeneous observation. The data parameters of the MTR network in Hong Kong are shown in 
+Table \ref{tab:HK para}, in which the hyperparameter $\br = [s,s,K,N]$ is the optimal hyperparameter selected by pre-examination. We set the size of the observation points $L = 99$. The missing data percentage in reality is 10\%. To better evaluate the performance of FEN, we further consider different values of $\omega$ by randomly removing some observations.
+
+\begin{table}
+	\centering
+	\caption{Parameter setting for the Hong Kong metro system data}
+	\resizebox{\linewidth}{!}{
+	\begin{tabular}{lccccc}
+		\hline
+		\textbf{Parameter} & $dim(\mathcal{X})$ & $L$ &$[s,s,K,N]$   \\
+		\textbf{Value} & [90, 90, [5:00 am, 12:00 pm], 24]& 99  & [23,23,20,24]  \\
+		\hline
+            \hline
+            \textbf{Parameter} & $\omega $ &  $\alpha_k$ \\
+            \textbf{Value}    & 40\%, 30\%, 20\%, 10\%&  0.1 \\
+            \hline
+\end{tabular}}
+\label{tab:HK para}
+\end{table}
+
+\begin{table*}[bth]
+    \centering
+    \caption{$MSE$ or $MSE_{test}$ of different algorithms for the Hong Kong metro system data}
+    %\resizebox{\linewidth}{!}{
+    \scalebox{0.8}{
+    \begin{tabular}{ccccccc}
+    \hline
+
+         & \multicolumn{3}{c}{\textbf{Tensor completion-based methods}} & \multicolumn{3}{c}{\textbf{PCA-based methods}} \\
+         & \multicolumn{3}{c}{(with standard deviation of $MSE$ in parenthesis)} &  \multicolumn{3}{c}{(with $MSE_{train}$ in parenthesis)} \\
+         
+         \cmidrule(lr){2-4}\cmidrule(lr){5-7}
+        $\omega $ & \textbf{SPC} & \textbf{t-TNN} & \textbf{FEN} &  \textbf{VPCA} & \textbf{MFPCA} & \textbf{FEN} \\ 
+        \hline
+        $40\%$ &5.30(0.283) & 11.3(0.358) & \textbf{4.12(0.247)} &  23.0(22.7) & \textbf{12.0(2.63)} & 13.0(4.20)  \\ 
+        $30\%$& 4.07(0.225) & 7.83(0.345) & \textbf{4.03(0.236)} &  22.8(22.5) & 11.8(2.62) & \textbf{10.9(5.73)}  \\ 
+        $20\%$& 3.79(0.197) & 3.81(0.331) & \textbf{3.61(0.211)} &  22.8(22.5) & 11.7(2.62) & \textbf{8.99(6.57)}  \\ 
+        $10\%$& 3.61(0.189) & 3.77(0.214) & \textbf{3.59(0.179)} &  22.8(22.5) & 11.7(2.62) & \textbf{7.79(7.59)} \\ \hline
+    \end{tabular}}
+    %}
+    \label{tab:Case HK}
+\end{table*}
+
+To better illustrate the fitting performance of FEN, we selected five stations which including three central subway stations and two relatively remote stations. We draw their fitted paired passenger flows under the missing percentage of $\omega = 40\%$ to show that FEN has a very satisfactory fitting performance. The selected stations and fitting results are both shown in the appendix. 
+%shown in Figure \ref{fig:five sta}, including three central subway stations (Admiralty (ADM), Yau Ma Tei (YMT) and Mong Kok (MOK)) and two relatively remote stations (Tseung Kwan O (TKO) and Wong Chuk Hang (WCH)) and draw their fitted paired passenger flows under the missing percentage of $\omega = 40\%$. As shown in Figure \ref{fig:HK_FEN_40}, overall FEN has a very satisfactory fitting performance. 
+%and the passenger flow prediction between several core transfer stations was better than that between remote subway stations. It is worth noting that we centralized the data during data preprocessing and did not process the standard deviation, which may explain why the objective function tended to consider the prediction accuracy between subway stations with large passenger flow when fitting the model.
+
+%Due to the large MTR network in Hong Kong, we chose five  stations as examples to illustrate the fitting results of  FEN model. As shown in Figure \ref{fig:five sta}, we select three central subway stations ADM, YMT and MOK and two relatively remote stations TKO and WCH  under the missing percentage $\boldsymbol{\Omega} = 40\%$. As shown in Figure \ref{fig:HK_FEN_40}, FEN model has a good fitting effect. In addition,  the passenger flow prediction between several core transfer stations has better fitting effect than that between remote subway stations. This may be because that we only centralize the data during data preprocessing and do not process the standard deviation. Because of this, the objective function tends to consider the prediction accuracy between subway stations with large passenger flow when fitting the model.
+\iffalse
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.95\linewidth]{HK_FEN_per40_line1.png}
+  \caption{Fitting results of FEN model of the Hong Kong metro system at $\omega  = 40\%$}
+  \label{fig:HK_FEN_40}
+\end{figure}
+\fi
+%As the Hong Kong MTR network is so huge that the dynamic network models can not fit it because of its high computational complexity. So we only consider the PCA methods and tensor completion methods.
+
+We further compare FEN with other baselines, tensor completion-based methods and PCA-based methods, in two different ways. Due to the ultra-high computational cost, dynamic network modeling-based methods do not participate in the comparison. The results are shown in Table \ref{tab:Case HK}. As the tensor completion methods can not handle multiple samples, we set the sample number $N = 1$ of FEN model and make the comparison. We use the data for 24 days to repeat these algorithms and calculate $SE_{miss}  = ||\mathcal{P}_{\boldsymbol{\Omega}^{C}}(\hat{\bX} - \bX) ||_{F}^2$ for each day. Then we calculate their mean, i.e., $MSE$ and its standard deviation, as shown in the first three columns of Table \ref{tab:Case HK}.
+%The results are shown in Table \ref{tab:Case HK}. The data in parentheses for the corresponding column in the table indicates the corresponding standard deviation.
+As to the PCA-based algorithms, they can handle multiple samples. So we estimate their model parameters as well as FEN by multiple samples. In particular, we devide the 24 days' data into a training set (20 days) and a test set (4 days). We can calculate the $MSE_{train}$ of PCA-based algorithms and FEN, and control the $MSE_{train}$ of all the methods similar and as small as far as possible, by selecting the proper number of principal components in PCA-based algorithms and $K$ in FEN. Then we fix the estimated PCA loadings and only update the PCA scores for the testing data. For FEN, similarly, we fix $\bPhi,\bG$ as those estimated by the training data, and only update $\mathbf{B}$ for the testing data, i.e., 
+%compare the $MSE$ of different algorithms on the testing set. It is to be noted that the Tucker decomposition can approximate the PCA of high-dimensional data, so we keep the basis matrices $\bPhi,\bG$ consistent in the training set and the test set. First, we compute the basis matrix using the training data, and then we compute the core tensor $\bB_{test}$ using the test data as follows,
+\begin{equation}
+    \begin{aligned}
+    \label{eq:test core}
+    \hat{\bB}_{test} &= \bY_{test} \times_1 \hat{\bPhi}^T \times_2 \hat{\bPhi}^T \times_3 \hat{\bG}^T \\
+    \hat{\bX}_{test} &= \hat{\bB}_{test} \times_1 \hat{\bPhi} \times_2 \hat{\bPhi} \times_3 \hat{\bG}.
+    \end{aligned}
+\end{equation}
+Then we can calculate $MSE_{test}$ and $MSE_{train}$ of all the methods, as shown in the last columns of Table \ref{tab:Case HK}.
+
+
+
+%Compared to tensor completion methods, we can find that FEN model is better than SPC and t-TNN in most cases. However, the advantage is not significant . On the one hand, there are still some differences between the real world data and the theoretical functional network model, which can not be fully fitted. On the other hand, the selection of hyperparameter $\br$ may also have some influence, and the optimal hyperparameter may change under different missing percentage. Compared with MFPCA methods, we can find that in most cases, the FEN model can keep its $MSE_{test}$ smaller when $MSE_{train}$ is greater than or equal to $MSE_{train}$ of MFPCA. However, due to VPCA's poor effect, it can not fit the data well even when its all principal components are used, so its $MSE_{train}$ and $MSE_{test}$ are both large. So, we can say that our FEN model still has certain advantages compared with PCA algorithms.
+Comparing FEN with tensor completion-based methods, we find that FEN generally outperforms SPC and t-TNN, although the difference is not as big as that in the simulation studies.
+%Additionally, the choice of hyperparameters, such as $\br$, may also have an impact, and the optimal value of $\br$ may vary with different levels of missing data.
+Comparing FEN to PCA-based methods, we observe that FEN generally achieves lower $MSE_{test}$ values. We have to mention that VPCA exhibits very poor performance, and its $MSE_{train}$ and $MSE_{test}$ values remain high even though all its principal components are used. Overall, these results suggest that FEN offers advantages over other algorithms. 
+
+\subsection{Singapore Metro System Data }
+%\subsubsection{Data Introduction}
+%\chen{change this section according to my revisions for the Hong Kong metro system, keep sentences have the same structures as Hong Kong section}
+Compared to the Hong Kong metro system above, the Singapore metro system has in total 153 stations, i.e., nodes, which places higher demands on the adaptability and efficiency of the model. We have in total 16 days' data for analysis.  It is noted that if two stations have accumulated passenger flows of less than 20 each day on average, we remove the edge between these two stations. The parameter settings of FEN for the dataset are shown in Table \ref{tab:SG para}, in which the hyperparameter $\br = [s,s,K,N]$ is the optimal hyperparameter selected by pre-examination.
+Similarly, we set the size of the observation points $L = 99$. The missing data percentage in reality is 10\%. To better evaluate the performance of FEN, we further consider different values of $\omega$ by randomly removing some observations.
+ 
+\begin{table}[bht]
+	\centering
+	\caption{Parameter setting for the Singapore metro system data}
+	\resizebox{\linewidth}{!}{
+	\begin{tabular}{lcccccc}
+		\hline
+		\textbf{Parameter} & $dim(\mathcal{X})$ & $L$  & $[s,s,K,N]$  \\
+		\textbf{Value} & [153, 153, [5:00 am, 12:00 pm], 16]& 99 & [23,23,25,16]   \\
+		\hline
+            \hline
+            \textbf{Parameter} & $\omega $ & $\alpha_k$\\
+            \textbf{Value}  & 40\%, 30\%, 20\%, 10\%  &  0.1 \\
+            \hline
+  
+\end{tabular}}
+\label{tab:SG para}
+\end{table}
+
+%\subsubsection{Compared with Baseline Methods}
+The data processing and comparison method of the baseline algorithms is similar to the Hong Kong metro system and for the PCA-based methods, we use 12 days' data as the train set and 4 days' data as test set. The results are shown in Table \ref{tab:Case Singapore}.
+
+\begin{table*}[tbh]
+    \centering
+    \caption{$MSE$ or $MSE_{test}$ of different algorithms for the Singapore metro system data}
+    %\resizebox{\linewidth}{!}{
+    \scalebox{0.8}{
+    \begin{tabular}{ccccccc}
+    \hline
+        & \multicolumn{3}{c}{\textbf{Tensor completion-based methods}} &  \multicolumn{3}{c}{\textbf{PCA-based methods}} \\
+        & \multicolumn{3}{c}{(with standard deviation of $MSE$ in parenthesis)} &  \multicolumn{3}{c}{(with $MSE_{train}$ in parenthesis)} \\
+         \cmidrule(lr){2-4}\cmidrule(lr){5-7}
+        $\omega $ & \textbf{SPC} & \textbf{t-TNN} & \textbf{FEN} &  \textbf{VPCA} & \textbf{MFPCA} & \textbf{FEN} \\ \hline
+        $40\%$ & 0.601(0.243) & 1.35(0.544) & \textbf{0.265(0.143)} &  1.15(1.15) & \textbf{0.394(0.180)} & 0.476(0.206)  \\ 
+        $30\%$&0.572(0.173) & 1.15(0.347) & \textbf{0.259(0.215)} &  1.14(1.14) & 0.393(0.180) & \textbf{0.387(0.217)}  \\ 
+        $20\%$&0.571(0.115) & 1.05(0.203) & \textbf{0.268(0.230)} &  1.14(1.14) & 0.392(0.179) & \textbf{0.324(0.233)}  \\ 
+        $10\%$&0.528(0.0534) & 0.558(0.0564) & \textbf{0.285(0.253)} &  1.14(1.14) & 0.388(0.178) & \textbf{0.274(0.255)} \\ \hline
+    \end{tabular}}
+    %}
+    \label{tab:Case Singapore}
+\end{table*}
+%Compared to the tensor completion methods, we can see that FEN model has significant advantages in fitting at different missing percentages. At the same time, the fitting efficiency of these three different algorithms increases with the decrease of the missing proportion, which is consistent with our intuition. Because t-TNN algorithm lacks the constraint of function smoothness, the fitting effect is not good in partial data completion. However, SPC algorithm lacks spatial dimension reduction and interpretation of community structure. Another reason may be that compared with CP decomposition, metro data set is more suitable for Tucker decomposition for completion, so SPC algorithm is also at a disadvantage compared with FEN model. 
+
+%As the PCA-based methods, due to VPCA's poor effect, VPCA algorithm can not fit the data well even when all its principal components are used, so its $MSE_{train}$ and $MSE_{test}$ are both larger than FEN method, and the effect is not ideal. In most cases, the FEN model can keep its $MSE_{test}$ smaller than that of the MFPCA algorithm when its $MSE_{train}$ is greater than or equal to that of the MFPCA algorithm. It can be seen that our FEN model still has certain advantages compared with PCA-based methods.
+When comparing FEN to tensor completion-based methods, it is evident that FEN tends to outperform SPC and t-TNN, although the difference is not as pronounced as observed in the simulation studies and the Hong Kong metro system studies.
+In contrast, when comparing FEN to PCA-based methods, we consistently observe that FEN achieves lower values of $MSE_{test}$. Notably, VPCA demonstrates poor performance, as its $MSE_{train}$ and $MSE_{test}$ values remain high even when all its principal components are used. In summary, these results collectively indicate that FEN presents clear advantages over other algorithms.
+%Comparing FEN with tensor completion-based methods, we find that FEN generally outperforms SPC and t-TNN, although the difference is not as big as that in the simulation studies and the Hong Kong metro system studies.
+%Comparing FEN to PCA-based methods, we observe that FEN generally achieves lower $MSE_{test}$ values. We have to mention that VPCA exhibits very poor performance, and its $MSE_{train}$ and $MSE_{test}$ values remain high even though all its principal components are used. Overall, these results suggest that FEN offers advantages over other algorithms. 
+
+In this section, we compare FEN model with other baseline methods using Hong Kong and Singapore metro system data. We find that FEN model has advantages over the baseline methods in modeling functional network data with irregular observations. 
+
+\section{CONCLUSION}
+\label{sec:conlusion}
+%In this paper, we have proposed a novel method for modeling functional network data, the FEN model. Our model addresses several important challenges in functional network analysis, including function smoothing, dimension reduction, and irregular observation. We have developed a Riemann optimization algorithm based on the conjugate gradient method to estimate the FEN model. We have also provided theoretical guarantees for our algorithm, including the algorithm's convergence to the local optimal solution and the asymptotic convergence of the optimal solution.
+
+%Our simulation studies and case studies of Hong Kong and Singapore subway data demonstrate that the FEN model outperforms several baseline models in completing functional network data. However, there are still some challenges that need to be addressed in future research. For example, we have observed that the core tensor of the test set, which is crucial for accurate performance evaluation, may not be accurately estimated by Equation (\ref{eq:test core}) when the proportion of missing observations is large. Therefore, developing an algorithm to accurately estimate the core tensor for the test set data is an important avenue for future research.
+
+In this paper, we introduced a novel method, the FEN model, tailored for modeling functional network data. Our model effectively addresses key challenges encountered in functional network analysis, including function smoothing, dimension reduction, and handling irregular observations. To estimate the FEN model, we developed a Riemann optimization algorithm founded on the conjugate gradient method. Furthermore, we provided theoretical guarantees for our algorithm, including its convergence to a local optimal solution and the upper bound between the optimal solution and the true value.
+
+Our comprehensive evaluation, encompassing simulation studies and case studies involving real data from Hong Kong and Singapore subways, underscored the superiority of the FEN model over several baseline models for completing functional network data. Nonetheless, our research has also unveiled areas for future exploration. For instance, we observed that accurately estimating the core tensor of the test set by Equation (\ref{eq:test core}), a critical element for precise performance evaluation, becomes challenging when the proportion of missing observations is substantial. Therefore, a promising avenue for future research lies in developing algorithms dedicated to the accurate estimation of the core tensor for test set data.
+
+
+
+
+\begin{small}
+	\bibliography{sample_paper.bbl}
+        \bibliographystyle{IEEEtran}
+    %\bibliographystyle{chicago}
+	%\bibliographystyle{plain}
+\end{small}
+
+\begin{IEEEbiography}[{\includegraphics[width=1.00in,height=1.25in,clip,keepaspectratio]{Mr.Xu.jpeg}}]{Haijie Xu} received the B.S. degree from the Department of  Industrial Engineering, Tsinghua University, Beijing, China, in 2022. 
+He is currently a Ph.D. candidate with the Department of Industrial Engineering, Tsinghua University, Beijing, China. His research interests include sequential change detection, functional data analysis.
+\end{IEEEbiography}
+
+\begin{IEEEbiography}[{\includegraphics[width=1.00in,height=1.25in,clip,keepaspectratio]{Prof.Zhang.jpeg}}]{Chen Zhang} received the B.S. degree in electronic science and technology (optics) from Tianjin University, Tianjin, China, in 2012, and the Ph.D. degree in industrial systems engineering and management from the National University of Singapore, Singapore, in 2017. 
+From 2017 to 2018, she was a Research Fellow with School of Information Systems, Singapore Management University, Singapore. She is currently an Associate Professor at the Department of Industrial Engineering, Tsinghua University, Beijing, China. Her research interests include statistics and machine learning with applications in industrial data analysis and medical data analysis. 
+\end{IEEEbiography}
+
+%\include{appendix}
+\iffalse
+\begin{appendix}
+
+    
+\renewcommand\thesection{\arabic{section}}
+
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+
+\bigskip
+\newpage
+\begin{center}
+{\large\bf SUPPLEMENTARY MATERIAL}
+\end{center}
+
+
+
+%\counterwithin{equation}{section}
+\section{Additional Figures}
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.85\linewidth]{HK_five_sta.png}
+  \caption{Five selected stations in the Hong Kong metro system}
+  \label{fig:five sta}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.95\linewidth]{HK_FEN_per40_line1.png}
+  \caption{Fitting results of FEN model of the Hong Kong metro system at $\omega  = 40\%$}
+  \label{fig:HK_FEN_40}
+\end{figure}
+The five station are three central subway stations (Admiralty (ADM), Yau Ma Tei (YMT) and Mong Kok (MOK)) and two relatively remote stations  (Tseung Kwan O (TKO) and Wong Chuk Hang (WCH))
+\newpage
+\section{Proof of Theorems}
+Before we prove the theorems, we need to present the following lemma,
+\begin{lemma}
+\label{lem:SHOSVD}
+Every tensor $\mathbf{A} \in \bbR^{m \times m \times L \times N}$ can be written as the product 
+\begin{equation}
+    \mathbf{A} = \mathbf{S} \times_1 \bU_1 \times_1 \bU_1\times_3 \bU_3
+\end{equation}
+where $\bU_1$ and $\bU_3$ are orthogonal matrices. The tenosr $\mathbf{S}$ has the same dimension with $\mathbf{A}$ and has the follwing properties,
+\begin{align}
+    \label{eq:lem_SHOSVD 1}||\mathbf{S}_{[i_1 = j]}||_F \leq 2 \sigma_{j}^{(1,2)} \\
+     \label{eq:lem_SHOSVD 2}||\mathbf{S}_{[i_2 = j]}||_F \leq 2 \sigma_{j}^{(1,2)} \\
+     \label{eq:lem_SHOSVD 3}||\mathbf{S}_{[i_3 = j]}||_F = \sigma_{j}^{(3)} 
+\end{align}
+where $\{\sigma_{j}^{(1,2)}\}$ and $\{\sigma_{j}^{(3)} \}$ are both  non-negative, non-increasing sequences and $\sum_{j = 1}^{m} (\sigma_{j}^{(1,2)})^2 = \sum_{j = 1}^{L} (\sigma_{j}^{(3)})^2 = ||\mathbf{A}||_F^2 = ||\mathbf{S}||_F^2$
+\end{lemma}
+
+\begin{proof}
+Lemma \ref{lem:SHOSVD} is an extension of \cite{de2000multilinear}'s work, we just need to prove Equation (\ref{eq:lem_SHOSVD 1}) and Equation (\ref{eq:lem_SHOSVD 2}), the rest is similar to \cite{de2000multilinear}.
+
+We first prove Equation (\ref{eq:lem_SHOSVD 1}). Consider two tensor $\mathbf{A}, \mathbf{S} \in \bbR^{m \times m \times L \times N}$, related by 
+\begin{equation}
+\label{eq:lem_SHOSVD 4}
+    \mathbf{S} = \mathbf{A} \times_1 \bU_1^T \times_2 \bU_1^T \times_3 \bU_3^T
+\end{equation}
+where $\bU_1$ and $\bU_3$ are orthogonal matrices. Equation (\ref{eq:lem_SHOSVD 4}) has the following two matrix format,
+\begin{equation}
+    \begin{aligned}
+    \label{eq:lem_HOSVD 5}
+        \mathbf{A}_{(1)} = \bU_1 \mathbf{S}_{(1)}\left( \bU_1 \otimes \bU_3 \otimes \mathbf{I}_N \right)^T \\
+         \mathbf{A}_{(2)} = \bU_1 \mathbf{S}_{(2)}\left( \bU_3 \otimes \mathbf{I}_N \otimes \bU_1 \right)^T \\
+    \end{aligned}
+\end{equation}
+where $\mathbf{I}_N \in \bbR^{N \times N}$ denotes the identity matrix of order $N$. For convenience, we let $\bU_a \triangleq \bU_1 \otimes \bU_3 \otimes \mathbf{I}_N $ and $\bU_b \triangleq \bU_3 \otimes \mathbf{I}_N \otimes \bU_1$. Now we consider the particular case where $\bU_1$ is obtained from the SVD of $\frac{\mathbf{A}_{(1)} + \mathbf{A}_{(2)}}{2}$ as 
+\begin{equation}
+ \label{eq:lem_HOSVD 6}
+    \frac{\mathbf{A}_{(1)} + \mathbf{A}_{(2)}}{2} = \bU_1 \boldsymbol{\Sigma} \mathbf{V}_1^T
+\end{equation}
+in which $\mathbf{V}_1$ is orthogonal and $\boldsymbol{\Sigma} = diag(\sigma_1^{(1,2)}, \sigma_2^{(1,2)}, \cdots ,\sigma_m^{(1,2)})$, where 
+\begin{equation}
+    \sigma_1^{(1,2)} \geq \sigma_2^{(1,2)} \geq \cdots \geq \sigma_m^{(1,2)} \geq 0
+\end{equation}
+Combine Equation (\ref{eq:lem_HOSVD 5}) and Equation (\ref{eq:lem_HOSVD 6}), we can get
+\begin{equation}
+    \mathbf{S}_{(1)} + \mathbf{S}_{(2)}\bU_b^T\bU_a = 2\boldsymbol{\Sigma} \mathbf{V}_1^T \bU_a
+\end{equation}
+Since $\bU_a$ and $\mathbf{V}_1$ are orthogonal, we can get
+\begin{equation}
+    ||\mathbf{S}_{[i_1 = j]}||_F^2 + ||(fold_{(2)}\{\mathbf{S}_{(2)}\bU_b^T\bU_a)\}_{[i_2 = j]} ||_F^2 = 4(\sigma_{j}^{(1,2)})^2
+\end{equation}
+Then we have 
+\begin{equation}
+    ||\mathbf{S}_{[i_1 = j]}||_F \leq 2\sigma_{j}^{(1,2)}
+\end{equation}
+So far, Equation (\ref{eq:lem_SHOSVD 1}) has been proved and Equation (\ref{eq:lem_SHOSVD 2}) can be proved in a similar way.
+\end{proof}
+
+
+\subsection{ Proof of Theorem \ref{the:continue with smooth} and Theorem \ref{the:discrete with smooth} }
+By the definition of $\hat{\bX}$, we can get 
+\begin{equation}
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\bY - \hat{\bX})||_F^2 + \sum_{k = 1}^K \alpha_k \hat{\mathbf{g}}_k^T \mathbf{H} \hat{\mathbf{g}}_k \leq
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\bY - \bX)||_F^2 + \sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k 
+\end{equation}
+According to Equation (14) of \cite{imaizumi2017tensor} and above equation, we can get
+\begin{equation}
+\label{eq:pro_withsmooth 1}
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX} - \bX)||_F^2 \leq 2\langle \mathcal{P}_{\boldsymbol{\Omega}}(\bE), \mathcal{P}_{\boldsymbol{\Omega}}(\bX - \hat{\bX})\rangle +  \sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k  - \sum_{k = 1}^K \alpha_k \hat{\mathbf{g}}_k^T \mathbf{H} \hat{\mathbf{g}}_k 
+\end{equation}
+Also, using Holder's inequality, we can get
+\begin{equation}
+\label{eq:pro_withsmooth 2}
+    \langle \mathcal{P}_{\boldsymbol{\Omega}}(\bE), \mathcal{P}_{\boldsymbol{\Omega}}(\bX - \hat{\bX})\rangle \leq 
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX - \hat{\bX}) ||_F
+\end{equation}
+Combine Equation (\ref{eq:pro_withsmooth 1}) and Equation (\ref{eq:pro_withsmooth 2}), we have
+\begin{equation}
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX} - \bX)||_F^2 - 2||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX - \hat{\bX}) ||_F - (\sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k  - \sum_{k = 1}^K \alpha_k \hat{\mathbf{g}}_k^T \mathbf{H} \hat{\mathbf{g}}_k ) \leq 0
+\end{equation}
+After some calculation, 
+\begin{equation}
+\begin{aligned}
+\label{eq:pro_withsmooth 3}
+     ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX} - \bX)||_F &\leq ||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F + \sqrt{||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F^2 + (\sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k  - \sum_{k = 1}^K \alpha_k \hat{\mathbf{g}}_k^T \mathbf{H} \hat{\mathbf{g}}_k)}\\
+     &\leq||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F + \sqrt{||\mathcal{P}_{\boldsymbol{\Omega}}(\bE) ||_F^2 + \sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k }
+     \end{aligned}
+\end{equation}
+Under Assumption \ref{ass:time window}, we can use Taylor first order expansion to approximate $\mathcal{g}_k(t_i) - \mathcal{g}_k(t_{i + 1})$, as following 
+\begin{equation}
+    (\mathcal{g}_k(t_i) - \mathcal{g}_k(t_{i+1})^2 = \mathcal{g}^{'}_k(t_i)(t_i - t_{i+1})^2 + o((t_i - t_{i+1})^2) = \mathcal{g}_k^{'}(t_i)\Delta^2 + o(\Delta^2)
+\end{equation}
+Then we have 
+\begin{equation}
+\begin{aligned}
+\label{eq:pro_withsmooth 4}
+    \sum_{k = 1}^K \alpha_k \mathbf{g}_k^T \mathbf{H} \mathbf{g}_k &\leq \sum_{k=1}^K\sum_{l=1}^{L-1}\alpha_k(\mathcal{g}_k(t_l) - \mathcal{g}_k(t_{l+1}))^2 \leq \sum_{k=1}^K \sum_{l = 1}^{L-1}\alpha_k \mathcal{g}_k^{'}(t_i)\Delta^2  \\ 
+    &\leq \sum_{k=1}^K \alpha_k||\mathcal{g}_k^{'}||_{\infty}^2\Delta^2L
+    \leq \sum_{k=1}^K \alpha_k||\mathcal{g}_k^{'}||_{\infty}^2\Delta(T_e - T_s)
+\end{aligned}
+\end{equation}
+We bring Equation (\ref{eq:pro_withsmooth 4}) into Equation (\ref{eq:pro_withsmooth 3})  and combine Lemma \ref{the:omega} to get Theorem \ref{the:discrete with smooth}.
+
+As to  Theorem \ref{the:continue with smooth}, we can get the following similarly
+\begin{equation}
+\label{eq:pro_withsmooth 5}
+    ||\hat{\mathcal{X}} - \mathcal{X}||_F \leq ||\mathcal{E}||_F + \sqrt{||\mathcal{E}||_F^2 + \sum_{k = 1}^{K}\alpha_k \int_{\mathcal{T}}(\mathcal{g}_k^{'}(t))^2\, dt}
+\end{equation}
+We also have
+\begin{equation}
+\label{eq:pro_withsmooth 6}
+    \sum_{k = 1}^{K}\alpha_k \int_{\mathcal{T}}(\mathcal{g}_k^{'}(t))^2\, dt \leq \sum_{k=1}^K \alpha_k ||\mathcal{g}_k^{'}||_{\infty}^2(T_e - T_s)
+\end{equation}
+We bring Equation (\ref{eq:pro_withsmooth 6}) into Equation (\ref{eq:pro_withsmooth 5}) to get Theorem \ref{the:continue with smooth}.
+
+
+
+
+\subsection{Proof of Lemma \ref{the:omega}}
+Obviously, we have the $||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_{F} \leq ||\bX||_F$, we can set $C = 1$, then we need to proof $||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_{F} \geq c ||\bX||_F$. 
+
+For convenience, let $X_{ijn}(\cdot) = \mathcal{X}_{[i_1 = i,i_2 = j, i_4 = n]}$. It can be regarded as a function of the index of the third dimension. $t$ is a point that we can not observe according to mask tensor $\boldsymbol{\Omega}$ and $t_0$ is another point near it that can be observed, then we have the Taylor expansion,
+\begin{equation}
+\label{eq:pro_ome 1}
+    X_{ijn}(t) = X_{ijn}(t_0) + (t - t_0)X_{ijn}^{'}(t_0) + o(t-t_0)
+\end{equation}
+If $X_{ijn}(t_0) = 0$, we have $X_{ijn}^2(t) \leq \Delta^2 ||x_{ijn}^{'}||_{\infty} + o(\Delta^2)$. According to Assumption \ref{ass:time window}, we have $\Delta = o(\frac{1}{m^2N})$. The upper bound goes to 0 as we sum over i, j, n. So we only need to consider the situation that $X_{ijn}(t_0) \neq 0$.
+
+If $X_{ijn}(t_0) \neq 0$, we have $X_{ijn}(t_0) \geq c_{ijt_{0}n} \geq 0$, then square the left and right sides of Equation (\ref{eq:pro_ome 1}), we have
+\begin{equation}
+    X_{ijn}^2(t) = X_{ijn}^2(t_0) + 2X_{ijn}(t_0)X_{ijn}^{'}(t_0)(t - t_0) + (t-t_0)^2(X_{ijn}^{'})^2(t_0) + o(t-t_0)
+\end{equation}
+Ignoring the higher-order terms, we have
+\begin{equation}
+\label{eq:pro_ome 2}
+    X_{ijn}^2(t) \leq X_{ijn}^2(t_0)\left( 1 + 2\frac{||X_{ijn}^{'}||_{\infty}\Delta}{c_{ijt_{0}n}} \right)
+\end{equation}
+
+Then we use $t_0^{-}$ to denote the observable time point on $X_{ijn}(\cdot)$ that is smaller than $t_0$ but closest to $t_0$, if there is no observable time point smaller than $t_0$ we can set $t_0^{-} = T_s$ and we use $t_0^{+}$ to denote the observable time point on $x_{ijn}(\cdot)$ that is bigger than $t_0$ but closest to $t_0$, if there is no observable time point bigger than $t_0$ we can set $t_0^{+} = T_e$.  Then we can define a interval $U(t_0) = \left[ \frac{t_0^{-} + t_0}{2}, \frac{t_0^{+} + t_0}{2}\right]$. It is easy to find that, there is only one observable  point in $U(t_0)$ and for each unobservable time point $t \in U(t_0)$, we have Equation (\ref{eq:pro_ome 2}). Then we get
+\begin{equation}
+    \sum_{t \in U_{t_0}} X_{ijn}^2(t) \leq n_{U(t_0)}X_{ijn}^2(t_0)\left( 1 + 2\frac{||X_{ijn}^{'}||_{\infty}\Delta}{c_{ijt_{0}n}} \right)
+\end{equation}
+where $n_{U_{t_0}}$ denotes the number of unobservable time points in $U_{t_0}$. For each observable time point $t_0$ on each function, we can get  an inequality like this, sum all the inequalities, we have
+\begin{equation}
+    ||\mathcal{P}_{\boldsymbol{\Omega}^C}(\bX)||_F^2 \leq \Tilde{c}  ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_F^2
+\end{equation}
+where $\Tilde{c} = max_{i,j,n,t_0}n_{U(t_0)}\left( 1 + 2\frac{||X_{ijn}^{'}||_{\infty}\Delta}{c_{ijt_{0}n}} \right)$. Then we can get,
+\begin{equation}
+    ||\bX||_F^2 =  ||\mathcal{P}_{\boldsymbol{\Omega}^C}(\bX)||_F^2 +   ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_F^2 \leq (1 + \Tilde{c}) ||\mathcal{P}_{\boldsymbol{\Omega}}(\bX)||_F^2 
+\end{equation}
+Then we set $c = \sqrt{\frac{1}{1 + \Tilde{c}}}$, we can get Theorem \ref{the:omega}
+
+\iffalse
+\subsection{ Proof of Theorem \ref{the:identifiable}}
+Without considering the rotation, we first prove the upper bound of $||G - \Tilde{G} ||_F$.
+\begin{equation}
+\begin{aligned}
+    \langle \bX_{(3)}, G-\Tilde{G}\rangle = 
+    &\langle G\bX_{(3)}, I - \Tilde{G}\rangle  - \langle (I - G)\bX_{(3)}, \Tilde{G}\rangle\\
+    &\geq \langle G \lambda_{K}, I - \Tilde{G}\rangle  - \langle (I - G)\lambda_{K+1}, \Tilde{G}\rangle \\
+    & = (\lambda_K - \lambda_{K+1})(K - \langle G, \Tilde{G} \rangle)
+    \end{aligned}
+\end{equation}
+where $\lambda_i$ is the $i$th  eigenvalue of $\bX_{(3)}$.
+
+According to property of eigenvalue decomposition, we have
+\begin{equation}
+    \langle \Tilde{\bX}_{(3)}, \Tilde{G}\rangle \geq \langle \Tilde{\bX}_{(3)}, G \rangle
+\end{equation}
+Combine above two equations, we have
+\begin{equation}
+\label{eq:pro_iden 1}
+      \langle \bX_{(3)} - \Tilde{\bX}_{(3)}, G-\Tilde{G}\rangle \geq (\lambda_K - \lambda_{K+1})(K - \langle G, \Tilde{G} \rangle)
+\end{equation}
+According to Cauchy-Schwarz inequality, we also have 
+\begin{equation}
+\label{eq:pro_iden 2}
+    ||\bX_{(3)} - \Tilde{\bX}_{(3)} ||_F ||G-\Tilde{G} ||_F \geq \langle \bX_{(3)} - \Tilde{\bX}_{(3)}, G - \Tilde{G}\rangle
+\end{equation}
+We need to note that $||G-\Tilde{G} ||_F = \sqrt{2(K - \langle G, \Tilde{G} \rangle)}$. Then bring Equation (\ref{eq:pro_iden 2}) into Equation (\ref{eq:pro_iden 1}) and we get
+\begin{equation}
+     ||G - \Tilde{G}||_F \leq \frac{2}{\lambda_K -\lambda_{K+1}}||\bX_{(3)} - \Tilde{\bX}_{(3)} ||_F
+\end{equation}
+Then as we have $|| \bX_{(3)} - \Tilde{\bX}_{(3)}||_F  = ||\bX - \Tilde{\bX} ||_F\to 0$, we can get $||G - \Tilde{G}||_F \to 0$.
+
+As to the upper bound of $||\Phi - \Tilde{\Phi} ||_F$, we can use $\frac{1}{2}(\bX_{(1)} + \bX_{(2)})$ to replace $\bX_{(3)}$, we can get 
+\begin{equation}
+     ||\Phi - \Tilde{\Phi}||_F \leq \frac{1}{\mu_K -\mu_{K+1}}||\bX_{(1)} - \Tilde{\bX}_{(1)} + \bX_{(2)} - \Tilde{\bX}_{(2)}||_F
+\end{equation}
+where $\mu_i$ is the $i$th eigenvalue of $\frac{1}{2}(\bX_{(1)} + \bX_{(2)})$. Then we have $||\bX_{(1)} - \Tilde{\bX}_{(1)} + \bX_{(2)} - \Tilde{\bX}_{(2)}||_F \leq 2||\bX - \Tilde{\bX} ||_F\to 0$,  we can get $ ||\Phi - \Tilde{\Phi}||_F \to 0$.
+
+Without considering the rotation, we have 
+\begin{equation}
+\begin{aligned}
+    ||\bB - \Tilde{\bB}||_F = &||\bX \times_1 \Phi^T \times_2 \Phi^T \times_3 G^T - \Tilde{\bX} \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T ||_F \\
+    \leq & ||\bX \times_1 \Phi^T \times_2 \Phi^T \times_3 G^T - \bX \times_1 \Tilde{\Phi}^T \times_2 \Phi^T \times_3 G^T \\
+    &+\bX \times_1 \Tilde{\Phi}^T \times_2 \Phi^T \times_3 G^T - \bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 G^T\\
+    &+\bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 G^T - \bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T\\
+    &+\bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T - \Tilde{\bX} \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T||_F \\
+    \leq & ||\bX \times_1 (\Phi - \Tilde{\Phi})^T \times_2 \Phi^T \times_3 G^T||_F 
+    + ||\bX \times_1 \Tilde{\Phi}^T \times_2 (\Phi - \Tilde{\Phi})^T \times_3 G^T || _F \\
+    &+ ||\bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 (G - \Tilde{G})^T || _F 
+    + ||(\bX - \Tilde{\bX}) \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T  ||_F \\
+    \leq & ||\Phi - \Tilde{\Phi}  ||_F||\bX \times_2 \Phi^T \times_3 G^T||_F  
+    + ||\Phi - \Tilde{\Phi} ||_F ||\bX \times_1 \Tilde{\Phi}^T  \times_3 G^T || _F \\
+    &+ ||G - \Tilde{G} ||_F ||\bX \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T  || _F 
+    + ||\bX - \Tilde{\bX}||_F|| \mathbf{I} \times_1 \Tilde{\Phi}^T \times_2 \Tilde{\Phi}^T \times_3 \Tilde{G}^T  ||_F \\
+    \end{aligned}
+\end{equation}
+where $\mathbf{I}$ is a identity tensor which has the same dimensions with $\bX$. As we have proved that when $||\bX - \Tilde{\bX}||_F \to 0$, we can get $||G - \Tilde{G} ||_F \to 0 $ and $||\Phi - \Tilde{\Phi} ||_F \to 0$, then we can get $||\bB - \Tilde{\bB} ||_F \to 0 $. 
+
+Finally, if we consider the rotation of the outcome of $SHOSVD$, we only need to add the rotation orthogonal matrix  as we shown in the Theorem \ref{the:identifiable}.
+\fi
+
+
+
+
+
+\subsection{ Proof of Theorem \ref{the:identifiable}}
+
+First, consider two similar $\bX$ and $\Tilde{\bX}$ and the SHOSVD decomposition of them  as $SHOSVD(\bX) = \bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG$ and $SHOSVD(\Tilde{\bX}) = \Tilde{\bB} \times_1 \Tilde{\bPhi} \times_2 \Tilde{\bPhi} \times_3 \Tilde{\bG}$, we have the following properties,
+    \begin{align}
+    \label{eq:the_identi 1}
+     ||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T||_F & \leq \frac{2}{\lambda_K -\lambda_{K+1}}||\bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T ||_F\\
+     \label{eq:the_identi 2}
+     ||\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T||_F &\leq \frac{1}{\mu_s - \mu_{s+1}}||\bX_{(1)}\bX_{(1)}^T - \Tilde{\bX}_{(1)}\Tilde{\bX}_{(1)}^T + \bX_{(2)}\bX_{(2)}^T - \Tilde{\bX}_{(2)}\Tilde{\bX}_{(2)}^T ||_F
+    \end{align}
+    where $\lambda_i$ denotes the $i$th eigenvalue of $\bX_{(3)}\bX_{(3)}^T$, $\mu_i$ denotes the $i$th eigenvalue of $\bX_{(1)}\bX_{(1)}^T + \bX_{(2)}\bX_{(2)}^T$.  $\bX, \Tilde{\bX} \in \bbR^{m \times m \times L \times N}$, $\bB, \Tilde{\bB} \in \bbR^{s \times s \times K \times N}$, $\bPhi, \Tilde{\bPhi} \in \bbR^{m \times s}$, $\bG, \Tilde{\bG} \in \bbR^{L \times K}$.
+
+    Furthermore, if we have $||\bX - \Tilde{\bX} ||_F\to 0$, we can get
+    \begin{align}
+        ||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T||_F \to 0\\
+        ||\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T||_F \to 0\\
+        \label{eq:the_identi 4}
+        ||\bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG - \Tilde{\bB} \times_1 \Tilde{\bPhi} \times_2 \Tilde{\bPhi} \times_3 \Tilde{\bG}  ||_F \to 0
+    \end{align}
+Using Lemma \ref{the:omega}, we can get $||\mathcal{P}_{\boldsymbol{\Omega}}(\bX - \Tilde{\bX}) ||_F\to 0$ from $||\bX - \Tilde{\bX}||_F\to 0$. Then if we can prove the above properties, it is equivalent to completing the proof of Theorem \ref{the:identifiable}. Then we will prove the above properties.
+
+    
+We first prove Equation (\ref{eq:the_identi 1}).
+\begin{equation}
+\begin{aligned}
+    \langle \bX_{(3)}\bX_{(3)}^T, \bG\bG^T-\Tilde{\bG}\Tilde{\bG}^T\rangle = 
+    &\langle \bG\bG^T\bX_{(3)}\bX_{(3)}^T, I - \Tilde{\bG}\Tilde{\bG}^T\rangle  - \langle (I - \bG\bG^T)\bX_{(3)}\bX_{(3)}^T, \Tilde{\bG}\Tilde{\bG}^T\rangle\\
+    &\geq \langle \bG\bG^T \lambda_{K}, I - \Tilde{\bG}\Tilde{\bG}^T\rangle  - \langle (I - \bG\bG^T)\lambda_{K+1}, \Tilde{\bG}\Tilde{\bG}^T\rangle \\
+    & = (\lambda_K - \lambda_{K+1})(K - \langle \bG\bG^T, \Tilde{\bG}\Tilde{\bG}^T \rangle)
+    \end{aligned}
+\end{equation}
+According to the property of eigenvalue decomposition, we have
+\begin{equation}
+    \langle \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T, \Tilde{\bG}\Tilde{\bG}^T\rangle \geq \langle \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T, \bG\bG^T \rangle
+\end{equation}
+Combine above two equations, we have
+\begin{equation}
+\label{eq:pro_iden 1}
+      \langle \bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T, \bG
+        \bG^T-\Tilde{\bG}\Tilde{\bG}^T\rangle \geq (\lambda_K - \lambda_{K+1})(K - \langle \bG\bG^T, \Tilde{\bG}\Tilde{\bG}^T \rangle)
+\end{equation}
+According to Cauchy-Schwarz inequality, we also have 
+\begin{equation}
+\label{eq:pro_iden 2}
+    ||\bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T ||_F ||\bG\bG^T-\Tilde{\bG}\Tilde{\bG}^T ||_F \geq \langle \bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T, \bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T\rangle
+\end{equation}
+We need to note that $||\bG\bG^T-\Tilde{\bG}\Tilde{\bG}^T ||_F = \sqrt{2(K - \langle \bG\bG^T, \Tilde{\bG}\Tilde{\bG}^T \rangle)}$. Then bring Equation (\ref{eq:pro_iden 2}) into Equation (\ref{eq:pro_iden 1}) and we get
+\begin{equation}
+     ||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T||_F \leq \frac{2}{\lambda_K -\lambda_{K+1}}||\bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T ||_F
+\end{equation}
+As to Equation (\ref{eq:the_identi 2}),  using $\frac{1}{2}(\bX_{(1)}\bX_{(1)}^T + \bX_{(2)}\bX_{(2)}^T)$ instead of $\bX_{(3)}\bX_{(3)}^T$, we can similarly get the conclusion.
+
+It is easy to find that when $||\bX - \Tilde{\bX} ||_F \to 0$, we can get $||\bX_{(3)}\bX_{(3)}^T - \Tilde{\bX}_{(3)}\Tilde{\bX}_{(3)}^T ||_F \to 0$ and then according to Equation (\ref{eq:the_identi 1}), we have $||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T ||_F \to 0$. Similarly, we can also get $||\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T ||_F \to 0$.
+
+Then we will proof Equation (\ref{eq:the_identi 4}), we have 
+\begin{equation}
+\begin{aligned}
+    &||\bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG - \Tilde{\bB} \times_1\Tilde{\bPhi} \times_2\Tilde{\bPhi}\times_3 \bG||_F \\
+    = &||\bX \times_1 \bPhi\bPhi^T \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T - \Tilde{\bX} \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T ||_F \\
+    \leq & ||\bX \times_1 \bPhi\bPhi^T \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T - \bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T \\
+    &+\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T - \bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \bG\bG^T\\
+    &+\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \bG\bG^T - \bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T\\
+    &+\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T - \Tilde{\bX} \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T||_F \\
+    \leq & ||\bX \times_1 (\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T) \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T||_F 
+    + ||\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 (\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T) \times_3 \bG\bG^T || _F \\
+    &+ ||\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 (\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T) || _F 
+    + ||(\bX - \Tilde{\bX}) \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T  ||_F \\
+    \leq & ||\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T  ||_F||\bX \times_2 \bPhi\bPhi^T \times_3 \bG\bG^T||_F  
+    + ||\bPhi\bPhi^T - \Tilde{\bPhi}\Tilde{\bPhi}^T ||_F ||\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T  \times_3 \bG\bG^T || _F \\
+    &+ ||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T ||_F ||\bX \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T  || _F 
+    + ||\bX - \Tilde{\bX}||_F|| \mathbf{I} \times_1 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_2 \Tilde{\bPhi}\Tilde{\bPhi}^T \times_3 \Tilde{\bG}\Tilde{\bG}^T  ||_F \\
+    \end{aligned}
+\end{equation}
+where $\mathbf{I}$ is a identity tensor which has the same dimensions with $\bX$. As we have proved that when $||\bX - \Tilde{\bX}||_F \to 0$, we can get $||\bG\bG^T - \Tilde{\bG}\Tilde{\bG}^T ||_F \to 0 $ and $||\bPhi\bPhi - \Tilde{\bPhi}\Tilde{\bPhi}^T ||_F \to 0$, then we can get $||\bB \times_1 \bPhi \times_2 \bPhi \times_3 \bG - \Tilde{\bB} \times_1\Tilde{\bPhi} \times_2\Tilde{\bPhi}\times_3 \bG||_F \to 0 $. 
+
+
+
+\iffalse
+\subsection{Proof of Theorem \ref{the:theorem 1}}
+
+Firstly, according to triangle inequality, we have
+\begin{equation}
+    \label{proof 1}
+    ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \hat{\bX}_2)||_F \leq ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \bY)||_F + ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_2 - \bY)||_F  = 2\epsilon
+\end{equation}
+
+If basis matrices of $\hat{\bX}_1$ and $\hat{\bX}_2$ are different, we can always use Algorithm \ref{alg:Base sym} to get the same basis matrices $\mathbf{U}_1,\cdots, \mathbf{U}_4$ and only change the core tensors of tucher decomposition. Then we can get
+\begin{equation}
+    \label{proof 2}
+    \hat{\bX}_1 - \hat{\bX}_2 = (\mathbf{G}_1 - \mathbf{G}_2) \times_{i = 1}^4 \mathbf{U}_i
+\end{equation}
+Further more  because of the orthogonality of $\mathbf{U}_i$ and the properties of the Tucker decomposition we have $||\mathbf{G}_1 - \mathbf{G}_2||_F = ||\hat{\bX}_1 - \hat{\bX}_2||_F$. Then consider Assumption \ref{ass:omega}, we have
+\begin{equation}
+    \begin{aligned}
+    \label{proof 3}
+    ||\mathbf{G}_1 - \mathbf{G}_2||_F &=||\hat{\bX}_1 - \hat{\bX}_2||_F \\
+    &\leq C ||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX}_1 - \hat{\bX}_2)||_F\\
+    &\leq  2C\epsilon
+    \end{aligned}
+\end{equation}
+
+\fi
+
+\subsection{Proof of Theorem \ref{the:theorem 2}}
+Firstly, we give the definition that we need
+\begin{equation}
+    \begin{aligned}
+    \label{eq:FEN full}
+    \Tilde{\bX} = \mathop{\arg \min}\limits_{\bX \in \cM_\br} ||\bY^F - \bX ||_{F}
+    \end{aligned}
+\end{equation}
+$\bY^F = \bX + \bE$, and other symbol definitions are same with Equation (\ref{eq:FEN model opti}). We can say $\Tilde{\bX}$ is the special case of $\hat{\bX}$ when the observation is full observation. So we first study the property of $\Tilde{\bX}$.
+
+And we can note that $SHOSVD(\bY^F) \in \cM_\br$  is a approximate decomposition of $\bY^F$ and $\Tilde{\bX}$ can minimize $||\bY^F - \bX ||_{F}$, then we have
+\begin{equation}
+    \label{eq:apen 1}
+    ||\bY^F - \Tilde{\bX}||_{F} \leq ||\bY^F - SHOSVD(\bY^F)||_{F}
+\end{equation}
+then we will introduce some properties to describe $||\bY^F - SHOSVD(\bY^F)||_{F}$.
+
+According to Lemma \ref{lem:SHOSVD}, for each $\bY^F \in \bbR^{m \times m \times L \times N}$, there exists the following decomposition
+\begin{equation}
+    \label{eq:tensor SVD}
+    \bY^F = \mathbf{S} \times_1 \bPhi \times_2 \bPhi \times_3 \bG
+\end{equation}
+For convenience, we denote $\bU_1 = \bU_2 = \Phi$, $\bU_3 = \bG$, $\bU_4 = \mathbf{I}_N$ and $[n_1,n_2,n_3,n_4] = [m, m, L, N]$.  $\mathbf{U}_i \in \bbR^{n_i \times n_i}$are orthogonal, $\mathbf{S} \in \bbR^{n_1 \times \cdots \times n_4}$ has the following properties:
+
+\begin{align}
+    \label{eq:the_pro 1}||\mathbf{S}_{[i_1 = j]}||_F \leq 2 \sigma_{j}^{(1,2)} \\
+    \label{eq:the_pro 2}||\mathbf{S}_{[i_2 = j]}||_F \leq 2 \sigma_{j}^{(1,2)} \\
+     \label{eq:the_pro 3}||\mathbf{S}_{[i_3 = j]}||_F = \sigma_{j}^{(3)} 
+\end{align}
+where $\{\sigma_{j}^{(1,2)}\}$ and $\{\sigma_{j}^{(3)} \}$ are both  non-negative, non-increasing sequences and $\sum_{j = 1}^{m} (\sigma_{j}^{(1,2)})^2 = \sum_{j = 1}^{L} (\sigma_{j}^{(3)})^2 = ||\mathbf{A}||_F^2 = ||\mathbf{S}||_F^2$
+
+\iffalse
+\begin{itemize}
+    \item all-orthogonality
+    \begin{equation}
+    \begin{aligned}
+        \label{eq:all orth 1}
+        \langle \mathbf{S}(i_j = \alpha), &\mathbf{S}(i_j = \beta) \rangle = 0 \\
+        &when \quad \alpha \neq \beta, \ 1\leq j \leq 4
+    \end{aligned}
+    \end{equation}
+    \item ordering
+    \begin{equation}
+    \begin{aligned}
+        \label{eq:all orth 2}
+        ||\mathbf{S}(i_j = 1)||_{F} &\geq ||\mathbf{S}(i_j = 2)||_{F} \\
+        &\geq \cdots \geq ||\mathbf{S}(i_j = n_j)||_{F} 
+    \end{aligned}
+    \end{equation}
+    where $1\leq j \leq d  $and we define $\sigma_{k}^{(j)} = ||\mathbf{S}(i_j = k)||_{F} $.
+    \item norm invariance
+    \begin{equation}
+        \label{eq:all orth 3}
+        ||\bY^F||_{F}^2 = ||\mathbf{S}||_{F}^2 = \sum_{k = 1}^{n_j} {\sigma_{k}^{(j)}}^2 \quad 1\leq j\leq 4
+    \end{equation}
+\end{itemize}
+\fi
+After getting the all-orthogonal tensor $\mathbf{S}$ by decompose $\bY^F$, we can similarly get the following upper bound according to \cite{ProveHOSVD}
+\begin{equation}
+    \label{eq:hosvd upper}
+    ||\bY^F - HOSVD(\bY^F)||_{F}^2 \leq \sum_{i_1 = r_1 + 1}^{r^0_1}(2\sigma_{i_1}^{(1,2)})^2 + \sum_{i_2 = r_2 + 1}^{r^0_2}(2\sigma_{i_2}^{(1,2)})^2 + \sum_{i_3 = r_3 + 1}^{r^0_3}{\sigma_{i_3}^{(3)}}^2
+\end{equation}
+where the definition of $r_i, r^0_i$ is same with Assumption \ref{ass:r<R}. In our model, $\br = [s, s, K, N]$
+
+It should be noted that each element in $\bY^F$ is a normal random variable with mean value of corresponding element in $\bX$ and variance of $\sigma^2$, and is independent of each other. Each $\sigma_i^{(k)}$ obtained by this decomposition is also a random variable, and then we will study the distribution of these random variable.
+
+According to the property of Tucker decomposition and the orthogonality of $\mathbf{U}_i$, we can get
+\begin{equation}
+\begin{aligned}
+    \mathbf{S}_{(k)} = \mathbf{U}_{k}^T \mathbf{\bY}_{(k)}(&\mathbf{U}_{1} \otimes \dots \otimes \mathbf{U}_{k - 1} \\
+    &\otimes \mathbf{U}_{k + 1} \otimes \dots \otimes \mathbf{U}_{4}) 
+\end{aligned}
+\end{equation}
+where $1 \leq k \leq 4$ and we define $\mathbf{V}_k = \mathbf{U}_{1} \otimes \dots \otimes \mathbf{U}_{k - 1} \otimes \mathbf{U}_{k + 1} \otimes \dots \otimes \mathbf{U}_{4}$ for convenience. It is easy to find that each element of $\bY_{(k)}$ obey the normal distribution with same variance and is independent. $\mathbf{U}_k$ and $\mathbf{V}_k$ are orthogonal.According to the properties of normal distribution, if we combine a set of mutually independent homoscedasticity normal distribution with mutually orthogonal linear combination coefficients, the new distribution is still normal distribution and independent, variance does not change, only the mean value of the normal distribution is changed, and the change of the mean value is subject to matrix operation.
+Then we can get each element in $\mathbf{S}$ is independent with the same variance $\sigma^2$ and $\bbE(\mathbf{S}_{(k)}) = \mathbf{U}_k^T \bbE(\bY_{(k)}) \mathbf{V}_k = \mathbf{U}_k^T \bX_{(k)} \mathbf{V}_k$. We can rewrite them in tensor form as 
+\begin{equation}
+    \label{eq:expcet S}
+    \bbE(\mathbf{S}) = \bX \times_{i = 1}^4 \mathbf{U}_i
+\end{equation}
+then we get the distribution of $\mathbf{S}$.
+
+Then we define $\Lambda_j = \sum_{i_j = r_j + 1}^{r^0_j}{\sigma_{i_j}^{(j)}}^2$. Note the following definition $\sigma_{k}^{(j)} = ||\mathbf{S}(i_j = k))||_{F}$, So $\Lambda_i$ is the sum of the squares of the cut elements of the tensor S in the direction $i$.
+Take the three-dimensional case as an example, as shown in Figure \ref{fig:proof}. The figure represents all the elements in the tensor $\mathbf{S}$, where each square column is a fiber of the tensor, and $\Lambda_1$ is calculated from all the blue and green square columns. The elements contained in the figure are $1-\frac{r_1}{r^0_1}$ times the total number $N_{sum}$ of elements in the tensor $\mathbf{S}$. In the same way, $\Lambda_2$ is calculated from the yellow and green squares, which contain elements $1-\frac{r_2}{r^0_2}$  times the total number of elements $N_{sum}$ of the tensor $\mathbf{S}$. Each element in $\mathbf{S}$ is independent normal random variable with variance of $\sigma^2$, so $\frac{\Lambda_i}{\sigma^2}$ obeys the non-central chi-square distribution, the degree of freedom is the number of elements that make it up $1-\frac{r_i}{R_i}$ , and the non-central value is determined by $\bbE(\mathbf{S})$. On the other hand, as shown in Figure \ref{fig:proof}, since $\Lambda_1$ and $\Lambda_2$ have a common constituent element, the square in the green part, the two non-central chi-square distributions are not independent.
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.7\linewidth]{proof.png}
+  \caption{Constituent elements of $\Lambda_i$}
+  \label{fig:proof}
+\end{figure}
+
+Then according to Equation  (\ref{eq:the_pro 1}), Equation (\ref{eq:the_pro 2}), Equation (\ref{eq:the_pro 3}) and Equation (\ref{eq:expcet S}), we can get 
+\begin{equation}
+    \begin{aligned}
+    \label{eq:Lambda}
+    \frac{\Lambda_{i}}{\sigma^2} &\sim noncentral-\chi(\lambda_i, (1-\frac{r_i}{r^0_i})N_{sum})\\
+    \lambda_i &\leq (1 - \frac{r_i}{r^0_i})\frac{4||\bX||_{F}^2}{\sigma^2} \quad i =1, 2 \\
+    \lambda_i &\leq (1 - \frac{r_i}{r^0_i})\frac{||\bX||_{F}^2}{\sigma^2} \quad i =3 
+    \end{aligned}
+\end{equation}
+
+As $\bE = \bY^F - \bX$, then we have
+\begin{equation}
+    \label{eq:Epsilon}
+    \frac{||\bE||_{F}^2}{\sigma^2} \sim \chi_{N_{sum}}
+\end{equation}
+
+According to triangle inequality, we have
+\begin{equation}
+    \begin{aligned}
+    \label{eq:tilde x}
+    ||\Tilde{\bX} - \bX||_{F} &\leq ||\bY^F - \bX||_{F} + ||\bY^F - \Tilde{\bX}||_{F} \\
+    &\leq ||\bE||_{F} + ||\bY^F - SHOSVD(\bY^F)||_{F}\\
+    &\leq ||\bE||_{F} + \sqrt{\sum_{i = 1}^3\Lambda_i}
+    \end{aligned}
+\end{equation}
+
+At last, we use Lemma \ref{the:omega} to build the connection between $\Tilde{\bX}$ and $\hat{\bX}$
+\begin{equation}
+    \begin{aligned}
+    \label{eq:theo 2 final}
+    ||\hat{\bX} - \bX||_{F} &\leq C||\mathcal{P}_{\boldsymbol{\Omega}}(\hat{\bX} - \bX)||_{F}   \\
+    &\leq C||\mathcal{P}_{\boldsymbol{\Omega}}(\Tilde{\bX} - \bX)||_{F}\\ 
+    & \leq \frac{C}{c}||\Tilde{\bX} - \bX||_{F}\\
+    &\leq \frac{C}{c}(||\bE||_{F} + \sqrt{\sum_{i = 1}^3\Lambda_i})
+    \end{aligned}
+\end{equation}
+where the distribution of the upper bound is given by Equation (\ref{eq:Epsilon}) and Equation (\ref{eq:Lambda}). 
+
+So far, we have proved Theorem \ref{the:theorem 2}
+
+\subsection{Proof of Theorem \ref{the:local converage}}
+First, we have
+\begin{equation}
+    f(\bX_0) \geq f(\bX_k) \geq 0
+\end{equation}
+where we can define $C_0 \triangleq f(\bB_0)$. Then we can say that all $\bX_k$ stay inside the following compact set
+\begin{equation}
+    \mathcal{Q} \triangleq \{\bX \in \cM_\br| 0 \leq f(\bX_k) \leq C_0 \}
+\end{equation}
+Now we suppose that $||\mathrm{grad}f(\bX_k)||_F$ does not converge to $0$. Then there is a $\delta > 0$ and a subsequence of $\{ \bX_k\}$ such that $||\mathrm{grad}f(\bX_k)||_F \geq \delta$ for all elements of this subsequence. Because $\bX_k \in \mathcal{Q}$, this subsequence has a accumulation point $\bX_*$ which also satisfies  $||\mathrm{grad}f(\bX_*)||_F \geq \delta$. However, this contradicts the Theorem 4.3.1 of \cite{absil2009optimization}, which states that every accumulation point is a critical point of $f$. 
+\subsection{Proof of Corollary 1}
+
+Firstly, according to Theorem \ref{the:theorem 2} and Chebyshev inequality, we have
+\begin{equation}
+    \begin{aligned}
+    \label{eq:cor proof 1}
+    P(||\hat{\bX} - \bX||_{F} \leq \epsilon) &\geq P(\frac{C}{c}(||\bE||_{F} + \sqrt{\sum_{i = 1}^3\Lambda_i}) \leq \epsilon)\\
+    & = P(||\bE||_{F} + \sqrt{\sum_{i = 1}^3\Lambda_i}\leq \frac{\epsilon c}{C})\\
+    &\geq 1 - \frac{C \bbE(||\bE||_{F} + \sqrt{\sum_{i = 1}^3\Lambda_i})}{\epsilon c}
+    \end{aligned}
+\end{equation}
+
+Then according to Jensen's inequality, and$f(x) = \sqrt{x}$ is a concave function, and bringing in the expectation given in Theorem \ref{the:theorem 2} we can get
+\begin{equation}
+    \begin{aligned}
+    \label{eq:cor proof 2}
+    \bbE(||\bE||_{F} &+ \sqrt{\sum_{i = 1}^3\Lambda_i})  \leq \sqrt{\bbE(||\bE||_{F}^2)} + \sqrt{\sum_{i = 1}^4\bbE(\Lambda_i)}\\
+    & = \sqrt{\sigma^2 N_{sum}} + \sqrt{\sum_{i = 1}^3\sigma^2(\lambda_i + (1-\frac{r_i}{r^0_i})N_{sum})} \\
+    & \leq \sigma \sqrt{N_{sum}} +
+    \sqrt{\sum_{i = 1}^3 \left(1- \frac{r_i}{r^0_i} \right)\{\sigma^2N_{sum}+ \delta_i ||\bX|| _F^2 \}}
+    \end{aligned}
+\end{equation}
+where $\delta_i = 4, \ i = 1,2 $ and $\delta_i = 1 \ i = 3$ and $\br = [s, s, K, N]$.
+
+Bring Equation (\ref{eq:cor proof 2}) into Equation (\ref{eq:cor proof 1}), we can get Corollary \ref{cor:corollary 1}.
+
+\iffalse
+\subsection{Proof of Theorem \ref{the:continue}}
+
+We first focus on the upper bound of $\bbE\{||\mathcal{Y} - \hat{\mathcal{X}}||_{F}^2 $. 
+As we set $\alpha_k = 0 \quad k = 1,\cdots K$, $\hat{\mathcal{X}}$ can minimize $||\mathcal{Y} - \mathcal{X}||_{F}^2$ as a estimation of $\mathcal{X}$. In this way, if we can find a estimation of $\mathcal{X}$ which can satisfies the up bound in  Theorem \ref{the:continue}, $\hat{\mathcal{X}}$ can also satisfies it. Then we will find a decomposition $\Tilde{\mathcal{X}}$  and $ \bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2m^2\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 mK(m-s)$.
+
+Firstly, we can regard the $Y_{ijn}(t) \quad i = 1,\cdots,m \quad j = 1,\cdots,m \quad n = 1, \cdots, N$ as $n^2N$ samples from a random function with mean of $0$. Then we can use functional PCA to do the decomposition to $\mathcal{Y}$. 
+\begin{equation}
+    \begin{aligned}
+    Y_{ijn}(t) = \sum_{k = 1}^{\infty} a_{ijkn} \mathcal{g}_k(t)
+    \end{aligned}
+\end{equation}
+where $\mathcal{g}_k(t)$ is basis function and $\int_{\cT}\mathcal{g}_k(t)^2\, dt = 1$. $a_{ijkn}$ is a random variable which represents the PCA score and $\bbE(a_{ijkn}) = 0, Var(a_{ijkn}) = \lambda_{k}$.  $\{ \lambda_k \}$ is a non-negative monotonically decreasing sequence and $\sum_{k = K+1}^{\infty}\lambda_k \rightarrow 0$ as $K \rightarrow \infty$.
+
+Then we can choose the first $K$ basis functions as a initial decomposition of $\mathcal{Y}$ which can be writen in tensor form as $\mathbf{A} \times_3 \mathcal{G}$, where $\mathbf{A} \in \bbR^{n \times n \times K}, \mathcal{G} \in \bbR^{K \times \cT}$ and $\mathbf{A}, \mathcal{G}$ are consist of $a_{ijk}, \mathcal{g}_k(t)$ respectively. 
+
+Then we need to decomposite the $\mathbf{F}$ into the form of Tucker products to get the $\Tilde{\mathcal{X}}$.  We can use Algorithm \ref{alg:SHOSVD}  to get the $SHOSVD(\mathbf{A}) = \mathbf{B} \times_1 \Phi \times_2 \Phi$ with Tucker rank $\br = [s, s, K, N]$ where $\mathbf{B} \in \bbR^{s\times s\times K \times N}, \Phi \in \bbR^{m\times s}$. For convenience, we use $\mathbf{C}$ which is consist of $c_{ijkn}$ to denote $HOSVD(\mathbf{A})$. 
+After the above derivation, we get $\Tilde{\mathcal{X}} = \mathbf{C} \times_3 \Phi^t = \mathbf{B} \times_1 \Phi \times_2 \Phi \times_3 \Psi^t$. Then we will prove the $\bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2m^2\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 mK(m-s)$, to complete the proof.
+
+According to the property of $L_2$ norm, we can get
+\begin{equation}
+    \begin{aligned}
+    &||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2\\ &= \sum_{i = 1}^{m}\sum_{j = 1}^{m}\sum_{n = 1}^{N}\int_{\cT}(Y_{ijn}(t) - \sum_{k = 1}^{K}c_{ijkn}\mathcal{g}_k(t))^2\, dt \\
+    & = \sum_{i = 1}^{m}\sum_{j = 1}^{m} \sum_{n=1}^{N}\int_{\cT}((Y_{ijn}(t) - \sum_{k = 1}^{K}a_{ijkn}\mathcal{g}_k(t))\\
+    &+(\sum_{k=1}^{K}a_{ijkn}\mathcal{g}_k(t)- \sum_{k = 1}^{K}c_{ijkn}\mathcal{g}_k(t)))^2\, dt \\
+    &\leq 2\sum_{i = 1}^{m}\sum_{j=1}^{m}\sum_{n = 1}^{N}[\int_{\cT}(Y_{ijn}(t) - \sum_{k=1}^{K}a_{ijkn}\mathcal{g}_k(t))^2\, dt\\
+    &+ \int_{\cT}(\sum_{k =1}^{K}a_{ijkn}\mathcal{g}_k(t) - \sum_{k =1}^{K}c_{ijkn}\mathcal{g}_k(t))^2\, dt] 
+    \end{aligned}
+    \label{eq:L2 decom}
+\end{equation}
+
+
+Firstly, we consider the first term of the right side of Equation (\ref{eq:L2 decom}). As $a_{ijkn}$ and $\mathcal{g}_k(t)$ are got by the functional PCA, we can have 
+\begin{equation}
+    \begin{aligned}
+    &\bbE\{\sum_{i=1}^m\sum_{j=1}^m\sum_{n = 1}^N \int_{\cT}(Y_{ijn}(t) - \sum_{k=1}^{K}a_{ijkn}\mathcal{g}_k(t))^2\, dt \} \\
+    &= \sum_{i=1}^m\sum_{j=1}^m\sum_{n = 1}^N\bbE\{\int_{\cT}(Y_{ijn}(t) - \sum_{k=1}^{K}a_{ijkn}\mathcal{g}_k(t))^2\, dt \} \\
+    &= \sum_{i=1}^m\sum_{j=1}^m \sum_{n =1}^N\sum_{k=K+1}^{\infty}\lambda_k
+    =m^2N\sum_{k=K+1}^{\infty}\lambda_k
+    \end{aligned}
+    \label{eq:right first}
+\end{equation}
+
+Then we consider the second term of the right side of Equation (\ref{eq:L2 decom}).
+\begin{equation}
+    \begin{aligned}
+    &\sum_{i=1}^m\sum_{j=1}^m \sum_{n = 1}^N \int_{\cT}(\sum_{k =1}^{K}a_{ijkn}\mathcal{g}_k(t) - \sum_{k =1}^{K}c_{ijkn}\mathcal{g}_k(t))^2\, dt\\
+    &= \sum_{i=1}^m\sum_{j=1}^m\sum_{n = 1}^N\sum_{k=1}^K(a_{ijkn} - c_{ijkn})^2 \int_{\cT}\psi_k(t)^2\, dt\\
+    &=\sum_{i=1}^m\sum_{j=1}^m\sum_{n = 1}^N\sum_{k=1}^K(a_{ijkn} - c_{ijkn})^2
+     = ||\mathbf{A} - \mathbf{C}||_{F}^2
+    \end{aligned}
+\end{equation}
+
+Note that $\mathbf{C}$ is the SHOSVD decomposition of $\mathbf{A}$, similarly to the proof of Theorem \ref{the:theorem 2}, we can get
+\begin{equation}
+    \begin{aligned}
+    ||\mathbf{A} - \mathbf{C}||_{F}^2 \leq \Lambda_1 + \Lambda_2
+    \end{aligned}
+\end{equation}
+where $\Lambda_1,\Lambda_2$ are  the sum of the squares of $mKN(m-s)$ normally distributed random variables with mean $0$. But as the variance of each element of $\mathbf{A}$ are not same, the variance of normal random variables which construct $\Lambda_1$ and $\Lambda_2$ are also not same but belongs to interval $[\lambda_k, \lambda_1]$.
+
+Then we can divide these normal random variable by their standard deviation and get $\Tilde{\Lambda}_1$ and $\Tilde{\Lambda}_2$. They all obey a Chi-square distribution of $mKN(m-s)$ degrees of freedom. Then we have
+\begin{equation}
+    \begin{aligned}
+    &\bbE\{||\mathbf{A} - \mathbf{C}||_{F}^2 \} \leq \bbE\{\Lambda_1 + \Lambda_2 \} \\
+    &\leq \bbE\{\lambda_1(\Tilde{\Lambda}_1 + \Tilde{\Lambda}_2)\} = 2\lambda_1mKN(m-s)
+    \end{aligned}
+    \label{eq:right second}
+\end{equation}
+
+Combine Equation (\ref{eq:L2 decom}), Equation (\ref{eq:right first}) and Equation (\ref{eq:right second}) we can get
+\begin{equation}
+    \begin{aligned}
+    \label{eq:the_conti 1}
+    \bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} \leq 2m^2N\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 mKN(m-s)
+    \end{aligned}
+\end{equation}
+
+We also have
+\begin{equation}
+    \begin{aligned}
+    \label{eq:the_conti 2}
+        \bbE\{||\mathcal{Y} - \mathcal{X}||_F^2\} &= \bbE \{||\mathcal{E}||_F^2 \} = \bbE\{\sum_{i = 1}^m \sum_{j = 1}^m \sum_{n = 1}^{N} \int_{\mathcal{T}} e_{ijn}^2(t) \, dt\} \\
+        & = \sum_{i = 1}^m \sum_{j = 1}^m \sum_{n = 1}^{N} \int_{\mathcal{T}} \bbE\{e_{ijn}^2(t)\} \, dt = \sum_{i = 1}^m \sum_{j = 1}^m \sum_{n = 1}^{N} \int_{\mathcal{T}} \sigma^2 \, dt = m^2N\sigma^2(T_e - T_s)
+    \end{aligned}
+\end{equation}
+
+According to triangle inequality, Equation (\ref{eq:the_conti 1}) and Equation (\ref{eq:the_conti 2}), we have
+\begin{equation}
+    \begin{aligned}
+        \bbE\{||\mathcal{X} - \Tilde{\mathcal{X}}||_F^2 \} &\leq \bbE\{||\mathcal{Y} - \Tilde{\mathcal{X}}||_{F}^2 \} +  \bbE\{||\mathcal{Y} - \mathcal{X}||_F^2\}\\
+        &\leq 2m^2N\sum_{k = K+1}^{\infty}\lambda_k + 4\lambda_1 mKN(m-s) + m^2N\sigma^2(T_e - T_s)
+    \end{aligned}
+\end{equation}
+So far we find a decomposition $\Tilde{\mathcal{X}}$ as estimation of $\mathcal{X}$ which can satisfies the up bound in Theorem \ref{the:continue}. As the optimal solution $\hat{\mathcal{X}}$ has the lower up bound than $\Tilde{\mathcal{X}}$, we have proved Theorem \ref{the:continue}.
+\fi
+
+
+
+\end{appendix}
+\fi
+
+\end{document}

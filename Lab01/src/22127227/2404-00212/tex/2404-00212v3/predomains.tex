@@ -1,0 +1,109 @@
+\section{Cost-sensitive predomains in synthetic domain theory}\label{sec:predomains}
+
+As mentioned in the \cref{subsubsec:intrinsic-preorder}, the purpose of this section is to define a notion of predomains in synthetic domain theory such that the intrinsic preorder on predomains is partially ordered, defined pointwise on function spaces, and is closed under suprema of synthetic \(\omega\)-chains. We will use these properties to define and reason about \emph{admissible subsets of domains}. We define the basic notions of synthetic domain theory, and give an axiomatization of the rest of the paper in terms of \emph{SDT models of the intension-extension phase distinction}, culminating in a category of predomains satisfying the properties laid out above. 
+
+\subsection{Partial maps, dominance, and lifting}
+
+In a category with pullbacks, a \emph{partial map} $A \rightharpoonup B$ is a span $A \hookleftarrow D \to B$ consisting of a subset $D \hookrightarrow A$ on which $A \rightharpoonup B$ is defined. In synthetic domain theory, only certain monomorphisms correspond to domains of definitions of partial maps. In the terminology of Rosolini~\cite{rosolini:1986} such a collection is called a dominion:
+
+\begin{definition}
+  A pullback-stable collection of monomorphisms is a called a \emph{dominion} when it is closed under identity and composition. 
+\end{definition}
+
+\begin{definition}
+  Let \CatIdent{E} be an elementary topos equipped with a subobject \(\Sigma   \hookrightarrow  \Omega\) such that $\top \in \Sigma$. A monomorphism is \emph{classified} by $\Sigma$ if and only if its characteristic map factors through $\Sigma \hookrightarrow \Omega$. A \emph{dominance} is a subobject $\Sigma \hookrightarrow \Omega$ such that the class of monos classified by $\Sigma$ is a dominion. We call a proposition (resp., predicate) factoring through $\Sigma$ a \emph{$\Sigma$-proposition} (resp., \emph{$\Sigma$-predicate}). 
+\end{definition}
+
+In the internal language, this means that \(\Sigma\) contains the true proposition \(\top\) and is closed under dependent sums, which we write as \(\phi   \mathbin{\angle}  f\) given \(\phi  :  \Sigma\) and \(f :  \phi   \to   \Sigma\). These structures ensure that the dominance determines a \emph{lifting monad} $\mathbb{L} = (\kw{L}, \eta, \mu)$ whose action on points are defined as follows:
+
+\begin{definition}
+  The \emph{lift} of a type $A$ relative to a dominance $\Sigma$ is defined as $\lift{A} = \Sigma_{\phi : \Sigma}.~\phi \to A$. 
+\end{definition}
+
+The lifting monad is also called the \emph{partial map classifier} because every partial map $A \hookleftarrow D \to B$ with $D$ a $\Sigma$-subobject of $A$ appears as the pullback of $\eta_B : B \to \lift{B}$ for a unique $A \to \lift{B}$. 
+
+\begin{nota}
+  Given a partial element \(e :  \mathsf{L} A\), we write \(e { \downarrow }  :  \Sigma\) for its support, \ie{} $- {\downarrow}$ is the first projection $\kw{L}(A) \to \Sigma$. When it is known that \(e { \downarrow }\) holds, we may write \(e : A\) for the defined element. 
+\end{nota}
+
+\subsection{Complete types}
+
+In synthetic domain theory the structure of predomains is generated not from consideration of $\Nat$-indexed chains but rather a new notion of chains called a \emph{synthetic} $\omega$-chain, which is defined simply to be a map out of $\omega$. The difference between the two notions of chain is  elucidated by the fact that $\Nat$ is the initial lifting algebra for the dominance of decidable propositions, whereas $\omega$ is the initial algebra for a larger dominance.
+
+\begin{definition}
+A \emph{synthetic \(\omega\)-chain} is a map \(\omega \to  A\) from the initial $\kw{L}$-algebra or lift algebra $\omega$.
+\end{definition}
+
+The closure properties of synthetic $\omega$-chains can be captured by considering an orthogonality condition relative to the figure shape \(\omega   \hookrightarrow   \overline{\omega}\) induced by the inclusion of the initial lift algebra in the \emph{final lift coalgebra} $\overline{\omega}$. As we alluded to in \cref{subsubsec:orthogonality}, orthogonality is a way to identify types that ``think'' certain maps are isomorphisms: 
+
+\begin{definition}
+A type \(A\) is \emph{orthogonal} to \(f : X  \to  Y\) when there is a unique extension of any map \(g : X  \to  A\) to a map \(\overline{g}  : Y  \to  A\) such that \(g =  \overline{g}   \circ  f\). 
+\end{definition}
+
+\begin{definition}
+  A type \(A\) is called \emph{complete} when it is orthogonal to the figure shape $\omega \hookrightarrow \overline{\omega}$, and \emph{well-complete} when $\lift{A}$ is complete.
+\end{definition}
+
+Complete types~\cite{hyland:1991,phoa:1991} are the synthetic counterpart to $\omega$-cpos in classic domain theory. The class of well complete types was introduced in Longley and Simpson~\cite{longley-simpson:1997} as the least restrictive possible notion of predomain that is closed under lifting. In this paper we consider the dual \emph{most restrictive} class of predomain, the \emph{replete} types~\cite{hyland:1991}, in order to obtain a sharper characterisation of the intrinsic order relation (see \cref{subsec:intrinsic}) on predomains. 
+
+\begin{definition}
+  A map \(f : X  \to  Y\) is called \emph{\(\Sigma\)-equable} or a \emph{\(\Sigma\)-isomorphism} when \(\Sigma\) is orthogonal to \(f\). 
+\end{definition}
+
+\begin{definition}\label[defn]{def:replete}
+  A type is \emph{replete} when it is orthogonal to every \(\Sigma\)-iso. A \emph{predomain} is a replete type. 
+\end{definition}
+
+In other words, a predomain respects every $\Sigma$-isomorphism; we will use this fact to easily transfer properties that hold of $\Sigma$ to every predomain in \cref{sec:properties}. 
+
+
+\subsection{The intrinsic order}\label{subsec:intrinsic}
+
+For every type $A$, the dominance $\Sigma$ induces an \emph{intrinsic preorder} $\specle_A$ on $A$ analogous to the specialization preorder on a topological space: $x \specle_A y$ if and only if $f~x$ implies $f~y$ for every \(f:A \to \Sigma\). Viewing $f : A \to \Sigma$ as a computational or observable property of $A$, $x \specle_A y$ holds whenever $y$ satisfies every observable property of $x$. By default the intrinsic preorder is relatively unconstrained --- for instance, it need not be a partial order in general and on the dominance $\Sigma$ it need not coincide with the implication order on propositions. The purpose of this section is to axiomatize some constraints on $\Sigma$ that will make intrinsic preorder coincide with the implication order on $\Sigma$; this is used in the characterization of the intrinsic order of lifting in \cref{sec:properties}. To this end, we introduce an intermediate \emph{path relation} on types: 
+
+\begin{definition}
+  A \emph{path} in a type $A$ is a map $\Sigma \to A$. The \emph{boundary} of a path $f:\Sigma\to A$ is the pair \(\boundary f = (f~ \bot , f~ \top )\). We write $x \pathle_A y$ when there exists a path whose boundary is $(x, y)$. 
+\end{definition}
+
+The path relation is an alternative way to surface the order structure of predomains, studied in much more detail by Fiore~\cite{fiore:1995}; the path relation is also used by Grodin~\etal~\cite{grodin-niu-sterling-harper:2024} to obtain a theory of synthetic preorders for cost analysis. In this paper one can view the path relation as an auxiliary notion that ultimately coincides with the intrinsic preorder on predomains. In general we call types for which this holds linked, following Phoa~\cite{phoa:1991}: 
+
+
+\begin{definition}
+ A type is called \emph{linked} when the intrinsic preorder coincides with the path relation.
+\end{definition}
+
+The fact that the intrinsic order on $\Sigma$ coincides with the implication order follows if $\Sigma$ is linked. This latter property holds when $\Sigma$ satisfies one of the fundamental axioms of synthetic domain theory: 
+\begin{definition}
+  The dominance $\Sigma$ satisfies \emph{Phoa's principle} when the boundary evaluation map $\boundary : \Sigma^\Sigma \to \Sigma \times \Sigma$ factors as an isomorphism followed by an inclusion: $\Sigma^\Sigma \cong \{(\phi, \psi) \mid \phi \to \psi\} \hookrightarrow \Sigma \times \Sigma$. 
+\end{definition}
+
+Phoa's principle expresses the fact that the path space of $\Sigma$ is fully characterized by ordered pairs of $\Sigma$-propositions (with respect to implication). Because the negation of an observable property is not in general observable, Phoa's principle may be seen as an explicit statement of the constructive/observable nature of $\Sigma$-propositions, \ie there is no map $\Sigma \to \Sigma$ sending $\phi$ to $\neg\phi$. 
+
+\begin{restatable}{proposition}{PropDomLinked}\label[prop]{prop:dom-linked}
+Assuming Phoa's principle, the dominance \(\Sigma\) is linked.
+\end{restatable}
+
+\begin{corollary}
+  Assuming Phoa's principle, the intrinsic order on \(\Sigma\) is the implication order.
+\end{corollary}
+
+Moreover, the path in $\Sigma$ associated to every implication $\phi \to \psi$ is unique in the following sense: 
+\begin{definition}
+  A type $A$ is \emph{boundary separated} when any two paths in $A$ sharing a boundary are equal.
+\end{definition}
+
+\begin{proposition}\label[prop]{prop:sigma-boundary-sep}
+  Assuming Phoa's principle, $\Sigma$ is boundary separated. 
+\end{proposition}
+
+\subsection{Axioms of the phase distinction in SDT and predomains}\label{subsec:predomains} 
+
+Having developed the axiomatics of the ordinary synthetic domain theoretic components of our work, we now introduce the intension-extension phase distinction as discussed in \cref{subsubsec:phase-distinction}. The meeting point of the domain-theoretic and the cost-sensitive aspects of our work is simply expressed by the requirement that the phase proposition $\phase$ is a $\Sigma$-proposition. This allows us to manufacture a \emph{purely intensional} monoid from a standard cost monoid that we will use to define a denotational semantics for \pcf{} that exhibits the natural information flow security properties with respect to cost and behavior as outlined in \cref{subsec:den-sem}. 
+
+More specifically, we may use the fact that $\phase$ is a $\Sigma$-proposition to define the sealing monad $\phase \vee -$ mentioned in \cref{subsubsec:phase-distinction} that can be seen as the canonical way of making a predomain purely intensional. When defining the denotational semantics, we may then take as an input to the model construction any ordinary monoid (in the subuniverse of predomains) and apply the sealing monad to obtain a purely intensional monoid. Lastly, to exhibit the kind of noninterference property of cost and behavior as discussed in \cref{subsubsec:phase-distinction}, we require that there is a purely extensional base predomain. These considerations lead us to the following axiomatization of our synthetic domain theory topos: 
+
+\begin{definition}\label[defn]{def:axioms}
+  An \emph{SDT model of the intension-extension phase distinction} is an elementary topos \CatIdent{E} equipped with a dominance $\Sigma$ satisfying Phoa's principle such that $\Sigma$ is complete, and a distinguished $\Sigma$-proposition $\P$ such that the type of booleans $2$ is an extensional predomain. 
+\end{definition}
+
+For the rest of the paper we assume a given SDT model of the intension-extension phase distinction \CatIdent{D}. All constructions are all carried out in the internal language of \CatIdent{E}.

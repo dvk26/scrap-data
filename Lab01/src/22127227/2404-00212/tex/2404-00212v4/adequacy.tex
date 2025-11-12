@@ -1,0 +1,65 @@
+\section{Computational adequacy and noninterference}\label{sec:adequacy}
+
+In this section we show that the computational and denotational semantics satisfy a tight correspondence at the type of \emph{observations}: for every $e : \U{\F{1}}$, we have that $\sem{e}$ is Kleene equivalent to $\kw{profile}(e)$ in the sense that the cost specified computationally and denotationally are equal whenever one of them is defined.%
+
+\subsection{Soundness}
+
+In one direction, it is not too difficult to show \emph{soundness}, which means that the computational steps are respected by the denotational semantics: 
+
+\begin{restatable}{proposition}{PropSoundStep}\label[prop]{prop:sound-step}
+  If \(e  \mapsto  c,e'\), then \(\sem{e} = c  \boxplus   \sem{e'}\). 
+\end{restatable}
+
+\begin{restatable}{theorem}{ThmSound}\label[thm]{thm:sound}
+  If \(\mathsf{eval} (e, v) { \downarrow }\), then $\sem{e} = \kw{eval}(e, v) \costmap \sem{v}$. 
+\end{restatable}
+
+\begin{corollary}\label[cor]{coro:sound}
+  Given $e : \U{\F{1}}$, we have $\kw{profile}(e) \le \sem{e}$. 
+\end{corollary}
+
+\subsection{Adequacy}\label{subsec:adequacy}
+
+Adequacy proper usually refers to the converse direction of the property stated in \cref{coro:sound}: definedness of the denotational semantics implies termination under the computational semantics. Our proof is based on a standard binary logical relations construction between the syntax and semantics of \pcfc{} (\cf{} Plotkin~\cite{plotkin:1977}). The logical relation consists of a family of relations ${\lhd_A} \subseteq \sem{A} \times \tmv{A}$ indexed in the syntactic types $A$ of \pcfc{} such that $\sem{e} \lhd_{\U{\F{1}}} e$ implies the computational adequacy property. The purpose of considering a family of relations is to provide a sufficient strengthening of the desired property to all types so that one may proceed by an inductive proof on the derivation of terms to show that $\sem{e} \lhd_A e$ holds for every term $e : A$. Due to the presence of fixed-point computations, we must show that $- \lhd_{\U{X}} e$ is always an admissible subset of the domain $\sem{X}$ in the sense of \cref{def:admissible}. We define a family of relations called the \emph{formal approximation relations} in \cref{fig:formal-approx-rel} by induction on the structure of syntactic types and show that they satisfy the properties in the preceding discussion.
+
+\begin{figure}
+  
+  \iblock{
+    \begin{multicols}{2}
+    \mrow{e  \lhd _{ \kw{1} } e' =  \top}
+    \mrow{e  \lhd _{ \kw{ans} } e' = (\overline{e} = e')}
+    \mrow{e  \lhd _{ \mathsf{nat} } e' = (e =  \llbracket   e'   \rrbracket )}
+    \mrow{e  \lhd _{ \mathsf{U} \mathsf{F} A } e' =  \forall   { \left [ f  \mathrel{( \lhd _A  \Rightarrow   \mathsf{adq} )}  f' \right ]} ~  \mathsf{adq} (f^ \sharp (e), e';f')}
+    \mrow{e  \lhd _{ \mathsf{U} (A  \to  X) } e' = e  \mathrel{( \lhd _{A}  \Rightarrow   \lhd _{ \mathsf{U} X })}  e'}
+    \columnbreak
+    \mrow{\mathsf{adq} (e, e') = (e \le e')}
+    \mrow{e  \mathrel{(R  \Rightarrow  S)}  e' =  \forall   { \left [ a  \mathrel{R}  a' \right ]} ~  (e~a)  \mathrel{S}  (e'~a') }
+    \end{multicols}
+  }
+  
+   \medskip
+   
+
+   
+   \caption{\emph{Formal approximation relations.} We write $\overline{-} : 2 \to \kw{ans}$ for the function sending $0$ to \kw{no} and $1$ to \kw{yes}. The relation \(\mathsf{adq} \subseteq \kw{T}(1)  \times \tmv{\U{\F{1}}}\) is the ``ground relation'' that generates the formal approximation relations at higher types.}
+   \label{fig:formal-approx-rel}
+\end{figure}
+
+
+Formal approximation relations may be extended to open terms as usual. We write $\Gamma \vdash e \lhd_A e'$ when for all closing substitutions $\sigma : \Gamma$, we have that $e(\sem{\sigma}) \lhd_A e'[\sigma]$ holds. The computational adequacy result may be deduced from the \emph{fundamental lemma}: 
+
+\begin{restatable}{theorem}{ThmFLLR} 
+  For every closed term $e : \Gamma \vdash A$, the approximation $\Gamma \vdash \sem{e} \lhd_A e$ holds.
+\end{restatable}
+
+The proof of the fundamental lemma proceeds by induction on the derivation of terms. Details and the proof that formal approximation predicates $- \lhd_{\U{X}} e$ are admissible can be found in the appendix~\cref{app:adequacy}; crucially we rely on the fact that $\kw{eval}(e, v)$ is a $\Sigma$-proposition. 
+
+\begin{corollary}\label[cor]{coro:adequacy}
+  Given $e : \U{\F{1}}$, we have that $\sem{e} = \kw{profile}(e)$. 
+\end{corollary}
+
+Extensionally, both the denotational and computational semantics of $e$ are simply partial computations of type $\lift{1}$, so one may view \cref{coro:adequacy} as a cost-sensitive (and internal) version of Ploktin's original adequacy theorem for \pcf{}. Lastly, we see that our semantics of \pcfc{} provides a rigorous proof of the intuitive fact that computations may not observe the cost effect: 
+
+\begin{restatable}{theorem}{ThmNoninterference}
+  Any $e : \U{\F{1}} \rightharpoonup \F{2}$ is weakly, extensionally constant in the sense that for all $x, y : \U{\F{1}}$, if $\kw{profile}(x)\supp$ and $\kw{profile}(y)\supp$, then $\kw{eval}(e~x, \kw{ret}(v))\supp$ and $\kw{eval}(e~y, \kw{ret}(u))\supp$ imply $v = u$. 
+\end{restatable}

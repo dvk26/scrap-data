@@ -1,0 +1,1749 @@
+\PassOptionsToPackage{table}{xcolor}
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2025_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+\usepackage{amsmath}
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amssymb}
+\usepackage[table]{xcolor}
+\usepackage{xspace} % allow utf-8 input
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{pdfpages}
+
+\usepackage[most]{tcolorbox}
+\usepackage{soul}
+\usepackage{wrapfig}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\definecolor{rred}{rgb}{0.75, 0.0, 0.0}
+\newcommand{\badmetric}[1]{{\color{rred} \textbf{#1}}}
+\definecolor{lightblue}{RGB}{230,240,254}
+\definecolor{lightorange}{RGB}{255,223,191}
+
+\newcommand\hlc[2]{\sethlcolor{#1} \hl{#2}}
+
+\newcommand{\orangetext}[1]{{\hlc{lightorange}{#1}}}
+\newcommand{\bluetext}[1]{{\hlc{lightblue}{#1}}}
+
+
+
+\newcommand{\llamaa}{\mbox{\textsc{LLaMA2-7B-chat}}\xspace}
+\newcommand{\llamab}{\mbox{\textsc{LLaMA2-13B-chat}}\xspace}
+\newcommand{\llama}{\mbox{\textsc{LLaMA2-chat}}\xspace}
+\newcommand{\Mistral}{\mbox{\textsc{Mistral-7B-instruct}}\xspace}
+\newcommand{\dataa}{\textsc{MQuAKE}\xspace}
+\usepackage{hyperref} % For hyperlinks
+\usepackage{cleveref} 
+
+
+\title{Is Factuality Enhancement a Free Lunch  For LLMs? Better Factuality Can Lead to Worse Context-Faithfulness}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+\author{Baolong Bi$^{1,2}$\quad Shenghua Liu$^{1,2,*}$\quad  Yiwei Wang$^3$\quad  Lingrui Mei$^{1,2}$ \\ \textbf{Junfeng Fang}$^{4}$ \quad \textbf{Hongcheng Gao}$^2$ \quad \textbf{Shiyu Ni}$^{2}$ \quad \textbf{Xueqi Cheng}$^{1,2}$ \\
+	$^1$CAS Key Laboratory of AI Safety, Institute of Computing Technology, CAS \\
+        $^2$University of Chinese Academy of Sciences 
+	$^3$University of California, Merced \\
+        $^4$University of Science and Technology of China (USTC), Hefei, China\\
+        \small{\{bibaolong23z, liushenghua, nishiyu23z, cxq\}@ict.ac.cn},
+        \small{wangyw.evan@gmail.com}	\\
+        \small{\{meilingrui22, gaohongcheng23\}@mails.ucas.ac.cn, fjf@mail.ustc.edu.cn}
+}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+As the modern tools of choice for text understanding and generation, large language models (LLMs) are expected to accurately output answers by leveraging the input context.
+This requires LLMs to possess both context-faithfulness and factual accuracy.
+Extensive efforts have been made to enable better outputs from LLMs by mitigating hallucinations through factuality enhancement methods.
+However, they also pose risks of hindering context-faithfulness, as factuality enhancement can lead LLMs to become overly confident in their parametric knowledge, causing them to overlook the relevant input context.
+In this work, we argue that current factuality enhancement methods can significantly undermine the context-faithfulness of LLMs.
+We first revisit the current factuality enhancement methods and evaluate their effectiveness in enhancing factual accuracy.
+Next, we evaluate their performance on knowledge editing tasks to assess the potential impact on context-faithfulness.
+The experimental results reveal that while these methods may yield inconsistent improvements in factual accuracy, they also cause a more severe decline in context-faithfulness, with the largest decrease reaching a striking 69.7\%.
+To explain these declines, we analyze the hidden states and logit distributions for the tokens representing new knowledge and parametric knowledge respectively, highlighting the limitations of current approaches.
+Our finding highlights the complex trade-offs inherent in enhancing LLMs.
+Therefore, we recommend that more research on LLMs' factuality enhancement make efforts to reduce the sacrifice of context-faithfulness.
+\end{abstract}
+
+\section{Introduction}
+
+Leveraging their powerful capabilities in text understanding and generation, large language models (LLMs) can effectively integrate contextual information to infer and generate truthful responses ~\citep{openai2023gpt4, DBLP:journals/corr/abs-2302-13971, touvron2023llama, song2024fmint}.
+However, hallucinations~\citep{huang2023survey, tonmoy2024comprehensive} significantly undermine the LLMs' reliability, primarily due to inadequate adherence to contextual instructions and failure to produce truthful responses~\citep{zhang2023sirens}.
+
+With the widespread adoption of Retrieval-Augmented Generation (RAG)~\citep{fan2024survey, santhanam2021colbertv2,schick2024toolformer, qin2024toollearningfoundationmodels}, , the study of context-faithfulness in LLMs is becoming increasingly important ~\citep{chen2022rich, li2024investigating}.
+This is because they depend on the effective integration of retrieved external information into their generated responses to ensure contextual relevance. 
+Therefore, exceptional LLMs must not only produce factual outputs based on their parametric knowledge but also comply with contextual requirements. 
+Context-faithfulness enhances LLMs' compliance with user instructions and improves performance, particularly when the parametric knowledge is insufficient or outdated.
+
+
+Prior work~\citep{li2024dawn, zhang2024self} suggests that the cause of factual hallucinations is LLMs' inability  to accurately ``convey'' knowledge during inference, even when it has been effectively ``learned'' during pretraining.
+Some emerging works focuses on narrowing the gap between "knowing" and "telling" in LLMs to improve LLMs' factuality.
+These approaches can be divided into two categories: one involves editing internal representations, such as attention mechanisms~\citep{li2024inferencetimeinterventionelicitingtruthful, burns2022discovering, chen2024truthforestmultiscaletruthfulness} or hidden states~\citep{zhang2024truthx}, and the other modifies the logits of tokens during decoding~\citep{li-etal-2023-contrastive, chuang2023dola, zhang2023alleviating, kai2024sh2}. 
+These methods enable LLMs to output their knowledge more accurately, reducing hallucinations, without altering parameters, as they do not require introducing new factual knowledge through supervised fine-tuning (SFT) \citep{yang2023chatgpt, ovadia2023fine} or RLHF \citep{ouyang2022training, bai2022training}.
+
+
+\begin{figure}[t]
+    \centering
+    % \vspace{-5mm}
+    \includegraphics[width=\linewidth]{framework.pdf}
+    \vspace{-10pt}
+    \caption{Comparison of responses from native LLMs and factuality-enhanced LLMs before and after context injection. The enhanced LLMs, due to overconfidence in their parametric knowledge, struggle to integrate new information from the context, resulting in incorrect answers.}
+    \vspace{-16pt}
+    \label{fig:example}
+\end{figure}
+
+However, is this unsupervised factuality enhancement a free lunch for LLMs?
+We argue that while factuality enhancement can reduce factual hallucinations in LLM outputs, it may lead to excessive confidence in their parametric knowledge, making it difficult for them to comply with contextual information, especially when external knowledge contradicts their parametric knowledge \citep{petroni2020contextaffectslanguagemodels, si2023promptinggpt3reliable, xie2024adaptivechameleonstubbornsloth}.
+Figure \ref{fig:example} illustrates a simple example of the scenario we envisioned.
+In this work, we first revisit several popular methods for factuality enhancement and evaluate their performance on TruthfulQA~\citep{lin2021truthfulqa}. 
+The results show that while most methods provide some improvement in factuality, some approaches exhibit minimal or inconsistent gains.
+Therefore, we suspect that current factuality enhancement methods, despite improving factuality, might negatively impact context-faithfulness to a greater extent.
+
+To test our hypothesis, we evaluate these factuality enhancement methods on knowledge editing (KE)~\citep{sinitsin2020editable, de2021editing, mitchell2022memory, yao2023editing} benchmarks, comparing them against the baseline performance of \llama.
+Specifically, we conduct experiments with in-context editing (ICE)~\citep{zhong2023mquake, zheng2023can, bi2024struedit} methods on the \dataa datasets.
+The accuracy of ICE effectively reflects the context-faithfulness of LLMs, as it provides outdated or counterfactual contextual knowledge that may contradict the models' parametric knowledge.
+Experimental results indicate that, compared to the baseline, current popular factuality enhancement methods lead to a significant decline in LLM performance in context-faithfulness. 
+For example, the editing accuracy of TruthX~\citep{zhang2024truthx} on \llamaa decreased by as much as 60.3\%.
+This suggests that while factuality enhancement aids LLMs in accurately conveying factual information, it also introduces the risk of overconfidence, resulting in a substantial setback for the context-faithfulness of LLMs.
+
+We explain the decline in context-faithfulness by analyzing the hidden states and token-wise distributions of LLMs' outputs, based on knowledge tokens captured by our specially designed algorithm.
+Compared to the baseline, the hidden states become more concentrated and closely align with the original parametric outputs after inserting contextual information.  
+Additionally, the logits for tokens representing new knowledge decrease, while the logits for parametric knowledge increase.
+
+Altogether, our study highlights the significant risks posed by current factuality enhancement methods, as we validate and explain their notable decline in context-faithfulness.  
+This demonstrates the importance of ensuring that LLMs not only enhance factual accuracy but also maintain a strong alignment with the provided context to minimize the occurrence of hallucinations.  
+We strongly advocate for the development of LLMs that prioritize both faithful adherence to context and the accurate conveyance of factual information.  
+Therefore, we recommend future research explore strategies to balance these two critical aspects.
+
+
+
+
+\section{Preliminary}
+This section revisits the core concepts of language modeling (\Cref{ssec:language_model}) and knowledge editing (\Cref{ssec:ke}) of LLMs, with the aim of conducting a more in-depth exploration of existing factuality enhancement strategies (\Cref{sec:factuality}) and their interpretability (\Cref{sec:interpretability}), as well as the use of knowledge editing to assess context-faithfulness (\Cref{sec:eva_context}). 
+
+\subsection{Language Modeling}
+\label{ssec:language_model}
+
+The current language modeling of LLMs aims to generate text based on the probability distribution of token sequences.
+Formally, given a sequence of tokens ${x}_{t}=\{x_1, x_2, \ldots, x_{t-1}\}$, the goal is to predict the next token $x_t$ by modeling the conditional probability $\text{I\kern-0.15em P}(x_t|x_{<t})$.
+
+To achieve this, LLMs process the input token sequence through layers of attention (Attn) and feed-forward networks (FFN). 
+The hidden state is computed as follows:
+
+\vspace{-6pt}
+\begin{equation}
+    \text{I\kern-0.15em H}_t = \text{FFN}(\text{Attn}(\mathbf{X}_{<t}))
+\label{eq:h}
+\end{equation}
+
+Here, $\mathbf{X}_{<t}$ represents the embedded representation of the input tokens ${x}_{<t}$, which is passed through Attn to capture contextual relationships, followed by a FFN to produce the hidden state.
+
+Then, the model can predict the probability distribution of the next token \( x_t \) over the vocabulary set $\mathcal{V}$ by applying a linear transformation \( \phi(\cdot) \) followed by a softmax function:
+
+\vspace{-6pt}
+\begin{equation}
+    \text{I\kern-0.15em P}(x_t|x_{<t}) = \mathrm{softmax}(\phi(\text{I\kern-0.15em H}_t), \quad x_t \in \mathcal{V}
+\label{eq:p}
+\end{equation}
+
+The softmax function converts the output logits from \( \phi(\text{I\kern-0.15em H}_t) \) into a probability distribution over the vocabulary \( \mathcal{V} \), allowing the model to assign a likelihood to each possible next token.
+At decoding time, various decoding strategies can be applied at each step $i$ to select the next token $x_i$, with the given predicted distribution of the next token $\text{I\kern-0.15em P}(x_t|x_{<t})$.
+This iterative process continues until the sequence generation reaches a designated end token or meets a predefined stopping condition.
+
+\subsection{Knowledge Editing}
+\label{ssec:ke}
+
+Context-faithfulness requires LLMs to effectively adhere to external context. 
+This means they must fully accept new knowledge provided by that context, even if it conflicts with their parametric knowledge acquired during pretraining, which may be insufficient or outdated.
+Therefore, this paper uses the success rate of KE to assess the context-faithfulness of LLMs, as KE provides counterfactual new knowledge that contradicts the LLMs' own parametric knowledge.
+
+KE aims to efficiently adjust the behavior of the original model $f_{base}$ into post-edit model $f_{e}$ with a specific editing descriptors $z_e$.
+The editing descriptors $z_e$ describe a desired change in model behavior and can be represented as $z_e = (x_e, r_e, y_e)$, where $(x_e, r_e, y_e)$ represents a triplet such as (\textit{US}, \textit{President}, \textit{Joe Biden}) meaning Joe Biden is the president of US.
+The ultimate objective of KE is to edit the LLM output that $f_{e}(x_e, r_e)=y_e$ while $f_{base}(x_e, r_e) \neq y_e$. 
+
+A thorough edit should not only modify the relevant knowledge but also update all knowledge affected by this edit in multi-hop relationships. 
+For instance, consider the two-hop fact triple (\textit{WWE Velocity}, \textit{created by}, \textit{Vince McMahon}) and (\textit{Vince McMahon}, \textit{spouse}, \textit{Linda McMahon}). With a fact edit \( z_e=(\textit{WWE Velocity}, \textit{created by}, \textit{Stan Lee}) \) and an additional fact \( (\textit{Stan Lee}, \textit{spouse}, \textit{Joan Lee}) \), the correctly updated answer should be \textit{Joan Lee}. We adopt a multi-hop editing task to measure context-faithfulness of LLMs in Section \ref{sec:eva_context} by evaluating the accuracy of multi-hop question answering with fact edits. 
+This poses challenges for LLMs in adhering to the editing context due to potential conflicts between new knowledge and their parametric knowledge during the reasoning process.
+
+
+
+\section{Factuality Enhancement for LLMs}
+\label{sec:factuality}
+
+\subsection{Current Approaches to Factuality Enhancement}
+
+SFT or RLHF methods\citep{yang2023chatgpt, ovadia2023fine, ouyang2022training, bai2022training} enhance the factuality of LLMs by injecting external training data.
+However, this approach significantly increases costs and introduces unreliability, potentially jeopardizing the integrity of the model's inherent knowledge.
+Current methods for enhancing factuality do not modify the underlying structure or parameters of LLMs;  instead, they focus on improving how LLMs convey the information they have already learned to reduce hallucinations.  
+These approaches primarily involve modifying the outputs of LLMs, including the hidden states obtained through Attn and FFNs (\cref{eq:h}), as well as the logits distribution used to predict the next token during the decoding phase (\cref{eq:p}).
+The current factuality enhancement methods can be classified into the following two categories based on their different approaches to modifying LLM outputs:
+
+\paragraph{Representation Editing}
+Representation editing methods~\citep{burns2022discovering, li2024inferencetimeinterventionelicitingtruthful,  zhang2024truthx, chen2024truthforestmultiscaletruthfulness} enhance factuality by editing the internal representations of LLM outputs.  
+They learn a direction within attention heads or a potential truthful space to modify the attention patterns of the LLM, thereby adjusting the hidden states.
+
+\paragraph{Contrastive Decoding}
+Contrastive decoding methods~\citep{li-etal-2023-contrastive, chuang2023dola, zhang2023alleviating, kai2024sh2, bi2024decoding} enhance the factuality of LLMs by comparing the output probabilities of expert and amateur models, different layers within the transformer, various tokens, and the outputs of normal and hallucination-injected models.
+
+\begin{table}[t!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{llcccccc}
+\toprule
+\multirow{2}{*}{\textbf{Model}} & \multirow{2}{*}{\textbf{Method}} & \multicolumn{3}{c}{\textbf{TruthfulQA}} & \multicolumn{3}{c}{\textbf{\textsc{FActScore}}} \\ \cmidrule{3-5} \cmidrule{6-8}
+&  & \textbf{MC1 (\%)} & \textbf{MC2 (\%)} & \textbf{MC3 (\%)} & \textbf{Resp. (\%)} & \textbf{Facts (\#)} & \textbf{Score (\%)} \\ 
+\cmidrule{2-8}
+\rowcolor{gray!20}
+& {Baseline} & 37.6 & 54.6 & 28.1 & 37.5 & 45.7 & 63.8\\
+\midrule
+\multirow{2}{*}{\textsc{LLaMA2-}} & {DoLa}$^\spadesuit$ & \badmetric{32.9} & {60.8} & {29.5} & {40.7} & {48.7} & \badmetric{61.3} \\
+\multirow{2}{*}{\textsc{7b-chat}} & {ICD}$^\spadesuit$& {46.3} & {69.1} & {41.2} & \badmetric{36.1} & {46.6} & {66.3} \\
+\cmidrule{2-8}
+ & {ITI}$^\diamondsuit$ & \badmetric{37.0} & {54.7} & \badmetric{27.8} & {41.9} & \badmetric{40.8} & \badmetric{62.4} \\ &
+{TruthX}$^\diamondsuit$ & {54.2} & {73.9} & {44.3} & {40.6} & \badmetric{43.7} & {65.3} \\
+\midrule
+\rowcolor{gray!20}
+ & {Baseline} & 37.7 & 55.6 & 28.2 & 77.0 & 37.6 & 52.5\\
+\cmidrule{2-8}
+\multirow{2}{*}{\textsc{LLaMA2-}} & {DoLa}$^\spadesuit$ & \badmetric{37.3} & {61.8} & {32.7} & \badmetric{55.8} & \badmetric{46.7} & {59.8} \\
+\multirow{2}{*}{\textsc{13b-chat}} & {CD}$^\spadesuit$& \badmetric{28.2} & \badmetric{54.9} & {29.8} & \badmetric{74.2} & {39.8} & {53.5} \\ &
+{ICD}$^\spadesuit$ & {45.6} & {67.5} & {42.3} & \badmetric{46.9} & {43.4} & {59.5} \\
+\cmidrule{2-8}
+& {ITI}$^\diamondsuit$ & {38.9} & \badmetric{53.4} & {29.6} & {78.9} & \badmetric{34.5} & {55.3} \\
+\bottomrule
+\end{tabular}
+}
+\caption{Experimental results of factuality evaluation on TruthfulQA and \textsc{FActScore}. We conduct experiments with various factuality enhancement methods, including both contrastive decoding and representation editing, on \llama.  Methods marked with $^\spadesuit$ belong to contrastive decoding, while those marked with $^\diamondsuit$ belong to representation editing. In \textsc{FActScore}, \% Resp. indicates the response ratio of LLMs, while \# Facts represents the number of extracted atomic facts per response. Here, \badmetric{red} highlights a decrease in factuality compared to the Baseline.}
+% \vspace{-10pt}
+\label{tab:fact-eval}
+\end{table}
+
+
+\subsection{Evaluation of Factuality}
+\label{Factuality_eva}
+
+We evaluate the performance of popular factuality enhancement methods on the \llamaa and \llamab models in terms of factuality of LLMs using the TruthfulQA~\citep{lin2021truthfulqa} and \textsc{FActScore}~\citep{min2023factscore} benchmarks.
+Evaluation on both benchmarks adheres to the settings of previous studies~\citep{chuang2023dola, li2024inferencetimeinterventionelicitingtruthful, zhang2023alleviating}. 
+Using TruthfulQA, we employ a multiple-choice task where the LLM selects an answer from various correct and incorrect options, evaluated through multiple-choice accuracy (MC1, MC2, and MC3).
+For \textsc{FActScore}, the assessment is conducted through retrieve+chatGPT methodology. 
+The implementation details of the factuality enhancement methods are in Appendix \ref{sec:detail}.
+
+\begin{table}[t!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Model} & \textbf{Method} & \textbf{3-shot} & \textbf{5-shot} & \textbf{10-shot} & \textbf{COT (10-shot)} \\ 
+\midrule
+  \rowcolor{gray!20} & {Baseline} {\tiny \bf (-)}&  68.5 {\tiny \bf (-)} &  78.7 {\tiny \bf (-)} &  81.3 {\tiny \bf (-)} &  82.5 {\tiny \bf (-)}\\
+ \cmidrule(lr){2-6}
+ \multirow{2}{*}{\textsc{LLaMA2-}} & {DoLa}$^\spadesuit$ & {52.3} {\tiny \bf ($\downarrow$ 22.4)} & {63.7} {\tiny \bf ($\downarrow$ 15.0)} & {66.5} {\tiny \bf ($\downarrow$ 14.8)} & {62.5} {\tiny \bf ($\downarrow$ 20.0)} \\
+\multirow{2}{*}{\textsc{7B-chat}} & {ICD}$^\spadesuit$~\citep{zhang2023alleviating} & {50.1} {\tiny \bf ($\downarrow$ 26.9)} & {61.7} {\tiny \bf ($\downarrow$ 17.0)} & {64.9} {\tiny \bf ($\downarrow$ 16.4)} & {60.5} {\tiny \bf ($\downarrow$ 22.0)}\\
+& {ITI}$^\diamondsuit$~\citep{li2024inferencetimeinterventionelicitingtruthful} & {51.9} {\tiny \bf ($\downarrow$ 21.8)} & {62.2} {\tiny \bf ($\downarrow$ 16.5)} & {67.5} {\tiny \bf ($\downarrow$ 13.8)} & {65.7} {\tiny \bf ($\downarrow$ 16.8)}\\
+& {TruthX}$^\diamondsuit$~\citep{zhang2024truthx} & {26.7} {\tiny \bf ($\downarrow$ 61.1)} & {32.5} {\tiny \bf ($\downarrow$ 58.8)} & {32.7} {\tiny \bf ($\downarrow$ 59.9)} & {26.5} {\tiny \bf ($\downarrow$ 67.9)}\\
+\midrule
+  \rowcolor{gray!20} & {Baseline} & 78.3 {\tiny \bf (-)}& 84.5 {\tiny \bf (-)}& 86.1 {\tiny \bf (-)}&  86.3{\tiny \bf (-)}\\
+ \cmidrule(lr){2-6}
+ \multirow{2}{*}{\textsc{LLaMA2-}} & {DoLa}$^\spadesuit$~\citep{chuang2023dola} & {58.3} {\tiny \bf ($\downarrow$ 20.0)} & {67.7} {\tiny \bf ($\downarrow$ 16.8)} & {70.2} {\tiny \bf ($\downarrow$ 15.9)} & {70.3} {\tiny \bf ($\downarrow$ 16.0)} \\
+\multirow{2}{*}{\textsc{13B-chat}} & {ICD}$^\spadesuit$~\citep{zhang2023alleviating} & {59.5} {\tiny \bf ($\downarrow$ 23.2)} & {66.2} {\tiny \bf ($\downarrow$ 18.3)} & {72.4} {\tiny \bf ($\downarrow$ 13.7)} & {67.6} {\tiny \bf ($\downarrow$ 18.7)}\\
+& {ITI}$^\diamondsuit$~\citep{li2024inferencetimeinterventionelicitingtruthful} & {64.3} {\tiny \bf ($\downarrow$ 14.0)} & {69.8} {\tiny \bf ($\downarrow$ 14.7)} & {74.2} {\tiny \bf ($\downarrow$ 11.9)} & {65.7} {\tiny \bf ($\downarrow$ 20.6)}\\
+& {CD}$^\spadesuit$~\citep{li-etal-2023-contrastive} & {55.2} {\tiny \bf ($\downarrow$ 29.5)} & {62.6} {\tiny \bf ($\downarrow$ 21.9)} & {67.1} {\tiny \bf ($\downarrow$ 19.0)} & {64.9} {\tiny \bf ($\downarrow$ 21.4)}\\
+\bottomrule
+\end{tabular}
+}
+% \vspace{-6pt}
+\caption{Experimental results of context-faithfulness evaluation on \dataa dataset. {$k$-shot} represents the number of context demonstrations provided, which is detailed in Figure \ref{fig:show_case} along with the use of COT. In the subscript ($\downarrow \Delta$), $\Delta$ (\%) represents the decrease compared to the baseline.}
+\vspace{-12pt}
+\label{tab:ice}
+\end{table}
+
+The experimental results of LLM factulity on \llama are presented in Table \ref{tab:fact-eval}.
+% The results for \llamab can be found in Appendix \ref{sec:fact_13b}.
+% with fluctuations compared to the baseline also shown in Table \ref{tab:ike}.
+A notable observation is that, compared to the baseline, factuality enhancement methods show improvements across most metrics. 
+Without altering the structure or parameters of LLMs, these methods reduce the gap between 'know' and 'tell' knowledge to mitigate hallucinations, making such improvements highly valuable.
+However, these methods still have significant limitations. 
+The improvement in factuality is modest and quite unstable. 
+The red-marked sections in Table \ref{tab:fact-eval} indicate that the evaluated methods do not show consistent enhancements across all metrics; 
+in fact, some metrics exhibit declines compared to the baseline. 
+This suggest that these methods for modifying LLM outputs may negatively impact the model's natural generation capabilities.
+
+
+\begin{figure}[ht]
+    \centering
+    % \vspace{-5mm}
+    \includegraphics[width=\linewidth]{show_case.pdf}
+    \vspace{-16pt}
+    \caption{An illustration of the ICE task to evaluate LLMs' context-faithfulness. It involves multi-hop question answering with corresponding edits, utilizing $k$ contextual demonstrations to guide editing and align output format. The highlighted text represents the expected output from the LLMs, while \textit{Thoughts} indicates the additional step taken when using Chain of Thought (COT) reasoning.}
+    \label{fig:show_case}
+    \vspace{-12pt}
+\end{figure}
+
+\section{Evaluation of Context-Faithfulness}
+\label{sec:eva_context}
+
+The factuality enhancement methods increase LLMs' confidence in their parametric knowledge to produce more accurate outputs. 
+However, we argue that this can lead to overconfidence, which reduces their faithfulness to context and consequently introduces new risks of hallucination. 
+To validate this suspicion, we evaluates the impact of these factuality enhancement methods on context-faithfulness.
+
+
+
+\subsection{Experimental Setup}
+\paragraph{Task}
+We meticulously design the In-Context Editing (ICE)~\citep{zheng2023can, zhong2023mquake, wang2024deepedit, bi2024adaptive, bi2024struedit} task to evaluate the context-faithfulness of LLMs.
+As the most effective KE method currently, ICE prompts LLMs to reason and generate answers that faithfully incorporate new knowledge retrieved from edit memory in the form of context.
+We configure the edit memory to include only question-relevant editing instances, ensuring that all provided editing context influences the LLMs' outputs.
+We assess context-faithfulness based on the accuracy of question-answering with edits, as this reflects whether LLMs remain faithful to external context when it conflicts with their internal knowledge. Figure \ref{fig:show_case} provides a simple illustration of our task, with additional contextual demonstrations listed in the Appendix \ref{sec:demo2}.
+
+\paragraph{Models and Datasets}
+We use \llamaa and \llamab as baseline models to conduct experiments on \dataa~\citep{zhong2023mquake}~\footnote{We specifically use the released \textsc{MQuAKE-CF-3k-v2} data version for our experiments, which addresses the internal knowledge conflicts within the dataset.}, comparing various factuality enhancement methods against the natural \llama models. 
+\dataa provides multi-hop knowledge questions to evaluate knowledge editing on counterfactual edits, as introduced in Section \ref{ssec:ke}.
+This verifies whether knowledge has been properly edited and effectively demonstrates LLMs' context-faithfulness.
+CD compares the decoding logits of the 13B version of \llama with those of the 7B version, using \llamab as the baseline for comparison.
+Implementation details of the factuality enhancement methods can be found in the Appendix \ref{sec:detail}.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \cellcolor{gray!20} \textbf{Baseline} & \textbf{DoLa}$^\spadesuit$ & \textbf{CD}$^\spadesuit$ & \textbf{ICD}$^\spadesuit$ & \textbf{ITI}$^\diamondsuit$ & \textbf{TruthX}$^\diamondsuit$ \\ 
+\midrule
+ \llamaa & \cellcolor{gray!20} 54.5 (-) & {39.4} {\tiny \bf ($\downarrow$ 27.7)} & - & {29.8} {\tiny \bf ($\downarrow$ 45.3)} & {31.5} {\tiny \bf ($\downarrow$ 42.2)} & {22.6} {\tiny \bf ($\downarrow$ 58.5)}\\
+ \llamab & \cellcolor{gray!20} 63.8 (-) & {35.6} {\tiny \bf ($\downarrow$ 44.2)} & {38.6} {\tiny \bf ($\downarrow$ 39.5)} & {39.5} {\tiny \bf ($\downarrow$ 52.2)} & {34.5} {\tiny \bf ($\downarrow$ 45.9)} & {-} \\
+ 
+\bottomrule
+\end{tabular}
+}
+\vspace{-8pt}
+\caption{Experimental results of context-faithfulnes evaluation using MeLLo method.}
+% \vspace{-8pt}
+\label{tab:mello}
+\end{table}
+
+\subsection{Main Results}
+
+\begin{wrapfigure}{r}{0.50\textwidth}
+\vspace{-4mm}
+\centering
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{comp.pdf}
+\vspace{-22pt}
+\caption{Changes (\%) in Context-Faithfulness and Factuality of Factuality-Enhanced LLMs.}
+\label{fig:compare}
+\end{minipage}
+\vspace{-10pt}
+\end{wrapfigure}
+Based on the above experimental setup, we evaluate the context-faithfulness of current  factuality enhancement methods. 
+The experimental results of ICE on \llamaa and \llamab are shown in Table \ref{tab:ice}.
+As observed, all factuality enhancement methods exhibit a marked decline compared to the baseline in performance on the ICE task under any setting.  
+Notably, this decline is not minor, with an average decrease exceeding 20\%, and occurs without exception across all methods.
+Particularly in the state-of-the-art TruthX for factuality, the decline reaches as high as 67.9\%.
+This suggests that the potential risks to context-faithfulness could be significant.
+
+
+An interesting observation is that the accuracy of all methods, including the baseline, improves as the number of context demonstrations increases. 
+This aligns with the findings of ~\citet{zheng2023can}., suggesting that more faithful examples can enhance the context-faithfulness of LLMs.
+Additionally, we find that introducing Chain of Thought (COT)~\citep{wei2022chain} reasoning into the baseline improves its accuracy.
+However, the performance of COT in factuality enhancement methods is unstable, with most methods showing a decline compared to those without COT. 
+This may be due to the fact that during the additional COT reasoning process, LLMs with factuality enhancements tend to recall parametric knowledge more, thereby negating the new knowledge from the context. This can be observed in the cases discussed in Section \ref{sec:case_study}.
+
+
+Figure \ref{fig:compare} visualizes the changes in both factuality and context-faithfulness of these methods compared to the baseline, based on the results of \textit{MC2} in Table \ref{tab:fact-eval} and \textit{3-shot} in Table \ref{tab:ice}.
+It illustrates that while these factuality enhancement methods provide unstable improvements in factuality, they also lead to a more significant decline in the context-faithfulness of LLMs.
+
+
+In addition to the aforementioned basic ICE setup, we also employ the advanced KE method MeLLo~\citep{zhong2023mquake} to assess LLMs' context-faithfulness.
+MeLLo can decompose complex multi-hop questions into sequential sub-questions, checking for conflicts with relevant new knowledge retrieved from edit memory to determine if edits are necessary.
+Therefore, we further validate context-faithfulness using MeLLo, as it performs one-hop edits, thereby avoiding hallucinations introduced by multi-hop reasoning.
+The prompt template and implementation details of MeLLo are provided in the Appendix \ref{sec:demo1}.
+The results in Table \ref{tab:mello} show that, when using MeLLo, which is more suited for realistic editing scenarios, the accuracy of factuality-enhanced LLMs exhibits a more significant decline compared to the previous simple ICE evaluation. 
+Most declines exceed 40\% relative to the baseline, with larger models experiencing even more pronounced decreases.
+All of the editing results that these factuality enhancement methods significantly reduce the accuracy of knowledge editing tasks, highlighting that the current approaches severely impact the context-faithfulness of LLMs.
+
+
+
+\section{In-depth Exploration of Context-Faithfulness}
+\label{sec:interpretability}
+
+The evaluation of context-faithfulness in Section \ref{sec:eva_context} confirms the earlier suspicion that improved factuality leads to a significant decline in context-faithfulness. 
+This section aims to further explain this decline from a model interpretability perspective.
+We investigate the logit distributions (\Cref{sec:logits}) and hidden state representations (\Cref{sec:hidden}) of relevant knowledge in LLM outputs captured by our algrithm (\Cref{sec:alg}), and conduct case study (\Cref{sec:case_study}) based on the generated text, to reveal how these factuality enhancement methods impact context-faithfulness.
+
+\begin{algorithm}
+\caption{Knowledge Token Capturing}
+\label{alg:alg}
+\begin{algorithmic}[1]
+\Require The LLM generates a token sequence of length $n$, $\mathcal{V}$: vocabulary of LLM, $\mathcal{P}_i$ in ($\mathcal{P}_1$, $\mathcal{P}_1$, ..., $\mathcal{P}_n$): logits distribution of tokens, $H_i$ in ($H_1$, ${H}_1$, ..., $H_n$): hidden states of tokens, $S_{\text{new}}$: string of new knowledge, $S_{\text{para}}$: string of parametric knowledge.
+\Ensure Captured knowledge logits and hidden states $P_{\text{new}}$, $P_{\text{para}}$, $H_{\text{new}}$, $H_{\text{para}}$
+
+\State Initialize $P_{\text{new}}$, $P_{\text{para}} \gets \textit{None}$
+\State ${S}_{\text{com}} = \text{COM}(S_{\text{new}}, S_{\text{para}})$
+\Comment{Identify common substrings}
+\For{$\mathcal{P}_i$ in ($\mathcal{P}_1$, $\mathcal{P}_1$, ..., $\mathcal{P}_n$)}
+    \For{token $x_j$ in $\mathcal{V}$} \Comment{Sort by $P_i$ in descending order}
+        \State $x_j \rightarrow x'_j$ \Comment{Decode $x_j$ to string $x'_j$}
+
+        \State \textbf{if} $x'_j$ in ${S}_{\text{com}}$ and $P_{\text{new}} = P_{\text{para}} = \textit{None}$: \textbf{break} \Comment{$x'_j$ is indistinguishable}
+        \State \textbf{if} $x'_j$ in $S_{\text{new}}$ and $P_{\text{new}}$ = \textit{None}: 
+        $P_{\text{new}} \gets P_{i,j}, H_{\text{new}} \gets H_{i}$ \Comment{Capture new knowledge}
+        \State \textbf{if} $x'_j$ in $S_{\text{para}}$ and $P_{\text{para}} = \textit{None}$: 
+        $P_{\text{para}} \gets P_{i,j}, H_{\text{para}} \gets H_{i}$ \Comment{Capture para knowledge}
+    \EndFor
+\EndFor \\
+\Return $P_{\text{new}}$, $P_{\text{para}}$, $H_{\text{new}}$, $H_{\text{para}}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Distinguishing New and Parametric Knowledge in LLM Outputs}
+\label{sec:alg}
+Our objective is to identify the parts of LLM outputs that distinguish between the new knowledge acquired from context and the parametric knowledge embedded within the LLMs, rather than analyzing repetitive or meaningless outputs. 
+For example, consider an expected LLM output with injected context, such as \textit{“Answer: United States”}, compared to the original parametric output without the injected context, which would be \textit{“Answer: United Kingdom"}.
+In this case, we should not capture \textit{“Answer:”} as it holds no factual meaning, nor should we focus on \textit{“United”} since it is repetitive and does not reflect the difference.  
+Instead, our focus should be on capturing tokens with clear factual significance—those that can differentiate between the new knowledge introduced by context and the parametric knowledge inherent to the model. In this example, tokens like \textit{“Kingdom”} serve as the key markers of distinction, effectively highlighting the critical divergence between the contextual information and the model’s existing knowledge.
+
+To achieve this, we design a novel knowledge token capturing algorithm, with details presented in Algorithm \ref{alg:alg}.
+The algorithm captures the highest-probability tokens that differentiate new and parametric knowledge by matching the decoded tokens with the respective knowledge strings.
+We conduct experiments on the \textsc{MQuAKE-stubborn} dataset provided by \citet{bi2024decoding}, which effectively highlights the distinction between new knowledge and parametric knowledge. 
+Specifically, we collect 2,000 question-answer instances, each consisting of the output from LLMs prior to injecting context containing new knowledge, as well as the output after the injection.
+
+\begin{figure}[t!]
+    \centering
+    % \vspace{-5mm}
+    \includegraphics[width=\linewidth]{avg_logits.pdf}
+    \vspace{-22pt}
+    \caption{Average logits of tokens representing new and parametric knowledge after context injection.}
+    \label{fig:avg_logits}
+    % \vspace{-10pt}
+\end{figure}
+
+
+
+\subsection{Analysis in Logits Distribution}
+\label{sec:logits}
+
+To further investigate LLM context-faithfulness from the perspective of logits distribution (\cref{eq:p}), we capture the tokens corresponding to both the in-context new knowledge and the parametric knowledge after context injection.  
+The average probabilities of these tokens for the factuality enhancement methods and baselines are shown in Figure \ref{fig:avg_logits}.
+We observe that, compared to the baseline, all factuality enhancement methods show a decrease in the probability of new knowledge tokens, while the probability of parametric knowledge tokens increases.  
+This provides a clear explanation for the reduction in context-faithfulness discussed in Section \ref{sec:eva_context}.  
+These methods effectively boost the retention of parametric knowledge but at the cost of diminished faithfulness to external context.  
+Furthermore, the difference in probabilities between new and parametric knowledge correlates well with the editing accuracy in Table \ref{tab:ice}, where larger differences lead to better editing performance, while TruthX’s poor editing is explained by the dominance of parametric knowledge over new knowledge.
+
+\begin{figure}[h]
+    \centering
+    % \vspace{-10pt}
+    \includegraphics[width=\linewidth]{distribution_logits.pdf}
+    \vspace{-20pt}
+    \caption{Statistics of new knowledge distribution for both logits and rank on \llama (left) and \llamab (right). Rank is recorded by capturing the position of the new knowledge token within the vocabulary $\mathcal{V}$, based on its logits ranking.}
+    \label{fig:dis_logits}
+    % \vspace{-10pt}
+\end{figure}
+
+Results in figure \ref{fig:dis_logits} provides a deeper statistical analysis of the logits associated with new knowledge. 
+The baselines of the \llama models consistently exhibit a higher concentration in the probability range of $0.8$ to $1.0$, with top token ranks (1 to 5) clearly dominating. 
+In contrast, factuality enhancement methods shift the distribution of new knowledge tokens towards lower probability ranges, indicating a diminished confidence in in-context knowledge compared to the baselines.
+
+
+\subsection{Analysis in Hidden States}
+\label{sec:hidden}
+
+Section 3 shows that all factuality enhancement methods impact the logits distribution of the output, resulting in a decline in context-faithfulness. 
+Some methods also aim to improve factuality by editing the internal representations (\cref{eq:h}) of LLMs, which requires an analysis based on hidden states.
+We similarly use theknowledge token capturing algorithm to collect these crucial hidden states.
+Since the contrastive decoding method does not alter internal representations, our evaluation focuses on the ITI~\citep{li2024inferencetimeinterventionelicitingtruthful} and TruthX~\citep{zhang2024truthx} methods.
+We used t-SNE to reduce the dimensionality of the hidden states representing new knowledge in \llamaa from the original 4096 dimensions to 2 dimensions, with the perplexity set to 15.
+
+\begin{figure}[t]
+    \centering
+    % \vspace{-10pt}
+    \includegraphics[width=\linewidth]{hidden.pdf}
+    \vspace{-12pt}
+    \caption{Distribution of reduced hidden states for new knowledge before and after context injection. The dashed circles represent the 95\% confidence intervals, showing that factuality enhancement methods lead to a post-injection convergence towards the pre-injection distribution.}
+    \label{fig:hidden}
+    \vspace{-10pt}
+\end{figure}
+
+Figure \ref{fig:hidden} presents the distribution of hidden states before and after context injection for these representation editing methods.
+We find that the distribution of the reduced hidden states after context injection is broader and more dispersed compared to before the injection.
+This indicates that context injection alters the distribution of knowledge representations, leading them to deviate from their original factuality, where the hidden states prior to injection represent the parametric factuality inherent in the LLMs.
+Notably, compared to the significant difference observed between the pre- and post-context injection hidden states in the baseline, the differences for ITI and TruthX are much smaller. 
+The hidden states of new knowledge after injection are more confined and closer to those before the injection.
+Especially, TruthX exhibits a distribution that closely resembles the original range, which explains its significant decline in context-faithfulness.  
+This is because it modifies both the FFN and Attn representations, making them more resistant to incorporating new knowledge and more firmly tied to the model's parametric knowledge.
+Overall, these representation editing methods tend to limit the natural dispersion of hidden states after context injection.  
+As a result, the output decoded from the constrained hidden states remains more aligned with the original parametric knowledge, rather than incorporating the new contextual knowledge effectively.
+
+\subsection{Case Study}
+\label{sec:case_study}
+
+We conduct a case study on the outputs of factuality enhancement methods in the ICE task (\Cref{sec:eva_context}). 
+We classify the context-unfaithful outputs into three categories: ignoring context, denying context, and misformatting context, with illustrative examples for each type provided in Table \ref{tab:case}. 
+Beyond knowledge conflicts causing the context to be overlooked or contradicted, failing to properly follow the context demonstration format also indicates a lack of context-faithfulness. 
+Additional examples of real context-unfaithful outputs are provided in Appendix \ref{sec:case_more} for further examination.
+
+\section{Related Work}
+
+\paragraph{Hallucinations in LLMs}
+
+Hallucinations~\citep{kaddour2023challenges, tonmoy2024comprehensive, wang2023survey, mei2024not, mei2024hiddenguardfinegrainedsafegeneration} have garnered significant attention due to their pronounced side effects, leading to the generation of unreliable content~\citep{gunjal2024detecting, huang2023survey, liu2024exploring, zhang2024mm}. 
+These hallucinations can arise from various sources at different stages of the LLM lifecycle. 
+The primary reasons include conflicts between the context provided and the LLMs' inherent memory, as well as the models' inability to accurately generate knowledge that they have already acquired during pretraining~\citep{zhang2023sirens, chen2023vlp}. 
+This paper primarily explores the interplay between these two aspects.
+
+\paragraph{Knowledge Conficts}
+
+Various tools~\citep{nakano2022webgptbrowserassistedquestionansweringhuman, yao2023reactsynergizingreasoningacting, qin2024toollearningfoundationmodels} and retrieval-augmented methods~\citep{guu2020realmretrievalaugmentedlanguagemodel, izacard2021leveragingpassageretrievalgenerative, zhong2022traininglanguagemodelsmemory}, such as ChatGPT Plugins and New Bing, have been introduced as effective strategies to supply external knowledge evidence. However, the integration of external knowledge is not without challenges, as it can sometimes clash with the LLMs' parametric knowledge~\citep{petroni2020contextaffectslanguagemodels, si2023promptinggpt3reliable, xie2024adaptivechameleonstubbornsloth, mei2024slang, ni2024llms, ni2024large}, resulting in inconsistencies or unreliable outputs, especially when LLMs exhibit overconfidence in their inherent parametric knowledge. This conflict between external sources and the internal knowledge stored in LLMs continues to pose significant challenges for ensuring reliable model performance.
+Therefore, we argue that current factuality enhancement methods may actually reinforce the model’s reliance on its own parametric knowledge, exacerbating knowledge conflicts and making it more difficult for LLMs to adapt to or follow the injected context.
+
+\paragraph{Knowledge Editing}
+
+Knowledge editing (KE) \citep{yao2023editing} has been proposed to update outdated model knowledge, ensuring accurate responses to current queries. 
+Generally, Current KE approaches can be divided into following two categories.
+Model editing \citep{meng2022locating, meng2022mass, mitchell2022memory, yao2023editing, xu2024editing} focuses on identifying and modifying internal components, such as neurons or parameter matrices.
+In-context editing \citep{madaan2022memory, zhong2023mquake, zheng2023can, wang2024deepedit, bi2024struedit} retrieves relevant knowledge from external memory during inference, allowing LLMs to utilize updated information dynamically.
+
+\begin{table}[t]
+\centering
+\tiny
+\begin{tabular}{p{3cm}p{3cm}p{3cm}p{3cm}} \toprule
+\multicolumn{4}{l}{\scriptsize \textit{\textbf{Question}: What is the official language of the country where the creator of WWE Velocity's spouse is a citizen?}} \\[0.5em]
+\multicolumn{4}{l}{\scriptsize \textit{\textbf{Injected Context}: [k context demonstrations]
+Edit: The creator of WWE Velocity is Stan Lee. The official language of US is German.}} \\
+\midrule
+\multicolumn{1}{c}{ \scriptsize\textbf{Context-faithful output}} & \multicolumn{1}{c}{\scriptsize\textbf{Ignoring context}} & \multicolumn{1}{c}{\scriptsize\textbf{Denying context}} & \multicolumn{1}{c}{\scriptsize\textbf{Misformatting context}} \\ \midrule
+\textbf{Thoughts:} WWE Velocity was created by Stan Lee, Joan Lee is the spouse of StanLee, Joan Lee is a citizen of US, the official language of US is German.
+\textbf{Answer:} German.
+&
+\textbf{Thoughts:} \textcolor{red}{WWE Velocity was created by Vince McMahon}, Vince McMahon's spouse is Linda McMahon, Linda McMahon is a citizen of US, \textcolor{red}{the official language of US is English.}
+\textbf{Answer:} English.
+&
+\textbf{Thoughts:} WWE Velocity was created by Stan Lee, Joan Lee is the spouse of StanLee, Joan Lee is a citizen of US, \textcolor{red}{the official language of the US is not German; it is primarily English.}
+\textbf{Answer:} English.
+&
+The official language is German, based on the provided context. However, this is incorrect. WWE was created by Vince McMahon and the official language of the U.S. is English. \textcolor{red}{(Do not follow the context demonstration format)} 
+\\\bottomrule
+\end{tabular}
+\caption{Case study of context-unfaithful outputs from factuality-enhanced LLMs. The main categories include ignoring, denying new knowledge from the context, and not following the context format in responses. \textcolor{red}{Red text} highlights the unfaithful parts or reasons.}
+\label{tab:case}
+\end{table}
+
+\section{Conclusion and Discussion}
+
+In this paper, we conduct an in-depth exploration of popular factuality enhancement methods and their implications for LLMs.  
+We argue that existing approaches to enhancing factuality can significantly undermine the context-faithfulness of LLMs.  
+Through evaluations on factual question-answering tasks and knowledge editing scenarios, we demonstrated that while these methods may yield unstable improvements in factual accuracy, they also lead to a substantial decrease in editing accuracy.
+
+By examining the logits distribution and hidden states, we gained insights into the underlying causes of this decline.  
+Our experimental results further validate our concerns: improved factuality achieved through these methods can indeed result in diminished context-faithfulness of LLMs. 
+This finding highlights the complex trade-offs inherent in enhancing LLMs.
+
+Ultimately, a high-performing LLM should possess both factual accuracy and context-faithfulness.
+Therefore, we recommend that future research should focus on developing strategies to controllably and effectively balance these two critical aspects.  
+By addressing this duality, we can work towards creating LLMs that not only provide accurate information but also maintain a robust adherence to contextual cues, enhancing their overall reliability and usefulness.
+
+\section*{Ethics Statement}
+Ethical considerations are of utmost importance in our research endeavors.  In this paper, we conscientiously adhere to ethical principles by exclusively utilizing open-source datasets and employing models that are either open-source or widely recognized in the community.  Moreover, our proposed method is designed to ensure that the model does not produce any harmful or misleading information.  We are committed to upholding ethical standards throughout the research process, prioritizing transparency, and promoting the responsible use of technology for the betterment of society.
+
+
+\bibliography{iclr2025_conference}
+\bibliographystyle{iclr2025_conference}
+
+\appendix
+\section{Details of the factuality enhancement}
+\label{sec:detail}
+
+This paper focuses on evaluating and analyzing popular factuality enhancement methods. 
+We provide a detailed overview of these approaches, along with the implementation details used in our experiments.
+
+
+\paragraph{CD.} 
+Contrastive decoding (CD)~\citep{li-etal-2023-contrastive} leverages the distinctions between expert and amateur LMs of varying sizes by selecting tokens that maximize the difference in their log-likelihoods.  
+% CD generates high-quality text that magnifies the desirable expert behavior while mitigating the undesirable amateur behavior.
+Consequently, factual knowledge that remains unlearned by the weaker amateur model is highlighted by contrastive decoding in the stronger expert model to enhance factuality.
+
+\paragraph{DoLa.} 
+DoLa~\citep{chuang2023dola} leverages a modular encoding of knowledge to magnify factual knowledge within an LM through a contrastive decoding approach.  In this method, the next-word probability output is derived from the disparity in logits between a higher layer and a lower layer.  By accentuating the knowledge from higher layers and diminishing that from lower layers, LoRa aims to reduce factual hallucinations.
+
+
+\paragraph{ICD.} ~\citet{zhang2023alleviating} first constructs a factually weak LLM by inducing hallucinations from the original LLMs, and then penalizes these induced hallucinations during decoding to enhance the factuality of the generated content.  
+Specifically, ICD determines the final next-token predictions by amplifying the predictions from the original model and downplaying the induced untruthful predictions via contrastive decoding.
+
+\paragraph{ITI.} Inference-Time Intervention (ITI)~\citep{li2024inferencetimeinterventionelicitingtruthful} first identifies a sparse set of attention heads with high linear probing accuracy for truthfulness, as defined by the TruthfulQA benchmark. 
+Then, during inference, it shifts activations along these truth-correlated directions. 
+This process is repeated autoregressively until the entire answer is generated.
+
+\paragraph{TruthX} TruthX~\citep{zhang2024truthx} uses an autoencoder to map the representations of LLMs into both semantic and factual latent spaces, and applies contrastive learning to identify the correct editing direction within the factual space. During inference, TruthX enhances the factuality of LLMs by editing their internal representations in the factual space.
+
+We employ two different sizes of LLMs, \llamaa and \llamab, using the unchanged decoding strategy as the baseline. Consistent with prior studies, we apply robust factuality enhancement strategies. 
+For DoLa, we configure early-exit layers for both sizes of the \llama model according to the guidelines provided in \footnote{\url{https://github.com/voidism/DoLa}}. 
+For CD, we utilize the 13B and 7B \llama models as the expert and amateur models, respectively. For ICD, we utilize the hallucination-injected finetuned \llamaa model. We load this model, which was finetuned on selected samples from HaluEval~\citep{HaluEval} and is provided by \footnote{\url{https://huggingface.co/HillZhang/untruthful_llama2_7b}}, as the amateur model, with \llamaa and \llamab serving as expert counterparts.
+For ITI, we utilize the honest-llama2-chat model with activation differences, implemented via pyvene~\citep{wu2024pyvene}, available at \footnote{\url{https://github.com/likenneth/honest_llama}}, along with the open-source models available at \footnote{\url{https://huggingface.co/collections/jujipotle}}.
+For TruthX, we download its \llamaa version from \footnote{\url{https://github.com/ictnlp/TruthX}} and deploy it following the methodology outlined by ~\citet{zhang2024truthx}.
+During inference, we align all factuality enhancement methods with the baseline settings, including temperature=0.9, top-$p$=0.95, and others.
+
+% \subsection{Results of the Factuality Evaluation on \llamab}
+% \label{sec:fact_13b}
+
+% Experimental results of factuality evaluation on TruthfulQA and \textsc{FActScore}. We conduct experiments with various factuality enhancement methods, including both contrastive decoding and representation editing, on \llamaa.  Methods marked with $^\spadesuit$ belong to contrastive decoding, while those marked with $^\diamondsuit$ belong to representation editing. In \textsc{FActScore}, \% Resp. indicat
+
+% \begin{table}[h]
+% \centering
+% \renewcommand{\arraystretch}{1.3}
+% \resizebox{\linewidth}{!}{
+% \begin{tabular}{lcccccc}
+% \toprule
+% \multirow{2}{*}{\textbf{Method}} & \multicolumn{3}{c}{\textbf{TruthfulQA}} & \multicolumn{3}{c}{\textbf{\textsc{FActScore}}} \\ \cmidrule{2-4} \cmidrule{5-7}
+% & \textbf{MC1 (\%)} & \textbf{MC2 (\%)} & \textbf{MC3 (\%)} & \textbf{Resp. (\%)} & \textbf{Facts (\#)} & \textbf{Score (\%)} \\ 
+% \midrule
+% \rowcolor{gray!20}
+% {Baseline} & 37.7 & 55.6 & 28.2 & 77.0 & 37.6 & 52.5\\
+% \midrule
+% {DoLa}$^\spadesuit$~\citep{chuang2023dola} & \badmetric{37.3} & {61.8} & {32.7} & \badmetric{55.8} & \badmetric{46.7} & {59.8} \\
+% {CD}$^\spadesuit$~\citep{li-etal-2023-contrastive} & \badmetric{28.2} & \badmetric{54.9} & {29.8} & \badmetric{74.2} & {39.8} & {53.5} \\
+% {ICD}$^\spadesuit$~\citep{zhang2023alleviating} & {45.6} & {67.5} & {42.3} & \badmetric{46.9} & {43.4} & {59.5} \\
+% \midrule
+% {ITI}$^\diamondsuit$~\citep{li2024inferencetimeinterventionelicitingtruthful} & {38.9} & \badmetric{53.4} & {29.6} & {78.9} & \badmetric{34.5} & {55.3} \\
+% \bottomrule
+% \end{tabular}
+% }
+
+% \caption{Experimental results of factuality evaluation on TruthfulQA and \textsc{FActScore}. We conduct experiments with various factuality enhancement methods, including both contrastive decoding and representation editing, on \llamaa.  Methods marked with $^\spadesuit$ belong to contrastive decoding, while those marked with $^\diamondsuit$ belong to representation editing. In \textsc{FActScore}, \% Resp. indicates the response ratio of LLMs, while \# Facts represents the number of extracted atomic facts per response. Here, \badmetric{red} highlights a decrease in factuality compared to the baseline.}
+% \vspace{-16pt}
+% \label{tab:fact-eval}
+% \end{table}
+
+\section{Context Prompts in KE Task}
+\subsection{Template for MeLLo}
+\label{sec:demo1}
+
+In Section \ref{sec:eva_context}, we use MeLLo~\citep{zhong2023mquake} to conduct our experiments for context-faithfulness, with the results presented in Table \ref{tab:mello}. 
+MeLLo first decomposes a multi-hop question into subquestions during LLMs inference, and then prompts the LLMs to provide tentative answers to these subquestions. Next, it self-checks their compatibility with edited facts by retrieving edit demonstrations from the knowledge base, thereby maintaining or adjusting them accordingly.
+Table \ref{tab:prompts_mello} provides the prompt templates used for MeLLo.
+
+% \definecolor{maskcolor}{HTML}{6e9feb}
+
+\begin{table*}[ht]
+    \centering
+    \small
+    \noindent\fbox{%
+    \begin{minipage}{\columnwidth} 
+    % \tt 
+    % \textcolor{gray}{$[$2 in-context demonstrations abbreviated$]$} \\ \\
+        Question: {{What is the capital city of the country of citizenship of Ivanka Trump's spouse?}}\\
+        Subquestion: Who is Ivanka Trump's spouse?\\
+        Generated answer:\bluetext{Ivanka Trump's spouse is Jared Kushner.}\\
+        Retrieved fact:\orangetext{David Cameron is married to Samantha Cameron.}\\
+        Retrieved fact does not contradict to generated answer.\\
+        Intermediate answer: \bluetext{Jared Kushner}\\
+        Subquestion: What is the country of citizenship of Jared Kushner?\\
+        Generated answer:\bluetext{The country of citizenship of Jared Kushner is United States.}\\
+        Retrieved fact:\orangetext{Jared Kushner is a citizen of Canada.}\\
+        Retrieved fact contradicts to generated answer.\\
+        Intermediate answer: \orangetext{Canada}\\
+        Subquestion: What is the capital city of Canada?\\
+        Generated answer:\bluetext{The capital city of Canada is Ottawa.}\\
+        Retrieved fact:\orangetext{The capital city of United States is Seattle.}\\
+        Retrieved fact does not contradict to generated answer, so the intermediate answer.\\
+        Intermediate answer: \bluetext{Ottawa}\\
+        Final answer: \textbf{\underline{Ottawa}}
+    \end{minipage}
+    }
+    \caption{A step-by-step illustration of MeLLo solving one simplified example. Blue parts are generated by the language model, and orange parts are facts retrieved by the retriever.}
+    \label{tab:prompts_mello}
+\end{table*}
+
+\subsection{Context Demonstrations Used in ICE}
+\label{sec:demo2}
+
+We provide the context demonstrations used in our ICE experiments (Table \ref{tab:ice}), which were omitted in Figure \ref{fig:show_case} for brevity.
+Here, the \color[RGB]{0,128,0}{green text} represents the expected context-faithful output.
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country of citizenship of Ivanka Trump's spouse?\\
+\textbf{Edit:}
+Jared Kushner is a citizen of Canada.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Ottawa.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country where the director of "My House Husband: Ikaw Na!" was educated located in?\\
+\textbf{Edit:}
+Irene Villamor was educated in New York University.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+North America.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the head of government of the country where the music genre of Yolanda Adams originated?\\
+\textbf{Edit:}
+The type of music that Yolanda Adams plays is music of Ireland.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Leo Varadkar.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which country is the company that created Nissan 200SX located?\\
+\textbf{Edit:}
+Nissan is located in the country of China.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+China.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who has ownership of the developer of the Chevrolet Corvette (C4)?\\
+\textbf{Edit:}
+Chevrolet is owned by Volkswagen Group.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Volkswagen Group.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the author of "The Great Gatsby" was born?\\
+\textbf{Edit:}
+F. Scott Fitzgerald was born in England.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+London.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country where the inventor of the light bulb was born located in?\\
+\textbf{Edit:}
+Thomas Edison was born in Canada.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Ottawa.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the head of government of the country where the painter of the Mona Lisa was born?\\
+\textbf{Edit:}
+Leonardo da Vinci was born in Spain.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Pedro Sánchez.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which country is the headquarters of the company that manufactures Mercedes-Benz located?\\
+\textbf{Edit:}
+Mercedes-Benz is headquartered in Italy.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Italy.
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who has ownership of the developer of the video game "The Legend of Zelda"?\\
+\textbf{Edit:}
+Nintendo is owned by Sony.\\
+\textbf{\color[RGB]{0,128,0}{Answer}:}
+Sony.
+\end{tcolorbox}
+
+
+\section{More Output Cases of Factuality-Enhanced LLMs}
+\label{sec:case_more}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the employer associated with the founder of Singularity University?\\
+\textbf{Edit:}
+Singularity University was founded by James Henry Breasted. James Henry Breasted is employed by UC Berkeley School of Law.\\
+\textbf{Thoughts:} \textcolor{red}{The founder of Singularity University is Ray Kurzweil. Ray Kurzweil is employed by Google.}\\
+\textbf{Answer}: \textcolor{red}{Google.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the religion of Al-Mu'tazz?\\
+\textbf{Edit:}
+The official language of Islam is Picard.\\
+\textbf{Thoughts:} Al-Mu'tazz practiced the religion of Islam. \textcolor{red}{The official language of Islam is Arabic.}\\
+\textbf{Answer}: \textcolor{red}{Arabic.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Where was the chairperson of the National League for Democracy born?\\
+\textbf{Edit:}
+The chairperson of National League for Democracy is Tony Hall, Baron Hall of Birkenhead. Tony Hall, Baron Hall of Birkenhead was born in the city of New York City.\\
+\textbf{Thoughts:} \textcolor{red}{The chairperson of National League for Democracy is Aung San Suu Kyi. Aung San Suu Kyi was born in the city of Yangon.}\\
+\textbf{Answer}: \textcolor{red}{Yangon.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the chief executive officer of the organization that manufactured the Scion xB?\\
+\textbf{Edit:}
+The chief executive officer of Toyota is Al-Waleed bin Talal.\\
+\textbf{Thoughts:} The organization that manufactured the Scion xB is Toyota. \textcolor{red}{The chief executive officer of Toyota is Akio Toyoda.}\\
+\textbf{Answer}: \textcolor{red}{Akio Toyoda.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country does the author of Hamlet belong to?\\
+\textbf{Edit:}
+The author of Hamlet is Gabriel Garc\'ia M\'arquez.\\
+\textbf{Thoughts:} \textcolor{red}{The author of Hamlet is William Shakespeare. William Shakespeare is from England.}\\
+\textbf{Answer}: \textcolor{red}{England.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What language is used in the creation of "Raising the Bar"?\\
+\textbf{Edit:}
+Raising the Bar was created by Monkey Punch.\\
+\textbf{Thoughts:} \textcolor{red}{The show "Raising the Bar" is in the language of English.}\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is the performer of "The Unforgettable Fire" originally from?\\
+\textbf{Edit:}
+The Unforgettable Fire was performed by ABBA. ABBA was created in the country of India.\\
+\textbf{Thoughts:} \textcolor{red}{The performer of "The Unforgettable Fire" is U2. U2 was created in the country of Ireland.}\\
+\textbf{Answer}: \textcolor{red}{Ireland.}
+\end{tcolorbox}
+
+
+
+
+
+
+
+
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country does the sport played by Bryce Harper originate?\\
+\textbf{Edit:}
+Bryce Harper plays the position of relief pitcher. Relief pitcher is associated with the sport of shinty. Shinty was created in the country of Canada.\\
+\textbf{Thoughts:} Bryce Harper specializes in the sport of baseball. \textcolor{red}{Baseball is associated with the country of United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which sport is the position played by the head coach of Miami Heat associated with?\\
+\textbf{Edit:}
+The head coach of Miami Heat is Mike Vrabel. Mike Vrabel plays the position of goalkeeper. Goalkeeper is associated with the sport of Gaelic football.\\
+\textbf{Thoughts:} \textcolor{red}{The head coach of Miami Heat is Erik Spoelstra. Erik Spoelstra specializes in playing the sport of basketball.}\\
+\textbf{Answer}: \textcolor{red}{Basketball.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent does the country of origin of the AS Monaco FC belong to?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The country of origin of AS Monaco FC is Monaco. \textcolor{red}{Monaco is located in the continent of Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent is the country of origin of FK Radnički Beograd located?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The country of origin of FK Radnički Beograd is Serbia. \textcolor{red}{Serbia is located in the continent of Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent is the country of origin of Belfast Celtic F.C. located on?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} Belfast Celtic F.C. is located in the country of Northern Ireland. \textcolor{red}{Northern Ireland is located in the continent of Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the country of origin of the sport in which Xavi specialized?\\
+\textbf{Edit:}
+Xavi plays the position of linebacker. Linebacker is associated with the sport of shinty. Shinty was created in the country of Canada.\\
+\textbf{Thoughts:} Xavi plays the position of midfielder. Midfielder is associated with the sport of football. \textcolor{red}{Football was created in the country of England.}\\
+\textbf{Answer}: \textcolor{red}{England.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+From which country does the sport played by Pete Maravich originate?\\
+\textbf{Edit:}
+Point guard is associated with the sport of cricket. Cricket was created in the country of Australia.\\
+\textbf{Thoughts:} Pete Maravich is a point guard. Point guard is associated with the sport of basketball. \textcolor{red}{The sport of basketball originated in the country of United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the language of the notable work associated with "The Andromeda Strain"?\\
+\textbf{Edit:}
+Michael Crichton is famous for Dragon Ball.\\
+\textbf{Thoughts:} The notable work associated with "The Andromeda Strain" is a novel. \textcolor{red}{The language of the novel is English.}\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent does the country of origin of Gordon Strachan belong to, where he played his sport?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The country of origin of Gordon Strachan is Scotland. \textcolor{red}{Scotland is located in the continent of Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is the birthplace of the sport that Mike Leake plays?\\
+\textbf{Edit:}
+Mike Leake plays the position of midfielder. Midfielder is associated with the sport of sumo. Sumo was created in the country of Australia.\\
+\textbf{Thoughts:} Mike Leake specializes in the sport of baseball. Mike Leake plays the position of pitcher. Pitcher is associated with the sport of baseball. \textcolor{red}{The country of origin of baseball is United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the country of origin of Chertsey Cricket Club belong to?\\
+\textbf{Edit:}
+Chertsey Cricket Club is associated with the sport of association football. Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The country of origin of Chertsey Cricket Club is United Kingdom. \textcolor{red}{United Kingdom is located in the continent of Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which city is the headquarters located for the institution where the director for Armani was educated?\\
+\textbf{Edit:}
+The headquarters of University of Milan is located in the city of Charlotte.\\
+\textbf{Thoughts:} The director of Armani is Giorgio Armani. Giorgio Armani was educated at University of Milan. \textcolor{red}{The headquarters of University of Milan is located in the city of Milan.}\\
+\textbf{Answer}: \textcolor{red}{Milan.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Where was the birthplace of the performer who portrayed Nardole?\\
+\textbf{Edit:}
+Nardole was performed by Madonna.\\
+\textbf{Thoughts:} The actor who played Nardole is Peter Capaldi. Peter Capaldi was born in \textcolor{red}{London}.\\
+\textbf{Answer}: \textcolor{red}{London.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where Screen International originates from?\\
+\textbf{Edit:}
+The official language of United Kingdom is Finnish.\\
+\textbf{Thoughts:} Screen International originates from United Kingdom. The official language of United Kingdom is \textcolor{red}{English.}\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who founded the religion that Nizam-ud-din Auliya was associated with?\\
+\textbf{Edit:}
+Nizam-ud-din Auliya is affiliated with the religion of Catholic Church. Catholic Church was founded by Gérard Blitz.\\
+\textbf{Thoughts:} Nizam-ud-din Auliya is associated with the religion of Islam. The founder of the religion of Islam is \textcolor{red}{Muhammad.}\\
+\textbf{Answer}: \textcolor{red}{Muhammad.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which sport is associated with the position / specialty of Roddy White?\\
+\textbf{Edit:}
+Wide receiver is associated with the sport of rugby.\\
+\textbf{Thoughts:} Roddy White played wide receiver in the sport of \textcolor{red}{American football.}\\
+\textbf{Answer}: \textcolor{red}{American football.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is the author of "Either/Or" a citizen of?\\
+\textbf{Edit:}
+The author of Either/Or is John Stott. John Stott is a citizen of United States of America.\\
+\textbf{Thoughts:} The author of Either/Or is Søren Kierkegaard. Søren Kierkegaard is a citizen of \textcolor{red}{Denmark.}\\
+\textbf{Answer}: \textcolor{red}{Denmark.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the country of citizenship of the spouse of Chad Kroeger?\\
+\textbf{Edit:}
+Chad Kroeger is married to Maureen Lipman.\\
+\textbf{Thoughts:} The spouse of Chad Kroeger is Maureen Lipman. Maureen Lipman is a citizen of \textcolor{red}{Canada.}\\
+\textbf{Answer}: \textcolor{red}{Canada.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the spouse of the current Prime Minister of Israel?\\
+\textbf{Edit:}
+The Prime Minister of Israel is Felipe VI of Spain. Felipe VI of Spain is married to Agathe Natanson.\\
+\textbf{Thoughts:} The Prime Minister of Israel is Benjamin Netanyahu. Benjamin Netanyahu is married to \textcolor{red}{Sara Netanyahu.}\\
+\textbf{Answer}: \textcolor{red}{Sara Netanyahu.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who founded the company that created Gears of War 3?\\
+\textbf{Edit:}
+Gears of War 3 was developed by Nintendo. Nintendo was founded by Paul I of Russia.\\
+\textbf{Thoughts:} Gears of War 3 was developed by Epic Games. Epic Games was founded by \textcolor{red}{Tim Sweeney.}\\
+\textbf{Answer}: \textcolor{red}{Tim Sweeney.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who founded the religion associated with Germanus of Auxerre?\\
+\textbf{Edit:}
+Germanus of Auxerre is affiliated with the religion of Christianity. Christianity was founded by Noel Pemberton Billing.\\
+\textbf{Thoughts:} Germanus of Auxerre is affiliated with the religion of Christianity. The founder of Christianity is \textcolor{red}{Jesus Christ.}\\
+\textbf{Answer}: \textcolor{red}{Jesus Christ.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What language was used by the author of "The Brothers Karamazov" to write their works?\\
+\textbf{Edit:}
+The author of The Brothers Karamazov is Neil Simon. Neil Simon speaks the language of Japanese.\\
+\textbf{Thoughts:} The author of The Brothers Karamazov is Fyodor Dostoevsky. Fyodor Dostoevsky wrote in the language of \textcolor{red}{Russian.}\\
+\textbf{Answer}: \textcolor{red}{Russian.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is the performer of "Careless Whisper" a citizen of?\\
+\textbf{Edit:}
+Careless Whisper was performed by Tony Joe White. Tony Joe White is a citizen of South Korea.\\
+\textbf{Thoughts:} Careless Whisper was performed by George Michael. George Michael is a citizen of \textcolor{red}{United Kingdom.}\\
+\textbf{Answer}: \textcolor{red}{United Kingdom.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is the origin of Twenty20 International?\\
+\textbf{Edit:}
+Twenty20 International is associated with the sport of association football. Association football was created in the country of Italy.\\
+\textbf{Thoughts:} The sport Twenty20 International was created by the country of \textcolor{red}{England}. The country of England is credited with the creation of the sport Twenty20 International.\\
+\textbf{Answer}: \textcolor{red}{England.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country does the sport associated with Sam Cassell's position played on team/speciality originate from?\\
+\textbf{Edit:}
+Sam Cassell plays the position of shooting guard. Shooting guard is associated with the sport of rugby. Rugby was created in the country of Indonesia.\\
+\textbf{Thoughts:} Sam Cassell played the sport of basketball. The country of origin of basketball is \textcolor{red}{United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where Kettering Town F.C. originated from?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. The official language of Italy is Walloon.\\
+\textbf{Thoughts:} Kettering Town F.C. originated from the country of \textcolor{red}{England}. The official language of England is \textcolor{red}{English.}\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the birthplace of the child company of the organization that founded Ford Australia?\\
+\textbf{Edit:}
+Ford Australia was founded by Benjamin Silliman, Sr.. Benjamin Silliman, Sr.'s child is Charles FitzRoy, 2nd Duke of Grafton. Charles FitzRoy, 2nd Duke of Grafton was born in the city of Boston.\\
+\textbf{Thoughts:} The child company of the entity that founded Ford Australia is Ford Motor Company. Ford Motor Company was founded by Henry Ford. Henry Ford was born in the city of \textcolor{red}{Detroit.}\\
+\textbf{Answer}: \textcolor{red}{Detroit.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent is the country where Guadeloupe national football team comes from located?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The Guadeloupe national football team is a national football team that represents Guadeloupe. Guadeloupe is an overseas department of France. The country of origin of the Guadeloupe national football team is \textcolor{red}{France}. France is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country of citizenship of the performer of the song "Space Oddity" located in?\\
+\textbf{Edit:}
+Space Oddity was performed by Lou Reed. Lou Reed is a citizen of Canada. Canada is located in the continent of Asia.\\
+\textbf{Thoughts:} Space Oddity was performed by David Bowie. David Bowie is a citizen of \textcolor{red}{United Kingdom}. United Kingdom is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the Sioux Falls Skyforce originated?\\
+\textbf{Edit:}
+Basketball was created in the country of Soviet Union. The capital of Soviet Union is Russellville.\\
+\textbf{Thoughts:} The Sioux Falls Skyforce originated in the country of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+From which country does the sport that Deron Williams played originate?\\
+\textbf{Edit:}
+Deron Williams plays the position of wide receiver. Wide receiver is associated with the sport of rugby. Rugby was created in the country of Indonesia.\\
+\textbf{Thoughts:} Deron Williams played the sport of basketball. Deron Williams played the sport of basketball for the country of \textcolor{red}{United States of America}. The country of origin of basketball is \textcolor{red}{United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is Randy Wolf's sport of specialization derived from?\\
+\textbf{Edit:}
+Starting pitcher is associated with the sport of rugby union. Rugby union was created in the country of India.\\
+\textbf{Thoughts:} Randy Wolf is a starting pitcher. Starting pitcher is associated with the sport of baseball. Baseball was created in the country of \textcolor{red}{United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which language is "The Age of Reason" written by the author?\\
+\textbf{Edit:}
+The author of The Age of Reason is Allen Ginsberg. Allen Ginsberg is famous for Natya Shastra.\\
+\textbf{Thoughts:} The notable work by the author of The Age of Reason is The Age of Reason. The language used in the name or writing of The Age of Reason is \textcolor{red}{English.}\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Who is the head of state of the country where the sport associated with Perth SC originated?\\
+\textbf{Edit:}
+Association football was created in the country of Italy.\\
+\textbf{Thoughts:} The country of origin of Perth SC is \textcolor{red}{Australia}. The head of state of Australia is \textcolor{red}{Queen Elizabeth II.}\\
+\textbf{Answer}: \textcolor{red}{Queen Elizabeth II.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country of origin of the Castres Olympique sport's team located in?\\
+\textbf{Edit:}
+Rugby union was created in the country of India. India is located in the continent of Africa.\\
+\textbf{Thoughts:} The country of origin of the Castres Olympique sport's team is \textcolor{red}{France}. France is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country does the sport played by Greg Oden originate from?\\
+\textbf{Edit:}
+Greg Oden plays the position of power forward. Power forward is associated with the sport of rugby. Rugby was created in the country of Indonesia.\\
+\textbf{Thoughts:} Greg Oden specialized in the sport of basketball. Greg Oden plays the position of power forward. The country of origin of the sport of basketball is \textcolor{red}{United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent is the country of origin of Paris FC located?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} Paris FC is a football club from \textcolor{red}{France}. France is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which country is Gary Payton's sport of origin from?\\
+\textbf{Edit:}
+Gary Payton plays the position of shooting guard. Shooting guard is associated with the sport of rugby. Rugby was created in the country of Indonesia.\\
+\textbf{Thoughts:} Gary Payton plays the position of shooting guard. Shooting guard is associated with the sport of basketball. Basketball was created in the country of \textcolor{red}{United States of America}. United States of America is located in the continent of \textcolor{red}{North America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Where is the headquarters of the employer of the author of "The Song of Hiawatha" located?\\
+\textbf{Edit:}
+The headquarters of Harvard University is located in the city of San Francisco.\\
+\textbf{Thoughts:} The author of "The Song of Hiawatha" is Henry Wadsworth Longfellow. Henry Wadsworth Longfellow was educated at Harvard University. Harvard University is located in the city of \textcolor{red}{Cambridge.}\\
+\textbf{Answer}: \textcolor{red}{Cambridge.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent was the sport that originated in the country where Palmerston Park comes from?\\
+\textbf{Edit:}
+Association football was created in the country of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The country where Palmerston Park comes from is \textcolor{red}{Scotland}. Scotland is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the country of origin of the sport that Joe Saunders plays?\\
+\textbf{Edit:}
+Starting pitcher is associated with the sport of rugby union. Rugby union was created in the country of India.\\
+\textbf{Thoughts:} Joe Saunders is a starting pitcher. Joe Saunders plays the sport of baseball. Baseball was created in the country of \textcolor{red}{United States of America.}\\
+\textbf{Answer}: \textcolor{red}{United States of America.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the creator of Harry Potter belong to?\\
+\textbf{Edit:}
+Harry Potter was created by Dawn French. Dawn French is a citizen of Australia. Australia is located in the continent of South America.\\
+\textbf{Thoughts:} The creator of Harry Potter is J.K. Rowling. J.K. Rowling is a citizen of \textcolor{red}{United Kingdom}. United Kingdom is located in the continent of \textcolor{red}{Europe.}\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the sport played by Kendrick Perkins originated?\\
+\textbf{Edit:}
+Center is associated with the sport of rugby union. Rugby union was created in the country of India.\\
+\textbf{Thoughts:} The sport of Kendrick Perkins was founded in the country of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country of citizenship of the spouse of the author of "Nicholas Nickleby"?\\
+\textbf{Edit:}
+The official language of United Kingdom of Great Britain and Ireland is Hungarian.\\
+\textbf{Thoughts:} The author of Nicholas Nickleby is Elizabeth Barrett Browning. The official language of United Kingdom of Great Britain and Ireland is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where the director/manager of Anthology 1 holds citizenship?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. The official language of Italy is Walloon.\\
+\textbf{Thoughts:} The director of Anthology 1 is George Martin. George Martin is a citizen of \textcolor{red}{United Kingdom}. The official language of United Kingdom is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What city serves as the capital of the country whose citizen founded the company that manufactures Ford Explorer?\\
+\textbf{Edit:}
+The company that produced Ford Explorer is Messerschmitt.\\
+\textbf{Thoughts:} The company that produces Ford Explorer is Ford Motor Company. The founder of Ford Motor Company is Henry Ford. Henry Ford is a citizen of \textcolor{red}{United States of America}. The capital city of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the director/manager of "Happy Days" holds his citizenship?\\
+\textbf{Edit:}
+The director of American Broadcasting Company is Ernst Heinkel. Ernst Heinkel is a citizen of Tang Empire. The capital of Tang Empire is Beaumont.\\
+\textbf{Thoughts:} The director/manager of "Happy Days" is Garry Marshall. Garry Marshall holds his citizenship in the country of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the CEO of the developer of MacBook Air holds citizenship?\\
+\textbf{Edit:}
+The chief executive officer of Apple Inc. is Vijay Mallya. Vijay Mallya is a citizen of Papal States.\\
+\textbf{Thoughts:} The CEO of Apple Inc. is Tim Cook. Tim Cook is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the director/manager of Gran Turismo 4's developer holds the citizenship?\\
+\textbf{Edit:}
+Gran Turismo 4 was developed by Blizzard Entertainment. The director of Blizzard Entertainment is Eben Moglen. Eben Moglen is a citizen of Taiwan. The capital of Taiwan is Dolceacqua.\\
+\textbf{Thoughts:} The director/manager of Gran Turismo 4's developer is Kazunori Yamauchi. Kazunori Yamauchi is the director/manager of Polyphony Digital. Polyphony Digital is located in the country of \textcolor{red}{Japan}. The capital of Japan is \textcolor{red}{Tokyo}.\\
+\textbf{Answer}: \textcolor{red}{Tokyo.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the founder of Lucy Mack Smith's religion holds citizenship?\\
+\textbf{Edit:}
+Mormonism was founded by Juvénal Habyarimana.\\
+\textbf{Thoughts:} The founder of Lucy Mack Smith's religion is Joseph Smith. Joseph Smith is a citizen of \textcolor{red}{United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where the director / manager of "In My Life"'s performer holds citizenship?\\
+\textbf{Edit:}
+In My Life was performed by Madonna. The director of Madonna is Narendra Modi. Narendra Modi is a citizen of Australia. The official language of Australia is Arabic.\\
+\textbf{Thoughts:} The manager of Madonna is Guy Oseary. Guy Oseary was born in the country of \textcolor{red}{United States of America}. The official language of United States of America is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What city is the capital of the country where the genre associated with Gwen Stefani's spouse originated from?\\
+\textbf{Edit:}
+Rock music was created in the country of Spain.\\
+\textbf{Thoughts:} Gwen Stefani's partner is Blake Shelton. Blake Shelton is from the country of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent was the chief executive officer behind Internet Explorer born?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The chief executive officer of Microsoft is Satya Nadella. Satya Nadella was born in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent is the place of death of the creator of Fantine located in?\\
+\textbf{Edit:}
+Fantine's child is Legolas. Legolas was created by Garry Shandling. Los Angeles is located in the continent of South America.\\
+\textbf{Thoughts:} The creator of Fantine is Victor Hugo. Victor Hugo passed away in \textcolor{red}{Paris}. Paris is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country from which the sport of Matt Adams came?\\
+\textbf{Edit:}
+First baseman is associated with the sport of cricket. Cricket was created in the country of Australia. The capital of Australia is Oderzo.\\
+\textbf{Thoughts:} The sport of Matt Adams is baseball. Matt Adams is a first baseman. First baseman is associated with the sport of baseball. The country of origin of Matt Adams is \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country in which the founder of the manufacturer of Ford Model A was a citizen?\\
+\textbf{Edit:}
+The company that produced Ford Model A is Lotus Cars. Lotus Cars was founded by Ferdinand von Zeppelin. Ferdinand von Zeppelin is a citizen of Australia. The capital of Australia is Oderzo.\\
+\textbf{Thoughts:} The founder of the manufacturer of Ford Model A is Henry Ford. Henry Ford was a citizen of the \textcolor{red}{United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the birthplace of the CEO who developed Windows RT belong to?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The CEO of Microsoft is Satya Nadella. Satya Nadella was born in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country to which the founder of Seoi nage holds citizenship?\\
+\textbf{Edit:}
+Judo was founded by Charles de Gaulle. Charles de Gaulle is a citizen of India.\\
+\textbf{Thoughts:} The founder of Seoi nage is Yoshiaki Yamahata. Yoshiaki Yamahata is a citizen of \textcolor{red}{Japan}. The capital of Japan is \textcolor{red}{Tokyo}.\\
+\textbf{Answer}: \textcolor{red}{Tokyo.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the director/manager of the performer of "Here Comes the Sun" holds citizenship?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. The capital of Italy is Duluth.\\
+\textbf{Thoughts:} The director/manager of the performer of "Here Comes the Sun" is George Martin. George Martin is a citizen of \textcolor{red}{United Kingdom}. The capital of United Kingdom is \textcolor{red}{London}.\\
+\textbf{Answer}: \textcolor{red}{London.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the manager/director of Full House holds citizenship?\\
+\textbf{Edit:}
+The director of American Broadcasting Company is Ernst Heinkel. Ernst Heinkel is a citizen of Tang Empire. The capital of Tang Empire is Beaumont.\\
+\textbf{Thoughts:} The manager/director of Full House is Jeff Franklin. Jeff Franklin is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where the director/manager of Abbey Road holds citizenship?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. The official language of Italy is Walloon.\\
+\textbf{Thoughts:} The director/manager of Abbey Road is Giles Martin. Giles Martin is a citizen of \textcolor{red}{United Kingdom}. The official language of United Kingdom is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country of origin of the sport that Luke Ridnour played?\\
+\textbf{Edit:}
+Luke Ridnour plays the position of defenceman. Defenceman is associated with the sport of roller derby. Roller derby was created in the country of Serbia. The capital of Serbia is Dhaka.\\
+\textbf{Thoughts:} Luke Ridnour played the sport of basketball. The country of origin of the sport that Luke Ridnour played is the \textcolor{red}{United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent does the manager of the performer in Anthology 3 belong to?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The manager of the performer in Anthology 3 is George Martin. George Martin is a citizen of \textcolor{red}{United Kingdom}. United Kingdom is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the child creator of "Welcome to Pooh Corner" was a citizen?\\
+\textbf{Edit:}
+A. A. Milne's child is Cosette.\\
+\textbf{Thoughts:} The child creator of "Welcome to Pooh Corner" is A. A. Milne. A. A. Milne's child is Cosette. The capital of the country where Cosette was a citizen is \textcolor{red}{London}.\\
+\textbf{Answer}: \textcolor{red}{London.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the director/manager of Anthology 3 holds citizenship?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. The capital of Italy is Duluth.\\
+\textbf{Thoughts:} The director of Anthology 3 is George Martin. George Martin is a citizen of \textcolor{red}{United Kingdom}. The capital of United Kingdom is \textcolor{red}{London}.\\
+\textbf{Answer}: \textcolor{red}{London.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the director/manager of the original broadcasting of the PGA Tour on ABC holds citizenship?\\
+\textbf{Edit:}
+The original broadcaster of PGA Tour on ABC is British Broadcasting Corporation. The director of British Broadcasting Corporation is Narendra Modi. Narendra Modi is a citizen of Australia. The capital of Australia is Oderzo.\\
+\textbf{Thoughts:} The director/manager of the PGA Tour on ABC original broadcast is Joe Buck. Joe Buck is from the \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the country of origin of David De Gea's sport belong to?\\
+\textbf{Edit:}
+David De Gea plays the position of wide receiver. Wide receiver is associated with the sport of rugby. Rugby was created in the country of Indonesia. Indonesia is located in the continent of Antarctica.\\
+\textbf{Thoughts:} David De Gea plays the position of goalkeeper. Goalkeeper is associated with the sport of association football. Association football was created in the country of \textcolor{red}{England}. England is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent is the birthplace of the CEO who developed Windows Server 2008 located in?\\
+\textbf{Edit:}
+Windows Server 2008 was developed by BlackBerry. The chief executive officer of BlackBerry is Carlos Slim. Carlos Slim was born in the city of Vancouver. Vancouver is located in the continent of Europe.\\
+\textbf{Thoughts:} The CEO who is responsible for the creation of Windows Server 2008 is Satya Nadella. Satya Nadella was born in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the founder of the manufacturer of Ford Bronco belongs?\\
+\textbf{Edit:}
+Ford Motor Company was founded by Henri Grégoire.\\
+\textbf{Thoughts:} The founder of Ford Motor Company is Henry Ford. Henry Ford was born in the \textcolor{red}{United States of America}. The capital city of the United States of America is \textcolor{red}{Washington, D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington, D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent is the country of citizenship of the director/manager of "Help!" located?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. Italy is located in the continent of Oceania.\\
+\textbf{Thoughts:} The director of "Help!" is Richard Lester. Richard Lester is a citizen of \textcolor{red}{Europe}. Europe is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent is the origin country of the sport of Dele Alli located?\\
+\textbf{Edit:}
+Dele Alli plays the position of goalkeeper. Goalkeeper is associated with the sport of Gaelic football. Gaelic football was created in the country of India. India is located in the continent of Africa.\\
+\textbf{Thoughts:} Dele Alli plays the position of goalkeeper for the country of \textcolor{red}{England}. The country of origin of Dele Alli is \textcolor{red}{England}. England is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent is the birthplace of the CEO of the developer of ASP.NET in?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The CEO of Microsoft is Satya Nadella. Satya Nadella was born in the city of \textcolor{red}{Hyderabad}. Hyderabad is located in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the founder of the manufacturer of Ford Transit Connect holds citizenship?\\
+\textbf{Edit:}
+Ford Motor Company was founded by Henri Grégoire.\\
+\textbf{Thoughts:} The founder of Ford Motor Company is Henry Ford. Henry Ford holds citizenship in the \textcolor{red}{United States of America}. The capital city of the United States of America is \textcolor{red}{Washington, D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington, D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the director/manager of Gran Turismo 6 holds citizenship?\\
+\textbf{Edit:}
+Gran Turismo 6 was developed by CERN. The director of CERN is Giorgio Armani. The capital of Italy is Duluth.\\
+\textbf{Thoughts:} The director of Gran Turismo 6 is Kazunori Yamauchi. Kazunori Yamauchi holds citizenship in \textcolor{red}{Japan}. The capital of Japan is \textcolor{red}{Tokyo}.\\
+\textbf{Answer}: \textcolor{red}{Tokyo.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the birthplace of the CEO of the developer of Xbox Live Indie Games located in?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The CEO of Microsoft is Satya Nadella. Satya Nadella was born in the city of \textcolor{red}{Hyderabad}. Hyderabad is located in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent was the CEO of Xbox's developer born?\\
+\textbf{Edit:}
+Xbox was developed by SpaceX. Elon Musk was born in the city of New Zealand. New Zealand is located in the continent of Africa.\\
+\textbf{Thoughts:} The CEO of Xbox is Satya Nadella. Satya Nadella was born in the city of \textcolor{red}{India}. India is located in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What city is the capital of the country where the CEO of the developer of macOS holds a citizenship?\\
+\textbf{Edit:}
+The chief executive officer of Apple Inc. is Vijay Mallya. Vijay Mallya is a citizen of Papal States.\\
+\textbf{Thoughts:} The CEO of Apple Inc. is Tim Cook. Tim Cook is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent does the country of origin of Keylor Navas' sport belong to?\\
+\textbf{Edit:}
+Keylor Navas plays the position of linebacker. Linebacker is associated with the sport of shinty. Shinty was created in the country of Canada. Canada is located in the continent of Asia.\\
+\textbf{Thoughts:} Keylor Navas plays the position of goalkeeper. Keylor Navas played in the team of \textcolor{red}{Real Madrid}. Real Madrid is located in the country of \textcolor{red}{Spain}. The sport that Keylor Navas played in his team is football. Football is associated with the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country of origin of the sport in which David De Gea specializes?\\
+\textbf{Edit:}
+David De Gea plays the position of wide receiver. Wide receiver is associated with the sport of rugby. Rugby was created in the country of Indonesia. The capital of Indonesia is Exeter.\\
+\textbf{Thoughts:} David De Gea plays the position of goalkeeper for Manchester United. Goalkeeper is associated with the sport of association football. Association football was created in the country of \textcolor{red}{England}. The capital of England is \textcolor{red}{London}.\\
+\textbf{Answer}: \textcolor{red}{London.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country where the creator of Othello was a citizen?\\
+\textbf{Edit:}
+Desdemona was created by Mike Mignola. The official language of United States of America is German.\\
+\textbf{Thoughts:} The creator of Othello is William Shakespeare. William Shakespeare was a citizen of \textcolor{red}{England}. The official language of England is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country whose CEO is the developer of Apple Lossless?\\
+\textbf{Edit:}
+The chief executive officer of Apple Inc. is Vijay Mallya. Vijay Mallya is a citizen of Papal States.\\
+\textbf{Thoughts:} The CEO of Apple Inc. is Tim Cook. Tim Cook is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington, D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington, D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country of origin of the sport played by Andrés Iniesta associated with?\\
+\textbf{Edit:}
+Andrés Iniesta plays the position of quarterback. Quarterback is associated with the sport of Muay Thai. Muay Thai was created in the country of Singapore.\\
+\textbf{Thoughts:} Andrés Iniesta plays the position of quarterback. Quarterback is associated with the sport of American Football. Andrés Iniesta is from \textcolor{red}{Spain}. Spain is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the birthplace of the chief executive officer of the manufacturer of Windows Phone 8 located in?\\
+\textbf{Edit:}
+The company that produced Windows Phone 8 is SpaceX. Elon Musk was born in the city of New Zealand. New Zealand is located in the continent of Africa.\\
+\textbf{Thoughts:} The company that produced Windows Phone 8 is Microsoft. The CEO of Microsoft is Satya Nadella. Satya Nadella was born in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the country where Alex Song's sport originates from located in?\\
+\textbf{Edit:}
+Alex Song plays the position of linebacker. Linebacker is associated with the sport of shinty. Shinty was created in the country of Canada. Canada is located in the continent of Asia.\\
+\textbf{Thoughts:} Alex Song specializes in the sport of soccer. Soccer is associated with the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What city is the capital of the country of citizenship of the director/manager of Shark Tank's original broadcaster?\\
+\textbf{Edit:}
+The director of American Broadcasting Company is Ernst Heinkel. Ernst Heinkel is a citizen of Tang Empire. The capital of Tang Empire is Beaumont.\\
+\textbf{Thoughts:} The director/manager of Shark Tank's original broadcaster is Mark Burnett. Mark Burnett is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country whose citizen is the director/manager of Agents of S.H.I.E.L.D.'s original broadcaster?\\
+\textbf{Edit:}
+The director of American Broadcasting Company is Ernst Heinkel. Ernst Heinkel is a citizen of Tang Empire. The capital of Tang Empire is Beaumont.\\
+\textbf{Thoughts:} The director/manager of Agents of S.H.I.E.L.D.'s original broadcaster is Clark Gregg. Clark Gregg is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the CEO of the manufacturer of iPod Classic holds citizenship?\\
+\textbf{Edit:}
+The chief executive officer of Apple Inc. is Vijay Mallya. Vijay Mallya is a citizen of Papal States.\\
+\textbf{Thoughts:} The CEO of Apple Inc. is Tim Cook. Tim Cook is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the country where Valon Behrami's sport originates from belong to?\\
+\textbf{Edit:}
+Midfielder is associated with the sport of sumo. Sumo was created in the country of Australia. Australia is located in the continent of South America.\\
+\textbf{Thoughts:} The country where Valon Behrami's sport originates from is \textcolor{red}{Switzerland}. Switzerland is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the religion of the spouse of the performer of "Hunky Dory"?\\
+\textbf{Edit:}
+Hunky Dory was performed by John Legend. John Legend is married to Uthman ibn Affan. The official language of Islam is Picard.\\
+\textbf{Thoughts:} The official language of Islam is \textcolor{red}{Arabic}.\\
+\textbf{Answer}: \textcolor{red}{Arabic.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+Which continent is the birthplace of the chief executive officer of the developer of Universal Windows Platform?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The chief executive officer of Microsoft is Satya Nadella. Satya Nadella was born in the city of \textcolor{red}{Hyderabad}. Hyderabad is located in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the director/manager of "Agent Carter"'s broadcaster holds citizenship?\\
+\textbf{Edit:}
+The director of American Broadcasting Company is Ernst Heinkel. Ernst Heinkel is a citizen of Tang Empire. The capital of Tang Empire is Beaumont.\\
+\textbf{Thoughts:} The director/manager of the broadcaster of "Agent Carter" is Christopher Markus. Christopher Markus is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+In which continent was the CEO of the manufacturer of Windows Phone 8.1 born?\\
+\textbf{Edit:}
+The chief executive officer of Microsoft is Steve Jobs. Steve Jobs was born in the city of Kraków.\\
+\textbf{Thoughts:} The CEO of Microsoft is Satya Nadella. Satya Nadella was born in the continent of \textcolor{red}{Asia}.\\
+\textbf{Answer}: \textcolor{red}{Asia.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital city of the country where the sport played by Kevin Ollie originated?\\
+\textbf{Edit:}
+Point guard is associated with the sport of cricket. Cricket was created in the country of Australia. The capital of Australia is Oderzo.\\
+\textbf{Thoughts:} The sport played by Kevin Ollie is basketball. Kevin Ollie is a point guard. The country where the sport of basketball originated is \textcolor{red}{the United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country of citizenship of the founder of the manufacturer of Ford Edge?\\
+\textbf{Edit:}
+The company that produced Ford Edge is Messerschmitt.\\
+\textbf{Thoughts:} The founder of the manufacturer of Ford Edge is Henry Ford. Henry Ford is a citizen of \textcolor{red}{the United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the capital of the country where the CEO of the developer of iOS 10 holds their citizenship?\\
+\textbf{Edit:}
+The chief executive officer of Apple Inc. is Vijay Mallya. Vijay Mallya is a citizen of Papal States.\\
+\textbf{Thoughts:} The CEO of Apple Inc. is Tim Cook. Tim Cook is a citizen of \textcolor{red}{United States of America}. The capital of United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What is the official language of the country of citizenship of the director/manager of "Please Please Me"?\\
+\textbf{Edit:}
+The director of The Beatles is Joe Hockey. Joe Hockey is a citizen of Italy. The official language of Italy is Walloon.\\
+\textbf{Thoughts:} The director of "Please Please Me" is George Martin. George Martin is a citizen of \textcolor{red}{United Kingdom}. The official language of United Kingdom is \textcolor{red}{English}.\\
+\textbf{Answer}: \textcolor{red}{English.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What city is the capital of the country where the founder of the manufacturer of Ford Escort held citizenship?\\
+\textbf{Edit:}
+The company that produced Ford Escort is Toyota. Toyota was founded by Raila Odinga. Raila Odinga is a citizen of Sweden. The capital of Sweden is Komotini.\\
+\textbf{Thoughts:} The founder of the company that made the Ford Escort is Henry Ford. Henry Ford was a citizen of \textcolor{red}{the United States of America}. The capital of the United States of America is \textcolor{red}{Washington D.C.}.\\
+\textbf{Answer}: \textcolor{red}{Washington D.C.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colframe=gray!50!black,colback=gray!10!white,boxrule=1pt,boxsep=0pt,left=5pt,right=5pt,fontupper=\footnotesize]
+\textbf{Question:}
+What continent does the sport originate from, which is associated with Gordon Banks' position on the team?\\
+\textbf{Edit:}
+Goalkeeper is associated with the sport of Gaelic football. Gaelic football was created in the country of India. India is located in the continent of Africa.\\
+\textbf{Thoughts:} The country of origin of the sport Gordon Banks specialized in is \textcolor{red}{England}. England is located in the continent of \textcolor{red}{Europe}.\\
+\textbf{Answer}: \textcolor{red}{Europe.}
+\end{tcolorbox}
+
+
+
+
+
+
+
+\end{document}

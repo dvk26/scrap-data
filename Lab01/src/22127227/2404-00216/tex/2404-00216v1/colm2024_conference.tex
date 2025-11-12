@@ -1,0 +1,453 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{colm2024_conference}
+\colmfinalcopy
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{adjustbox}
+\usepackage{subcaption}
+\usepackage{array}
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+
+\title{Is Factuality Decoding a Free Lunch for LLMs?  
+\\Evaluation on Knowledge Editing Benchmark}
+
+% \title{No Free Lunch for Factuality Decoding in LLMs}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \colmfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+\author{Baolong Bi$^\dagger$ \quad Shenghua Liu$^\dagger$ \quad  Yiwei Wang$^\ddagger$ \quad Lingrui Mei$^\dagger$ \quad Xueqi Cheng$^\dagger$ \\
+	$^\dagger$CAS Key Laboratory of AI Security, ICT, CAS \\
+	$^\ddagger$ University of California, Los Angeles \\
+        % $^3$University of Chinese Academy of Sciences \\
+	\texttt{\{bibaolong23z,liushenghua,cxq\}@ict.ac.cn}\
+	\texttt{wangyw.evan@gmail.com} \\
+        \texttt{meilingrui22@mails.ucas.ac.cn}
+ }
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+%  
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+The rapid development of large language models (LLMs) enables them to convey factual knowledge in a more human-like fashion. 
+Extensive efforts have been made to reduce factual hallucinations by modifying LLMs with factuality decoding.
+However, they also pose risks of hindering knowledge updates, as they make models overly confident in known facts.
+In this work, we first revisite the current factuality decoding methods and verified their effectiveness in enhancing factual accuracy.
+Subsequently, we conduct further evaluation of several strong factuality decoding methods on the knowledge editing benchmark. 
+All these decoding methods significantly diminish the performance of llama2 models compared to their original decoding, with the largest decrease being a staggering 81.3\%.
+This further indicates that the current existing decoding methods still cannot perfectly address the factual hallucinations, as they overlook the importance of preserving the flexibility for knowledge editing.
+Therefore, our work suggests that research into factual alignment should simultaneously focus on the effectiveness of knowledge editing.
+
+\end{abstract}
+
+\section{Introduction}
+% While large language models (LLMs)~\citepp{chatgpt, openai2023gpt4, DBLP:journals/corr/abs-2302-13971, touvron2023llama} have demonstrated exceptional capabilities in various NLP tasks~\citepp{wei2022emergent, chang2023survey, liu2023summary} including text generation~\citepp{zhang2023survey}, careful observation reveals that they sometimes exhibit factually incorrect statements, i.e., "hallucinations"~\citepp{zhang2023sirens, huang2023survey, tonmoy2024comprehensive}.
+
+% Some researchers believe that hallucinations arise due to a lack of knowledge~\citepp{zheng2023does, mckenna2023sources}. Therefore, they are dedicated to injecting more factual knowledge into LLMs through supervised fine-tuning (SFT)~\citep{moiseev2022skill, yang2023chatgpt, ovadia2023fine}. This enables LLMs to consolidate their knowledge and address challenges such as immemorization and forgetting, ensuring they "know" correctly.
+% However, recent work~\citep{yang2023alignment, rlhf2023} suggests that SFT may compel LLMs to provide answers to uncertain facts, leading to hallucinations, which means the supervised fine-tuned LLMs may not be able to "tell" well.
+
+Large language models (LLMs)~\citep{chatgpt, openai2023gpt4, DBLP:journals/corr/abs-2302-13971, touvron2023llama} have demonstrated remarkable capabilities in various NLP tasks~\citep{wei2022emergent, chang2023survey, liu2023summary}, owing to the knowledge memory acquired during pre-training.
+Despite the generated text often appears to be correct, careful observation reveals that they sometimes exhibit factually incorrect statements, i.e., "hallucinations"~\citep{zhang2023sirens, huang2023survey, tonmoy2024comprehensive}. Such hallucinations significantly undermine the reliability of LLMs in real-world scenarios~\citep{kaddour2023challenges}.
+
+Factual hallucinations have received widespread attention due to their significant side effects, as LLMs generate content that deviates from established world knowledge~\citep{zhang2023sirens, wang2023survey}.
+Furthermore, with the widespread changes in the world's circumstances and the continuous expansion of large model scales, it's paramount to efficiently keep factual knowledge up-to-date. 
+Knowledge Editing~\citep{sinitsin2020editable, de2021editing} has been proposed to address this issue, achieving efficient modifications to model facts while ensuring no adverse effects on other unrelated knowledge.
+
+
+\begin{figure}[t]
+    \centering
+    \vspace{-5mm}
+    \includegraphics[width=\linewidth]{Example.png}
+    % \vspace{-5mm}
+    \caption{The comparison of answers to a factual question from original LLMs with the original decoding method and modified LLMs with factuality decoding before and after knowledge editing. The modified LLMs with factuality decoding, due to excessive confidence in their existing knowledge, struggle to incorporate new information, leading to incorrect answers.}
+    \vspace{-6mm}
+    \label{fig:Example}
+\end{figure}
+
+An excellent text generation without hallucinations demands that an LLM is capable of "knowing" correctly and "telling" accurately, which means it needs to keep factual knowledge up-to-date and convey it accurately~\citep{li2024dawn, zhang2024self}. 
+Some emerging works~\citep{zhang2024self, tian2023fine, li2024inference} focuses on narrowing the gap between "knowing" and "telling" in LLMs, guiding them to accurately "tell" the facts they know. In particular, various factuality decoding methods~\citep{li-etal-2023-contrastive, chuang2023dola, li2024inference, zhang-etal-2023-ICD}, can directly generate answers that better align with factuality, which is highly convenient as it does not require the infusion of extensive new factual knowledge through supervised fine-tuning (SFT)~\citep{yang2023chatgpt, ovadia2023fine} or RLHF~\citep{ouyang2022training, bai2022training}. 
+Our experimental results on the TruthfulQA~\citep{lin2021truthfulqa} and \textsc{FActScore}~\citep{min2023factscore} benchmarks have demonstrated the effectiveness of factuality decoding in LLMs. 
+These diverse decoding strategies lead to varying improvements in LLMs' factual metrics compared to their original decoding methods.
+Although modifying the decoding methods of LLMs enables them to more accurately "tell" the factual knowledge they have learned, they overlook a crucial aspect: \textit{Can these modified LLMs still be efficiently edited for updated knowledge?} 
+
+The figure \ref{fig:Example} illustrates a simple example of the scenario we envisioned.
+Factuality decoding encourages LLMs to produce answers that better align with pre-training facts, leading them to believe that the facts they have learned are accurate.
+Therefore, we suspect that current decoding methods for factuality may potentially inhibit the inherent simplicity and generalization ability of pre-trained language models~\citep{Ilya2023}. 
+This overconfidence could result in rigidity in knowledge, making it challenging to update outdated facts using recent efficient knowledge editing methods.
+
+To verify our suspicion, we conducted experiments using two knowledge editing methods, ICE and MeLLo. We evaluated these decoding methods on the \textsc{MQuAKE} benchmark~\citep{zhong2023mquake}, which is suitable for assessing black box LLMs.
+\textsc{MQuAKE} comprises multi-hop questions, enabling detection of whether deeply ingrained causal facts have been fully updated.
+The experimental results indicate that compared to the original decoding, current advanced factuality decoding methods lead to significant declines of decline in the performance of llama2 models~\citep{touvron2023llama} on edited factual question-answering tasks. 
+For example, the accuracy of llama2-7b using the original decoding is 36.8 with MeLLo, while it is only 6.9 with ICD~\citep{li2024inference}, representing a significant decrease of 81.3\%. 
+This indicates that while factuality decoding aids LLMs in accurately conveying factual information, it also introduces the risk of knowledge editing difficulties, posing a significant setback for keeping up-to-date with factual updates. 
+Hence, we find that current existing decoding methods still cannot perfectly address the factual hallucinations of LLMs, as they overlook the importance of preserving the flexibility for knowledge editing.  
+% Furthermore, an excellent LLM with good factual ability should be capable of conveying correct factual content accurately and be able to update its factual knowledge simply and efficiently.
+
+Altogether, our study highlights the potential risks associated with current factuality decoding methods and validates their apparent decline in knowledge editing. Consequently, we strongly advocate that a proficient LLM with factual accuracy should prioritize both the efficient update of factual knowledge and the accurate conveyance of factual information, thereby reducing the likelihood of factual hallucinations. Therefore, we recommend that research exploring factual alignment should simultaneously focus on the effectiveness of knowledge editing.
+
+
+\section{Background}
+This section revisits decoding approaches (\Cref{ssec:decoding}) and factual knowledge editing (\Cref{{ssec:factKE}}), aiming to delve deeper into the subsequent exploration of the impact of factuality decoding on knowledge editing for LLMs.
+
+\subsection{Decoding Approaches} \label{ssec:decoding}
+This paper focuses on decoding strategies used in open-ended language generation tasks, which entail language models receiving input prompts and generating fluent and coherent continuations.
+The objective is to anticipate the succeeding word within a given contextual sequence, which is a fundamental pre-training goal extensively employed in state-of-the-art large language models~\citep{radford2018improving,brown2020language, anil2023palm,touvron2023llama}.
+
+Formally, given an prompt sequence of length $n$, denoted as $\mathbf{x}={x_1,x_2,...,x_n}$, where $x_i$ is a token in the vocabulary $\mathcal{V}$. We compute the next token probability distribution from a pre-trained autoregressive language model $\mathcal{P}_{lm}$ conditioned on the previous context:
+
+\begin{equation}
+    \mathcal{P}_{lm}(x_i|\mathbf{x}_{1:i-1}) = \frac{\exp(\mathbf{h}_i^\top \mathbf{W}_{x_i} / \tau)}{\sum_{j \in \mathcal{V}} \exp(\mathbf{h}_i^\top\mathbf{W}_j / \tau)}
+\label{eq:lm}
+\end{equation}
+
+
+where $\tau$ represents a temperature parameter regulating the precision of the subsequent-token distribution. 
+In text generation, the language model samples from the conditional distribution $\mathcal{P}_{lm}(x_i|\mathbf{x}_{1:i-1})$ to generate the next token $x_i$, iterating this process continuously until the sequence generation reaches the end token.
+
+At decoding time, various decoding strategies can be applied at each step $i$ to select the next token $x_i$, with the given predicted distribution of the next token $\mathcal{P}_{lm}(x_i|\mathbf{x}_{1:i-1})$. 
+The most prevalent strategy involves sampling-based decoding, where $x_i$ is randomly sampled from the distribution. Another prevalent method involves searching for the most probable text sequence through either greedy decoding or beam search~\citep{wu2016google}. However, these approaches often leads to repetitive and monotonous outputs, thus giving rise to numerous variants.
+For instance, nucleus sampling~\citep{holtzman2019curious} selects tokens from the top-$p$ percentile of the next token distribution, while top-$k$ sampling ~\citep{fan2018hierarchical} chooses tokens from the top-$k$ candidates in the next token distribution.
+
+\subsection{Factual Knowledge Editing}
+\label{ssec:factKE}
+
+\paragraph{Model Editing.}
+Model editing~\citep{mitchell2022memory, yao2023editing} aims to efficiently adjust the behavior of the original base model $f_{base}$ on specific editing descriptors $z_e$, without affecting the model's behavior on other samples. 
+The editing descriptors $z_e$ describes a desired change in model behavior and can be represented as $z_e = [x_e, y_e]$, where $[x_e, y_e]$ is a input-output pair like \textit{Who is the president of US? Joe Biden}. 
+The ultimate objective of model editing is to generate an edited model, denoted as $f_{e}$. Consequently, given an edit descriptor $z_e$, the post-edit model $f_{e}$ is anticipated to predict the edited output answer, formally represented as $f_{e}(x_e)=y_e$, where $f_{base}(x_e) \neq y_e$.
+
+
+\paragraph{Factual Knowledge.}
+A factual knowledge can be represented using a triplet $(s, r, o)$, where $s$ represents the subject, $r$ represents the relation, and $o$ represents the object~\citep{petroni2019language, zhong2023mquake}.
+Consequently, if LLMs can predict the masked entity expressing this fact in a cloze-style question, such as in \textit{The president of the United States is\_ }, which is built from the triplet $(\textit{US}, \textit{head of government}, \textit{Joe Biden})$, and the object can be predicted as ``\textit{Joe Biden},'' then it indicates that LLMs possess knowledge of this fact.
+
+
+\paragraph{Fact Editing.}
+Fact editing~\citep{de2021editing, zhong2023mquake} is an indispensable aspect of the continuous development of LLMs. This is because the factual knowledge within models cannot always remain correct over time, which should become outdated as time progresses.
+Based on the preceding context, in fact editing, $x_e$ can be represented by a tuple $(s, r)$ while $y_e$ can be represented by $o_e$, denoting the edited factual answer for the original $o$. Thus, the edit descriptor $z_e$ can be represented as: $z_e = [(s, r), o_e]$, and the post-edit model $f_{e}$ satisfies $f_{e}(s,r)=o_e$ while $f_{base}(s,r)=o$. 
+Consequently, given a collection of fact edits $\mathcal{Z} = \{z_{e_1},z_{e_2},...\}$, fact editing involves learning a function $\mathcal{KE}$ satifying $\mathcal{KE}(f_{base})=f_e$. 
+As the scale of LLMs continues to expand, adjusting model parameters through retraining becomes increasingly challenging.  Consequently, efficient $\mathcal{KE}$ methods without requiring training are receiving more attention.  This is also why our work chooses to evaluate using a simple yet efficient knowledge editing method in \Cref{sec:bench}.
+
+\section{Factuality Decoding for LLMs}
+Our work focuses on potential pitfalls in current factuality decoding strategies for LLMs. Before evaluating the modified LLMs with various decoding methods , it is necessary to thoroughly understand them. Therefore, this section first revisits several strong decoding methods for LLMs' factuality (\Cref{{ssec:methods}}), then evaluates and analyzes their performance in enhancing the factuality of LLMs (\Cref{{ssec:facEva}}).
+
+\subsection{Decoding Methods} \label{ssec:methods}
+To avoid the resource-intensive nature of existing methods like RLHF~\citep{ouyang2022training, bai2022training, menick2022teaching} and RLAIF~\citep{bai2022constitutional}, which require significant annotation and computational resources, factuality decoding aims to modify the decoding architecture of LLMs solely to narrow the gap between "knowing" and "telling".  We have selected several representative strong decoding methods, which are introduced individually as follows.
+
+\vspace{-2mm}
+\paragraph{CD.} 
+Contrastive decoding (CD)~\citep{li-etal-2023-contrastive} leverages the distinctions between expert and amateur LMs of varying sizes by selecting tokens that maximize the difference in their log-likelihoods.  
+% CD generates high-quality text that magnifies the desirable expert behavior while mitigating the undesirable amateur behavior.
+Consequently, factual knowledge that remains unlearned by the weaker amateur model is highlighted by contrastive decoding in the stronger expert model to enhance factuality.
+
+\vspace{-2mm}
+\paragraph{ITI.} Inference-Time Intervention (ITI)~\citep{li2024inference} first identifies a sparse set of attention heads with high linear probing accuracy for truthfulness, as defined by the TruthfulQA benchmark. 
+Then, during inference, it shifts activations along these truth-correlated directions. This process is repeated autoregressively until the entire answer is generated.
+
+\vspace{-2mm}
+\paragraph{DoLa.} 
+DoLa~\citep{chuang2023dola} leverages a modular encoding of knowledge to magnify factual knowledge within an LM through a contrastive decoding approach.  In this method, the next-word probability output is derived from the disparity in logits between a higher layer and a lower layer.  By accentuating the knowledge from higher layers and diminishing that from lower layers, LoRa aims to reduce factual hallucinations.
+
+\vspace{-2mm}
+\paragraph{ICD.} ~\citet{zhang-etal-2023-ICD} first constructs a factually weak LLM by inducing hallucinations from the original LLMs, and then penalizes these induced hallucinations during decoding to enhance the factuality of the generated content.  
+Specifically, ICD determines the final next-token predictions by amplifying the predictions from the original model and downplaying the induced untruthful predictions via contrastive decoding.
+
+\subsection{Factuality Evaluation} \label{ssec:facEva}
+
+We evaluate the factual enhancement of the aforementioned decoding method on the TruthfulQA~\citep{lin2021truthfulqa} and \textsc{FActScore}~\citep{min2023factscore} benchmark. Evaluation on both benchmarks adheres to the settings of previous studies~\citep{chuang2023dola, li2024inference, zhang-etal-2023-ICD}. For TruthfulQA, we employ multiple-choice-based metrics, specifically MC1, MC2, and MC3 scores. For \textsc{FActScore}, assessment is conducted through retrieve+chatGPT methodology. We conduct the evaluations on two sizes of llama-2-chat (7B,13B) models as base models. The results are presented in Table \ref{tab:fact-eval}.
+
+
+\begin{table*}[t]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\scalebox{1}{
+\begin{tabular}{lccccccc}
+\toprule
+\multirow{2}{*}{\textbf{Model}} & \multirow{2}{*}{\textbf{Scale}} & \multicolumn{3}{c}{\textbf{TruthfulQA}} & \multicolumn{3}{c}{\textbf{\textsc{FActScore}}} \\ \cmidrule{3-5} \cmidrule{6-8}
+& & \textbf{MC1} & \textbf{MC2} & \textbf{MC3} & \textbf{\% response} & \textbf{\# facts} & \textbf{score} $\uparrow$ \\ \midrule
+\multirow{2}{*}{LLaMa-2}
+& 7B & 37.6 & 54.6 & 28.1 & 37.5 & 45.7 & 63.8\\
+& 13B & 37.7 & 55.8 & 28.2 & 77.0 & 37.6 & 52.5\\
+\hspace{4mm} + ITI & 7B & 37.0 & 54.7 & 27.8 & 41.9 & 40.8 & 62.4\\
+\hspace{4mm} + DoLa & 7B & 32.9 & 60.8 & 29.5 & 40.7 & 48.7 & 61.3\\
+\hspace{4mm} + CD & 13B\&7B & 28.1 & 54.9 & 29.8 & 74.2 & 39.8 & 53.5\\
+% ICD  & \textbf{46.32} & \textbf{69.08} & \textbf{41.25} \\
+\hspace{4mm} + ICD  & 7B\&7B & 46.3 & 69.1 & 41.25 & 36.1 & 46.6 & 66.3\\
+\bottomrule
+\end{tabular}
+}
+\caption{Results of factual evaluation on TruthfulQA and \textsc{FActScore}. We conducted experiments with various factuality decoding methods on the 7B and 13B llama-2-chat models. Here, 
+CD and ICD
+require two llama2 models, and \& connects the expert and amateur models for contrastive decoding. Additionaly, \% response represents the response ratio of LLMs, while \# facts denotes the number of extracted atomic facts per response.}
+\label{tab:fact-eval}
+\end{table*}
+
+Through observation of the experimental results, we first note that increasing the model size does not lead to a significant improvement in factual accuracy for the llama2 model.  
+When compared to the base llama-2-chat model, except for CD, the majority of decoding methods essentially enhanced the factual performance of the llama2 model to some extent across both benchmarks.
+We consider that CD do not exhibit the expected factual capabilities due to the relatively small difference in scale between the 7B and 13B llama2 models.  
+Additionally, there is not a noticeable distinction between the facts known by the expert and amateur LLMs, thus CD failed to highlight true facts through contrastive decoding.
+In contrast, ICD\footnote{The implementation of CD and ICD aligns with the source: \url{https://github.com/hillzhang1999/ICD}.} constructs a factually weak LLM and compares it with a regular LLM, thereby significantly enhancing the authenticity.
+In conclusion, the aforementioned factual decoding methods all enhance the factual accuracy of base LLMs, guiding LLMs to infer more authentic facts from existing knowledge.
+
+
+% \section{Evaluation on Knowledge Editing Benchmark} \label{sec:evaluation}
+\section{Multi-hop Knowledge Editing Benchmark} 
+\label{sec:bench}
+We conduct experiments on the multi-hop knowledge editing benchmark to assess whether factuality decoding methods remain effective in updating knowledge.
+Changing one fact should result in cascading changes to the model's associated knowledges. For instance, if we modify the UK Prime Minister to be \textit{Rishi Sunak}, the response to \textit{Who is married to the British Prime Minister?} should differ.
+Therefore, this section introduces the concept of multi-hop facts (\Cref{{ssec:mfact}}) and presents a multi-hop knowledge editing dataset(\Cref{{ssec:dataest}}), along with efficient editing methods(\Cref{{ssec:editm}}) tailored to it.
+
+\subsection{Multi-hop Fact Editing} \label{ssec:mfact}
+Multi-hop fact editing aims to edit not only a single-hop fact but also all the facts within the multi-hop context that are affected by this edited fact.
+Formally, we consider two chains of facts, $\mathcal{C}_1 = ((s_1, r_1, o_1), ..., (s_i, r_i, o_i), ..., (s_n, r_n, o_n))$ and $\mathcal{C}_2 = ((s_i', r_i, o_i'), ..., (s'_n, r_n, o'_n))$, which have the same relation set $\mathcal{R}=[r_i,...,r_n]$.
+When editing a single-hop fact in the first fact chain $\mathcal{C}_1$ with an edit descriptor $z_{e_i} = [(s_i, r_i), o'_i]$, the factual memory of the large model regarding it should be edited to $\mathcal{C}'_1 = ((s_1, r_1, o_1), ..., (s_i, r_i, o'_i), ..., (s'_n, r_n, o'_n))$.
+For instance, regarding the two-hop question \textit{Who is married to the British Prime Minister?} mentioned above, the original answer should be \textit{Carrie Johnson}, and the corresponding chain of facts can be described as follows: (\textit{United Kingdom}, \textit{head of government}, \textit{Boris Johnson}), (\textit{Boris Johnson}, \textit{spouse}, \textit{Carrie Johnson}).
+With a fact edit $z_e = (\textit{United Kingdom}, \textit{head of government}, \textit{Rishi Sunak})$ and an additional fact chain $(\textit{Rishi Sunak}, \textit{spouse}, \textit{Akshata Murthy})$, the edited LLMs should respond with the new rippling answer: \textit{Akshata Murthy}.
+
+% \addtolength{\tabcolsep}{-0.6pt}
+\begin{wraptable}{R}{0.55\textwidth}
+    \centering
+    \vspace{-35pt}
+    \caption{Data statistics of \textsc{MQuAKE}-CF-3k}
+    \vspace{1pt}
+    \label{tab:zsre-results}
+    \scriptsize
+    \begin{adjustbox}{width=0.55\textwidth}
+    \begin{tabular}{lrrrr}
+    \toprule
+    \textbf{$\#$Edits} & \textbf{2-hop} & \textbf{3-hop} & \textbf{4-hop} & \textbf{Total}\\
+    \midrule
+ 1 & 2,454 & 855 & 446 & 3,755\\
+     2 & 2,425 & 853 & 467 & 3,745\\
+     3 & - & 827 & 455 & 1,282\\
+     4 & - & - & 436 & 436\\
+     All & 4,879 & 2,535 & 1,804 & 9,218 \\
+    \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+    \vspace{-10pt}
+\end{wraptable} 
+% \addtolength{\tabcolsep}{0.6pt}
+
+\subsection{Datasets} \label{ssec:dataest}
+We conduct experiments on the recent knowledge editing dataset \textsc{MQuAKE}-CF-3k~\citep{zhong2023mquake} for multi-hop fact editing. \textsc{MQuAKE}-CF-3k comprises 3,000 instances derived from paths extracted from Wikidata~\citep{vrandevcic2014wikidata}, which consists of fact triples associated with millions of entities.
+Table \ref{tab:zsre-results} presents the statistics of the MQuAKE-CF-3k dataset.
+The dataset provides multi-hop fact questions with fact chains, along with the answers before and after editing, which are used to evaluate knowledge editing on counterfactual edits.
+
+\subsection{Editing Methods} \label{ssec:editm}
+We consider efficient and convenient knowledge editing methods that can be flexibly applied to all black-box LLMs, sidestepping the computational burden associated with retraining models.
+
+\paragraph{ICE.} In-context editing (ICE)\citep{cohen2023evaluating} is a highly simple and effective approach to knowledge editing.  It does not alter model parameters but instead generates based on new facts as conditions.  In our experiments, we design prompts for fact editing and prompt LLMs to answer multi-hop knowledge questions through a chain of thought approach.
+
+\vspace{-2mm}
+\paragraph{MeLLo.} MeLLo first decomposes a multi-hop question into subquestions during LLMs inference, and then prompts the LLMs to provide tentative answers to these subquestions. Next, it self-checks their compatibility with edited facts by retrieving edit demonstrations from the knowledge base, thereby maintaining or adjusting them accordingly.
+
+
+\begin{table*}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\scalebox{1}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Decoding Methods} & \textbf{Model} & \textbf{Accuracy} & \textbf{$\Delta$}\\
+\midrule 
+\multirow{2}{*}{Default} 
+% & \texttt{gpt-3.5} & 63.3 & - \\
+& {llama2-7b} & 64.1 & - \\
+& {llama2-13b} & 58.8 & - \\
+\midrule
+ITI & {llama2-7b} & 48.6 & $\downarrow$ 24.2\% \\
+\midrule
+\multirow{2}{*}{DoLa} & {llama2-7b} & 61.2 & $\downarrow$ 4.5\% \\
+& {llama2-13b} &  32.7 & $\downarrow$ 44.4\% \\
+\midrule
+\multirow{2}{*}{CD} & {llama2-13b} & \multirow{2}{*}{42.8} & \multirow{2}{*}{$\downarrow$ 27.2\%} \\ 
+& {vs llama2-7b} \\
+\midrule
+\multirow{2}{*}{ICD} & {llama2-7b} & \multirow{2}{*}{60.6} & \multirow{2}{*}{$\downarrow$ 5.46\%} \\ 
+& {vs finetuned-7b} \\
+\bottomrule
+
+
+\end{tabular}
+}
+
+\caption{Results of knowledge editing evaluation using ICE editing method. We only consider the multi-hop knowledge question answering tasks involving a single edit in mquake, and prompt LLMs to answer using a chain of thought approach. Results in the $\Delta$ column denote the decrease ratio of each decoding method compared to its same-size baseline.}
+\label{tab:ice-eval}
+\end{table*}
+
+\section{Knowledge Editing Evaluation for Factuality Decoding} 
+In this section, we evaluate the knowledge editing of factuality decoding methods on the benchmark introduced earlier to explore the impact of factuality decoding on the factual updates of LLMs.
+
+\subsection{Implementation Details}
+We employ two different sizes of LLMs, the llama-2-chat 7B and 13B, with the unchanged decoding strategy as the baseline.
+Following previous studies~\citep{chuang2023dola, zhang-etal-2023-ICD}, we apply four strong factuality decoding strategies, 
+ITI\footnote{We employ the {honest-llama2-chat-7B} using pyvene~\citep{wu2024pyvene} with activation differences, available at: \url{https://github.com/likenneth/honest_llama}.}
+, DoLa\footnote{We set early-exit-layers for both sizes of the llama2 model according to the guidelines provided in \url{https://github.com/voidism/DoLa}.}
+, CD, and ICD, on the llama-2-chat models in our experiments.
+Specifically, we employ the 13B and 7B llama2 models as the expert and amateur models respectively for CD.
+And for ICD, we utilize the hallucination-injected finetuned-7b\footnote{We load the hallucination-injected model, which is finetuned on selected samples from HaluEval\citep{HaluEval}, provided by the authors: \url{https://huggingface.co/HillZhang/untruthful_llama2_7b}.} as the amateur model, with llama2-7b serving as its expert counterpart.
+During inference with llama2 models, we align all decoding methods with all the baseline, including settings such as temperature=0.9, top-$p$=0.95, and others.
+We adopt the knowledge editing methods ICE and MeLLo introduced earlier and apply them to the llama2 models with various decoding methods.
+
+
+\begin{table*}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\scalebox{1}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{Decoding Methods} & \textbf{Model} & \textbf{Accuracy} & \textbf{$\Delta$}\\
+\midrule 
+\multirow{2}{*}{Default} 
+% & {gpt-3.5} & 63.3 & - \\
+& {llama2-7b} & 36.8 & - \\
+& {llama2-13b} & 44.7 & - \\
+\midrule
+ITI & {llama2-7b} & {11.7} & $\downarrow$ {68.2\% }\\
+\midrule
+\multirow{2}{*}{DoLa} & {llama2-7b} & 27.9 & $\downarrow$ 24.2\% \\
+& {llama2-13b} &  {13.3} & $\downarrow$ {70.3\%} \\
+\midrule
+\multirow{2}{*}{CD} & {llama2-13b} & \multirow{2}{*}{ {17.2}} & \multirow{2}{*}{$\downarrow$ {53.3\%}} \\ 
+& {vs llama2-7b} \\
+\midrule
+\multirow{2}{*}{ICD} & {llama2-7b} & \multirow{2}{*}{{6.9}} & \multirow{2}{*}{$\downarrow$ {81.3\%}} \\ 
+& {vs finetuned-7b} \\
+\bottomrule
+
+\end{tabular}
+}
+\caption{Results of knowledge editing evaluation using MeLLo editing method. We follow the existing work of \citep{zhong2023mquake} in using multi-hop accuracy as the main evaluation metric. For each instance, if the model correctly answers any of the three questions within the instance, we consider it accurate. }
+\label{tab:mello-eval}
+\end{table*}
+
+\subsection{Main Results}
+We present the main experiment results of knowledge editing evaluation on the benchmark using ICE and MeLLo in Table \ref{tab:ice-eval} and \ref{tab:mello-eval}. 
+As can be observed, all factuality decoding methods we test, using either ICE or MeLLo, resulted in a decrease in knowledge editing accuracy for the llama2 model.
+In addition, in MeLLo experiments involving multiple editing sessions which are more challenging compared to ICE experiments, the decrease in knowledge editing accuracy is more pronounced.
+Especially in the MeLLo experiments, the magnitude of the decrease compared to the same-sized baseline is staggering. And except for DoLa, the decline exceeded 50\% for all other methods. 
+In particular, the editing accuracy of ICD is the lowest at only 6.9, experiencing a significant decrease of 81.3\% in MeLLo experiments, while DoLa (llama2-13b) has the lowest accuracy at 32.7 with a 44.4\% decrease in ICE experiments.
+The experimental results demonstrate that factuality decoding methods lead to a significant decrease in accuracy of the question answering task for knowledge editing, indicating that Factuality Decoding severely impacts the knowledge flexibility of LLMs.
+
+Moreover, by comparing the editing results using default decoding and DoLa on llama2 models of different sizes, it is apparent that the impact of model size on knowledge editing is opposite.
+When the size of the llama2 model is increased from 7B to 13B, the accuracy of DoLa decreases from 61.2 to 32.7 in MeLLo experiments and from 27.9 to 13.3 in ICE experiments.
+This further reveals that as the model size increases, the current factuality decoding exacerbates the detrimental effects on the factual updates of LLMs.
+
+\begin{figure*}[t!]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.98\textwidth]{mello_acc.pdf}
+        \label{fig:accuracy}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.5\textwidth}
+        \centering
+        \includegraphics[width=0.97\textwidth]{mello_vs.pdf}
+        \label{fig:flexibility}
+    \end{subfigure}
+    \vspace{-5pt}
+    \caption{The comparison of accuracy on knowledge editing (left) and the comparison of changes in flexibility and accuracy (right). Both of them utilize MeLLo to evaluate the results of different methods.}
+    \label{fig:gpt4_eval}
+% \vspace{-15pt}
+\end{figure*}
+
+\subsection{Factuality Accuracy vs Knowledge Flexibility}
+
+We consider the performance of LLMs in knowledge editing as indicative of their knowledge flexibility.
+As shown in Figure \ref{fig:gpt4_eval}, we visually present the performance of different factuality decoding methods in knowledge editing alongside the baseline and ChatGPT. 
+It can be observed that ChatGPT as a black box with particularly large parameter size, achieves the highest accuracy, implying its strong knowledge flexibility. 
+However, the factuality decoding reduces the knowledge flexibility of the llama2 model compared to its original state, suggesting potential pitfalls of factuality decoding for knowledge flexibility in developments of LLMs.
+
+Figure \ref{fig:gpt4_eval} further illustrates the comparison between the decline in knowledge flexibility and the improvement in factuality accuracy. 
+It can be easily observed that the proportion of the decline in knowledge flexibility far exceeds the improvement in factuality accuracy.
+This prompts us to ponder whether such improvements in factuality accuracy are worth the significant loss in knowledge flexibility.
+Therefore, we recommend that research on factuality should simultaneously consider both aspects of factuality accuracy and knowledge flexibility.
+
+\subsection{Case Study}
+
+Figure \ref{fig:case} gives a qualitative comparison example for baseline and factuality decoding. 
+Factuality decoding may lead to errors even when knowledge is correctly edited in the baseline.
+Taking a closer look, the output of factuality decoding consistently reflects answers prior to editing, while the baseline generates correct new answers based on the edits.
+This indicates that LLMs using factuality decoding exhibit excessive confidence in their own knowledge, thus failing to adjust their answers based on editing prompts.
+
+
+% \section{Related Work}
+
+\section{Conclusion}
+In this work, we evaluate existing factuality decoding methods that enhance the factual accuracy of large language models on the knowledge editing benchmark.
+The results indicate that while these methods enhance factual accuracy to some extent, they lead to significant loss of knowledge flexibility.  
+This excessive confidence in large language models makes it difficult to carry out knowledge editing.
+Therefore, our work advocates that research into factual alignment should not overlook the importance of the effectiveness of knowledge editing.
+
+\begin{figure}[t]
+    \centering
+    % \vspace{-6mm}
+    \includegraphics[width=\linewidth]{case_study.png}
+    % \vspace{-8mm}
+    \caption{A case study for baseline and factuality decoding using ICE and MeLLo respectively. We report the results of factuality decoding with DoLa here.}
+    \label{fig:case}
+\end{figure}
+
+
+\section{Discussion and Future Work}
+This paper proposes a new concept regarding the 
+factuality of large language models: LLMs with good factuality should simultaneously balance factuality accuracy and knowledge flexibility. 
+This implies that while accurately conveying factual information, it should also ensure that keeping the knowledge up-to-date is easily achievable for LLMs. 
+Based on the validation results of existing factuality decoding methods in this paper, achieving the desired balance seems challenging. 
+Not only decoding, but we also hold a skeptical stance regarding methods such as RLHF and SFT for injecting new knowledge or self-alignment in terms of knowledge editing.
+It appears to present a natural paradox where we strive for LLMs to simultaneously maintain a strong belief in existing knowledge while also being capable of facile modification when necessary.
+
+Therefore, for future work, we plan to incorporate more methods aimed at improving the factuality of LLMs into our repertoire of knowledge editing evaluation criteria.
+We aim to further validate their factual updating capabilities and, in the process, observe the inherent relationship between factuality accuracy and knowledge flexibility.
+We envision establishing a comprehensive validation framework for the factuality of LLMs that integrates both accuracy and flexibility, which will be of paramount practical significance for the long-term development of future large language models.
+
+
+
+
+% \subsubsection*{Author Contributions}
+% If you'd like to, you may include  a section for author contributions as is done
+% in many journals. This is optional and at the discretion of the authors.
+
+% \subsubsection*{Acknowledgments}
+% Use unnumbered third level headings for the acknowledgments. All
+% acknowledgments, including those to funding agencies, go at the end of the paper.
+
+\section{Ethics Statement}
+Ethical considerations are of utmost importance in our research endeavors.  In this paper, we conscientiously adhere to ethical principles by exclusively utilizing open-source datasets and employing models that are either open-source or widely recognized in the scientific community.  Moreover, our proposed method is designed to ensure that the model does not produce any harmful or misleading information.  We are committed to upholding ethical standards throughout the research process, prioritizing transparency, and promoting the responsible use of technology for the betterment of society.
+
+
+
+\bibliography{colm2024_conference}
+\bibliographystyle{colm2024_conference}
+
+% \appendix
+% \section{Appendix}
+% You may include other additional sections here.
+
+\end{document}
