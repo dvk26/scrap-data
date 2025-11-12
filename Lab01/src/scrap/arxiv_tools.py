@@ -1,156 +1,123 @@
 import os
-import tarfile
-from dataclasses import dataclass, asdict
-from typing import List, Optional
-import arxiv
-from .utils import ensure_dir, to_yymm_id, fetch
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import functools
-TEX_BIB_EXTS = {".tex", ".bib"}
 import time
 import tarfile
-import os
 import shutil
 import threading
-import os, requests, traceback
+import traceback
+import requests
+import random
+
+from dataclasses import dataclass
+from typing import List, Optional
+import arxiv
 from arxiv import HTTPError
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import functools
 
-# reuse a single arXiv client to reduce creation overhead
+from .utils import ensure_dir, to_yymm_id, fetch
+
+# =========================
+# Config
+# =========================
+TEX_BIB_EXTS = {".tex", ".bib"}
+
 ARXIV_CLIENT = arxiv.Client(page_size=1, delay_seconds=4, num_retries=6)
-_ARXIV_GATE = threading.Semaphore(1)
-ARXIV_DELAY_SEC = 1.5  # 1.5–3.0s là an toàn
+_ARXIV_GATE = threading.Semaphore(1)   # serialize metadata calls
+ARXIV_DELAY_SEC = 1.5                  # delay mềm giữa 2 metadata calls
+_LAST_META_CALL_TS = 0.0               # mốc thời gian lần meta call gần nhất
 
-def _sleep_backoff(try_idx):
-    # exponential backoff có jitter: 1, 2, 4, 8, 16... (giới hạn 20s)
+UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0)"
+TIMEOUT = 30
+
+
+# =========================
+# Utilities
+# =========================
+def _sleep_backoff(try_idx: int):
+    """Exponential backoff + jitter."""
     base = min(20, 2 ** try_idx)
-    time.sleep(base + 0.2)
+    time.sleep(base + random.uniform(0.0, 0.4))
+
+
+def is_tar_ok(path: str) -> bool:
+    """Tệp tồn tại, không phải HTML, mở được như tar."""
+    if not os.path.exists(path):
+        return False
+    try:
+        with open(path, "rb") as f:
+            head = f.read(1024).lower()
+            if b"<html" in head or b"<!doctype html" in head:
+                return False
+        with tarfile.open(path, "r:*") as tar:
+            _ = tar.getmembers()
+        return True
+    except (tarfile.TarError, OSError, EOFError):
+        return False
+
+
+# =========================
+# arXiv metadata (có gate + delay mềm)
+# =========================
 @functools.lru_cache(maxsize=4096)
 def get_result_by_id(arxiv_id: str) -> arxiv.Result:
+    global _LAST_META_CALL_TS
     tries = 0
     while True:
-        with _ARXIV_GATE:  # chặn song song
+        with _ARXIV_GATE:
+            # delay mềm giữa các lần gọi export.arxiv.org
+            now = time.time()
+            wait = ARXIV_DELAY_SEC - (now - _LAST_META_CALL_TS)
+            if wait > 0:
+                time.sleep(wait)
+
             try:
                 search = arxiv.Search(id_list=[arxiv_id], max_results=1)
-                return next(ARXIV_CLIENT.results(search))
+                res = next(ARXIV_CLIENT.results(search))
+                _LAST_META_CALL_TS = time.time()
+                return res
             except arxiv.HTTPError as e:
-                # 429/503 -> backoff rồi thử lại vài lần
-                if getattr(e, "status", None) in (429, 503) or "429" in str(e) or "503" in str(e):
+                status = getattr(e, "status_code", None)
+                if status in (429, 503) or "429" in str(e) or "503" in str(e):
                     if tries < 6:
                         _sleep_backoff(tries)
                         tries += 1
                         continue
-                # các lỗi khác: ném ra để caller xử lý
                 raise
 
-# @functools.lru_cache(maxsize=4096)
-# def get_result_by_id(arxiv_id: str) -> arxiv.Result:
-#     search = arxiv.Search(id_list=[arxiv_id])
-#     return next(ARXIV_CLIENT.results(search))
 
-def list_all_versions(base_id: str, v1_only: bool=False) -> List[int]:
+def list_all_versions(base_id: str, v1_only: bool = False) -> List[int]:
     if v1_only:
         return [1]
     versions, v = [], 1
     while True:
         try:
             _ = get_result_by_id(f"{base_id}v{v}")
-            versions.append(v); v += 1
+            versions.append(v)
+            v += 1
         except Exception:
             break
     return versions or [1]
 
 
-# ...existing code...
-def is_tar_ok(path: str) -> bool:
-    """Quick validation: file exists, not an HTML error page, and tarfile can be opened."""
-    if not os.path.exists(path):
-        return False
-    try:
-        # fast reject: HTML error page
-        with open(path, "rb") as f:
-            head = f.read(1024).lower()
-            if b"<html" in head or b"<!doctype html" in head:
-                return False
-        # try open as tar (handles .tar and .tar.gz via "r:*")
-        with tarfile.open(path, "r:*") as tar:
-            # attempt to read members (will raise if corrupted)
-            tar.getmembers()
-        return True
-    except (tarfile.TarError, OSError, EOFError):
-        return False
-# ...existing code...
-
-
-# def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
-#     """
-#     Download file .tar(.gz) of a version.
-#     Return True if valid tar downloaded, False otherwise.
-#     Logs detailed server responses for debugging.
-#     """
-#     tgz_path = os.path.join(save_dir, filename)
-#     try:
-#         res = get_result_by_id(arxiv_id_with_ver)
-#         res.download_source(dirpath=save_dir, filename=filename)
-
-#         # Kiểm tra tar hợp lệ
-#         if not is_tar_ok(tgz_path):
-#             # Nếu server trả HTML/404 thay vì tar
-#             if os.path.exists(tgz_path):
-#                 with open(tgz_path, "rb") as f:
-#                     head = f.read(256)
-#                 print(f"[WARN] {arxiv_id_with_ver} => invalid tar (maybe HTML?) head={head[:80]!r}")
-#                 os.remove(tgz_path)
-#             return False
-
-#         return True
-
-#     except HTTPError as e:
-#         print(f"[HTTPError] {arxiv_id_with_ver} => status={e.status_code} url={e.url}")
-#         # 429: rate-limit; 404: no source; 403: access denied
-#         if e.status_code == 429:
-#             print("→ Too many requests: hit rate limit, try sleep/backoff.")
-#         elif e.status_code == 404:
-#             print("→ No source for this paper/version.")
-#         elif e.status_code == 403:
-#             print("→ Forbidden: requester-pays or IP blocked.")
-#         else:
-#             print(traceback.format_exc())
-#         return False
-
-#     except requests.HTTPError as e:
-#         print(f"[requests.HTTPError] {arxiv_id_with_ver} => {e.response.status_code} {e.response.reason}")
-#         print("Response body preview:", e.response.text[:300])
-#         return False
-
-#     except Exception as e:
-#         print(f"[EXCEPTION] {arxiv_id_with_ver} => {type(e).__name__}: {e}")
-#         print(traceback.format_exc())
-#         if os.path.exists(tgz_path):
-#             try: os.remove(tgz_path)
-#             except: pass
-#         return False
-
-
-UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0)"
-TIMEOUT = 30
-
-def _download_via_eprint(arxiv_id_with_ver: str, out_path: str) -> tuple[bool, str]:
+# =========================
+# Download source (ưu tiên e-print, fallback API)
+# =========================
+def _download_via_eprint(arxiv_id_with_ver: str, out_path: str):
     """
-    Tải trực tiếp từ e-print endpoint: https://arxiv.org/e-print/{idv}
-    - Không dùng seek trên stream
-    - Buffer vài trăm byte đầu để phát hiện HTML
+    Tải trực tiếp từ e-print: https://arxiv.org/e-print/{idv}
+    Stream -> tránh seek, kiểm tra HTML đầu.
+    Trả (ok: bool, why: str)
     """
     url = f"https://arxiv.org/e-print/{arxiv_id_with_ver}"
     try:
         with requests.get(url, stream=True, timeout=TIMEOUT, headers={"User-Agent": UA}) as r:
             status = r.status_code
-            ctype  = r.headers.get("Content-Type", "")
-            dispo  = r.headers.get("Content-Disposition", "")
+            ctype = r.headers.get("Content-Type", "")
+            dispo = r.headers.get("Content-Disposition", "")
 
             if status != 200:
                 return False, f"HTTP {status} from {url}"
 
-            # đọc stream theo chunk, vừa ghi file vừa giữ 1 buffer đầu
             first_bytes = b""
             wrote_any = False
             with open(out_path, "wb") as f:
@@ -158,54 +125,56 @@ def _download_via_eprint(arxiv_id_with_ver: str, out_path: str) -> tuple[bool, s
                     if not chunk:
                         continue
                     if not wrote_any:
-                        # lấy ~1KB đầu để check HTML
-                        take = min(len(chunk), 1024)
-                        first_bytes = chunk[:take]
+                        first_bytes = chunk[:1024]
                         wrote_any = True
                     f.write(chunk)
 
-            # nếu không ghi được gì → coi như fail
             if not wrote_any:
                 if os.path.exists(out_path):
-                    try: os.remove(out_path)
-                    except: pass
+                    try:
+                        os.remove(out_path)
+                    except:
+                        pass
                 return False, "Empty body"
 
-            # phát hiện trả về HTML (trang báo lỗi 200)
             fb_lc = first_bytes.lower()
             if (b"<html" in fb_lc) or (b"<!doctype html" in fb_lc):
-                # đọc ít nội dung text để log
-                # (không reopen file lớn; chỉ log dựa trên header & content-type)
                 if os.path.exists(out_path):
-                    try: os.remove(out_path)
-                    except: pass
+                    try:
+                        os.remove(out_path)
+                    except:
+                        pass
                 return False, f"HTML instead of tar. Content-Type={ctype}; Disposition={dispo}"
 
-            # heuristic nhanh: nếu header nói tar/gzip thì OK, còn lại để is_tar_ok kiểm tra
-            looks_like_tar = ("tar" in ctype) or ("gzip" in ctype) or (".tar" in dispo) or (".gz" in dispo)
-            # không bắt buộc phải true ở đây; cứ trả OK để bước sau is_tar_ok quyết định
             return True, "OK"
-
     except Exception as e:
-        # không còn seek nên sẽ không dính UnsupportedOperation nữa
         return False, f"EXC {type(e).__name__}: {e}"
 
+
 def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
+    """
+    Tải .tar(.gz) của 1 version:
+      1) e-print trước
+      2) nếu fail -> fallback qua lib arxiv (API)
+    """
     tgz_path = os.path.join(save_dir, filename)
     os.makedirs(save_dir, exist_ok=True)
 
-    # 1) ƯU TIÊN E-PRINT
+    print(f"[DL] {arxiv_id_with_ver} -> e-print...", flush=True)
     ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
     if ok and is_tar_ok(tgz_path):
+        print(f"[OK] {arxiv_id_with_ver} via e-print", flush=True)
         return True
     if not ok:
-        print(f"[WARN] {arxiv_id_with_ver} e-print failed: {why}")
+        print(f"[WARN] {arxiv_id_with_ver} e-print failed: {why}", flush=True)
     else:
-        print(f"[WARN] {arxiv_id_with_ver} e-print invalid tar; removing")
-        try: os.remove(tgz_path)
-        except: pass
+        print(f"[WARN] {arxiv_id_with_ver} e-print invalid tar; removing", flush=True)
+        try:
+            os.remove(tgz_path)
+        except:
+            pass
 
-    # 2) FALLBACK: LIB ARXIV (đi qua gate + backoff)
+    print(f"[DL] {arxiv_id_with_ver} -> arxiv API fallback...", flush=True)
     try:
         res = get_result_by_id(arxiv_id_with_ver)
         res.download_source(dirpath=save_dir, filename=filename)
@@ -213,108 +182,58 @@ def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) ->
             try:
                 with open(tgz_path, "rb") as f:
                     head = f.read(128)
-                print(f"[WARN] {arxiv_id_with_ver} invalid tar via API (head={head!r}); deleting.")
+                print(f"[WARN] {arxiv_id_with_ver} invalid tar via API (head={head!r}); deleting.", flush=True)
                 os.remove(tgz_path)
             except Exception:
                 pass
             return False
+        print(f"[OK] {arxiv_id_with_ver} via API", flush=True)
         return True
     except Exception as e:
-        print(f"[EXCEPTION] {arxiv_id_with_ver}: {type(e).__name__}: {e}")
-        print(traceback.format_exc())
+        print(f"[EXCEPTION] {arxiv_id_with_ver}: {type(e).__name__}: {e}", flush=True)
+        print(traceback.format_exc(), flush=True)
         if os.path.exists(tgz_path):
-            try: os.remove(tgz_path)
-            except: pass
-        return False
-def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
-    """
-    Download .tar(.gz) của 1 version.
-    - Thử lib arxiv nếu có pdf_url
-    - Nếu pdf_url=None hoặc lỗi => fallback sang e-print
-    """
-    tgz_path = os.path.join(save_dir, filename)
-    try:
-        res = get_result_by_id(arxiv_id_with_ver)
-
-        # Guard: tránh AttributeError khi pdf_url None
-        if getattr(res, "pdf_url", None):
             try:
-                res.download_source(dirpath=save_dir, filename=filename)
-            except Exception as e:
-                # Lib fail → thử e-print
-                ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
-                if not ok:
-                    print(f"[WARN] {arxiv_id_with_ver} e-print fallback failed: {why}")
-                    if os.path.exists(tgz_path):
-                        try: os.remove(tgz_path)
-                        except: pass
-                    return False
-        else:
-            # Không có pdf_url ⇒ đi thẳng e-print
-            ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
-            if not ok:
-                print(f"[WARN] {arxiv_id_with_ver} e-print failed: {why}")
-                if os.path.exists(tgz_path):
-                    try: os.remove(tgz_path)
-                    except: pass
-                return False
-
-        # Kiểm tra tar hợp lệ
-        if not is_tar_ok(tgz_path):
-            try:
-                # đọc vài byte đầu để debug
-                with open(tgz_path, "rb") as f:
-                    head = f.read(128)
-                print(f"[WARN] {arxiv_id_with_ver} invalid tar (head={head!r}); deleting.")
                 os.remove(tgz_path)
-            except Exception:
+            except:
                 pass
-            return False
-
-        return True
-
-    except Exception as e:
-        print(f"[EXCEPTION] {arxiv_id_with_ver}: {type(e).__name__}: {e}")
-        print(traceback.format_exc())
-        if os.path.exists(tgz_path):
-            try: os.remove(tgz_path)
-            except: pass
         return False
 
 
+# =========================
+# Extract .tex / .bib
+# =========================
 def extract_tex_bib(tar_path: str, out_dir: str):
     ensure_dir(out_dir)
     total_files = 0
     ext_counts = {}
-    # Dùng auto detect nén: "r:*" để xử lý .tar hoặc .tar.gz
-    try:
-        with tarfile.open(tar_path, "r:*") as tar:
-            for m in tar.getmembers():
-                if not m.isfile():
-                    continue
-                # lấy tên file an toàn rồi tính extension
-                base = os.path.basename(m.name).replace("\x00", "")
-                if not base:
-                    continue
-                total_files += 1
-                _, ext = os.path.splitext(base)
-                ext = ext.lower() if ext else "<no_ext>"
-                ext_counts[ext] = ext_counts.get(ext, 0) + 1
+    with tarfile.open(tar_path, "r:*") as tar:
+        for m in tar.getmembers():
+            if not m.isfile():
+                continue
+            base = os.path.basename(m.name).replace("\x00", "")
+            if not base:
+                continue
+            total_files += 1
+            _, ext = os.path.splitext(base)
+            ext = ext.lower() if ext else "<no_ext>"
+            ext_counts[ext] = ext_counts.get(ext, 0) + 1
 
-                if ext in TEX_BIB_EXTS:
-                    member_f = tar.extractfile(m)
-                    if member_f:
-                        out_path = os.path.join(out_dir, base)
-                        # stream copy -> không load toàn bộ nội dung vào RAM
-                        with open(out_path, "wb") as f:
-                            shutil.copyfileobj(member_f, f)
-            # in tóm tắt sau khi duyệt xong (hữu ích để debug/monitor)
-            print(f"[extract_tex_bib] '{os.path.basename(tar_path)}' total_files={total_files}, tex_extracted={ext_counts.get('.tex',0)}, bib_extracted={ext_counts.get('.bib',0)}")
-            # trả về thống kê nếu caller cần dùng
-            return {"total_files": total_files, "ext_counts": ext_counts}
-    except tarfile.ReadError:
-        # Không phải tar hợp lệ -> bỏ qua
-        raise ValueError("Downloaded file is not a valid tar archive")
+            if ext in TEX_BIB_EXTS:
+                member_f = tar.extractfile(m)
+                if member_f:
+                    out_path = os.path.join(out_dir, base)
+                    with open(out_path, "wb") as f:
+                        shutil.copyfileobj(member_f, f)
+
+    print(
+        f"[extract_tex_bib] '{os.path.basename(tar_path)}' "
+        f"total_files={total_files}, "
+        f"tex_extracted={ext_counts.get('.tex',0)}, "
+        f"bib_extracted={ext_counts.get('.bib',0)}",
+        flush=True,
+    )
+    return {"total_files": total_files, "ext_counts": ext_counts}
 
 @dataclass
 class PaperMeta:
