@@ -66,49 +66,141 @@ def is_tar_ok(path: str) -> bool:
 # ...existing code...
 
 
+# def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
+#     """
+#     Download file .tar(.gz) of a version.
+#     Return True if valid tar downloaded, False otherwise.
+#     Logs detailed server responses for debugging.
+#     """
+#     tgz_path = os.path.join(save_dir, filename)
+#     try:
+#         res = get_result_by_id(arxiv_id_with_ver)
+#         res.download_source(dirpath=save_dir, filename=filename)
+
+#         # Kiểm tra tar hợp lệ
+#         if not is_tar_ok(tgz_path):
+#             # Nếu server trả HTML/404 thay vì tar
+#             if os.path.exists(tgz_path):
+#                 with open(tgz_path, "rb") as f:
+#                     head = f.read(256)
+#                 print(f"[WARN] {arxiv_id_with_ver} => invalid tar (maybe HTML?) head={head[:80]!r}")
+#                 os.remove(tgz_path)
+#             return False
+
+#         return True
+
+#     except HTTPError as e:
+#         print(f"[HTTPError] {arxiv_id_with_ver} => status={e.status_code} url={e.url}")
+#         # 429: rate-limit; 404: no source; 403: access denied
+#         if e.status_code == 429:
+#             print("→ Too many requests: hit rate limit, try sleep/backoff.")
+#         elif e.status_code == 404:
+#             print("→ No source for this paper/version.")
+#         elif e.status_code == 403:
+#             print("→ Forbidden: requester-pays or IP blocked.")
+#         else:
+#             print(traceback.format_exc())
+#         return False
+
+#     except requests.HTTPError as e:
+#         print(f"[requests.HTTPError] {arxiv_id_with_ver} => {e.response.status_code} {e.response.reason}")
+#         print("Response body preview:", e.response.text[:300])
+#         return False
+
+#     except Exception as e:
+#         print(f"[EXCEPTION] {arxiv_id_with_ver} => {type(e).__name__}: {e}")
+#         print(traceback.format_exc())
+#         if os.path.exists(tgz_path):
+#             try: os.remove(tgz_path)
+#             except: pass
+#         return False
+
+UA = "Mozilla/5.0 (compatible; arxiv-crawler/1.0; +https://example.org)"
+TIMEOUT = 30
+
+def _download_via_eprint(arxiv_id_with_ver: str, out_path: str) -> tuple[bool, str]:
+    """
+    Tải trực tiếp từ e-print endpoint: https://arxiv.org/e-print/{idv}
+    Trả (ok, reason)
+    """
+    url = f"https://arxiv.org/e-print/{arxiv_id_with_ver}"
+    try:
+        with requests.get(url, stream=True, timeout=TIMEOUT, headers={"User-Agent": UA}) as r:
+            ctype = r.headers.get("Content-Type", "")
+            dispo = r.headers.get("Content-Disposition", "")
+
+            if r.status_code != 200:
+                return False, f"HTTP {r.status_code} from {url}"
+
+            # Một số trường hợp trả HTML 200 (trang báo lỗi)
+            peek = r.raw.read(256, decode_content=True)
+            r.raw.seek(0)
+            if b"<html" in peek.lower() or b"<!doctype html" in peek.lower():
+                body_preview = r.text[:300]
+                return False, f"HTML instead of tar. Content-Type={ctype}; Body[:300]={body_preview!r}"
+
+            # Heuristic xác định tar hợp lệ: content-type và/hoặc tên file
+            looks_like_tar = ("tar" in ctype) or (".tar" in dispo) or (".gz" in dispo)
+            if not looks_like_tar:
+                # Vẫn ghi file để kiểm tra bằng is_tar_ok
+                pass
+
+            with open(out_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=1<<20):
+                    if chunk: f.write(chunk)
+        return True, "OK"
+    except Exception as e:
+        return False, f"EXC {type(e).__name__}: {e}"
+
 def try_download_source(arxiv_id_with_ver: str, save_dir: str, filename: str) -> bool:
     """
-    Download file .tar(.gz) of a version.
-    Return True if valid tar downloaded, False otherwise.
-    Logs detailed server responses for debugging.
+    Download .tar(.gz) của 1 version.
+    - Thử lib arxiv nếu có pdf_url
+    - Nếu pdf_url=None hoặc lỗi => fallback sang e-print
     """
     tgz_path = os.path.join(save_dir, filename)
     try:
         res = get_result_by_id(arxiv_id_with_ver)
-        res.download_source(dirpath=save_dir, filename=filename)
+
+        # Guard: tránh AttributeError khi pdf_url None
+        if getattr(res, "pdf_url", None):
+            try:
+                res.download_source(dirpath=save_dir, filename=filename)
+            except Exception as e:
+                # Lib fail → thử e-print
+                ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
+                if not ok:
+                    print(f"[WARN] {arxiv_id_with_ver} e-print fallback failed: {why}")
+                    if os.path.exists(tgz_path):
+                        try: os.remove(tgz_path)
+                        except: pass
+                    return False
+        else:
+            # Không có pdf_url ⇒ đi thẳng e-print
+            ok, why = _download_via_eprint(arxiv_id_with_ver, tgz_path)
+            if not ok:
+                print(f"[WARN] {arxiv_id_with_ver} e-print failed: {why}")
+                if os.path.exists(tgz_path):
+                    try: os.remove(tgz_path)
+                    except: pass
+                return False
 
         # Kiểm tra tar hợp lệ
         if not is_tar_ok(tgz_path):
-            # Nếu server trả HTML/404 thay vì tar
-            if os.path.exists(tgz_path):
+            try:
+                # đọc vài byte đầu để debug
                 with open(tgz_path, "rb") as f:
-                    head = f.read(256)
-                print(f"[WARN] {arxiv_id_with_ver} => invalid tar (maybe HTML?) head={head[:80]!r}")
+                    head = f.read(128)
+                print(f"[WARN] {arxiv_id_with_ver} invalid tar (head={head!r}); deleting.")
                 os.remove(tgz_path)
+            except Exception:
+                pass
             return False
 
         return True
 
-    except HTTPError as e:
-        print(f"[HTTPError] {arxiv_id_with_ver} => status={e.status_code} url={e.url}")
-        # 429: rate-limit; 404: no source; 403: access denied
-        if e.status_code == 429:
-            print("→ Too many requests: hit rate limit, try sleep/backoff.")
-        elif e.status_code == 404:
-            print("→ No source for this paper/version.")
-        elif e.status_code == 403:
-            print("→ Forbidden: requester-pays or IP blocked.")
-        else:
-            print(traceback.format_exc())
-        return False
-
-    except requests.HTTPError as e:
-        print(f"[requests.HTTPError] {arxiv_id_with_ver} => {e.response.status_code} {e.response.reason}")
-        print("Response body preview:", e.response.text[:300])
-        return False
-
     except Exception as e:
-        print(f"[EXCEPTION] {arxiv_id_with_ver} => {type(e).__name__}: {e}")
+        print(f"[EXCEPTION] {arxiv_id_with_ver}: {type(e).__name__}: {e}")
         print(traceback.format_exc())
         if os.path.exists(tgz_path):
             try: os.remove(tgz_path)

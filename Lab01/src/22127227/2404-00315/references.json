@@ -1,1 +1,50 @@
-{}
+{
+    "2405-10146": {
+        "paper_title": "Single-ensemble multilevel Monte Carlo for discrete ensemble Kalman methods",
+        "authors": [
+            "Arne Bouillon",
+            "Toon Ingelaere",
+            "Giovanni Samaey"
+        ],
+        "submission_date": "2024-05-16",
+        "semantic_scholar_id": "805ca27bade1cb9f30bb5473eedbb7eb0f488500"
+    },
+    "2404-00314": {
+        "paper_title": "Cell Escape Probabilities for Markov Processes on a Grid",
+        "authors": [
+            "Toon Ingelaere",
+            "Vince Maes",
+            "Giovanni Samaey"
+        ],
+        "submission_date": "2024-03-30",
+        "semantic_scholar_id": "f9fa136c2099df2c1e40c7101400fc0731f1a62e"
+    },
+    "2102-02377": {
+        "paper_title": "Noise and error analysis and optimization in particle-based kinetic plasma simulations",
+        "authors": [
+            "E. Evstatiev",
+            "J. Finn",
+            "B. Shadwick",
+            "N. Hengartner"
+        ],
+        "submission_date": "2021-02-04",
+        "semantic_scholar_id": "16c4e2659c967b5afbec37aca6f3f5cfec2365fd"
+    },
+    "1104-1025": {
+        "paper_title": "Bounding the coarse graining error in hidden Markov dynamics",
+        "authors": [
+            "D. Andrieux"
+        ],
+        "submission_date": "2011-04-06",
+        "semantic_scholar_id": "22b09ad41b491a518cd656b4b4607ad3445de9be"
+    },
+    "0811-1729": {
+        "paper_title": "Batch means and spectral variance estimators in Markov chain Monte Carlo",
+        "authors": [
+            "James M. Flegal",
+            "Galin L. Jones"
+        ],
+        "submission_date": "2008-11-11",
+        "semantic_scholar_id": "6518e884787ccc0b51da188171ad19dc210d4485"
+    }
+}
