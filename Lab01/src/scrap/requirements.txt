@@ -1,5 +1,0 @@
-arxiv
-requests
-beautifulsoup4
-python-dateutil
-tqdm

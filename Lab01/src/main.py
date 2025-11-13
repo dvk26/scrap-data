@@ -49,10 +49,10 @@ def collect_ids(args) -> List[str]:
 
 def main():
     args = parse_args()
-    # ✅ root chọn theo --out nếu có, ngược lại fallback về student-id
+    # root chọn theo --out nếu có, ngược lại fallback về student-id
     root = os.path.abspath(args.out if args.out else args.student_id)
     ensure_dir(root)
-    print(f"Output directory: {root}")  # ✅ log ra màn hình
+    print(f"Output directory: {root}")  # log ra màn hình
 
     ids = collect_ids(args)
     total = len(ids)
