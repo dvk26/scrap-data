@@ -1,4 +1,0 @@
-\section{Evaluation}
-After training GPT-4 on each dataset, we end up with a set of lora deltas that we use for inferencing. We inference with a top\_p of 1 and temperature 0. Our fact-based and token-based dataset training runs are evaluated on the fact-based and token-based evaluation sets, respectively. For cross-validation, we evaluate the token-based models on the fact-based evaluation set as well, which we discuss in section \ref{sec:crossval}. The motivations for not checking fact-on-token are mentioned in section \ref{sec:limitations}.
-
-For assessing the correctness of the trained models' answers on the evaluation questions, i.e. retention of the source documents or atomic facts, we again query GPT-4 for a binary assessment. The prompt used for this is also included in appendix \ref{sec:sampleprompts}.
