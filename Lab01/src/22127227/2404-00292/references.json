@@ -1,4 +1,18 @@
 {
+    "2406-00480": {
+        "paper_title": "AlignSAM: Aligning Segment Anything Model to Open Context via Reinforcement Learning",
+        "authors": [
+            "Duojun Huang",
+            "Xinyu Xiong",
+            "Jie Ma",
+            "Jichang Li",
+            "Zequn Jie",
+            "Lin Ma",
+            "Guanbin Li"
+        ],
+        "submission_date": "2024-06-01",
+        "semantic_scholar_id": "74d8b79806adf0ce0a0e5b5af40b9ef8d69f4044"
+    },
     "2406-00510": {
         "paper_title": "Learning Background Prompts to Discover Implicit Knowledge for Open Vocabulary Object Detection",
         "authors": [

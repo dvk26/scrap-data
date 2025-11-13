@@ -1,1 +1,60 @@
-{}
+{
+    "2203-03590": {
+        "paper_title": "Manoeuvre detection in Low Earth Orbit with Radar Data",
+        "authors": [
+            "J. M. Montilla",
+            "Julio C. Sanchez",
+            "R. Vazquez",
+            "J. Galán-Vioque",
+            "J. Benayas",
+            "J. Siminski"
+        ],
+        "submission_date": "2022-03-07",
+        "semantic_scholar_id": "c3f3660a0d1384b32fb27b9ff2adf9f62146894d"
+    },
+    "2105-04424": {
+        "paper_title": "A generalization of the equinoctial orbital elements",
+        "authors": [
+            "G. Baù",
+            "Javier Hernando-Ayuso",
+            "C. Bombardelli"
+        ],
+        "submission_date": "2021-05-07",
+        "semantic_scholar_id": "3b415ecf1a454f3af6cbbb120536fecb68e26950"
+    },
+    "2009-07559": {
+        "paper_title": "Application of attributables to the correlation of surveillance radar measurements",
+        "authors": [
+            "B. Reihs",
+            "A. Vananti",
+            "T. Schildknecht",
+            "J. Siminski",
+            "T. Flohrer"
+        ],
+        "submission_date": "2020-09-16",
+        "semantic_scholar_id": "607c84f5b59fd8d1c26c90d177192a760f76b60b"
+    },
+    "1810-11418": {
+        "paper_title": "Non-averaged regularized formulations as an alternative to semi-analytical orbit propagation methods",
+        "authors": [
+            "D. Amato",
+            "C. Bombardelli",
+            "G. Baù",
+            "V. Morand",
+            "A. Rosengren"
+        ],
+        "submission_date": "2018-10-26",
+        "semantic_scholar_id": "4ade776c0b4a87c83ab68148280c15bb6e9a6b4c"
+    },
+    "1703-08519": {
+        "paper_title": "Preliminary orbits with line-of-sight correction for LEO satellites observed with radar",
+        "authors": [
+            "H. Ma",
+            "G. Baù",
+            "D. Bracali Cioci",
+            "G. Gronchi"
+        ],
+        "submission_date": "2017-03-23",
+        "semantic_scholar_id": "e2b01a9909bd3c90c0f3f01a4a0ca8e0da6b85ee"
+    }
+}

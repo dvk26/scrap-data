@@ -189,6 +189,17 @@
         "submission_date": "2020-06-08",
         "semantic_scholar_id": "25c371d565b387dbf22207a954a9549557698c21"
     },
+    "2002-07376": {
+        "paper_title": "Picking Winning Tickets Before Training by Preserving Gradient Flow",
+        "authors": [
+            "Chaoqi Wang",
+            "Chaoqi Wang",
+            "Guodong Zhang",
+            "R. Grosse"
+        ],
+        "submission_date": "2020-02-18",
+        "semantic_scholar_id": "e08557d60dc47af675b48688a3524a7b0a6eac84"
+    },
     "2001-00326": {
         "paper_title": "NAS-Bench-201: Extending the Scope of Reproducible Neural Architecture Search",
         "authors": [
@@ -285,6 +296,16 @@
         ],
         "submission_date": "2018-10-04",
         "semantic_scholar_id": "cf440ccce4a7a8681e238b4f26d5b95109add55d"
+    },
+    "1810-05749": {
+        "paper_title": "Graph HyperNetworks for Neural Architecture Search",
+        "authors": [
+            "Chris Zhang",
+            "Mengye Ren",
+            "R. Urtasun"
+        ],
+        "submission_date": "2018-10-12",
+        "semantic_scholar_id": "89c10e08902cb90abbe1276a3042b93c2f9c78b4"
     },
     "1812-09926": {
         "paper_title": "SNAS: Stochastic Neural Architecture Search",

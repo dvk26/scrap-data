@@ -1,1 +1,722 @@
-{}
+{
+    "2312-05208": {
+        "paper_title": "ControlRoom3D: Room Generation Using Semantic Proxy Rooms",
+        "authors": [
+            "Jonas Schult",
+            "Sam S. Tsai",
+            "Lukas Höllein",
+            "Bichen Wu",
+            "Jialiang Wang",
+            "Chih-Yao Ma",
+            "Kunpeng Li",
+            "Xiaofang Wang",
+            "Felix Wimbauer",
+            "Zijian He",
+            "Peizhao Zhang",
+            "Bastian Leibe",
+            "Péter Vajda",
+            "Ji Hou"
+        ],
+        "submission_date": "2023-12-08",
+        "semantic_scholar_id": "e7ceec6f384db0ddf8c2b387c5172dee28326567"
+    },
+    "2310-16831": {
+        "paper_title": "PERF: Panoramic Neural Radiance Field From a Single Panorama",
+        "authors": [
+            "Guangcong Wang",
+            "Peng Wang",
+            "Zhaoxi Chen",
+            "Wenping Wang",
+            "Chen Change Loy",
+            "Ziwei Liu"
+        ],
+        "submission_date": "2023-10-25",
+        "semantic_scholar_id": "82b89ea8705ed9b97bb7b730f044099d1e7b44a5"
+    },
+    "2308-16512": {
+        "paper_title": "MVDream: Multi-view Diffusion for 3D Generation",
+        "authors": [
+            "Yichun Shi",
+            "Peng Wang",
+            "Jianglong Ye",
+            "Mai Long",
+            "Kejie Li",
+            "X. Yang"
+        ],
+        "submission_date": "2023-08-31",
+        "semantic_scholar_id": "9aa01997226b5c4d705ae2e2f52c32681006654b"
+    },
+    "2308-14686": {
+        "paper_title": "360-Degree Panorama Generation from Few Unregistered NFoV Images",
+        "authors": [
+            "Jiong-Qi Wang",
+            "Ziyu Chen",
+            "Jun Ling",
+            "Rong Xie",
+            "Li Song"
+        ],
+        "submission_date": "2023-08-28",
+        "semantic_scholar_id": "87f66888de2ca4e6fc18c6d9e9c73f7dfdb38be2"
+    },
+    "2308-01661": {
+        "paper_title": "BEVControl: Accurately Controlling Street-view Elements with Multi-perspective Consistency via BEV Sketch Layout",
+        "authors": [
+            "Kairui Yang",
+            "Enhui Ma",
+            "Jibing Peng",
+            "Qing Guo",
+            "Di Lin",
+            "Kaicheng Yu"
+        ],
+        "submission_date": "2023-08-03",
+        "semantic_scholar_id": "bd8a7cc93e1515b2b644edc8f17baac7dd4df34f"
+    },
+    "2307-01097": {
+        "paper_title": "MVDiffusion: Enabling Holistic Multi-view Image Generation with Correspondence-Aware Diffusion",
+        "authors": [
+            "Shitao Tang",
+            "Fuyang Zhang",
+            "Jiacheng Chen",
+            "Peng Wang",
+            "Yasutaka Furukawa"
+        ],
+        "submission_date": "2023-07-03",
+        "semantic_scholar_id": "87a6fa722b2eacf7fc6470a493f49ce8809f4543"
+    },
+    "2305-16213": {
+        "paper_title": "ProlificDreamer: High-Fidelity and Diverse Text-to-3D Generation with Variational Score Distillation",
+        "authors": [
+            "Zhengyi Wang",
+            "Cheng Lu",
+            "Yikai Wang",
+            "Fan Bao",
+            "Chongxuan Li",
+            "Hang Su",
+            "Jun Zhu"
+        ],
+        "submission_date": "2023-05-25",
+        "semantic_scholar_id": "c5e9fd131cde68c218d0ea69cd617a67c7f35d42"
+    },
+    "2305-10853": {
+        "paper_title": "LDM3D: Latent Diffusion Model for 3D",
+        "authors": [
+            "Gabriela Ben Melech Stan",
+            "Diana Wofk",
+            "Scottie Fox",
+            "Alex Redden",
+            "Will Saxton",
+            "Jean Yu",
+            "Estelle Aflalo",
+            "Shao-Yen Tseng",
+            "Fabio Nonato",
+            "Matthias Müller",
+            "Vasudev Lal"
+        ],
+        "submission_date": "2023-05-18",
+        "semantic_scholar_id": "7b7933281b31d31615218b8a81cdde570a39f395"
+    },
+    "2305-07024": {
+        "paper_title": "SparseGNV: Generating Novel Views of Indoor Scenes with Sparse Input Views",
+        "authors": [
+            "Weihao Cheng",
+            "Yan-Pei Cao",
+            "Ying Shan"
+        ],
+        "submission_date": "2023-05-11",
+        "semantic_scholar_id": "63dece114f6e36bc23f7a53673df12fc5a1f2913"
+    },
+    "2304-09787": {
+        "paper_title": "NeuralField-LDM: Scene Generation with Hierarchical Latent Diffusion Models",
+        "authors": [
+            "Seung Wook Kim",
+            "B. Brown",
+            "K. Yin",
+            "Karsten Kreis",
+            "Katja Schwarz",
+            "Daiqing Li",
+            "Robin Rombach",
+            "A. Torralba",
+            "S. Fidler"
+        ],
+        "submission_date": "2023-04-19",
+        "semantic_scholar_id": "c5d53ec44aa0506cc0daea4483cedfb9ec82dd90"
+    },
+    "2304-08463": {
+        "paper_title": "Learning to Render Novel Views from Wide-Baseline Stereo Pairs",
+        "authors": [
+            "Yilun Du",
+            "Cameron Smith",
+            "A. Tewari",
+            "Vincent Sitzmann"
+        ],
+        "submission_date": "2023-04-17",
+        "semantic_scholar_id": "6ae06fdab54b37a6bddc5bbbe1ed8909b735c7e2"
+    },
+    "2303-13515": {
+        "paper_title": "Persistent Nature: A Generative Model of Unbounded 3D Worlds",
+        "authors": [
+            "Lucy Chai",
+            "Richard Tucker",
+            "Zhengqi Li",
+            "Phillip Isola",
+            "Noah Snavely"
+        ],
+        "submission_date": "2023-03-23",
+        "semantic_scholar_id": "cea2eed901c2f6915fc0739bbff406a8b24bcdc7"
+    },
+    "2303-12074": {
+        "paper_title": "CC3D: Layout-Conditioned Generation of Compositional 3D Scenes",
+        "authors": [
+            "Sherwin Bahmani",
+            "Jeong Joon Park",
+            "Despoina Paschalidou",
+            "Xingguang Yan",
+            "Gordon Wetzstein",
+            "L. Guibas",
+            "A. Tagliasacchi"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "93fa94a75e91cb0de6db54d3461bbef0185a7b77"
+    },
+    "2303-11616": {
+        "paper_title": "HRDFuse: Monocular 360° Depth Estimation by Collaboratively Learning Holistic-with-Regional Depth Distributions",
+        "authors": [
+            "Hao Ai",
+            "Zidong Cao",
+            "Yan-Pei Cao",
+            "Ying Shan",
+            "Lin Wang"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "25c32783e132a3ed2dfa968f2416588422415ea2"
+    },
+    "2303-11989": {
+        "paper_title": "Text2Room: Extracting Textured 3D Meshes from 2D Text-to-Image Models",
+        "authors": [
+            "Lukas Höllein",
+            "Ang Cao",
+            "Andrew Owens",
+            "Justin Johnson",
+            "M. Nießner"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "95aa6fa4e42387561cff22378348d528adea37f2"
+    },
+    "2302-05543": {
+        "paper_title": "Adding Conditional Control to Text-to-Image Diffusion Models",
+        "authors": [
+            "Lvmin Zhang",
+            "Anyi Rao",
+            "Maneesh Agrawala"
+        ],
+        "submission_date": "2023-02-10",
+        "semantic_scholar_id": "efbe97d20c4ffe356e8826c01dc550bacc405add"
+    },
+    "2302-01330": {
+        "paper_title": "SceneDreamer: Unbounded 3D Scene Generation From 2D Image Collections",
+        "authors": [
+            "Zhaoxi Chen",
+            "Guangcong Wang",
+            "Ziwei Liu"
+        ],
+        "submission_date": "2023-02-02",
+        "semantic_scholar_id": "f2939143624b7104afc3c754447028db077ea31d"
+    },
+    "2302-01133": {
+        "paper_title": "SceneScape: Text-Driven Consistent Scene Generation",
+        "authors": [
+            "Rafail Fridman",
+            "Amit Abecasis",
+            "Yoni Kasten",
+            "Tali Dekel"
+        ],
+        "submission_date": "2023-02-02",
+        "semantic_scholar_id": "45ce01446a0b85e84aa29c3209f25e0844a1cd45"
+    },
+    "2301-09637": {
+        "paper_title": "InfiniCity: Infinite-Scale City Synthesis",
+        "authors": [
+            "C. Lin",
+            "Hsin-Ying Lee",
+            "Willi Menapace",
+            "Menglei Chai",
+            "Aliaksandr Siarohin",
+            "Ming-Hsuan Yang",
+            "S. Tulyakov"
+        ],
+        "submission_date": "2023-01-23",
+        "semantic_scholar_id": "feef7e0835d93b17faa04461917888e304efe224"
+    },
+    "2212-05993": {
+        "paper_title": "RGBD2: Generative Scene Synthesis via Incremental View Inpainting Using RGBD Diffusion Models",
+        "authors": [
+            "Jiabao Lei",
+            "Jiapeng Tang",
+            "K. Jia"
+        ],
+        "submission_date": "2022-12-12",
+        "semantic_scholar_id": "42d7eaeee5c743e04ddd96032371722b1f99a1db"
+    },
+    "2209-14265": {
+        "paper_title": "360FusionNeRF: Panoramic Neural Radiance Fields with Joint Guidance",
+        "authors": [
+            "Shreyas Kulkarni",
+            "Peng Yin",
+            "S. Scherer"
+        ],
+        "submission_date": "2022-09-28",
+        "semantic_scholar_id": "81370bff7b478492835d125c53be687a2054a20b"
+    },
+    "2207-13751": {
+        "paper_title": "GAUDI: A Neural Architect for Immersive 3D Scene Generation",
+        "authors": [
+            "Miguel Angel Bautista",
+            "Pengsheng Guo",
+            "Samira Abnar",
+            "Walter A. Talbott",
+            "Alexander Toshev",
+            "Zhuoyuan Chen",
+            "Laurent Dinh",
+            "Shuangfei Zhai",
+            "Hanlin Goh",
+            "Daniel Ulbricht",
+            "Afshin Dehghan",
+            "J. Susskind"
+        ],
+        "submission_date": "2022-07-27",
+        "semantic_scholar_id": "54e5843327857ed9041beb627dc0745db20c717a"
+    },
+    "2203-14668": {
+        "paper_title": "Diverse Plausible 360-Degree Image Outpainting for Efficient 3DCG Background Creation",
+        "authors": [
+            "Naofumi Akimoto",
+            "Yuhi Matsuo",
+            "Y. Aoki"
+        ],
+        "submission_date": "2022-03-28",
+        "semantic_scholar_id": "c24335206ac20712e3b4b699959988506aff405d"
+    },
+    "2203-09957": {
+        "paper_title": "Enhancement of Novel View Synthesis Using Omnidirectional Image Completion",
+        "authors": [
+            "T. Hara",
+            "Tatsuya Harada"
+        ],
+        "submission_date": "2022-03-18",
+        "semantic_scholar_id": "a93e18562d45b459e4c02d43b7a866c7098912c7"
+    },
+    "2201-12086": {
+        "paper_title": "BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation",
+        "authors": [
+            "Junnan Li",
+            "Dongxu Li",
+            "Caiming Xiong",
+            "S. Hoi"
+        ],
+        "submission_date": "2022-01-28",
+        "semantic_scholar_id": "a3b42a83669998f65df60d7c065a70d07ca95e99"
+    },
+    "2112-10752": {
+        "paper_title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+        "authors": [
+            "Robin Rombach",
+            "A. Blattmann",
+            "Dominik Lorenz",
+            "Patrick Esser",
+            "B. Ommer"
+        ],
+        "submission_date": "2021-12-20",
+        "semantic_scholar_id": "c10075b3746a9f3dd5811970e93c8ca3ad39b39d"
+    },
+    "2112-06782": {
+        "paper_title": "GCNDepth: Self-supervised Monocular Depth Estimation based on Graph Convolutional Network",
+        "authors": [
+            "Armin Masoumian",
+            "Hatem A. Rashwan",
+            "S. Abdulwahab",
+            "Julián Cristiano",
+            "D. Puig"
+        ],
+        "submission_date": "2021-12-13",
+        "semantic_scholar_id": "2c256c7c67b590ee024b6c5f50211e0fc840e06f"
+    },
+    "2111-15669": {
+        "paper_title": "360MonoDepth: High-Resolution 360° Monocular Depth Estimation",
+        "authors": [
+            "M. Rey-Area",
+            "Mingze Yuan",
+            "Christian Richardt"
+        ],
+        "submission_date": "2021-11-30",
+        "semantic_scholar_id": "c125576a80314792200b6cf9680c47973c4e28b7"
+    },
+    "2106-10859": {
+        "paper_title": "Moving in a 360 World: Synthesizing Panoramic Parallaxes from a Single Panorama",
+        "authors": [
+            "Chen-Yu Hsu",
+            "Cheng Sun",
+            "Hwann-Tzong Chen"
+        ],
+        "submission_date": "2021-06-21",
+        "semantic_scholar_id": "28056a98f3db40ec6aeb0edd39fdd46fc46ec5e9"
+    },
+    "2106-05375": {
+        "paper_title": "Plan2Scene: Converting Floorplans to 3D Scenes",
+        "authors": [
+            "Madhawa Vidanapathirana",
+            "Qirui Wu",
+            "Yasutaka Furukawa",
+            "Angel X. Chang",
+            "M. Savva"
+        ],
+        "submission_date": "2021-06-09",
+        "semantic_scholar_id": "86722947bea174633ce7ff56301ca5e86ad48a32"
+    },
+    "2104-08718": {
+        "paper_title": "CLIPScore: A Reference-free Evaluation Metric for Image Captioning",
+        "authors": [
+            "Jack Hessel",
+            "Ari Holtzman",
+            "Maxwell Forbes",
+            "Ronan Le Bras",
+            "Yejin Choi"
+        ],
+        "submission_date": "2021-04-18",
+        "semantic_scholar_id": "38b0567e83386ddc294d6c81b541deacbd8e3c2a"
+    },
+    "2104-00670": {
+        "paper_title": "Unconstrained Scene Generation with Locally Conditioned Radiance Fields",
+        "authors": [
+            "Terrance Devries",
+            "Miguel Angel Bautista",
+            "Nitish Srivastava",
+            "Graham W. Taylor",
+            "J. Susskind"
+        ],
+        "submission_date": "2021-04-01",
+        "semantic_scholar_id": "6c2d3f95532987943549891bdf003980a3f05793"
+    },
+    "2103-12091": {
+        "paper_title": "Transformer-Based Attention Networks for Continuous Pixel-Wise Prediction",
+        "authors": [
+            "Guanglei Yang",
+            "Hao Tang",
+            "M. Ding",
+            "N. Sebe",
+            "E. Ricci"
+        ],
+        "submission_date": "2021-03-22",
+        "semantic_scholar_id": "47eba62213d85433cceab37fbaa5ec4009b325b2"
+    },
+    "2103-00020": {
+        "paper_title": "Learning Transferable Visual Models From Natural Language Supervision",
+        "authors": [
+            "Alec Radford",
+            "Jong Wook Kim",
+            "Chris Hallacy",
+            "A. Ramesh",
+            "Gabriel Goh",
+            "Sandhini Agarwal",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Pamela Mishkin",
+            "Jack Clark",
+            "Gretchen Krueger",
+            "I. Sutskever"
+        ],
+        "submission_date": "2021-02-26",
+        "semantic_scholar_id": "6f870f7f02a8c59c3e23f407f3ef00dd1dcf8fc4"
+    },
+    "2012-09365": {
+        "paper_title": "Learning to Recover 3D Scene Shape from a Single Image",
+        "authors": [
+            "Wei Yin",
+            "Jianming Zhang",
+            "Oliver Wang",
+            "Simon Niklaus",
+            "Long Mai",
+            "Simon Chen",
+            "Chunhua Shen"
+        ],
+        "submission_date": "2020-12-17",
+        "semantic_scholar_id": "4ac318309807b5a7a50a1a292ced43e6f5f0ffbb"
+    },
+    "2011-14141": {
+        "paper_title": "AdaBins: Depth Estimation Using Adaptive Bins",
+        "authors": [
+            "Shariq Farooq Bhat",
+            "Ibraheem Alhashim",
+            "Peter Wonka"
+        ],
+        "submission_date": "2020-11-28",
+        "semantic_scholar_id": "9717f7d873859ca0080caf944f7a2d9b456be121"
+    },
+    "2011-11498": {
+        "paper_title": "HoHoNet: 360 Indoor Holistic Understanding with Latent Horizontal Features",
+        "authors": [
+            "Cheng Sun",
+            "Min Sun",
+            "Hwann-Tzong Chen"
+        ],
+        "submission_date": "2020-11-23",
+        "semantic_scholar_id": "4e35f47d7658d0cf6bfd97cc66045691bd596246"
+    },
+    "2006-11239": {
+        "paper_title": "Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Jonathan Ho",
+            "Ajay Jain",
+            "P. Abbeel"
+        ],
+        "submission_date": "2020-06-19",
+        "semantic_scholar_id": "5c126ae3421f05768d8edd97ecd44b1364e2c99a"
+    },
+    "2003-08367": {
+        "paper_title": "Lighthouse: Predicting Lighting Volumes for Spatially-Coherent Illumination",
+        "authors": [
+            "Pratul P. Srinivasan",
+            "B. Mildenhall",
+            "Matthew Tancik",
+            "J. Barron",
+            "Richard Tucker",
+            "Noah Snavely"
+        ],
+        "submission_date": "2020-03-18",
+        "semantic_scholar_id": "3f538c7f5fcbde032c320e671c139922a082ab8e"
+    },
+    "2002-07217": {
+        "paper_title": "Decision-Making with Auto-Encoding Variational Bayes",
+        "authors": [
+            "Romain Lopez",
+            "Pierre Boyeau",
+            "N. Yosef",
+            "Michael I. Jordan",
+            "J. Regier"
+        ],
+        "submission_date": "2020-02-17",
+        "semantic_scholar_id": "ef4f5a50837a7c1b3e87b9300ffc7ba00d461a0f"
+    },
+    "1910-06138": {
+        "paper_title": "What’s in my Room? Object Recognition on Indoor Panoramic Images",
+        "authors": [
+            "Julia Guerrero-Viu",
+            "Clara Fernandez-Labrador",
+            "C. Demonceaux",
+            "J. J. Guerrero"
+        ],
+        "submission_date": "2019-10-14",
+        "semantic_scholar_id": "f1331f40cc4917cd7fe66f7b9e8a6f81a7da2bcb"
+    },
+    "1909-08112": {
+        "paper_title": "Spherical View Synthesis for Self-Supervised 360° Depth Estimation",
+        "authors": [
+            "N. Zioulis",
+            "Antonis Karakottas",
+            "D. Zarpalas",
+            "Federico Álvarez",
+            "P. Daras"
+        ],
+        "submission_date": "2019-09-17",
+        "semantic_scholar_id": "de25d588ba8362713a1d31a5665acab54987eab6"
+    },
+    "1908-00222": {
+        "paper_title": "Structured3D: A Large Photo-realistic Dataset for Structured 3D Modeling",
+        "authors": [
+            "Jia Zheng",
+            "Junfei Zhang",
+            "Jing Li",
+            "Rui Tang",
+            "Shenghua Gao",
+            "Zihan Zhou"
+        ],
+        "submission_date": "2019-08-01",
+        "semantic_scholar_id": "e5eba5d952c8ce7124e090b4adbb08700ebd6411"
+    },
+    "1907-01341": {
+        "paper_title": "Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-Shot Cross-Dataset Transfer",
+        "authors": [
+            "René Ranftl",
+            "Katrin Lasinger",
+            "David Hafner",
+            "K. Schindler",
+            "V. Koltun"
+        ],
+        "submission_date": "2019-07-02",
+        "semantic_scholar_id": "7bd83b055702bc178aa26def5b6df463f8eab7b9"
+    },
+    "1907-00939": {
+        "paper_title": "Pano Popups: Indoor 3D Reconstruction with a Plane-Aware Network",
+        "authors": [
+            "Marc Eder",
+            "Pierre Moulon",
+            "Li Guan"
+        ],
+        "submission_date": "2019-07-01",
+        "semantic_scholar_id": "25899d5826ccd70ba92b7f9967d8063d9f560b0e"
+    },
+    "1906-07370": {
+        "paper_title": "Neural Illumination: Lighting Prediction for Indoor Environments",
+        "authors": [
+            "Shuran Song",
+            "T. Funkhouser"
+        ],
+        "submission_date": "2019-06-18",
+        "semantic_scholar_id": "1f278c70c168c0130b5ae1bef196e66308cd5c22"
+    },
+    "1808-06253": {
+        "paper_title": "Eliminating the Blind Spot: Adapting 3D Object Detection and Monocular Depth Estimation to 360° Panoramic Imagery",
+        "authors": [
+            "Grégoire Payen de La Garanderie",
+            "Amir Atapour-Abarghouei",
+            "T. Breckon"
+        ],
+        "submission_date": "2018-08-19",
+        "semantic_scholar_id": "1f06651fc5ce2c10cb1f4ad53dd9c931ceb66448"
+    },
+    "1807-09620": {
+        "paper_title": "OmniDepth: Dense Depth Estimation for Indoors Spherical Panoramas",
+        "authors": [
+            "N. Zioulis",
+            "Antonis Karakottas",
+            "D. Zarpalas",
+            "P. Daras"
+        ],
+        "submission_date": "2018-07-25",
+        "semantic_scholar_id": "06066e4d4bae468c5a67473fa64a44e34c1cf9cf"
+    },
+    "1803-11029": {
+        "paper_title": "Structured Attention Guided Convolutional Neural Fields for Monocular Depth Estimation",
+        "authors": [
+            "Dan Xu",
+            "Wei Wang",
+            "Hao Tang",
+            "Hong Liu",
+            "N. Sebe",
+            "E. Ricci"
+        ],
+        "submission_date": "2018-03-29",
+        "semantic_scholar_id": "1231e9ea7fe18e8d6cc7fd0b0285c3644b5e9bed"
+    },
+    "1712-04569": {
+        "paper_title": "Im2Pano3D: Extrapolating 360° Structure and Semantics Beyond the Field of View",
+        "authors": [
+            "Shuran Song",
+            "Andy Zeng",
+            "Angel X. Chang",
+            "M. Savva",
+            "S. Savarese",
+            "T. Funkhouser"
+        ],
+        "submission_date": "2017-12-12",
+        "semantic_scholar_id": "bf01616fc323bba6b670494a40014aa7e88b1c2b"
+    },
+    "1709-06158": {
+        "paper_title": "Matterport3D: Learning from RGB-D Data in Indoor Environments",
+        "authors": [
+            "Angel X. Chang",
+            "Angela Dai",
+            "T. Funkhouser",
+            "Maciej Halber",
+            "M. Nießner",
+            "M. Savva",
+            "Shuran Song",
+            "Andy Zeng",
+            "Yinda Zhang"
+        ],
+        "submission_date": "2017-09-18",
+        "semantic_scholar_id": "8337441971f941716a9e525a67f37088eb01fd13"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1704-02157": {
+        "paper_title": "Multi-scale Continuous CRFs as Sequential Deep Networks for Monocular Depth Estimation",
+        "authors": [
+            "Dan Xu",
+            "E. Ricci",
+            "Wanli Ouyang",
+            "Xiaogang Wang",
+            "N. Sebe"
+        ],
+        "submission_date": "2017-04-07",
+        "semantic_scholar_id": "03a7d2aa06dd7accfe7d24d08cdcb6af22dfac00"
+    },
+    "1704-00090": {
+        "paper_title": "Learning to predict indoor illumination from a single image",
+        "authors": [
+            "Marc-André Gardner",
+            "Kalyan Sunkavalli",
+            "Ersin Yumer",
+            "Xiaohui Shen",
+            "Emiliano Gambaretto",
+            "Christian Gagné",
+            "Jean-François Lalonde"
+        ],
+        "submission_date": "2017-04-01",
+        "semantic_scholar_id": "3f319959bdc1ea61c23153bda3c1f974ae8e10e8"
+    },
+    "1702-02706": {
+        "paper_title": "Semi-Supervised Deep Learning for Monocular Depth Map Prediction",
+        "authors": [
+            "Yevhen Kuznietsov",
+            "J. Stückler",
+            "B. Leibe"
+        ],
+        "submission_date": "2017-02-09",
+        "semantic_scholar_id": "6088a5af7198e763f9d6a9a5e78f45302228a3ff"
+    },
+    "1606-00373": {
+        "paper_title": "Deeper Depth Prediction with Fully Convolutional Residual Networks",
+        "authors": [
+            "Iro Laina",
+            "C. Rupprecht",
+            "Vasileios Belagiannis",
+            "Federico Tombari",
+            "Nassir Navab"
+        ],
+        "submission_date": "2016-06-01",
+        "semantic_scholar_id": "2f7ae3361b2aafa24fc289252a9cad8f1135edae"
+    },
+    "1505-04597": {
+        "paper_title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+        "authors": [
+            "O. Ronneberger",
+            "P. Fischer",
+            "T. Brox"
+        ],
+        "submission_date": "2015-05-18",
+        "semantic_scholar_id": "6364fdaa0a0eccd823a779fcdd489173f938e91a"
+    },
+    "1503-03585": {
+        "paper_title": "Deep Unsupervised Learning using Nonequilibrium Thermodynamics",
+        "authors": [
+            "Jascha Narain Sohl-Dickstein",
+            "Eric A. Weiss",
+            "Niru Maheswaranathan",
+            "S. Ganguli"
+        ],
+        "submission_date": "2015-03-12",
+        "semantic_scholar_id": "2dcef55a07f8607a819c21fe84131ea269cc2e3c"
+    },
+    "1412-6980": {
+        "paper_title": "Adam: A Method for Stochastic Optimization",
+        "authors": [
+            "Diederik P. Kingma",
+            "Jimmy Ba"
+        ],
+        "submission_date": "2014-12-22",
+        "semantic_scholar_id": "a6cb366736791bcccc5c8639de5a8f9636bf87e8"
+    }
+}

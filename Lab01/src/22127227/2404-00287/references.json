@@ -55,6 +55,32 @@
         "submission_date": "2023-08-24",
         "semantic_scholar_id": "0b0debb710366cdff461938c80763eace1651af6"
     },
+    "2308-11237": {
+        "paper_title": "Distinguishing Look-Alike Innocent and Vulnerable Code by Subtle Semantic Representation Learning and Explanation",
+        "authors": [
+            "Chao Ni",
+            "Xin Yin",
+            "Kaiwen Yang",
+            "Dehai Zhao",
+            "Zhenchang Xing",
+            "Xin Xia"
+        ],
+        "submission_date": "2023-08-22",
+        "semantic_scholar_id": "e027abf2173536dd2e5ab508a8d18fd1a34e51d5"
+    },
+    "2308-10523": {
+        "paper_title": "When Less is Enough: Positive and Unlabeled Learning Model for Vulnerability Detection",
+        "authors": [
+            "Xinjie Wen",
+            "Xinche Wang",
+            "Cuiyun Gao",
+            "Shaohua Wang",
+            "Yang Liu",
+            "Zhaoquan Gu"
+        ],
+        "submission_date": "2023-08-21",
+        "semantic_scholar_id": "83a9f120ace9ae0cb3c9f3fb6b1dfc9654ebc0aa"
+    },
     "2308-05487": {
         "paper_title": "A Quantitative and Qualitative Evaluation of LLM-Based Explainable Fault Localization",
         "authors": [

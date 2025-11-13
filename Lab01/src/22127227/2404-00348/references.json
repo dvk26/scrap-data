@@ -1,1 +1,170 @@
-{}
+{
+    "2108-10004": {
+        "paper_title": "Relative entropy-regularized optimal transport on a graph: a new algorithm and an experimental comparison",
+        "authors": [
+            "Sylvain Courtain",
+            "Guillaume Guex",
+            "Ilkka Kivimäki",
+            "M. Saerens"
+        ],
+        "submission_date": "2021-08-23",
+        "semantic_scholar_id": "70f4f2787f1fac59354a1cccfcf6f032c0702913"
+    },
+    "2108-02879": {
+        "paper_title": "The most likely evolution of diffusing and vanishing particles: Schrodinger Bridges with unbalanced marginals",
+        "authors": [
+            "Yongxin Chen",
+            "T. Georgiou",
+            "M. Pavon"
+        ],
+        "submission_date": "2021-08-05",
+        "semantic_scholar_id": "5255db6202e0ce17ad435ffb7a699b6414955a63"
+    },
+    "2106-15850": {
+        "paper_title": "Exploring robust architectures for deep artificial neural networks",
+        "authors": [
+            "A. Waqas",
+            "Hamza Farooq",
+            "N. Bouaynaya",
+            "G. Rasool"
+        ],
+        "submission_date": "2021-06-30",
+        "semantic_scholar_id": "a6eb04d1c260f1ce6e4f33ca33857b8d4869f209"
+    },
+    "2101-08420": {
+        "paper_title": "What is a stochastic Hamiltonian process on finite graph? An optimal transport answer",
+        "authors": [
+            "J. Cui",
+            "Shu Liu",
+            "Haomin Zhou"
+        ],
+        "submission_date": "2021-01-21",
+        "semantic_scholar_id": "0e1e3053905ce47f86d47ac5e715c3818ab46828"
+    },
+    "2008-09050": {
+        "paper_title": "Markov Chain-Based Stochastic Strategies for Robotic Surveillance",
+        "authors": [
+            "Xiaoming Duan",
+            "F. Bullo"
+        ],
+        "submission_date": "2020-08-20",
+        "semantic_scholar_id": "6206086fa182df7477d0fd9279f3cc377c5ad56b"
+    },
+    "1905-05663": {
+        "paper_title": "Approximation of optimal transport problems with marginal moments constraints",
+        "authors": [
+            "A. Alfonsi",
+            "Rafael Coyaud",
+            "Virginie Ehrlacher",
+            "D. Lombardi"
+        ],
+        "submission_date": "2019-05-14",
+        "semantic_scholar_id": "15bae5793e4945ca5a2fdf2b5abcf2a628724201"
+    },
+    "1904-13211": {
+        "paper_title": "Revisiting Fortet's proof of existence of a solution to the Schr\\\"odinger system.",
+        "authors": [
+            "Christian L'eonard"
+        ],
+        "submission_date": "2019-04-30",
+        "semantic_scholar_id": "8feafb002b7ed481a07223a6ef25c70bdaf37089"
+    },
+    "1701-07625": {
+        "paper_title": "Efficient Robust Routing for Single Commodity Network Flows",
+        "authors": [
+            "Yongxin Chen",
+            "T. Georgiou",
+            "M. Pavon",
+            "A. Tannenbaum"
+        ],
+        "submission_date": "2017-01-26",
+        "semantic_scholar_id": "f3a0bb2d7ced5d37c12120ae541a1c3254f134ad"
+    },
+    "1603-08129": {
+        "paper_title": "Robust Transport Over Networks",
+        "authors": [
+            "Yongxin Chen",
+            "T. Georgiou",
+            "M. Pavon",
+            "A. Tannenbaum"
+        ],
+        "submission_date": "2016-03-26",
+        "semantic_scholar_id": "271152ae4d83b87b68b53bca16b458caf18eb349"
+    },
+    "1508-07941": {
+        "paper_title": "Optimal Entropy-Transport problems and a new Hellinger–Kantorovich distance between positive measures",
+        "authors": [
+            "M. Liero",
+            "A. Mielke",
+            "Giuseppe Savaré"
+        ],
+        "submission_date": "2015-08-31",
+        "semantic_scholar_id": "7eed503702a760d49c744ada559481ce6cfd6502"
+    },
+    "1506-04255": {
+        "paper_title": "Entropic and Displacement Interpolation: A Computational Approach Using the Hilbert Metric",
+        "authors": [
+            "Yongxin Chen",
+            "T. Georgiou",
+            "M. Pavon"
+        ],
+        "submission_date": "2015-06-13",
+        "semantic_scholar_id": "d0774d954c87f5bc8778041c2f668fe3f79bd4fa"
+    },
+    "1412-5154": {
+        "paper_title": "Iterative Bregman Projections for Regularized Transportation Problems",
+        "authors": [
+            "J. Benamou",
+            "G. Carlier",
+            "Marco Cuturi",
+            "Luca Nenna",
+            "G. Peyré"
+        ],
+        "submission_date": "2014-12-16",
+        "semantic_scholar_id": "d3831561301ef27a6ba0d3c68d30bdf0f27eef63"
+    },
+    "1405-6650": {
+        "paper_title": "Positive contraction mappings for classical and quantum Schrödinger systems",
+        "authors": [
+            "T. Georgiou",
+            "M. Pavon"
+        ],
+        "submission_date": "2014-05-26",
+        "semantic_scholar_id": "da6658cb2a8db68e032b524bde46f402139043fe"
+    },
+    "1308-0226": {
+        "paper_title": "Lazy random walks and optimal transport on graphs",
+        "authors": [
+            "Christian L'eonard"
+        ],
+        "submission_date": "2013-08-01",
+        "semantic_scholar_id": "7be403599c87e0cdbb3e281550dfe32344eff2f6"
+    },
+    "2106-01946": {
+        "paper_title": "Convex optimization",
+        "authors": [
+            "Stephen P. Boyd",
+            "L. Vandenberghe"
+        ],
+        "submission_date": "2021-06-03",
+        "semantic_scholar_id": "0b14178e7d79ac426d0a39700e1ac8b2c6f2e752"
+    },
+    "0811-0933": {
+        "paper_title": "Discrete-time classical and quantum Markovian evolutions: Maximum entropy problems on path space",
+        "authors": [
+            "M. Pavon",
+            "F. Ticozzi"
+        ],
+        "submission_date": "2008-11-06",
+        "semantic_scholar_id": "a41d16531e9312225305b855021cb6b0393ddb2c"
+    },
+    "0710-3972": {
+        "paper_title": "Centrality measures and thermodynamic formalism for complex networks.",
+        "authors": [
+            "J. Delvenne",
+            "Anne-Sophie Libert"
+        ],
+        "submission_date": "2007-10-22",
+        "semantic_scholar_id": "8b6fcce97a45dcc3eba85e60838f5c3d04c987fc"
+    }
+}

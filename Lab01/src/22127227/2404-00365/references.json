@@ -1,1 +1,26 @@
-{}
+{
+    "2012-15230": {
+        "paper_title": "Non-pharmaceutical interventions during the COVID-19 pandemic: A review",
+        "authors": [
+            "N. Perra"
+        ],
+        "submission_date": "2020-12-30",
+        "semantic_scholar_id": "0383f0066c390cd86880b3a44c65ddebcb7ba9c4"
+    },
+    "1608-09010": {
+        "paper_title": "Statistical physics of vaccination",
+        "authors": [
+            "Zhen Wang",
+            "C. Bauch",
+            "S. Bhattacharyya",
+            "A. d’Onofrio",
+            "P. Manfredi",
+            "M. Perc",
+            "N. Perra",
+            "M. Salathé",
+            "Dawei Zhao"
+        ],
+        "submission_date": "2016-08-31",
+        "semantic_scholar_id": "3a8c034d112bce3499cbdcf64dab710d4cbc0df3"
+    }
+}

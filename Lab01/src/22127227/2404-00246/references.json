@@ -1,1 +1,236 @@
-{}
+{
+    "2310-02124": {
+        "paper_title": "Exploring Collaboration Mechanisms for LLM Agents: A Social Psychology View",
+        "authors": [
+            "Jintian Zhang",
+            "Xin Xu",
+            "Ruibo Liu",
+            "Shumin Deng"
+        ],
+        "submission_date": "2023-10-03",
+        "semantic_scholar_id": "9fcdbfdf28245010c875ce85502351fe05c04b49"
+    },
+    "2309-07864": {
+        "paper_title": "The Rise and Potential of Large Language Model Based Agents: A Survey",
+        "authors": [
+            "Zhiheng Xi",
+            "Wenxiang Chen",
+            "Xin Guo",
+            "Wei He",
+            "Yiwen Ding",
+            "Boyang Hong",
+            "Ming Zhang",
+            "Junzhe Wang",
+            "Senjie Jin",
+            "Enyu Zhou",
+            "Rui Zheng",
+            "Xiaoran Fan",
+            "Xiao Wang",
+            "Limao Xiong",
+            "Qin Liu",
+            "Yuhao Zhou",
+            "Weiran Wang",
+            "Changhao Jiang",
+            "Yicheng Zou",
+            "Xiangyang Liu",
+            "Zhangyue Yin",
+            "Shihan Dou",
+            "Rongxiang Weng",
+            "Wensen Cheng",
+            "Qi Zhang",
+            "Wenjuan Qin",
+            "Yongyan Zheng",
+            "Xipeng Qiu",
+            "Xuanjing Huan",
+            "Tao Gui"
+        ],
+        "submission_date": "2023-09-14",
+        "semantic_scholar_id": "0c72450890a54b68d63baa99376131fda8f06cf9"
+    },
+    "2309-01660": {
+        "paper_title": "Unveiling Theory of Mind in Large Language Models: A Parallel to Single Neurons in the Human Brain",
+        "authors": [
+            "Mohsen Jamali",
+            "Ziv M. Williams",
+            "Jing Cai"
+        ],
+        "submission_date": "2023-09-04",
+        "semantic_scholar_id": "e29414150d604191df0f59c30d8c39fca438d3c2"
+    },
+    "2307-13854": {
+        "paper_title": "WebArena: A Realistic Web Environment for Building Autonomous Agents",
+        "authors": [
+            "Shuyan Zhou",
+            "Frank F. Xu",
+            "Hao Zhu",
+            "Xuhui Zhou",
+            "Robert Lo",
+            "Abishek Sridhar",
+            "Xianyi Cheng",
+            "Yonatan Bisk",
+            "Daniel Fried",
+            "Uri Alon",
+            "Graham Neubig"
+        ],
+        "submission_date": "2023-07-25",
+        "semantic_scholar_id": "e41482f4ee984f17382f6cdd900df094d928be06"
+    },
+    "2305-11854": {
+        "paper_title": "Multimodal Web Navigation with Instruction-Finetuned Foundation Models",
+        "authors": [
+            "Hiroki Furuta",
+            "Ofir Nachum",
+            "Kuang-Huei Lee",
+            "Yutaka Matsuo",
+            "S. Gu",
+            "Izzeddin Gur"
+        ],
+        "submission_date": "2023-05-19",
+        "semantic_scholar_id": "5692501c10d0c1762842f92c66fcf0bffe2c0342"
+    },
+    "2305-10142": {
+        "paper_title": "Improving Language Model Negotiation with Self-Play and In-Context Learning from AI Feedback",
+        "authors": [
+            "Yao Fu",
+            "Hao-Chun Peng",
+            "Tushar Khot",
+            "Mirella Lapata"
+        ],
+        "submission_date": "2023-05-17",
+        "semantic_scholar_id": "2e6b6de08f459e2165b11ed8d2103916966b0fcf"
+    },
+    "2303-17760": {
+        "paper_title": "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society",
+        "authors": [
+            "G. Li",
+            "Hasan Hammoud",
+            "Hani Itani",
+            "Dmitrii Khizbullin",
+            "Bernard Ghanem"
+        ],
+        "submission_date": "2023-03-31",
+        "semantic_scholar_id": "7bf72a3b5fbac8bc0f461780810fbc781c28ef53"
+    },
+    "2303-17491": {
+        "paper_title": "Language Models can Solve Computer Tasks",
+        "authors": [
+            "Geunwoo Kim",
+            "P. Baldi",
+            "S. McAleer"
+        ],
+        "submission_date": "2023-03-30",
+        "semantic_scholar_id": "9a75e23639bfcc3a51da57a3b682a984d1d8ac0b"
+    },
+    "2210-03629": {
+        "paper_title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "authors": [
+            "Shunyu Yao",
+            "Jeffrey Zhao",
+            "Dian Yu",
+            "Nan Du",
+            "Izhak Shafran",
+            "Karthik Narasimhan",
+            "Yuan Cao"
+        ],
+        "submission_date": "2022-10-06",
+        "semantic_scholar_id": "99832586d55f540f603637e458a292406a0ed75d"
+    },
+    "2207-01206": {
+        "paper_title": "WebShop: Towards Scalable Real-World Web Interaction with Grounded Language Agents",
+        "authors": [
+            "Shunyu Yao",
+            "Howard Chen",
+            "John Yang",
+            "Karthik Narasimhan"
+        ],
+        "submission_date": "2022-07-04",
+        "semantic_scholar_id": "23525374cfd3af714f3ffb7a203b1ef3253333fe"
+    },
+    "2203-11171": {
+        "paper_title": "Self-Consistency Improves Chain of Thought Reasoning in Language Models",
+        "authors": [
+            "Xuezhi Wang",
+            "Jason Wei",
+            "D. Schuurmans",
+            "Quoc Le",
+            "Ed H. Chi",
+            "Denny Zhou"
+        ],
+        "submission_date": "2022-03-21",
+        "semantic_scholar_id": "5f19ae1135a9500940978104ec15a5b8751bc7d2"
+    },
+    "2107-06857": {
+        "paper_title": "Scalable Evaluation of Multi-Agent Reinforcement Learning with Melting Pot",
+        "authors": [
+            "Joel Z. Leibo",
+            "Edgar A. Duéñez-Guzmán",
+            "A. Vezhnevets",
+            "J. Agapiou",
+            "P. Sunehag",
+            "R. Koster",
+            "Jayd Matyas",
+            "Charlie Beattie",
+            "Igor Mordatch",
+            "T. Graepel"
+        ],
+        "submission_date": "2021-07-14",
+        "semantic_scholar_id": "8ab9cd19f5e5311427aef5ddadae4bb41d23917f"
+    },
+    "1910-05789": {
+        "paper_title": "On the Utility of Learning about Humans for Human-AI Coordination",
+        "authors": [
+            "Micah Carroll",
+            "Rohin Shah",
+            "Mark K. Ho",
+            "T. Griffiths",
+            "S. Seshia",
+            "P. Abbeel",
+            "A. Dragan"
+        ],
+        "submission_date": "2019-10-13",
+        "semantic_scholar_id": "eb41a0cffa84d3d6035e6f5f420806ddc962b1e6"
+    },
+    "1905-13380": {
+        "paper_title": "A Value-based Trust Assessment Model for Multi-agent Systems",
+        "authors": [
+            "Kinzang Chhogyal",
+            "Abhaya C. Nayak",
+            "A. Ghose",
+            "K. Dam"
+        ],
+        "submission_date": "2019-05-31",
+        "semantic_scholar_id": "3e6d6b333610dd8a2e66713025e1abb59488e0ea"
+    },
+    "1706-02275": {
+        "paper_title": "Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments",
+        "authors": [
+            "Ryan Lowe",
+            "Yi Wu",
+            "Aviv Tamar",
+            "J. Harb",
+            "P. Abbeel",
+            "Igor Mordatch"
+        ],
+        "submission_date": "2017-06-07",
+        "semantic_scholar_id": "7c3ece1ba41c415d7e81cfa5ca33a8de66efd434"
+    },
+    "1704-07130": {
+        "paper_title": "Learning Symmetric Collaborative Dialogue Agents with Dynamic Knowledge Graph Embeddings",
+        "authors": [
+            "He He",
+            "Anusha Balakrishnan",
+            "Mihail Eric",
+            "Percy Liang"
+        ],
+        "submission_date": "2017-04-24",
+        "semantic_scholar_id": "fcbedb12dcc3618df7a76012944c64fd62a18286"
+    },
+    "1302-3561": {
+        "paper_title": "Learning Conventions in Multiagent Stochastic Domains using Likelihood Estimates",
+        "authors": [
+            "Craig Boutilier"
+        ],
+        "submission_date": "2013-02-13",
+        "semantic_scholar_id": "f4fdb6fb201511ad9e0f4a7adda790ffd3494bea"
+    }
+}

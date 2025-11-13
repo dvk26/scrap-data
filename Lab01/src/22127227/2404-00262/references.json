@@ -1,1 +1,807 @@
-{}
+{
+    "2311-17626": {
+        "paper_title": "Focus on Query: Adversarial Mining Transformer for Few-Shot Segmentation",
+        "authors": [
+            "Yuan Wang",
+            "Naisong Luo",
+            "Tianzhu Zhang"
+        ],
+        "submission_date": "2023-11-29",
+        "semantic_scholar_id": "e6a71d661dc15346d140530ee40b61249c0b3829"
+    },
+    "2309-02773": {
+        "paper_title": "Diffusion Model is Secretly a Training-Free Open Vocabulary Semantic Segmenter",
+        "authors": [
+            "Jinglong Wang",
+            "Xiawei Li",
+            "Jing Zhang",
+            "Qingyuan Xu",
+            "Qin Zhou",
+            "Qian Yu",
+            "Lu Sheng",
+            "Dong Xu"
+        ],
+        "submission_date": "2023-09-06",
+        "semantic_scholar_id": "616e2783f7e5f2b879a0d3171a73a31d99189259"
+    },
+    "2308-06160": {
+        "paper_title": "DatasetDM: Synthesizing Data with Perception Annotations Using Diffusion Models",
+        "authors": [
+            "Wei Wu",
+            "Yuzhong Zhao",
+            "Hao Chen",
+            "Yuchao Gu",
+            "Rui Zhao",
+            "Yefei He",
+            "Hong Zhou",
+            "Mike Zheng Shou",
+            "Chunhua Shen"
+        ],
+        "submission_date": "2023-08-11",
+        "semantic_scholar_id": "d6bb9d02a65798a26cb0d01c1d7478a004a22cb5"
+    },
+    "2308-02487": {
+        "paper_title": "Convolutions Die Hard: Open-Vocabulary Segmentation with Single Frozen Convolutional CLIP",
+        "authors": [
+            "Qihang Yu",
+            "Ju He",
+            "Xueqing Deng",
+            "Xiaohui Shen",
+            "Liang-Chieh Chen"
+        ],
+        "submission_date": "2023-08-04",
+        "semantic_scholar_id": "2b26b17fe3a909bc0f5408b3328308153b31f22e"
+    },
+    "2305-13310": {
+        "paper_title": "Matcher: Segment Anything with One Shot Using All-Purpose Feature Matching",
+        "authors": [
+            "Yang Liu",
+            "Muzhi Zhu",
+            "Hengtao Li",
+            "Hao Chen",
+            "Xinlong Wang",
+            "Chunhua Shen"
+        ],
+        "submission_date": "2023-05-22",
+        "semantic_scholar_id": "13a5140fc0b269c408ecfc666cb297410bc753c5"
+    },
+    "2304-07193": {
+        "paper_title": "DINOv2: Learning Robust Visual Features without Supervision",
+        "authors": [
+            "M. Oquab",
+            "Timothée Darcet",
+            "Théo Moutakanni",
+            "Huy Q. Vo",
+            "Marc Szafraniec",
+            "Vasil Khalidov",
+            "Pierre Fernandez",
+            "Daniel Haziza",
+            "Francisco Massa",
+            "Alaaeldin El-Nouby",
+            "Mahmoud Assran",
+            "Nicolas Ballas",
+            "Wojciech Galuba",
+            "Russ Howes",
+            "Po-Yao (Bernie) Huang",
+            "Shang-Wen Li",
+            "Ishan Misra",
+            "Michael G. Rabbat",
+            "Vasu Sharma",
+            "Gabriel Synnaeve",
+            "Huijiao Xu",
+            "H. Jégou",
+            "J. Mairal",
+            "Patrick Labatut",
+            "Armand Joulin",
+            "Piotr Bojanowski"
+        ],
+        "submission_date": "2023-04-14",
+        "semantic_scholar_id": "5a9cb1b3dc4655218b3deeaf4a2417a9a8cd0891"
+    },
+    "2304-02643": {
+        "paper_title": "Segment Anything",
+        "authors": [
+            "A. Kirillov",
+            "Eric Mintun",
+            "Nikhila Ravi",
+            "Hanzi Mao",
+            "Chloé Rolland",
+            "Laura Gustafson",
+            "Tete Xiao",
+            "Spencer Whitehead",
+            "A. Berg",
+            "Wan-Yen Lo",
+            "Piotr Dollár",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2023-04-05",
+        "semantic_scholar_id": "7470a1702c8c86e6f28d32cfa315381150102f5b"
+    },
+    "2304-01198": {
+        "paper_title": "Open-Vocabulary Semantic Segmentation with Decoupled One-Pass Network",
+        "authors": [
+            "Cong Han",
+            "Yujie Zhong",
+            "Dengjie Li",
+            "Kai Han",
+            "Lin Ma"
+        ],
+        "submission_date": "2023-04-03",
+        "semantic_scholar_id": "e605b51e67a0cd0b097b244fee8add33b97f0094"
+    },
+    "2303-11681": {
+        "paper_title": "DiffuMask: Synthesizing Images with Pixel-level Annotations for Semantic Segmentation Using Diffusion Models",
+        "authors": [
+            "Weijia Wu",
+            "Yuzhong Zhao",
+            "Mike Zheng Shou",
+            "Hong Zhou",
+            "Chunhua Shen"
+        ],
+        "submission_date": "2023-03-21",
+        "semantic_scholar_id": "5b84bab8a8f18e803db8d3db7ab6e4fe08fc3959"
+    },
+    "2303-04803": {
+        "paper_title": "Open-Vocabulary Panoptic Segmentation with Text-to-Image Diffusion Models",
+        "authors": [
+            "Jiarui Xu",
+            "Sifei Liu",
+            "Arash Vahdat",
+            "Wonmin Byeon",
+            "Xiaolong Wang",
+            "Shalini De Mello"
+        ],
+        "submission_date": "2023-03-08",
+        "semantic_scholar_id": "323400245885e08ad498cd108e30e18020662278"
+    },
+    "2303-02153": {
+        "paper_title": "Unleashing Text-to-Image Diffusion Models for Visual Perception",
+        "authors": [
+            "Wenliang Zhao",
+            "Yongming Rao",
+            "Zuyan Liu",
+            "Benlin Liu",
+            "Jie Zhou",
+            "Jiwen Lu"
+        ],
+        "submission_date": "2023-03-03",
+        "semantic_scholar_id": "c09ca9da1fce13b1560f45c38321c7bb971f13fc"
+    },
+    "2302-12242": {
+        "paper_title": "Side Adapter Network for Open-Vocabulary Semantic Segmentation",
+        "authors": [
+            "Mengde Xu",
+            "Zheng Zhang",
+            "Fangyun Wei",
+            "Han Hu",
+            "Xiang Bai"
+        ],
+        "submission_date": "2023-02-23",
+        "semantic_scholar_id": "641d7866db6691e22aa36de5c8ba05804233c016"
+    },
+    "2302-10307": {
+        "paper_title": "ViewCo: Discovering Text-Supervised Segmentation Masks via Multi-View Semantic Consistency",
+        "authors": [
+            "Pengzhen Ren",
+            "Changlin Li",
+            "Hang Xu",
+            "Yi Zhu",
+            "Guangrun Wang",
+            "Jian-zhuo Liu",
+            "Xiaojun Chang",
+            "Xiaodan Liang"
+        ],
+        "submission_date": "2023-01-31",
+        "semantic_scholar_id": "bd4d6f8c0935d4bb7a4ec5f426bac7bbb0f50fd4"
+    },
+    "2301-09121": {
+        "paper_title": "Learning Open-Vocabulary Semantic Segmentation Models From Natural Language Supervision",
+        "authors": [
+            "Jilan Xu",
+            "Junlin Hou",
+            "Yuejie Zhang",
+            "Rui Feng",
+            "Yi Wang",
+            "Yu Qiao",
+            "Weidi Xie"
+        ],
+        "submission_date": "2023-01-22",
+        "semantic_scholar_id": "4626890a6cbaa92f20d0bb181a499d23c2cf01a1"
+    },
+    "2212-00785": {
+        "paper_title": "Learning to Generate Text-Grounded Mask for Open-World Semantic Segmentation from Only Image-Text Pairs",
+        "authors": [
+            "Junbum Cha",
+            "Jonghwan Mun",
+            "Byungseok Roh"
+        ],
+        "submission_date": "2022-12-01",
+        "semantic_scholar_id": "9245ea27d258a3511c94460e5adeef5418e77010"
+    },
+    "2211-14813": {
+        "paper_title": "SegCLIP: Patch Aggregation with Learnable Centers for Open-Vocabulary Semantic Segmentation",
+        "authors": [
+            "Huaishao Luo",
+            "Junwei Bao",
+            "Youzheng Wu",
+            "Xiaodong He",
+            "Tianrui Li"
+        ],
+        "submission_date": "2022-11-27",
+        "semantic_scholar_id": "4bae689ade260c1624406b5bf2d58d637a0c5aa9"
+    },
+    "2210-04150": {
+        "paper_title": "Open-Vocabulary Semantic Segmentation with Mask-adapted CLIP",
+        "authors": [
+            "Feng Liang",
+            "Bichen Wu",
+            "Xiaoliang Dai",
+            "Kunpeng Li",
+            "Yinan Zhao",
+            "Hang Zhang",
+            "Peizhao Zhang",
+            "Péter Vajda",
+            "D. Marculescu"
+        ],
+        "submission_date": "2022-10-09",
+        "semantic_scholar_id": "29c2d3d77b6d6f24f4356d5ba20c1a6ab4229c76"
+    },
+    "2207-08455": {
+        "paper_title": "Open-world Semantic Segmentation via Contrasting and Clustering Vision-Language Embedding",
+        "authors": [
+            "QUAN LIU",
+            "Youpeng Wen",
+            "Jianhua Han",
+            "Chunjing Xu",
+            "Hang Xu",
+            "Xiaodan Liang"
+        ],
+        "submission_date": "2022-07-18",
+        "semantic_scholar_id": "c034a46b8ed5a814a299b28d0be198b9be5128d7"
+    },
+    "2204-06125": {
+        "paper_title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
+        "authors": [
+            "A. Ramesh",
+            "Prafulla Dhariwal",
+            "Alex Nichol",
+            "Casey Chu",
+            "Mark Chen"
+        ],
+        "submission_date": "2022-04-13",
+        "semantic_scholar_id": "c57293882b2561e1ba03017902df9fc2f289dea2"
+    },
+    "2204-02311": {
+        "paper_title": "PaLM: Scaling Language Modeling with Pathways",
+        "authors": [
+            "A. Chowdhery",
+            "Sharan Narang",
+            "Jacob Devlin",
+            "Maarten Bosma",
+            "Gaurav Mishra",
+            "Adam Roberts",
+            "P. Barham",
+            "Hyung Won Chung",
+            "Charles Sutton",
+            "Sebastian Gehrmann",
+            "Parker Schuh",
+            "Kensen Shi",
+            "Sasha Tsvyashchenko",
+            "Joshua Maynez",
+            "Abhishek Rao",
+            "Parker Barnes",
+            "Yi Tay",
+            "Noam M. Shazeer",
+            "Vinodkumar Prabhakaran",
+            "Emily Reif",
+            "Nan Du",
+            "Ben Hutchinson",
+            "Reiner Pope",
+            "James Bradbury",
+            "Jacob Austin",
+            "M. Isard",
+            "Guy Gur-Ari",
+            "Pengcheng Yin",
+            "Toju Duke",
+            "Anselm Levskaya",
+            "S. Ghemawat",
+            "Sunipa Dev",
+            "H. Michalewski",
+            "Xavier García",
+            "Vedant Misra",
+            "Kevin Robinson",
+            "L. Fedus",
+            "Denny Zhou",
+            "Daphne Ippolito",
+            "D. Luan",
+            "Hyeontaek Lim",
+            "Barret Zoph",
+            "A. Spiridonov",
+            "Ryan Sepassi",
+            "David Dohan",
+            "Shivani Agrawal",
+            "Mark Omernick",
+            "Andrew M. Dai",
+            "Thanumalayan Sankaranarayana Pillai",
+            "Marie Pellat",
+            "Aitor Lewkowycz",
+            "Erica Moreira",
+            "R. Child",
+            "Oleksandr Polozov",
+            "Katherine Lee",
+            "Zongwei Zhou",
+            "Xuezhi Wang",
+            "Brennan Saeta",
+            "Mark Díaz",
+            "Orhan Firat",
+            "Michele Catasta",
+            "Jason Wei",
+            "K. Meier-Hellstern",
+            "D. Eck",
+            "J. Dean",
+            "Slav Petrov",
+            "Noah Fiedel"
+        ],
+        "submission_date": "2022-04-05",
+        "semantic_scholar_id": "094ff971d6a8b8ff870946c9b3ce5aa173617bfb"
+    },
+    "2203-14043": {
+        "paper_title": "Semantic Segmentation by Early Region Proxy",
+        "authors": [
+            "Yifan Zhang",
+            "Bo Pang",
+            "Cewu Lu"
+        ],
+        "submission_date": "2022-03-26",
+        "semantic_scholar_id": "7b1e6c097c4876685021440c56d4967350130120"
+    },
+    "2203-02155": {
+        "paper_title": "Training language models to follow instructions with human feedback",
+        "authors": [
+            "Long Ouyang",
+            "Jeff Wu",
+            "Xu Jiang",
+            "Diogo Almeida",
+            "Carroll L. Wainwright",
+            "Pamela Mishkin",
+            "Chong Zhang",
+            "Sandhini Agarwal",
+            "Katarina Slama",
+            "Alex Ray",
+            "John Schulman",
+            "Jacob Hilton",
+            "Fraser Kelton",
+            "Luke E. Miller",
+            "Maddie Simens",
+            "Amanda Askell",
+            "Peter Welinder",
+            "P. Christiano",
+            "Jan Leike",
+            "Ryan J. Lowe"
+        ],
+        "submission_date": "2022-03-04",
+        "semantic_scholar_id": "d766bffc357127e0dc86dd69561d5aeb520d6f4c"
+    },
+    "2202-11094": {
+        "paper_title": "GroupViT: Semantic Segmentation Emerges from Text Supervision",
+        "authors": [
+            "Jiarui Xu",
+            "Shalini De Mello",
+            "Sifei Liu",
+            "Wonmin Byeon",
+            "Thomas Breuel",
+            "Jan Kautz",
+            "X. Wang"
+        ],
+        "submission_date": "2022-02-22",
+        "semantic_scholar_id": "0b5f27a5766c5d1394a6282ad94fec21d620bd6b"
+    },
+    "2112-14757": {
+        "paper_title": "A Simple Baseline for Open-Vocabulary Semantic Segmentation with Pre-trained Vision-Language Model",
+        "authors": [
+            "Mengde Xu",
+            "Zheng Zhang",
+            "Fangyun Wei",
+            "Yutong Lin",
+            "Yue Cao",
+            "Han Hu",
+            "Xiang Bai"
+        ],
+        "submission_date": "2021-12-29",
+        "semantic_scholar_id": "ae92c1fd30ba49212e16152646e9f7f1ae385b08"
+    },
+    "2112-10752": {
+        "paper_title": "High-Resolution Image Synthesis with Latent Diffusion Models",
+        "authors": [
+            "Robin Rombach",
+            "A. Blattmann",
+            "Dominik Lorenz",
+            "Patrick Esser",
+            "B. Ommer"
+        ],
+        "submission_date": "2021-12-20",
+        "semantic_scholar_id": "c10075b3746a9f3dd5811970e93c8ca3ad39b39d"
+    },
+    "2112-01527": {
+        "paper_title": "Masked-attention Mask Transformer for Universal Image Segmentation",
+        "authors": [
+            "Bowen Cheng",
+            "Ishan Misra",
+            "A. Schwing",
+            "Alexander Kirillov",
+            "Rohit Girdhar"
+        ],
+        "submission_date": "2021-12-02",
+        "semantic_scholar_id": "658a017302d29e4acf4ca789cb5d9f27983717ff"
+    },
+    "2112-01071": {
+        "paper_title": "Extract Free Dense Labels from CLIP",
+        "authors": [
+            "Chong Zhou",
+            "Chen Change Loy",
+            "Bo Dai"
+        ],
+        "submission_date": "2021-12-02",
+        "semantic_scholar_id": "0a7e7347e16bf13d710f6f3d30748baabdbb96ad"
+    },
+    "2111-06377": {
+        "paper_title": "Masked Autoencoders Are Scalable Vision Learners",
+        "authors": [
+            "Kaiming He",
+            "Xinlei Chen",
+            "Saining Xie",
+            "Yanghao Li",
+            "Piotr Doll'ar",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2021-11-11",
+        "semantic_scholar_id": "6351ebb4a3287f5f3e1273464b3b91e5df5a16d7"
+    },
+    "2107-06278": {
+        "paper_title": "Per-Pixel Classification is Not All You Need for Semantic Segmentation",
+        "authors": [
+            "Bowen Cheng",
+            "A. Schwing",
+            "Alexander Kirillov"
+        ],
+        "submission_date": "2021-07-13",
+        "semantic_scholar_id": "260ad39a1dac4b451019e2bf17925f4df8e3b69a"
+    },
+    "2105-15203": {
+        "paper_title": "SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers",
+        "authors": [
+            "Enze Xie",
+            "Wenhai Wang",
+            "Zhiding Yu",
+            "Anima Anandkumar",
+            "J. Álvarez",
+            "Ping Luo"
+        ],
+        "submission_date": "2021-05-31",
+        "semantic_scholar_id": "e3d7778a47c6cab4ea1ef3ee9d19ec1510c15c60"
+    },
+    "2105-05633": {
+        "paper_title": "Segmenter: Transformer for Semantic Segmentation",
+        "authors": [
+            "Robin Strudel",
+            "Ricardo Garcia Pinel",
+            "I. Laptev",
+            "C. Schmid"
+        ],
+        "submission_date": "2021-05-12",
+        "semantic_scholar_id": "68f080e0ac836ea230cb5316fbed273c70422d75"
+    },
+    "2104-14294": {
+        "paper_title": "Emerging Properties in Self-Supervised Vision Transformers",
+        "authors": [
+            "Mathilde Caron",
+            "Hugo Touvron",
+            "Ishan Misra",
+            "Herv'e J'egou",
+            "J. Mairal",
+            "Piotr Bojanowski",
+            "Armand Joulin"
+        ],
+        "submission_date": "2021-04-29",
+        "semantic_scholar_id": "ad4a0938c48e61b7827869e4ac3baffd0aefab35"
+    },
+    "2104-01893": {
+        "paper_title": "Adaptive Prototype Learning and Allocation for Few-Shot Segmentation",
+        "authors": [
+            "Gen Li",
+            "V. Jampani",
+            "Laura Sevilla-Lara",
+            "Deqing Sun",
+            "Jonghyun Kim",
+            "Joongkyu Kim"
+        ],
+        "submission_date": "2021-04-05",
+        "semantic_scholar_id": "0cbfd6647f906c9cf82ecafdfbbdc2a317af8467"
+    },
+    "2103-00020": {
+        "paper_title": "Learning Transferable Visual Models From Natural Language Supervision",
+        "authors": [
+            "Alec Radford",
+            "Jong Wook Kim",
+            "Chris Hallacy",
+            "A. Ramesh",
+            "Gabriel Goh",
+            "Sandhini Agarwal",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Pamela Mishkin",
+            "Jack Clark",
+            "Gretchen Krueger",
+            "I. Sutskever"
+        ],
+        "submission_date": "2021-02-26",
+        "semantic_scholar_id": "6f870f7f02a8c59c3e23f407f3ef00dd1dcf8fc4"
+    },
+    "2102-05918": {
+        "paper_title": "Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision",
+        "authors": [
+            "Chao Jia",
+            "Yinfei Yang",
+            "Ye Xia",
+            "Yi-Ting Chen",
+            "Zarana Parekh",
+            "Hieu Pham",
+            "Quoc V. Le",
+            "Yun-Hsuan Sung",
+            "Zhen Li",
+            "Tom Duerig"
+        ],
+        "submission_date": "2021-02-11",
+        "semantic_scholar_id": "141a5033d9994242b18bb3b217e79582f1ee9306"
+    },
+    "2012-12877": {
+        "paper_title": "Training data-efficient image transformers & distillation through attention",
+        "authors": [
+            "Hugo Touvron",
+            "M. Cord",
+            "Matthijs Douze",
+            "Francisco Massa",
+            "Alexandre Sablayrolles",
+            "Herv'e J'egou"
+        ],
+        "submission_date": "2020-12-23",
+        "semantic_scholar_id": "ad7ddcc14984caae308c397f1a589aae75d4ab71"
+    },
+    "2012-09841": {
+        "paper_title": "Taming Transformers for High-Resolution Image Synthesis",
+        "authors": [
+            "Patrick Esser",
+            "Robin Rombach",
+            "B. Ommer"
+        ],
+        "submission_date": "2020-12-17",
+        "semantic_scholar_id": "47f7ec3d0a5e6e83b6768ece35206a94dc81919c"
+    },
+    "2011-13456": {
+        "paper_title": "Score-Based Generative Modeling through Stochastic Differential Equations",
+        "authors": [
+            "Yang Song",
+            "Jascha Narain Sohl-Dickstein",
+            "Diederik P. Kingma",
+            "Abhishek Kumar",
+            "Stefano Ermon",
+            "Ben Poole"
+        ],
+        "submission_date": "2020-11-26",
+        "semantic_scholar_id": "633e2fbfc0b21e959a244100937c5853afca4853"
+    },
+    "2010-11929": {
+        "paper_title": "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale",
+        "authors": [
+            "Alexey Dosovitskiy",
+            "Lucas Beyer",
+            "Alexander Kolesnikov",
+            "Dirk Weissenborn",
+            "Xiaohua Zhai",
+            "Thomas Unterthiner",
+            "Mostafa Dehghani",
+            "M. Minderer",
+            "G. Heigold",
+            "S. Gelly",
+            "Jakob Uszkoreit",
+            "N. Houlsby"
+        ],
+        "submission_date": "2020-10-22",
+        "semantic_scholar_id": "268d347e8a55b5eb82fb5e7d2f800e33c75ab18a"
+    },
+    "2006-11239": {
+        "paper_title": "Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Jonathan Ho",
+            "Ajay Jain",
+            "P. Abbeel"
+        ],
+        "submission_date": "2020-06-19",
+        "semantic_scholar_id": "5c126ae3421f05768d8edd97ecd44b1364e2c99a"
+    },
+    "2005-14165": {
+        "paper_title": "Language Models are Few-Shot Learners",
+        "authors": [
+            "Tom B. Brown",
+            "Benjamin Mann",
+            "Nick Ryder",
+            "Melanie Subbiah",
+            "J. Kaplan",
+            "Prafulla Dhariwal",
+            "Arvind Neelakantan",
+            "Pranav Shyam",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Sandhini Agarwal",
+            "Ariel Herbert-Voss",
+            "Gretchen Krueger",
+            "T. Henighan",
+            "R. Child",
+            "A. Ramesh",
+            "Daniel M. Ziegler",
+            "Jeff Wu",
+            "Clemens Winter",
+            "Christopher Hesse",
+            "Mark Chen",
+            "Eric Sigler",
+            "Ma-teusz Litwin",
+            "Scott Gray",
+            "Benjamin Chess",
+            "Jack Clark",
+            "Christopher Berner",
+            "Sam McCandlish",
+            "Alec Radford",
+            "I. Sutskever",
+            "Dario Amodei"
+        ],
+        "submission_date": "2020-05-28",
+        "semantic_scholar_id": "90abbc2cf38462b954ae1b772fac9532e2ccd8b0"
+    },
+    "2004-04581": {
+        "paper_title": "Self-Supervised Equivariant Attention Mechanism for Weakly Supervised Semantic Segmentation",
+        "authors": [
+            "Yude Wang",
+            "Jie Zhang",
+            "Meina Kan",
+            "S. Shan",
+            "Xilin Chen"
+        ],
+        "submission_date": "2020-04-09",
+        "semantic_scholar_id": "90d668b9ff44af25fbe84f888e3c29ec7d86d95a"
+    },
+    "1911-05722": {
+        "paper_title": "Momentum Contrast for Unsupervised Visual Representation Learning",
+        "authors": [
+            "Kaiming He",
+            "Haoqi Fan",
+            "Yuxin Wu",
+            "Saining Xie",
+            "Ross B. Girshick"
+        ],
+        "submission_date": "2019-11-13",
+        "semantic_scholar_id": "add2f205338d70e10ce5e686df4a690e2851bdfc"
+    },
+    "1906-00817": {
+        "paper_title": "Zero-Shot Semantic Segmentation",
+        "authors": [
+            "Max Bucher",
+            "Tuan-Hung Vu",
+            "M. Cord",
+            "P. Pérez"
+        ],
+        "submission_date": "2019-06-03",
+        "semantic_scholar_id": "ff24ced52576b5da970c1397227e2c14933e7891"
+    },
+    "1807-10221": {
+        "paper_title": "Unified Perceptual Parsing for Scene Understanding",
+        "authors": [
+            "Tete Xiao",
+            "Yingcheng Liu",
+            "Bolei Zhou",
+            "Yuning Jiang",
+            "Jian Sun"
+        ],
+        "submission_date": "2018-07-26",
+        "semantic_scholar_id": "aaab0bd4d79d4f19109bab0fbcdb05070fb0edd1"
+    },
+    "1802-02611": {
+        "paper_title": "Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation",
+        "authors": [
+            "Liang-Chieh Chen",
+            "Yukun Zhu",
+            "G. Papandreou",
+            "Florian Schroff",
+            "Hartwig Adam"
+        ],
+        "submission_date": "2018-02-07",
+        "semantic_scholar_id": "9217e28b2273eb3b26e4e9b7b498b4661e6e09f5"
+    },
+    "1612-01105": {
+        "paper_title": "Pyramid Scene Parsing Network",
+        "authors": [
+            "Hengshuang Zhao",
+            "Jianping Shi",
+            "Xiaojuan Qi",
+            "Xiaogang Wang",
+            "Jiaya Jia"
+        ],
+        "submission_date": "2016-12-04",
+        "semantic_scholar_id": "1031a69923b80ad01cf3fbb703d10757a80e699b"
+    },
+    "1608-05442": {
+        "paper_title": "Semantic Understanding of Scenes Through the ADE20K Dataset",
+        "authors": [
+            "Bolei Zhou",
+            "Hang Zhao",
+            "Xavier Puig",
+            "S. Fidler",
+            "Adela Barriuso",
+            "A. Torralba"
+        ],
+        "submission_date": "2016-08-18",
+        "semantic_scholar_id": "88512be44744615f4baa8e14f600f036db4c2433"
+    },
+    "1606-00915": {
+        "paper_title": "DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs",
+        "authors": [
+            "Liang-Chieh Chen",
+            "G. Papandreou",
+            "Iasonas Kokkinos",
+            "K. Murphy",
+            "A. Yuille"
+        ],
+        "submission_date": "2016-06-02",
+        "semantic_scholar_id": "cab372bc3824780cce20d9dd1c22d4df39ed081a"
+    },
+    "1604-01685": {
+        "paper_title": "The Cityscapes Dataset for Semantic Urban Scene Understanding",
+        "authors": [
+            "Marius Cordts",
+            "Mohamed Omran",
+            "Sebastian Ramos",
+            "Timo Rehfeld",
+            "Markus Enzweiler",
+            "Rodrigo Benenson",
+            "Uwe Franke",
+            "S. Roth",
+            "B. Schiele"
+        ],
+        "submission_date": "2016-04-06",
+        "semantic_scholar_id": "c8c494ee5488fe20e0aa01bddf3fc4632086d654"
+    },
+    "1505-04597": {
+        "paper_title": "U-Net: Convolutional Networks for Biomedical Image Segmentation",
+        "authors": [
+            "O. Ronneberger",
+            "P. Fischer",
+            "T. Brox"
+        ],
+        "submission_date": "2015-05-18",
+        "semantic_scholar_id": "6364fdaa0a0eccd823a779fcdd489173f938e91a"
+    },
+    "1411-4038": {
+        "paper_title": "Fully convolutional networks for semantic segmentation",
+        "authors": [
+            "Evan Shelhamer",
+            "Jonathan Long",
+            "Trevor Darrell"
+        ],
+        "submission_date": "2014-11-14",
+        "semantic_scholar_id": "6fc6803df5f9ae505cae5b2f178ade4062c768d0"
+    },
+    "1405-0312": {
+        "paper_title": "Microsoft COCO: Common Objects in Context",
+        "authors": [
+            "Tsung-Yi Lin",
+            "M. Maire",
+            "Serge J. Belongie",
+            "James Hays",
+            "P. Perona",
+            "Deva Ramanan",
+            "Piotr Dollár",
+            "C. L. Zitnick"
+        ],
+        "submission_date": "2014-05-01",
+        "semantic_scholar_id": "71b7178df5d2b112d07e45038cb5637208659ff7"
+    }
+}

@@ -1,1 +1,350 @@
-{}
+{
+    "2305-01975": {
+        "paper_title": "A Survey on Dataset Distillation: Approaches, Applications and Future Directions",
+        "authors": [
+            "Jiahui Geng",
+            "Zongxiong Chen",
+            "Yuandou Wang",
+            "Herbert Woisetschlaeger",
+            "Sonja Schimmler",
+            "Ruben Mayer",
+            "Zhiming Zhao",
+            "Chunming Rong"
+        ],
+        "submission_date": "2023-05-03",
+        "semantic_scholar_id": "1a3efe3595ca2f31da443e57d1b2dba585dba6b8"
+    },
+    "2305-01649": {
+        "paper_title": "Generalizing Dataset Distillation via Deep Generative Prior",
+        "authors": [
+            "George Cazenavette",
+            "Tongzhou Wang",
+            "A. Torralba",
+            "Alexei A. Efros",
+            "Jun-Yan Zhu"
+        ],
+        "submission_date": "2023-05-02",
+        "semantic_scholar_id": "a42b68b9fbd4f9c3382b54f1387547eb56d011ac"
+    },
+    "2303-04707": {
+        "paper_title": "DiM: Distilling Dataset into Generative Model",
+        "authors": [
+            "Kai Wang",
+            "Jianyang Gu",
+            "Daquan Zhou",
+            "Zheng Hua Zhu",
+            "Wei Jiang",
+            "Yang You"
+        ],
+        "submission_date": "2023-03-08",
+        "semantic_scholar_id": "e3ca6a03f8d531b1a75f3528f8c68e0770d0be99"
+    },
+    "2302-14416": {
+        "paper_title": "DREAM: Efficient Dataset Distillation by Representative Matching",
+        "authors": [
+            "Yanqing Liu",
+            "Jianyang Gu",
+            "Kai Wang",
+            "Zheng Hua Zhu",
+            "Wei Jiang",
+            "Yang You"
+        ],
+        "submission_date": "2023-02-28",
+        "semantic_scholar_id": "97d680e7de233e4a3023415d675afb6d681768e1"
+    },
+    "2211-10586": {
+        "paper_title": "Scaling Up Dataset Distillation to ImageNet-1K with Constant Memory",
+        "authors": [
+            "Justin Cui",
+            "Ruochen Wang",
+            "Si Si",
+            "Cho-Jui Hsieh"
+        ],
+        "submission_date": "2022-11-19",
+        "semantic_scholar_id": "0b81ca7ce9f5c5f160834df8a9761b20378fa101"
+    },
+    "2211-04446": {
+        "paper_title": "Private Set Generation with Discriminative Information",
+        "authors": [
+            "Dingfan Chen",
+            "Raouf Kerkouche",
+            "Mario Fritz"
+        ],
+        "submission_date": "2022-11-07",
+        "semantic_scholar_id": "f8aa81482d46c61a7da9256036f277e65681d164"
+    },
+    "2206-11849": {
+        "paper_title": "Sample Condensation in Online Continual Learning",
+        "authors": [
+            "Mattia Sangermano",
+            "Antonio Carta",
+            "Andrea Cossu",
+            "D. Bacciu"
+        ],
+        "submission_date": "2022-06-23",
+        "semantic_scholar_id": "8afac0b014ed3f3d3616df98c2804da55dac329c"
+    },
+    "2206-00240": {
+        "paper_title": "Privacy for Free: How does Dataset Condensation Help Privacy?",
+        "authors": [
+            "Tian Dong",
+            "Bo Zhao",
+            "Lingjuan Lyu"
+        ],
+        "submission_date": "2022-06-01",
+        "semantic_scholar_id": "44fe53dfa1794e29a4962b6a3a19fc738b02ddb0"
+    },
+    "2205-01068": {
+        "paper_title": "OPT: Open Pre-trained Transformer Language Models",
+        "authors": [
+            "Susan Zhang",
+            "Stephen Roller",
+            "Naman Goyal",
+            "Mikel Artetxe",
+            "Moya Chen",
+            "Shuohui Chen",
+            "Christopher Dewan",
+            "Mona T. Diab",
+            "Xian Li",
+            "Xi Victoria Lin",
+            "Todor Mihaylov",
+            "Myle Ott",
+            "Sam Shleifer",
+            "Kurt Shuster",
+            "Daniel Simig",
+            "Punit Singh Koura",
+            "Anjali Sridhar",
+            "Tianlu Wang",
+            "Luke Zettlemoyer"
+        ],
+        "submission_date": "2022-05-02",
+        "semantic_scholar_id": "13a0d8bb38f739990c8cd65a44061c6534f17221"
+    },
+    "2204-07513": {
+        "paper_title": "Synthesizing Informative Training Samples with GAN",
+        "authors": [
+            "Bo Zhao",
+            "Hakan Bilen"
+        ],
+        "submission_date": "2022-04-15",
+        "semantic_scholar_id": "3001ffb7a5e3f92bab51baa884bbf376d0e0cf27"
+    },
+    "2203-11932": {
+        "paper_title": "Dataset Distillation by Matching Training Trajectories",
+        "authors": [
+            "George Cazenavette",
+            "Tongzhou Wang",
+            "A. Torralba",
+            "Alexei A. Efros",
+            "Jun-Yan Zhu"
+        ],
+        "submission_date": "2022-03-22",
+        "semantic_scholar_id": "11154b89486fd7b41bfab5f8b0e19756c488523e"
+    },
+    "2203-08559": {
+        "paper_title": "Learning to Generate Synthetic Training Data using Gradient Matching and Implicit Differentiation",
+        "authors": [
+            "Dmitry Medvedev",
+            "A. D'yakonov"
+        ],
+        "submission_date": "2022-03-16",
+        "semantic_scholar_id": "5084f713b38943466bca2ccf95acf09277eebce5"
+    },
+    "2112-12371": {
+        "paper_title": "DENSE: Data-Free One-Shot Federated Learning",
+        "authors": [
+            "J Zhang",
+            "Chen Chen",
+            "Bo Li",
+            "Lingjuan Lyu",
+            "Shuang Wu",
+            "Shouhong Ding",
+            "Chunhua Shen",
+            "Chao Wu"
+        ],
+        "submission_date": "2021-12-23",
+        "semantic_scholar_id": "5772b1fb16fd23dac5457fed1c986b6c3e315f80"
+    },
+    "2104-08448": {
+        "paper_title": "Data Distillation for Text Classification",
+        "authors": [
+            "Yongqi Li",
+            "Wenjie Li"
+        ],
+        "submission_date": "2021-04-17",
+        "semantic_scholar_id": "e9bf711728d3fc2394801fb49625364d11a16c49"
+    },
+    "2102-09890": {
+        "paper_title": "Condensed Composite Memory Continual Learning",
+        "authors": [
+            "Felix Wiewel",
+            "Binh Yang"
+        ],
+        "submission_date": "2021-02-19",
+        "semantic_scholar_id": "0b8d65988090d671a130fb24880fe462f5bbcd26"
+    },
+    "2102-08259": {
+        "paper_title": "Dataset Condensation with Differentiable Siamese Augmentation",
+        "authors": [
+            "Bo Zhao",
+            "Hakan Bilen"
+        ],
+        "submission_date": "2021-02-16",
+        "semantic_scholar_id": "99e93357b8b3ffd309d2dbae187f61143b928abf"
+    },
+    "2006-08572": {
+        "paper_title": "Flexible Dataset Distillation: Learn Labels Instead of Images",
+        "authors": [
+            "Ondrej Bohdal",
+            "Yongxin Yang",
+            "Timothy M. Hospedales"
+        ],
+        "submission_date": "2020-06-15",
+        "semantic_scholar_id": "6b67b1f55ebad02eaa73328c3989d64c1dc23dff"
+    },
+    "2006-05929": {
+        "paper_title": "Dataset Condensation with Gradient Matching",
+        "authors": [
+            "Bo Zhao",
+            "Konda Reddy Mopuri",
+            "Hakan Bilen"
+        ],
+        "submission_date": "2020-06-10",
+        "semantic_scholar_id": "5a94bcc168330318d3020aa4d41bd73cf68ab285"
+    },
+    "2005-14165": {
+        "paper_title": "Language Models are Few-Shot Learners",
+        "authors": [
+            "Tom B. Brown",
+            "Benjamin Mann",
+            "Nick Ryder",
+            "Melanie Subbiah",
+            "J. Kaplan",
+            "Prafulla Dhariwal",
+            "Arvind Neelakantan",
+            "Pranav Shyam",
+            "Girish Sastry",
+            "Amanda Askell",
+            "Sandhini Agarwal",
+            "Ariel Herbert-Voss",
+            "Gretchen Krueger",
+            "T. Henighan",
+            "R. Child",
+            "A. Ramesh",
+            "Daniel M. Ziegler",
+            "Jeff Wu",
+            "Clemens Winter",
+            "Christopher Hesse",
+            "Mark Chen",
+            "Eric Sigler",
+            "Ma-teusz Litwin",
+            "Scott Gray",
+            "Benjamin Chess",
+            "Jack Clark",
+            "Christopher Berner",
+            "Sam McCandlish",
+            "Alec Radford",
+            "I. Sutskever",
+            "Dario Amodei"
+        ],
+        "submission_date": "2020-05-28",
+        "semantic_scholar_id": "90abbc2cf38462b954ae1b772fac9532e2ccd8b0"
+    },
+    "1912-07768": {
+        "paper_title": "Generative Teaching Networks: Accelerating Neural Architecture Search by Learning to Generate Synthetic Training Data",
+        "authors": [
+            "F. Such",
+            "Aditya Rawal",
+            "J. Lehman",
+            "Kenneth O. Stanley",
+            "J. Clune"
+        ],
+        "submission_date": "2019-12-17",
+        "semantic_scholar_id": "16a3dd5ab3e8570f6083ddf6f88aa5e916450fef"
+    },
+    "1910-02551": {
+        "paper_title": "Soft-Label Dataset Distillation and Text Dataset Distillation",
+        "authors": [
+            "Ilia Sucholutsky",
+            "Matthias Schonlau"
+        ],
+        "submission_date": "2019-10-06",
+        "semantic_scholar_id": "768207eac0035bfb728905ebe6a7bc1765f28e39"
+    },
+    "1907-11692": {
+        "paper_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "authors": [
+            "Yinhan Liu",
+            "Myle Ott",
+            "Naman Goyal",
+            "Jingfei Du",
+            "Mandar Joshi",
+            "Danqi Chen",
+            "Omer Levy",
+            "M. Lewis",
+            "Luke Zettlemoyer",
+            "Veselin Stoyanov"
+        ],
+        "submission_date": "2019-07-26",
+        "semantic_scholar_id": "077f8329a7b6fa3b7c877a57b81eb6c18b5f87de"
+    },
+    "1804-07461": {
+        "paper_title": "GLUE: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding",
+        "authors": [
+            "Alex Wang",
+            "Amanpreet Singh",
+            "Julian Michael",
+            "Felix Hill",
+            "Omer Levy",
+            "Samuel R. Bowman"
+        ],
+        "submission_date": "2018-04-20",
+        "semantic_scholar_id": "451d4a16e425ecbf38c4b1cca0dcf5d9bec8255c"
+    },
+    "1706-03850": {
+        "paper_title": "Adversarial Feature Matching for Text Generation",
+        "authors": [
+            "Yizhe Zhang",
+            "Zhe Gan",
+            "Kai Fan",
+            "Zhi Chen",
+            "Ricardo Henao",
+            "Dinghan Shen",
+            "L. Carin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "0d16298285eb347bf951b302e6f2c8e4dc472253"
+    },
+    "1609-05473": {
+        "paper_title": "SeqGAN: Sequence Generative Adversarial Nets with Policy Gradient",
+        "authors": [
+            "Lantao Yu",
+            "Weinan Zhang",
+            "Jun Wang",
+            "Yong Yu"
+        ],
+        "submission_date": "2016-09-18",
+        "semantic_scholar_id": "32c4e19f4a757f6c6984416b97d69e287d1d0ecd"
+    },
+    "1502-03492": {
+        "paper_title": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+        "authors": [
+            "D. Maclaurin",
+            "D. Duvenaud",
+            "Ryan P. Adams"
+        ],
+        "submission_date": "2015-02-11",
+        "semantic_scholar_id": "e2820bffe5b42cb7d88b7f65c12171c62ab4aae2"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

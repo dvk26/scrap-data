@@ -1,1 +1,88 @@
-{}
+{
+    "2307-15920": {
+        "paper_title": "ATESA-BÆRT: A Heterogeneous Ensemble Learning Model for Aspect-Based Sentiment Analysis",
+        "authors": [
+            "Elena-Simona Apostol",
+            "Alin-Georgian Pisica",
+            "Ciprian-Octavian Truică"
+        ],
+        "submission_date": "2023-07-29",
+        "semantic_scholar_id": "ec07c4e1e507d19485aec0cb59926d30f6ba6793"
+    },
+    "2307-12906": {
+        "paper_title": "QAmplifyNet: pushing the boundaries of supply chain backorder prediction using interpretable hybrid quantum-classical neural network",
+        "authors": [
+            "Md Abrar Jahin",
+            "Md Sakib Hossain Shovon",
+            "M. Islam",
+            "Jungpil Shin",
+            "M. F. Mridha",
+            "Y. Okuyama"
+        ],
+        "submission_date": "2023-07-24",
+        "semantic_scholar_id": "55da651863ab89794bf735e7c541c69a1b961110"
+    },
+    "2301-12805": {
+        "paper_title": "EDSA-Ensemble: An Event Detection Sentiment Analysis Ensemble Architecture",
+        "authors": [
+            "A. Petrescu",
+            "Ciprian-Octavian Truică",
+            "Elena-Simona Apostol",
+            "A. Paschke"
+        ],
+        "submission_date": "2023-01-30",
+        "semantic_scholar_id": "465f527388d58d453e9d0b3eafce0eea8c3ff021"
+    },
+    "2105-05330": {
+        "paper_title": "Neuro-symbolic artificial intelligence",
+        "authors": [
+            "Md Kamruzzaman Sarker",
+            "Lu Zhou",
+            "Aaron Eberhart",
+            "P. Hitzler"
+        ],
+        "submission_date": "2021-05-11",
+        "semantic_scholar_id": "da40abf66a805f97964c42c7639f459d8bad36ff"
+    },
+    "2104-05745": {
+        "paper_title": "Fighting the COVID-19 Infodemic with a Holistic BERT Ensemble",
+        "authors": [
+            "Georgios Tziafas",
+            "Konstantinos Kogkalidis",
+            "Tommaso Caselli"
+        ],
+        "submission_date": "2021-04-12",
+        "semantic_scholar_id": "085b449b7aae74e0efc252bd52ba5cdec4318ad0"
+    },
+    "2008-05900": {
+        "paper_title": "An Exploratory Study of COVID-19 Information on Twitter in the Greater Region",
+        "authors": [
+            "Ninghan Chen",
+            "Zhiqiang Zhong",
+            "Jun Pang"
+        ],
+        "submission_date": "2020-08-12",
+        "semantic_scholar_id": "9c610f88b872d79fa9137f17e6948af2033274ca"
+    },
+    "2005-10898": {
+        "paper_title": "COVID-19 Public Sentiment Insights and MachineLearning for Tweets Classification",
+        "authors": [
+            "Jim Samuel",
+            "G. Ali",
+            "Md. Mokhlesur Rahman",
+            "E. Esawi",
+            "Y. Samuel"
+        ],
+        "submission_date": "2020-05-21",
+        "semantic_scholar_id": "dae0620ae86c57c0c8577d1b3cb9fce66cd180cf"
+    },
+    "1712-08917": {
+        "paper_title": "Building a Sentiment Corpus of Tweets in Brazilian Portuguese",
+        "authors": [
+            "H. Brum",
+            "M. G. V. Nunes"
+        ],
+        "submission_date": "2017-12-24",
+        "semantic_scholar_id": "02bd9ec892e2716072ac96e12e1424097868bf9f"
+    }
+}

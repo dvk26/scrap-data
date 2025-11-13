@@ -1,1 +1,602 @@
-{}
+{
+    "2403-15709": {
+        "paper_title": "Contact-aware Human Motion Generation from Textual Descriptions",
+        "authors": [
+            "Sihan Ma",
+            "Qiong Cao",
+            "Jing Zhang",
+            "Dacheng Tao"
+        ],
+        "submission_date": "2024-03-23",
+        "semantic_scholar_id": "d9020a32acca29864993ed7ca3213f2c194aa6be"
+    },
+    "2307-10894": {
+        "paper_title": "Human Motion Generation: A Survey",
+        "authors": [
+            "Wentao Zhu",
+            "Xiaoxuan Ma",
+            "Dongwoo Ro",
+            "Hai Ci",
+            "Jinlu Zhang",
+            "Jiaxin Shi",
+            "Feng Gao",
+            "Qi Tian",
+            "Yizhou Wang"
+        ],
+        "submission_date": "2023-07-20",
+        "semantic_scholar_id": "051a7d88d82734bb143341815b5cceb1f9014f54"
+    },
+    "2306-16736": {
+        "paper_title": "GraMMaR: Ground-aware Motion Model for 3D Human Motion Reconstruction",
+        "authors": [
+            "Sihan Ma",
+            "Qiong Cao",
+            "Hongwei Yi",
+            "Jing Zhang",
+            "Dacheng Tao"
+        ],
+        "submission_date": "2023-06-29",
+        "semantic_scholar_id": "026aea53a0364cec7769c79c7508876e32f8ac6e"
+    },
+    "2306-11496": {
+        "paper_title": "EMoG: Synthesizing Emotive Co-speech 3D Gesture with Diffusion Model",
+        "authors": [
+            "Li-Ping Yin",
+            "Yijun Wang",
+            "Tianyu He",
+            "Jinming Liu",
+            "Wei Zhao",
+            "Bohan Li",
+            "Xin Jin",
+            "Jianxin Lin"
+        ],
+        "submission_date": "2023-06-20",
+        "semantic_scholar_id": "b8972cd8e7f433ce297eef411256f54be4de3d02"
+    },
+    "2305-18891": {
+        "paper_title": "EmotionGesture: Audio-Driven Diverse Emotional Co-Speech 3D Gesture Generation",
+        "authors": [
+            "Xingqun Qi",
+            "Chen Liu",
+            "Lincheng Li",
+            "Jie Hou",
+            "Haoran Xin",
+            "Xin Yu"
+        ],
+        "submission_date": "2023-05-30",
+        "semantic_scholar_id": "e265724be1ff5ac247ad159dd1a3ceeecdb947c3"
+    },
+    "2305-04919": {
+        "paper_title": "DiffuseStyleGesture: Stylized Audio-Driven Co-Speech Gesture Generation with Diffusion Models",
+        "authors": [
+            "Sicheng Yang",
+            "Zhiyong Wu",
+            "Minglei Li",
+            "Zhensong Zhang",
+            "Lei Hao",
+            "Weihong Bao",
+            "Ming Cheng",
+            "Long Xiao"
+        ],
+        "submission_date": "2023-05-08",
+        "semantic_scholar_id": "3985b81334ab90fbcbb30bbb3cc2840d00d509ba"
+    },
+    "2303-17912": {
+        "paper_title": "CIRCLE: Capture In Rich Contextual Environments",
+        "authors": [
+            "Joao Pedro Araujo",
+            "Jiaman Li",
+            "Karthik Vetrivel",
+            "Rishi G. Agarwal",
+            "D. Gopinath",
+            "Jiajun Wu",
+            "Alexander Clegg",
+            "C. Liu"
+        ],
+        "submission_date": "2023-03-31",
+        "semantic_scholar_id": "65edf9188b698091de0591d459fe212e6d00ea16"
+    },
+    "2303-14613": {
+        "paper_title": "GestureDiffuCLIP: Gesture Diffusion Model with CLIP Latents",
+        "authors": [
+            "Tenglong Ao",
+            "Zeyi Zhang",
+            "Libin Liu"
+        ],
+        "submission_date": "2023-03-26",
+        "semantic_scholar_id": "87c9bdef715883b63bd76ff0714ee998a3bc3188"
+    },
+    "2303-09119": {
+        "paper_title": "Taming Diffusion Models for Audio-Driven Co-Speech Gesture Generation",
+        "authors": [
+            "Lingting Zhu",
+            "Xian Liu",
+            "Xuan Liu",
+            "Rui Qian",
+            "Ziwei Liu",
+            "Lequan Yu"
+        ],
+        "submission_date": "2023-03-16",
+        "semantic_scholar_id": "148d110931b1c9d61d56ae91fc139ad085abf307"
+    },
+    "2301-06052": {
+        "paper_title": "Generating Human Motion from Textual Descriptions with Discrete Representations",
+        "authors": [
+            "Jianrong Zhang",
+            "Yangsong Zhang",
+            "Xiaodong Cun",
+            "Shaoli Huang",
+            "Yong Zhang",
+            "Hongwei Zhao",
+            "Hongtao Lu",
+            "Xiaodong Shen"
+        ],
+        "submission_date": "2023-01-15",
+        "semantic_scholar_id": "99bd96961a880adad88d087c9dc45f6cfbae1ea6"
+    },
+    "2301-02379": {
+        "paper_title": "CodeTalker: Speech-Driven 3D Facial Animation with Discrete Motion Prior",
+        "authors": [
+            "Jinbo Xing",
+            "Menghan Xia",
+            "Yuechen Zhang",
+            "Xiaodong Cun",
+            "Jue Wang",
+            "T. Wong"
+        ],
+        "submission_date": "2023-01-06",
+        "semantic_scholar_id": "219125dcad6ffe7fa8d1b1bbd1900e8a42782b0c"
+    },
+    "2212-04420": {
+        "paper_title": "Generating Holistic 3D Human Motion from Speech",
+        "authors": [
+            "Hongwei Yi",
+            "Hualin Liang",
+            "Yifei Liu",
+            "Qiong Cao",
+            "Yandong Wen",
+            "Timo Bolkart",
+            "Dacheng Tao",
+            "Michael J. Black"
+        ],
+        "submission_date": "2022-12-08",
+        "semantic_scholar_id": "8228394c8e7f168dfd5a88b6d4f92188c1ac5527"
+    },
+    "2208-15001": {
+        "paper_title": "MotionDiffuse: Text-Driven Human Motion Generation With Diffusion Model",
+        "authors": [
+            "Mingyuan Zhang",
+            "Zhongang Cai",
+            "Liang Pan",
+            "Fangzhou Hong",
+            "Xinying Guo",
+            "Lei Yang",
+            "Ziwei Liu"
+        ],
+        "submission_date": "2022-08-31",
+        "semantic_scholar_id": "1bbf99b5bfe9869876ac3bdd2999e16b2632c283"
+    },
+    "2205-15608": {
+        "paper_title": "Weakly-supervised Action Transition Learning for Stochastic Human Motion Prediction",
+        "authors": [
+            "Wei Mao",
+            "Miaomiao Liu",
+            "M. Salzmann"
+        ],
+        "submission_date": "2022-05-31",
+        "semantic_scholar_id": "fec03da1fb19ab88c67575ef645f9752beaee996"
+    },
+    "2204-14109": {
+        "paper_title": "TEMOS: Generating diverse human motions from textual descriptions",
+        "authors": [
+            "Mathis Petrovich",
+            "Michael J. Black",
+            "Gül Varol"
+        ],
+        "submission_date": "2022-04-25",
+        "semantic_scholar_id": "1f3cea63caa1c773f8e1676967271dac4166b4c7"
+    },
+    "2204-08451": {
+        "paper_title": "Learning to Listen: Modeling Non-Deterministic Dyadic Facial Motion",
+        "authors": [
+            "Evonne Ng",
+            "H. Joo",
+            "Liwen Hu",
+            "Hao Li",
+            "Trevor Darrell",
+            "Angjoo Kanazawa",
+            "Shiry Ginosar"
+        ],
+        "submission_date": "2022-04-18",
+        "semantic_scholar_id": "7ea4ea5266b1e82807ca092c14fd064c997bec81"
+    },
+    "2203-13161": {
+        "paper_title": "Learning Hierarchical Cross-Modal Association for Co-Speech Gesture Generation",
+        "authors": [
+            "Xian Liu",
+            "Qianyi Wu",
+            "Hang Zhou",
+            "Yinghao Xu",
+            "Rui Qian",
+            "Xinyi Lin",
+            "Xiaowei Zhou",
+            "Wayne Wu",
+            "Bo Dai",
+            "Bolei Zhou"
+        ],
+        "submission_date": "2022-03-24",
+        "semantic_scholar_id": "769c2b7537dc0b9bddc1e4169e1d3b6f17bffc99"
+    },
+    "2203-13055": {
+        "paper_title": "Bailando: 3D Dance Generation by Actor-Critic GPT with Choreographic Memory",
+        "authors": [
+            "Lian Siyao",
+            "Weijiang Yu",
+            "Tianpei Gu",
+            "Chunze Lin",
+            "Quan Wang",
+            "Chen Qian",
+            "Chen Change Loy",
+            "Ziwei Liu"
+        ],
+        "submission_date": "2022-03-24",
+        "semantic_scholar_id": "45b0f30ee83f324ccdffd608818ffb2d50de4a8f"
+    },
+    "2203-05297": {
+        "paper_title": "BEAT: A Large-Scale Semantic and Emotional Multi-Modal Dataset for Conversational Gestures Synthesis",
+        "authors": [
+            "Haiyang Liu",
+            "Zihao Zhu",
+            "Naoya Iwamoto",
+            "Yichen Peng",
+            "Zhengqing Li",
+            "You Zhou",
+            "E. Bozkurt",
+            "Bo Zheng"
+        ],
+        "submission_date": "2022-03-10",
+        "semantic_scholar_id": "ec6b81eadbac2aedcd70e31f383b25be47e96292"
+    },
+    "2202-04200": {
+        "paper_title": "MaskGIT: Masked Generative Image Transformer",
+        "authors": [
+            "Huiwen Chang",
+            "Han Zhang",
+            "Lu Jiang",
+            "Ce Liu",
+            "W. Freeman"
+        ],
+        "submission_date": "2022-02-08",
+        "semantic_scholar_id": "7c597874535c1537d7ddff3b3723015b4dc79d30"
+    },
+    "2203-00667": {
+        "paper_title": "Generative Adversarial Networks",
+        "authors": [
+            "I. Goodfellow",
+            "Jean Pouget-Abadie",
+            "Mehdi Mirza",
+            "Bing Xu",
+            "David Warde-Farley",
+            "Sherjil Ozair",
+            "Aaron C. Courville",
+            "Yoshua Bengio"
+        ],
+        "submission_date": "2022-03-01",
+        "semantic_scholar_id": "6296aa7cab06eaf058f7291040b320b5a83c0091"
+    },
+    "2112-05329": {
+        "paper_title": "FaceFormer: Speech-Driven 3D Facial Animation with Transformers",
+        "authors": [
+            "Yingruo Fan",
+            "Zhaojiang Lin",
+            "Jun Saito",
+            "Wenping Wang",
+            "T. Komura"
+        ],
+        "submission_date": "2021-12-10",
+        "semantic_scholar_id": "dd23991294bf53c6301ab79fa49752e6458d2eab"
+    },
+    "2108-06720": {
+        "paper_title": "Audio2Gestures: Generating Diverse Gestures from Speech Audio with Conditional Variational Autoencoders",
+        "authors": [
+            "Jing Li",
+            "Di Kang",
+            "Wenjie Pei",
+            "Xuefei Zhe",
+            "Ying Zhang",
+            "Zhenyu He",
+            "Linchao Bao"
+        ],
+        "submission_date": "2021-08-15",
+        "semantic_scholar_id": "5ffce206ee863feefc9216a3ceaa843c03fb2724"
+    },
+    "2104-05670": {
+        "paper_title": "Action-Conditioned 3D Human Motion Synthesis with Transformer VAE",
+        "authors": [
+            "Mathis Petrovich",
+            "Michael J. Black",
+            "Gül Varol"
+        ],
+        "submission_date": "2021-04-12",
+        "semantic_scholar_id": "4d44de6653f6192efba8aef36f814d4c0420f21d"
+    },
+    "2103-10022": {
+        "paper_title": "Generating Diverse Structure for Image Inpainting With Hierarchical VQ-VAE",
+        "authors": [
+            "Jialun Peng",
+            "Dong Liu",
+            "Songcen Xu",
+            "Houqiang Li"
+        ],
+        "submission_date": "2021-03-18",
+        "semantic_scholar_id": "954121c58819c9348518e241bb4a6a7ce19aaee1"
+    },
+    "2102-06837": {
+        "paper_title": "Learning Speech-driven 3D Conversational Gestures from Video",
+        "authors": [
+            "I. Habibie",
+            "Weipeng Xu",
+            "Dushyant Mehta",
+            "Lingjie Liu",
+            "H. Seidel",
+            "Gerard Pons-Moll",
+            "Mohamed A. Elgharib",
+            "C. Theobalt"
+        ],
+        "submission_date": "2021-02-13",
+        "semantic_scholar_id": "b1afeacdae33129e84406ee2ed635fd81ae6efa7"
+    },
+    "2012-05522": {
+        "paper_title": "Synthesizing Long-Term 3D Human Motion and Interaction in 3D Scenes",
+        "authors": [
+            "Jiashun Wang",
+            "Huazhe Xu",
+            "Jingwei Xu",
+            "Sifei Liu",
+            "X. Wang"
+        ],
+        "submission_date": "2020-12-10",
+        "semantic_scholar_id": "e5a708932bb611c6920ed300fd5e7a8de9888b1d"
+    },
+    "2009-02119": {
+        "paper_title": "Speech gesture generation from the trimodal context of text, audio, and speaker identity",
+        "authors": [
+            "Youngwoo Yoon",
+            "Bok Cha",
+            "Joo-Haeng Lee",
+            "Minsu Jang",
+            "Jaeyeon Lee",
+            "Jaehong Kim",
+            "Geehyuk Lee"
+        ],
+        "submission_date": "2020-09-04",
+        "semantic_scholar_id": "bbaae3188aed31df77272c9f30d2b8faaa407939"
+    },
+    "2008-08171": {
+        "paper_title": "Learning to Generate Diverse Dance Motions with Transformer",
+        "authors": [
+            "Jiaman Li",
+            "Yihang Yin",
+            "Hang Chu",
+            "Yi Zhou",
+            "Tingwu Wang",
+            "S. Fidler",
+            "Hao Li"
+        ],
+        "submission_date": "2020-08-18",
+        "semantic_scholar_id": "d92514b811d767369c61c66e71aa66c639f6d158"
+    },
+    "2007-15240": {
+        "paper_title": "Action2Motion: Conditioned Generation of 3D Human Motions",
+        "authors": [
+            "Chuan Guo",
+            "X. Zuo",
+            "Sen Wang",
+            "Shihao Zou",
+            "Qingyao Sun",
+            "Annan Deng",
+            "Minglun Gong",
+            "Li Cheng"
+        ],
+        "submission_date": "2020-07-30",
+        "semantic_scholar_id": "b7b4996858b91bc4db5dd5ce13215b5422591529"
+    },
+    "2007-12553": {
+        "paper_title": "Style Transfer for Co-Speech Gesture Animation: A Multi-Speaker Conditional-Mixture Approach",
+        "authors": [
+            "Chaitanya Ahuja",
+            "Dong Won Lee",
+            "Y. Nakano",
+            "Louis-philippe Morency"
+        ],
+        "submission_date": "2020-07-24",
+        "semantic_scholar_id": "6e78e32481218e9391a88e6d0e30c0062ae71bec"
+    },
+    "2102-04942": {
+        "paper_title": "Robust motion in-betweening",
+        "authors": [
+            "Félix G. Harvey",
+            "Mike Yurick",
+            "D. Nowrouzezahrai",
+            "C. Pal"
+        ],
+        "submission_date": "2021-02-09",
+        "semantic_scholar_id": "b660ba42a69fa8ccba5fe6f4c153d7a7d933c890"
+    },
+    "2006-11477": {
+        "paper_title": "wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations",
+        "authors": [
+            "Alexei Baevski",
+            "Henry Zhou",
+            "Abdel-rahman Mohamed",
+            "Michael Auli"
+        ],
+        "submission_date": "2020-06-20",
+        "semantic_scholar_id": "49a049dc85e2380dde80501a984878341dd8efdf"
+    },
+    "2006-11239": {
+        "paper_title": "Denoising Diffusion Probabilistic Models",
+        "authors": [
+            "Jonathan Ho",
+            "Ajay Jain",
+            "P. Abbeel"
+        ],
+        "submission_date": "2020-06-19",
+        "semantic_scholar_id": "5c126ae3421f05768d8edd97ecd44b1364e2c99a"
+    },
+    "1906-00446": {
+        "paper_title": "Generating Diverse High-Fidelity Images with VQ-VAE-2",
+        "authors": [
+            "Ali Razavi",
+            "Aäron van den Oord",
+            "O. Vinyals"
+        ],
+        "submission_date": "2019-06-02",
+        "semantic_scholar_id": "6be216d93421bf19c1659e7721241ae73d483baf"
+    },
+    "1906-04160": {
+        "paper_title": "Learning Individual Styles of Conversational Gesture",
+        "authors": [
+            "Shiry Ginosar",
+            "Amir Bar",
+            "Gefen Kohavi",
+            "Caroline Chan",
+            "Andrew Owens",
+            "Jitendra Malik"
+        ],
+        "submission_date": "2019-06-10",
+        "semantic_scholar_id": "e609684188c842092ae7bcae81429471e422df4d"
+    },
+    "1904-09925": {
+        "paper_title": "Attention Augmented Convolutional Networks",
+        "authors": [
+            "Irwan Bello",
+            "Barret Zoph",
+            "Ashish Vaswani",
+            "Jonathon Shlens",
+            "Quoc V. Le"
+        ],
+        "submission_date": "2019-04-22",
+        "semantic_scholar_id": "27ac832ee83d8b5386917998a171a0257e2151e2"
+    },
+    "1904-05866": {
+        "paper_title": "Expressive Body Capture: 3D Hands, Face, and Body From a Single Image",
+        "authors": [
+            "G. Pavlakos",
+            "Vasileios Choutas",
+            "N. Ghorbani",
+            "Timo Bolkart",
+            "Ahmed A. A. Osman",
+            "Dimitrios Tzionas",
+            "Michael J. Black"
+        ],
+        "submission_date": "2019-04-11",
+        "semantic_scholar_id": "4be4707aba8d622a0553aa159dc92ae7f9af9c5e"
+    },
+    "1903-03369": {
+        "paper_title": "Analyzing Input and Output Representations for Speech-Driven Gesture Generation",
+        "authors": [
+            "Taras Kucherenko",
+            "Dai Hasegawa",
+            "G. Henter",
+            "Naoshi Kaneko",
+            "H. Kjellström"
+        ],
+        "submission_date": "2019-03-08",
+        "semantic_scholar_id": "4c0d70af27e7b1b28c4492b6a1b3798f0ab5d96f"
+    },
+    "1812-07035": {
+        "paper_title": "On the Continuity of Rotation Representations in Neural Networks",
+        "authors": [
+            "Yi Zhou",
+            "Connelly Barnes",
+            "Jingwan Lu",
+            "Jimei Yang",
+            "Hao Li"
+        ],
+        "submission_date": "2018-12-17",
+        "semantic_scholar_id": "6fc0e648ef6002fe3507107f4f3637c76d54477f"
+    },
+    "1807-04629": {
+        "paper_title": "Learning Product Codebooks Using Vector-Quantized Autoencoders for Image Retrieval",
+        "authors": [
+            "Hanwei Wu",
+            "M. Flierl"
+        ],
+        "submission_date": "2018-07-12",
+        "semantic_scholar_id": "e12c5ef8bee9ef360140f7ada6d32ae5c990184e"
+    },
+    "1711-00937": {
+        "paper_title": "Neural Discrete Representation Learning",
+        "authors": [
+            "Aäron van den Oord",
+            "O. Vinyals",
+            "K. Kavukcuoglu"
+        ],
+        "submission_date": "2017-11-02",
+        "semantic_scholar_id": "f466157848d1a7772fb6d02cdac9a7a5e7ef982e"
+    },
+    "1706-03762": {
+        "paper_title": "Attention is All you Need",
+        "authors": [
+            "Ashish Vaswani",
+            "Noam M. Shazeer",
+            "Niki Parmar",
+            "Jakob Uszkoreit",
+            "Llion Jones",
+            "Aidan N. Gomez",
+            "Lukasz Kaiser",
+            "I. Polosukhin"
+        ],
+        "submission_date": "2017-06-12",
+        "semantic_scholar_id": "204e3073870fae3d05bcbc2f6a8e263d9b72e776"
+    },
+    "1703-06868": {
+        "paper_title": "Arbitrary Style Transfer in Real-Time with Adaptive Instance Normalization",
+        "authors": [
+            "Xun Huang",
+            "Serge J. Belongie"
+        ],
+        "submission_date": "2017-03-20",
+        "semantic_scholar_id": "be0ef77fb0345c5851bb5d297f3ed84ae3c581ee"
+    },
+    "1607-05427": {
+        "paper_title": "Trunk-Branch Ensemble Convolutional Neural Networks for Video-Based Face Recognition",
+        "authors": [
+            "Changxing Ding",
+            "D. Tao"
+        ],
+        "submission_date": "2016-07-19",
+        "semantic_scholar_id": "16f31b3d11d11c08f81d0164d72a53191a7f904b"
+    },
+    "1607-03827": {
+        "paper_title": "The KIT Motion-Language Dataset",
+        "authors": [
+            "Matthias Plappert",
+            "Christian Mandery",
+            "T. Asfour"
+        ],
+        "submission_date": "2016-07-13",
+        "semantic_scholar_id": "e738d166c72513feaede2e19b4e713fd410cfce8"
+    },
+    "1502-03167": {
+        "paper_title": "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift",
+        "authors": [
+            "Sergey Ioffe",
+            "Christian Szegedy"
+        ],
+        "submission_date": "2015-02-11",
+        "semantic_scholar_id": "995c5f5e62614fcb4d2796ad2faab969da51713e"
+    },
+    "1810-04805": {
+        "paper_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "authors": [
+            "Jacob Devlin",
+            "Ming-Wei Chang",
+            "Kenton Lee",
+            "Kristina Toutanova"
+        ],
+        "submission_date": "2018-10-11",
+        "semantic_scholar_id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+    }
+}

@@ -1,0 +1,24 @@
+# ---- Ignore output data ----
+22127227/
+22127227.zip
+
+# ---- Python cache ----
+__pycache__/
+*.pyc
+*.pyo
+
+# ---- Virtual environments ----
+venv/
+.env/
+*.env
+
+# ---- Logs / temp ----
+*.log
+*_tmp/
+tmp/
+temp/
+*.tar
+*.tar.gz
+
+# ---- OS-generated ----
+.DS_Stor_

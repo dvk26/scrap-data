@@ -1,1 +1,45 @@
-{}
+{
+    "2308-06852": {
+        "paper_title": "Generalized root systems",
+        "authors": [
+            "I. Dimitrov",
+            "R. Fioresi"
+        ],
+        "submission_date": "2023-08-13",
+        "semantic_scholar_id": "cdb599d59adfecfd290b8dd7339b7807b2d77f99"
+    },
+    "1903-00300": {
+        "paper_title": "A bound for crystallographic arrangements",
+        "authors": [
+            "M. Cuntz"
+        ],
+        "submission_date": "2019-03-01",
+        "semantic_scholar_id": "8da97c0d946f2affb11ce9b8e43a523dbd17bf1d"
+    },
+    "1503-08117": {
+        "paper_title": "A simplicial complex of Nichols algebras",
+        "authors": [
+            "M. Cuntz",
+            "S. Lentner"
+        ],
+        "submission_date": "2015-03-27",
+        "semantic_scholar_id": "1801c23edac3120728ab659b797a3d8c4ea0b460"
+    },
+    "1008-5291": {
+        "paper_title": "Finite Weyl groupoids",
+        "authors": [
+            "M. Cuntz",
+            "I. Heckenberger"
+        ],
+        "submission_date": "2010-08-31",
+        "semantic_scholar_id": "0eb52bd91774f37b41ce31c2238da96eea166b03"
+    },
+    "1006-1997": {
+        "paper_title": "Crystallographic arrangements: Weyl groupoids and simplicial arrangements",
+        "authors": [
+            "Michael Cuntz"
+        ],
+        "submission_date": "2010-06-10",
+        "semantic_scholar_id": "f9c4f5ee0105b10bf725ac32e54158713e0c3ac7"
+    }
+}
